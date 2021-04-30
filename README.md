@@ -1,2 +1,2 @@
 # SETerminal
-# SETerminal by DRJ
+# This line: SETerminal by DRJ
