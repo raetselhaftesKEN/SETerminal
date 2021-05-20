@@ -1,19 +1,20 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
- Copyright (c) 2015 Chukong Technologies Inc.
- 
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,11 +29,12 @@
 #include "extensions/Particle3D/PU/CCPUTranslateManager.h"
 #include "platform/CCFileUtils.h"
 #include "platform/CCPlatformMacros.h"
+#include "renderer/backend/Types.h"
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #include <io.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "android/CCFileUtils-android.h"
+#include "platform/android/CCFileUtils-android.h"
 #include <android/asset_manager.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #include <ftw.h>
@@ -53,10 +55,10 @@ PUMaterial::PUMaterial()
 , shininess(0.0f)
 , depthTest(true)
 , depthWrite(true)
-, wrapMode(GL_CLAMP_TO_EDGE)
+, wrapMode(backend::SamplerAddressMode::CLAMP_TO_EDGE)
 {
-    blendFunc.src = GL_ONE;
-    blendFunc.dst = GL_ZERO;
+    blendFunc.src = backend::BlendFactor::ONE;
+    blendFunc.dst = backend::BlendFactor::ZERO;
 }
 
 PUMaterialCache::PUMaterialCache()
@@ -112,7 +114,7 @@ void PUMaterialCache::addMaterial( PUMaterial *material )
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-int iterPath(const char *fpath, const struct stat *sb, int typeflag)
+int iterPath(const char *fpath, const struct stat* /*sb*/, int typeflag)
 {
     if(typeflag == FTW_F)
     {
@@ -161,7 +163,7 @@ bool PUMaterialCache::loadMaterialsFromSearchPaths( const std::string &fileFolde
 
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
     ftw(fileFolder.c_str(), iterPath, 500);
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
     DIR *d; //dir handle
     struct dirent *file; //readdir
     struct stat statbuf;

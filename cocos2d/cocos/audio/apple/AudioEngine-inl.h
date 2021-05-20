@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -21,23 +22,18 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
-#include "platform/CCPlatformConfig.h"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-
-#ifndef __AUDIO_ENGINE_INL_H_
-#define __AUDIO_ENGINE_INL_H_
+#pragma once
 
 #include <unordered_map>
+#include <list>
 
 #include "base/CCRef.h"
-#include "AudioCache.h"
-#include "AudioPlayer.h"
+#include "audio/apple/AudioCache.h"
+#include "audio/apple/AudioPlayer.h"
 
 NS_CC_BEGIN
 class Scheduler;
 
-namespace experimental{
 #define MAX_AUDIOINSTANCES 24
 
 class AudioEngineImpl : public cocos2d::Ref
@@ -45,7 +41,7 @@ class AudioEngineImpl : public cocos2d::Ref
 public:
     AudioEngineImpl();
     ~AudioEngineImpl();
-    
+
     bool init();
     int play2d(const std::string &fileFullPath ,bool loop ,float volume);
     void setVolume(int audioID,float volume);
@@ -58,34 +54,33 @@ public:
     float getCurrentTime(int audioID);
     bool setCurrentTime(int audioID, float time);
     void setFinishCallback(int audioID, const std::function<void (int, const std::string &)> &callback);
-    
+
     void uncache(const std::string& filePath);
     void uncacheAll();
     AudioCache* preload(const std::string& filePath, std::function<void(bool)> callback);
     void update(float dt);
-    
+
 private:
     void _play2d(AudioCache *cache, int audioID);
-    
+    ALuint findValidSource();
+
+    static ALvoid myAlSourceNotificationCallback(ALuint sid, ALuint notificationID, ALvoid* userData);
+
     ALuint _alSources[MAX_AUDIOINSTANCES];
-    
+
     //source,used
-    std::unordered_map<ALuint, bool> _alSourceUsed;
-    
+    std::list<ALuint> _unusedSourcesPool;
+
     //filePath,bufferInfo
     std::unordered_map<std::string, AudioCache> _audioCaches;
-    
+
     //audioID,AudioInfo
     std::unordered_map<int, AudioPlayer*>  _audioPlayers;
     std::mutex _threadMutex;
-    
+
     bool _lazyInitLoop;
-    
+
     int _currentAudioID;
     Scheduler* _scheduler;
 };
-}
 NS_CC_END
-#endif // __AUDIO_ENGINE_INL_H_
-#endif
-

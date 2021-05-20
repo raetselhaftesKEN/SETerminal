@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -39,10 +40,13 @@ _gravity(Gravity::CENTER_VERTICAL),
 _magneticType(MagneticType::NONE),
 _magneticAllowedOutOfBoundary(true),
 _itemsMargin(0.0f),
+_leftPadding(0.0f),
+_topPadding(0.0f),
+_rightPadding(0.0f),
+_bottomPadding(0.0f),
+_scrollTime(DEFAULT_TIME_IN_SEC_FOR_SCROLL_TO_ITEM),
 _curSelectedIndex(-1),
 _innerContainerDoLayoutDirty(true),
-_listViewEventListener(nullptr),
-_listViewEventSelector(nullptr),
 _eventCallback(nullptr)
 {
     this->setTouchEnabled(true);
@@ -50,8 +54,6 @@ _eventCallback(nullptr)
 
 ListView::~ListView()
 {
-    _listViewEventListener = nullptr;
-    _listViewEventSelector = nullptr;
     _items.clear();
     CC_SAFE_RELEASE(_model);
 }
@@ -112,7 +114,7 @@ void ListView::updateInnerContainerSize()
         case Direction::VERTICAL:
         {
             size_t length = _items.size();
-            float totalHeight = (length - 1) * _itemsMargin;
+            float totalHeight = (length == 0) ? 0.0f : (length - 1) * _itemsMargin + (_topPadding + _bottomPadding);
             for (auto& item : _items)
             {
                 totalHeight += item->getContentSize().height;
@@ -125,7 +127,7 @@ void ListView::updateInnerContainerSize()
         case Direction::HORIZONTAL:
         {
             size_t length = _items.size();
-            float totalWidth = (length - 1) * _itemsMargin;
+            float totalWidth = (length == 0) ? 0.0f : (length - 1) * _itemsMargin + (_leftPadding + _rightPadding);
             for (auto& item : _items)
             {
                 totalWidth += item->getContentSize().width;
@@ -161,11 +163,15 @@ void ListView::remedyVerticalLayoutParameter(LinearLayoutParameter* layoutParame
     
     if (0 == itemIndex)
     {
-        layoutParameter->setMargin(Margin::ZERO);
+        layoutParameter->setMargin(Margin(_leftPadding, _topPadding, _rightPadding, 0.f));
+    }
+    else if (_items.size() - 1 == itemIndex)
+    {
+        layoutParameter->setMargin(Margin(_leftPadding, _itemsMargin, _rightPadding, _bottomPadding));
     }
     else
     {
-        layoutParameter->setMargin(Margin(0.0f, _itemsMargin, 0.0f, 0.0f));
+        layoutParameter->setMargin(Margin(_leftPadding, _itemsMargin, _rightPadding, 0.0f));
     }
 }
     
@@ -189,11 +195,15 @@ void ListView::remedyHorizontalLayoutParameter(LinearLayoutParameter* layoutPara
     }
     if (0 == itemIndex)
     {
-        layoutParameter->setMargin(Margin::ZERO);
+        layoutParameter->setMargin(Margin(_leftPadding, _topPadding, 0.f, _bottomPadding));
+    }
+    else if (_items.size() == itemIndex)
+    {
+        layoutParameter->setMargin(Margin(_itemsMargin, _topPadding, _rightPadding, _bottomPadding));
     }
     else
     {
-        layoutParameter->setMargin(Margin(_itemsMargin, 0.0f, 0.0f, 0.0f));
+        layoutParameter->setMargin(Margin(_itemsMargin, _topPadding, 0.f, _bottomPadding));
     }
 }
 
@@ -294,7 +304,7 @@ void ListView::addChild(Node* child, int zOrder, const std::string &name)
     }
 }
     
-void ListView::removeChild(cocos2d::Node *child, bool cleaup)
+void ListView::removeChild(cocos2d::Node *child, bool cleanup)
 {
     Widget* widget = dynamic_cast<Widget*>(child);
     if (nullptr != widget)
@@ -315,7 +325,8 @@ void ListView::removeChild(cocos2d::Node *child, bool cleaup)
         onItemListChanged();
     }
    
-    ScrollView::removeChild(child, cleaup);
+    ScrollView::removeChild(child, cleanup);
+    requestDoLayout();
 }
     
 void ListView::removeAllChildren()
@@ -357,7 +368,6 @@ void ListView::removeItem(ssize_t index)
         return;
     }
     removeChild(item, true);
-    requestDoLayout();
 }
 
 void ListView::removeLastItem()
@@ -440,6 +450,90 @@ float ListView::getItemsMargin()const
     return _itemsMargin;
 }
 
+void ListView::setPadding(float l, float t, float r, float b)
+{
+    if (l == _leftPadding && t == _topPadding && r == _rightPadding && b == _bottomPadding)
+    {
+        return;
+    }
+    _leftPadding = l;
+    _topPadding = t;
+    _rightPadding = r;
+    _bottomPadding = b;
+    requestDoLayout();
+}
+
+void ListView::setLeftPadding(float l)
+{
+    if (l == _leftPadding)
+    {
+        return;
+    }
+    _leftPadding = l;
+    requestDoLayout();
+}
+
+void ListView::setTopPadding(float t)
+{
+    if (t == _topPadding)
+    {
+        return;
+    }
+    _topPadding = t;
+    requestDoLayout();
+}
+
+void ListView::setRightPadding(float r)
+{
+    if (r == _rightPadding)
+    {
+        return;
+    }
+    _rightPadding = r;
+    requestDoLayout();
+}
+
+void ListView::setBottomPadding(float b)
+{
+    if (b == _bottomPadding)
+    {
+        return;
+    }
+    _bottomPadding = b;
+    requestDoLayout();
+}
+
+float ListView::getLeftPadding() const
+{
+    return _leftPadding;
+}
+
+float ListView::getTopPadding() const
+{
+    return _topPadding;
+}
+
+float ListView::getRightPadding() const
+{
+    return _rightPadding;
+}
+
+float ListView::getBottomPadding() const
+{
+    return _bottomPadding;
+}
+
+void ListView::setScrollDuration(float time)
+{
+    if (time >= 0)
+        _scrollTime = time;
+}
+
+float ListView::getScrollDuration() const 
+{
+    return _scrollTime;
+}
+
 void ListView::setDirection(Direction dir)
 {
     switch (dir)
@@ -458,11 +552,6 @@ void ListView::setDirection(Direction dir)
             break;
     }
     ScrollView::setDirection(dir);
-}
-    
-void ListView::refreshView()
-{
-    forceDoLayout();
 }
 
 void ListView::requestDoLayout()
@@ -489,13 +578,6 @@ void ListView::doLayout()
     _innerContainerDoLayoutDirty = false;
 }
     
-void ListView::addEventListenerListView(Ref *target, SEL_ListViewEvent selector)
-{
-    _listViewEventListener = target;
-    _listViewEventSelector = selector;
-}
-
-    
 void ListView::addEventListener(const ccListViewCallback& callback)
 {
     _eventCallback = callback;
@@ -508,10 +590,6 @@ void ListView::selectedItemEvent(TouchEventType event)
     {
         case TouchEventType::BEGAN:
         {
-            if (_listViewEventListener && _listViewEventSelector)
-            {
-                (_listViewEventListener->*_listViewEventSelector)(this, LISTVIEW_ONSELECTEDITEM_START);
-            }
             if (_eventCallback) {
                 _eventCallback(this,EventType::ON_SELECTED_ITEM_START);
             }
@@ -523,10 +601,6 @@ void ListView::selectedItemEvent(TouchEventType event)
         break;
         default:
         {
-            if (_listViewEventListener && _listViewEventSelector)
-            {
-                (_listViewEventListener->*_listViewEventSelector)(this, LISTVIEW_ONSELECTEDITEM_END);
-            }
             if (_eventCallback) {
                 _eventCallback(this, EventType::ON_SELECTED_ITEM_END);
             }
@@ -775,7 +849,7 @@ void ListView::jumpToItem(ssize_t itemIndex, const Vec2& positionRatioInView, co
 
 void ListView::scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint)
 {
-    scrollToItem(itemIndex, positionRatioInView, itemAnchorPoint, DEFAULT_TIME_IN_SEC_FOR_SCROLL_TO_ITEM);
+    scrollToItem(itemIndex, positionRatioInView, itemAnchorPoint, _scrollTime);
 }
 
 void ListView::scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint, float timeInSec)
@@ -792,6 +866,17 @@ void ListView::scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, 
 ssize_t ListView::getCurSelectedIndex() const
 {
     return _curSelectedIndex;
+}
+
+void ListView::setCurSelectedIndex(int itemIndex)
+{
+    Widget* item = getItem(itemIndex);
+    if (item == nullptr)
+    {
+        return;
+    }
+    _curSelectedIndex = itemIndex;
+    this->selectedItemEvent(cocos2d::ui::Widget::TouchEventType::ENDED);
 }
 
 void ListView::onSizeChanged()
@@ -828,8 +913,6 @@ void ListView::copySpecialProperties(Widget *widget)
         setItemModel(listViewEx->_model);
         setItemsMargin(listViewEx->_itemsMargin);
         setGravity(listViewEx->_gravity);
-        _listViewEventListener = listViewEx->_listViewEventListener;
-        _listViewEventSelector = listViewEx->_listViewEventSelector;
         _eventCallback = listViewEx->_eventCallback;
     }
 }

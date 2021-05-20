@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -64,7 +65,7 @@ public:
     /**
      * create Animate3D
      * @param animation used to generate animate3D
-     * @param formTime 
+     * @param fromTime
      * @param duration Time the Animate3D lasts
      * @return Animate3D created using animate
      */
@@ -108,10 +109,6 @@ public:
     
     /** set animate transition time between 3d animations */
     static void setTransitionTime(float transTime) { if (transTime >= 0.f) _transTime = transTime; }
-    
-    /**get & set play reverse, these are deprecated, use set negative speed instead*/
-    CC_DEPRECATED_ATTRIBUTE bool getPlayBack() const { return _playReverse; }
-    CC_DEPRECATED_ATTRIBUTE void setPlayBack(bool reverse) { _playReverse = reverse; }
     
     /**set animate quality*/
     void setQuality(Animate3DQuality quality);

@@ -5,6 +5,8 @@
  * Copyright 2011 Yannick Loriot.
  * http://yannickloriot.com
  * 
+ * Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -87,7 +89,7 @@ bool ControlButton::initWithLabelAndBackgroundSprite(Node* node, ui::Scale9Sprit
         _scaleRatio = 1.1f;
         
         // Set the default anchor point
-        ignoreAnchorPointForPosition(false);
+        setIgnoreAnchorPointForPosition(false);
         setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         
         // Set the nodes
@@ -216,7 +218,7 @@ void ControlButton::setZoomOnTouchDown(bool zoomOnTouchDown)
     _zoomOnTouchDown = zoomOnTouchDown;
 }
 
-bool ControlButton::getZoomOnTouchDown()
+bool ControlButton::getZoomOnTouchDown() const
 {
     return _zoomOnTouchDown;
 }
@@ -592,7 +594,7 @@ void ControlButton::needsLayout()
 
 
 
-bool ControlButton::onTouchBegan(Touch *pTouch, Event *pEvent)
+bool ControlButton::onTouchBegan(Touch *pTouch, Event* /*pEvent*/)
 {
     if (!isTouchInside(pTouch) || !isEnabled() || !isVisible() || !hasVisibleParents() )
     {
@@ -613,7 +615,7 @@ bool ControlButton::onTouchBegan(Touch *pTouch, Event *pEvent)
     return true;
 }
 
-void ControlButton::onTouchMoved(Touch *pTouch, Event *pEvent)
+void ControlButton::onTouchMoved(Touch *pTouch, Event* /*pEvent*/)
 {    
     if (!isEnabled() || !isPushed() || isSelected())
     {
@@ -645,7 +647,7 @@ void ControlButton::onTouchMoved(Touch *pTouch, Event *pEvent)
         sendActionsForControlEvents(Control::EventType::DRAG_OUTSIDE);        
     }
 }
-void ControlButton::onTouchEnded(Touch *pTouch, Event *pEvent)
+void ControlButton::onTouchEnded(Touch *pTouch, Event* /*pEvent*/)
 {
     _isPushed = false;
     setHighlighted(false);
@@ -661,7 +663,7 @@ void ControlButton::onTouchEnded(Touch *pTouch, Event *pEvent)
     }
 }
 
-void ControlButton::setOpacity(GLubyte opacity)
+void ControlButton::setOpacity(uint8_t opacity)
 {
     Control::setOpacity(opacity);
     
@@ -676,7 +678,7 @@ void ControlButton::setOpacity(GLubyte opacity)
     }
 }
 
-void ControlButton::updateDisplayedOpacity(GLubyte parentOpacity)
+void ControlButton::updateDisplayedOpacity(uint8_t parentOpacity)
 {
     Control::updateDisplayedOpacity(parentOpacity);
 
@@ -721,7 +723,7 @@ void ControlButton::updateDisplayedColor(const Color3B& parentColor)
     }
 }
 
-void ControlButton::onTouchCancelled(Touch *pTouch, Event *pEvent)
+void ControlButton::onTouchCancelled(Touch* /*pTouch*/, Event* /*pEvent*/)
 {
     _isPushed = false;
     setHighlighted(false);

@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -34,7 +35,7 @@ namespace cocos2d { namespace network
 {
     class DownloadTaskCURL;
     class DownloaderHints;
-    
+
     class DownloaderCURL : public IDownloaderImpl
     {
     public:
@@ -46,11 +47,11 @@ namespace cocos2d { namespace network
     protected:
         class Impl;
         std::shared_ptr<Impl>   _impl;
-        
+
         // for transfer data on schedule
         DownloadTaskCURL* _currTask;        // temp ref
         std::function<int64_t(void*, int64_t)> _transferDataToBuffer;
-        
+
         // scheduler for update processing and finished task in main schedule
         void _onSchedule(float);
         std::string             _schedulerKey;

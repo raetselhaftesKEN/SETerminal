@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "cocostudio/CCComAudio.h"
-#include "audio/include/SimpleAudioEngine.h"
+#include "editor-support/cocostudio/CCComAudio.h"
+#include "editor-support/cocostudio/SimpleAudioEngine.h"
 #include "platform/CCFileUtils.h"
 
 namespace cocostudio {
@@ -35,6 +36,7 @@ const std::string ComAudio::COMPONENT_NAME = "CCComAudio";
 ComAudio::ComAudio()
 : _filePath("")
 , _loop(false)
+, _startedSoundId(0)
 {
     _name = COMPONENT_NAME;
 }
@@ -321,4 +323,13 @@ bool ComAudio::isLoop()
 	return _loop;
 }
 
+void ComAudio::start()
+{
+    _startedSoundId = playEffect();
+}
+
+void ComAudio::stop()
+{
+    stopEffect(_startedSoundId);
+}
 }

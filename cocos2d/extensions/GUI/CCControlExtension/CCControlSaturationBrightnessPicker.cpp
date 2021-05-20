@@ -8,6 +8,8 @@
  * Modified by Yannick Loriot.
  * http://yannickloriot.com
  * 
+ * Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -68,7 +70,7 @@ bool ControlSaturationBrightnessPicker::initWithTargetAndPos(Node* target, Vec2 
                 
         _startPos=pos; // starting position of the colour picker        
         boxPos          = 35;    // starting position of the virtual box area for picking a colour
-        boxSize         = _background->getContentSize().width / 2;;    // the size (width and height) of the virtual box for picking a colour from
+        boxSize         = _background->getContentSize().width / 2;    // the size (width and height) of the virtual box for picking a colour from
         return true;
     }
     else
@@ -102,14 +104,14 @@ void ControlSaturationBrightnessPicker::updateWithHSV(HSV hsv)
     hsvTemp.v = 1;
     
     RGBA rgb = ControlUtils::RGBfromHSV(hsvTemp);
-    _background->setColor(Color3B((GLubyte)(rgb.r * 255.0f), (GLubyte)(rgb.g * 255.0f), (GLubyte)(rgb.b * 255.0f)));
+    _background->setColor(Color3B((uint8_t)(rgb.r * 255.0f), (uint8_t)(rgb.g * 255.0f), (uint8_t)(rgb.b * 255.0f)));
 }
 
 void ControlSaturationBrightnessPicker::updateDraggerWithHSV(HSV hsv)
 {
     // Set the position of the slider to the correct saturation and brightness
-    Vec2 pos(_startPos.x + boxPos + (boxSize*(1 - hsv.s)),
-                              _startPos.y + boxPos + (boxSize*hsv.v));
+    Vec2 pos(_startPos.x + boxPos + (boxSize*(1 - (float)hsv.s)),
+                              _startPos.y + boxPos + (boxSize*(float)hsv.v));
     
     // update
     updateSliderPosition(pos);
@@ -151,7 +153,7 @@ void ControlSaturationBrightnessPicker::updateSliderPosition(Vec2 sliderPosition
     if (sliderPosition.y < _startPos.y + boxPos)                        sliderPosition.y = _startPos.y + boxPos;
     else if (sliderPosition.y > _startPos.y + boxPos + boxSize)        sliderPosition.y = _startPos.y + boxPos + boxSize;
     
-    // Use the position / slider width to determin the percentage the dragger is at
+    // Use the position / slider width to determine the percentage the dragger is at
     _saturation = 1.0f - fabs((_startPos.x + (float)boxPos - sliderPosition.x)/(float)boxSize);
     _brightness = fabs((_startPos.y + (float)boxPos - sliderPosition.y)/(float)boxSize);
 }
@@ -180,7 +182,7 @@ bool ControlSaturationBrightnessPicker::checkSliderPosition(Vec2 location)
 }
 
 
-bool ControlSaturationBrightnessPicker::onTouchBegan(Touch* touch, Event* event)
+bool ControlSaturationBrightnessPicker::onTouchBegan(Touch* touch, Event* /*event*/)
 {
     if (!isEnabled() || !isVisible())
     {
@@ -195,7 +197,7 @@ bool ControlSaturationBrightnessPicker::onTouchBegan(Touch* touch, Event* event)
 }
 
 
-void ControlSaturationBrightnessPicker::onTouchMoved(Touch* touch, Event* event)
+void ControlSaturationBrightnessPicker::onTouchMoved(Touch* touch, Event* /*event*/)
 {
     // Get the touch location
     Vec2 touchLocation=getTouchLocation(touch);

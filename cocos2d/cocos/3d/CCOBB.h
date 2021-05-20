@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -25,7 +26,7 @@
 #ifndef __CC_OBB_H__
 #define __CC_OBB_H__
 
-#include "CCAABB.h"
+#include "3d/CCAABB.h"
 
 NS_CC_BEGIN
 

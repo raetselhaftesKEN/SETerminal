@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -50,13 +51,6 @@ _buttonClickedRenderer(nullptr),
 _buttonDisabledRenderer(nullptr),
 _titleRenderer(nullptr),
 _zoomScale(0.1f),
-_normalFileName(""),
-_clickedFileName(""),
-_disabledFileName(""),
-_normalTexType(TextureResType::LOCAL),
-_pressedTexType(TextureResType::LOCAL),
-_disabledTexType(TextureResType::LOCAL),
-_fontName(""),
 _prevIgnoreSize(true),
 _scale9Enabled(false),
 _pressedActionEnabled(false),
@@ -72,8 +66,13 @@ _disabledTextureLoaded(false),
 _normalTextureAdaptDirty(true),
 _pressedTextureAdaptDirty(true),
 _disabledTextureAdaptDirty(true),
-_fontSize(10),
-_type(FontType::SYSTEM)
+_normalFileName(""),
+_clickedFileName(""),
+_disabledFileName(""),
+_normalTexType(TextureResType::LOCAL),
+_pressedTexType(TextureResType::LOCAL),
+_disabledTexType(TextureResType::LOCAL),
+_fontName("")
 {
     setTouchEnabled(true);
 }
@@ -114,18 +113,15 @@ bool Button::init(const std::string &normalImage,
                   const std::string& disableImage,
                   TextureResType texType)
 {
-    bool ret = true;
-    do
-    {
-        if (!Widget::init())
-        {
-            ret = false;
-            break;
-        }
 
-        this->loadTextures(normalImage, selectedImage, disableImage,texType);
-    } while (0);
-    return ret;
+    // invoke an overridden init() at first
+    if (!Widget::init()) {
+        return false;
+    }
+
+    loadTextures(normalImage, selectedImage, disableImage, texType);
+    
+    return true;
 }
 
 bool Button::init()
@@ -150,12 +146,40 @@ void Button::initRenderer()
     addProtectedChild(_buttonClickedRenderer, PRESSED_RENDERER_Z, -1);
     addProtectedChild(_buttonDisabledRenderer, DISABLED_RENDERER_Z, -1);
 }
+    
+bool Button::createTitleRendererIfNull() {
+    if( !_titleRenderer ) {
+        createTitleRenderer();
+        return true;
+    }
+    
+    return false;
+}
 
 void Button::createTitleRenderer()
 {
     _titleRenderer = Label::create();
     _titleRenderer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     addProtectedChild(_titleRenderer, TITLE_RENDERER_Z, -1);
+}
+
+/** replaces the current Label node with a new one */
+void Button::setTitleLabel(Label* label)
+{
+    if (_titleRenderer != label) {
+        CC_SAFE_RELEASE(_titleRenderer);
+        _titleRenderer = label;
+        CC_SAFE_RETAIN(_titleRenderer);
+
+        addProtectedChild(_titleRenderer, TITLE_RENDERER_Z, -1);
+        updateTitleLocation();
+    }
+}
+
+/** returns the current Label being used */
+Label* Button::getTitleLabel() const
+{
+    return _titleRenderer;
 }
 
 void Button::setScale9Enabled(bool able)
@@ -293,11 +317,11 @@ void Button::loadTexturePressed(const std::string& selected,TextureResType texTy
 {
     _clickedFileName = selected;
     _pressedTexType = texType;
-    bool textureLoade = true;
+    bool textureLoaded = true;
     if (selected.empty())
     {
         _buttonClickedRenderer->resetRender();
-        textureLoade = false;
+        textureLoaded = false;
     }
     else
     {
@@ -313,7 +337,7 @@ void Button::loadTexturePressed(const std::string& selected,TextureResType texTy
             break;
         }
     }
-    this->setupPressedTexture(textureLoade);
+    this->setupPressedTexture(textureLoaded);
 }
 
 void Button::setupPressedTexture(bool textureLoaded)
@@ -453,7 +477,7 @@ void Button::onPressStateChangedToNormal()
             _buttonNormalRenderer->setScale(1.0);
             _buttonClickedRenderer->setScale(1.0);
 
-            if(nullptr != _titleRenderer)
+            if (nullptr != _titleRenderer)
             {
                 _titleRenderer->stopAllActions();
                 if (_unifySize)
@@ -474,7 +498,7 @@ void Button::onPressStateChangedToNormal()
         _buttonNormalRenderer->stopAllActions();
         _buttonNormalRenderer->setScale(1.0);
 
-        if(nullptr != _titleRenderer)
+        if (nullptr != _titleRenderer)
         {
             _titleRenderer->stopAllActions();
             _titleRenderer->setScaleX(1.0f);
@@ -500,14 +524,14 @@ void Button::onPressStateChangedToPressed()
             _buttonClickedRenderer->stopAllActions();
 
             Action *zoomAction = ScaleTo::create(ZOOM_ACTION_TIME_STEP,
-                                                 1.0 + _zoomScale,
-                                                 1.0 + _zoomScale);
+                                                 1.0f + _zoomScale,
+                                                 1.0f + _zoomScale);
             _buttonClickedRenderer->runAction(zoomAction);
 
-            _buttonNormalRenderer->setScale(1.0 + _zoomScale,
-                                            1.0 + _zoomScale);
+            _buttonNormalRenderer->setScale(1.0f + _zoomScale,
+                                            1.0f + _zoomScale);
 
-            if(nullptr != _titleRenderer)
+            if (nullptr != _titleRenderer)
             {
                 _titleRenderer->stopAllActions();
                 Action *zoomTitleAction = ScaleTo::create(ZOOM_ACTION_TIME_STEP,
@@ -523,9 +547,9 @@ void Button::onPressStateChangedToPressed()
         _buttonDisabledRenderer->setVisible(false);
 
         _buttonNormalRenderer->stopAllActions();
-        _buttonNormalRenderer->setScale(1.0 +_zoomScale, 1.0 + _zoomScale);
+        _buttonNormalRenderer->setScale(1.0f +_zoomScale, 1.0f + _zoomScale);
 
-        if(nullptr != _titleRenderer)
+        if (nullptr != _titleRenderer)
         {
             _titleRenderer->stopAllActions();
             _titleRenderer->setScaleX(1.0f + _zoomScale);
@@ -586,7 +610,7 @@ void Button::updateContentSize()
 void Button::onSizeChanged()
 {
     Widget::onSizeChanged();
-    if(nullptr != _titleRenderer)
+    if (nullptr != _titleRenderer)
     {
         updateTitleLocation();
     }
@@ -682,53 +706,45 @@ void Button::setPressedActionEnabled(bool enabled)
 
 void Button::setTitleAlignment(TextHAlignment hAlignment)
 {
-    if (nullptr == _titleRenderer)
-    {
-        this->createTitleRenderer();
-    }
+    createTitleRendererIfNull();
     _titleRenderer->setAlignment(hAlignment);
 }
 
 void Button::setTitleAlignment(TextHAlignment hAlignment, TextVAlignment vAlignment)
 {
-    if (nullptr == _titleRenderer)
-    {
-        this->createTitleRenderer();
-    }
+    createTitleRendererIfNull();
     _titleRenderer->setAlignment(hAlignment, vAlignment);
 }
 
 void Button::setTitleText(const std::string& text)
 {
-    if (text == getTitleText())
-    {
+    if (text.compare(getTitleText()) == 0) {
         return;
     }
-    if(nullptr == _titleRenderer)
-    {
-        this->createTitleRenderer();
+    
+    createTitleRendererIfNull();
+    
+    if(getTitleFontSize() <= 0) {
+        setTitleFontSize(CC_DEFAULT_FONT_LABEL_SIZE);
     }
     _titleRenderer->setString(text);
-    this->setTitleFontSize(_fontSize);
+
     updateContentSize();
     updateTitleLocation();
 }
 
-const std::string Button::getTitleText() const
+std::string Button::getTitleText() const
 {
-    if(nullptr == _titleRenderer)
-    {
+    if(!_titleRenderer) {
         return "";
     }
+    
     return _titleRenderer->getString();
 }
 
 void Button::setTitleColor(const Color3B& color)
 {
-    if(nullptr == _titleRenderer)
-    {
-        this->createTitleRenderer();
-    }
+    createTitleRendererIfNull();
     _titleRenderer->setTextColor(Color4B(color));
 }
 
@@ -743,32 +759,30 @@ Color3B Button::getTitleColor() const
 
 void Button::setTitleFontSize(float size)
 {
-    if (nullptr == _titleRenderer)
-    {
-        this->createTitleRenderer();
-    }
+    createTitleRendererIfNull();
 
-    _fontSize = size;
-    if (_type == FontType::SYSTEM)
-    {
-        _titleRenderer->setSystemFontSize(_fontSize);
-    }
-    else if (_type == FontType::TTF)
-    {
+    Label::LabelType titleLabelType = _titleRenderer->getLabelType();
+    if(titleLabelType == Label::LabelType::TTF) {
         TTFConfig config = _titleRenderer->getTTFConfig();
-        config.fontSize = _fontSize;
+        config.fontSize = size;
         _titleRenderer->setTTFConfig(config);
+    } else if (titleLabelType == Label::LabelType::STRING_TEXTURE) {
+        // the system font
+        _titleRenderer->setSystemFontSize(size);
     }
+    
     //we can't change font size of BMFont.
-    if(FontType::BMFONT != _type)
-    {
+    if(titleLabelType != Label::LabelType::BMFONT) {
         updateContentSize();
     }
 }
 
-float Button::getTitleFontSize() const
-{
-    return _fontSize;
+float Button::getTitleFontSize() const {
+    if(_titleRenderer) {
+        return _titleRenderer->getRenderingFontSize();
+    }
+    
+    return -1;
 }
 
 void Button::setZoomScale(float scale)
@@ -783,40 +797,23 @@ float Button::getZoomScale()const
 
 void Button::setTitleFontName(const std::string& fontName)
 {
-    if(nullptr == _titleRenderer)
-    {
-        this->createTitleRenderer();
-    }
-    if(FileUtils::getInstance()->isFileExist(fontName))
-    {
+    createTitleRendererIfNull();
+    
+    if(FileUtils::getInstance()->isFileExist(fontName)) {
         std::string lowerCasedFontName = fontName;
         std::transform(lowerCasedFontName.begin(), lowerCasedFontName.end(), lowerCasedFontName.begin(), ::tolower);
-        if (lowerCasedFontName.find(".fnt") != std::string::npos)
-        {
+        if (lowerCasedFontName.find(".fnt") != std::string::npos) {
             _titleRenderer->setBMFontFilePath(fontName);
-            _type = FontType::BMFONT;
-        }
-        else
-        {
+        } else {
             TTFConfig config = _titleRenderer->getTTFConfig();
             config.fontFilePath = fontName;
-            config.fontSize = _fontSize;
             _titleRenderer->setTTFConfig(config);
-            _type = FontType::TTF;
         }
-    }
-    else
-    {
+    } else {
         _titleRenderer->setSystemFontName(fontName);
-        if (_type == FontType::TTF)
-        {
-            _titleRenderer->requestSystemFontRefresh();
-        }
-        _titleRenderer->setSystemFontSize(_fontSize);
-        _type = FontType::SYSTEM;
     }
     _fontName = fontName;
-    this->updateContentSize();
+    updateContentSize();
 }
 
 Label* Button::getTitleRenderer()const
@@ -824,27 +821,20 @@ Label* Button::getTitleRenderer()const
     return _titleRenderer;
 }
 
-const std::string Button::getTitleFontName() const
+std::string Button::getTitleFontName() const
 {
-    if (nullptr != _titleRenderer)
-    {
-        if (this->_type == FontType::SYSTEM)
-        {
+    if (_titleRenderer) {
+        Label::LabelType titleLabelType = _titleRenderer->getLabelType();
+        if (titleLabelType == Label::LabelType::STRING_TEXTURE) {
             return _titleRenderer->getSystemFontName();
-        }
-        else if (this->_type == FontType::TTF)
-        {
+        } else if (titleLabelType == Label::LabelType::TTF) {
             return  _titleRenderer->getTTFConfig().fontFilePath;
-        }
-        else
-        {
+        } else if (titleLabelType == Label::LabelType::BMFONT) {
             return _titleRenderer->getBMFontFilePath();
         }
     }
-    else
-    {
-        return _fontName;
-    }
+    
+    return "";
 }
 
 std::string Button::getDescription() const
@@ -864,21 +854,29 @@ void Button::copySpecialProperties(Widget *widget)
     {
         _prevIgnoreSize = button->_prevIgnoreSize;
         setScale9Enabled(button->_scale9Enabled);
-        auto normalSprite = button->_buttonNormalRenderer->getSprite();
-        if (nullptr != normalSprite)
-        {
-            loadTextureNormal(normalSprite->getSpriteFrame());
-        }
-        auto clickedSprite = button->_buttonClickedRenderer->getSprite();
-        if (nullptr != clickedSprite)
-        {
-            loadTexturePressed(clickedSprite->getSpriteFrame());
-        }
-        auto disabledSprite = button->_buttonDisabledRenderer->getSprite();
-        if (nullptr != disabledSprite)
-        {
-            loadTextureDisabled(disabledSprite->getSpriteFrame());
-        }
+
+        // clone the inner sprite: https://github.com/cocos2d/cocos2d-x/issues/16924
+        button->_buttonNormalRenderer->copyTo(_buttonNormalRenderer);
+        _normalFileName = button->_normalFileName;
+        _normalTextureSize = button->_normalTextureSize;
+        _normalTexType = button->_normalTexType;
+        _normalTextureLoaded = button->_normalTextureLoaded;
+        setupNormalTexture(!_normalFileName.empty());
+
+        button->_buttonClickedRenderer->copyTo(_buttonClickedRenderer);
+        _clickedFileName = button->_clickedFileName;
+        _pressedTextureSize = button->_pressedTextureSize;
+        _pressedTexType = button->_pressedTexType;
+        _pressedTextureLoaded = button->_pressedTextureLoaded;
+        setupPressedTexture(!_clickedFileName.empty());
+
+        button->_buttonDisabledRenderer->copyTo(_buttonDisabledRenderer);
+        _disabledFileName = button->_disabledFileName;
+        _disabledTextureSize = button->_disabledTextureSize;
+        _disabledTexType = button->_disabledTexType;
+        _disabledTextureLoaded = button->_disabledTextureLoaded;
+        setupDisabledTexture(!_disabledFileName.empty());
+
         setCapInsetsNormalRenderer(button->_capInsetsNormal);
         setCapInsetsPressedRenderer(button->_capInsetsPressed);
         setCapInsetsDisabledRenderer(button->_capInsetsDisabled);

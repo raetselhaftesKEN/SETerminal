@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -63,11 +64,12 @@ AssetsManager::AssetsManager(const char* packageUrl/* =nullptr */, const char* v
 , _isDownloading(false)
 , _shouldDeleteDelegateWhenExit(false)
 {
+    checkStoragePath();
     // convert downloader error code to AssetsManager::ErrorCode
-    _downloader->onTaskError = [this](const DownloadTask& task,
+    _downloader->onTaskError = [this](const DownloadTask& /*task*/,
                                       int errorCode,
-                                      int errorCodeInternal,
-                                      const std::string& errorStr)
+                                      int /*errorCodeInternal*/,
+                                      const std::string& /*errorStr*/)
     {
         _isDownloading = false;
         
@@ -81,7 +83,7 @@ AssetsManager::AssetsManager(const char* packageUrl/* =nullptr */, const char* v
     
     // progress callback
     _downloader->onTaskProgress = [this](const DownloadTask& task,
-                                         int64_t bytesReceived,
+                                         int64_t /*bytesReceived*/,
                                          int64_t totalBytesReceived,
                                          int64_t totalBytesExpected)
     {
@@ -102,7 +104,7 @@ AssetsManager::AssetsManager(const char* packageUrl/* =nullptr */, const char* v
     };
     
     // get version from version file when get data success
-    _downloader->onDataTaskSuccess = [this](const DownloadTask& task,
+    _downloader->onDataTaskSuccess = [this](const DownloadTask& /*task*/,
                                             std::vector<unsigned char>& data)
     {
         // store version info to member _version
@@ -145,11 +147,11 @@ AssetsManager::AssetsManager(const char* packageUrl/* =nullptr */, const char* v
         
         // start download;
         const string outFileName = _storagePath + TEMP_PACKAGE_FILE_NAME;
-        _downloader->createDownloadFileTask(_packageUrl, _storagePath);
+        _downloader->createDownloadFileTask(_packageUrl, outFileName);
     };
     
     // after download package, do uncompress operation
-    _downloader->onFileTaskSuccess = [this](const DownloadTask& task)
+    _downloader->onFileTaskSuccess = [this](const DownloadTask& /*task*/)
     {
         downloadAndUncompress();
     };
@@ -260,7 +262,7 @@ bool AssetsManager::uncompress()
 {
     // Open the zip file
     string outFileName = _storagePath + TEMP_PACKAGE_FILE_NAME;
-    unzFile zipfile = unzOpen(outFileName.c_str());
+    unzFile zipfile = unzOpen(FileUtils::getInstance()->getSuitableFOpen(outFileName).c_str());
     if (! zipfile)
     {
         CCLOG("can not open downloaded zip file %s", outFileName.c_str());
@@ -326,7 +328,7 @@ bool AssetsManager::uncompress()
             
             size_t startIndex=0;
             
-            size_t index=fileNameStr.find("/",startIndex);
+            size_t index=fileNameStr.find('/',startIndex);
             
             while(index != std::string::npos)
             {
@@ -354,7 +356,7 @@ bool AssetsManager::uncompress()
                 
                 startIndex=index+1;
                 
-                index=fileNameStr.find("/",startIndex);
+                index=fileNameStr.find('/',startIndex);
                 
             }
 
@@ -489,7 +491,7 @@ AssetsManager* AssetsManager::create(const char* packageUrl, const char* version
     class DelegateProtocolImpl : public AssetsManagerDelegateProtocol 
     {
     public :
-        DelegateProtocolImpl(ErrorCallback aErrorCallback, ProgressCallback aProgressCallback, SuccessCallback aSuccessCallback)
+        DelegateProtocolImpl(ErrorCallback& aErrorCallback, ProgressCallback& aProgressCallback, SuccessCallback& aSuccessCallback)
         : errorCallback(aErrorCallback), progressCallback(aProgressCallback), successCallback(aSuccessCallback)
         {}
 

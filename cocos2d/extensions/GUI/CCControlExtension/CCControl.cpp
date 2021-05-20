@@ -5,6 +5,8 @@
  * Copyright 2011 Yannick Loriot.
  * http://yannickloriot.com
  * 
+ * Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -184,7 +186,6 @@ void Control::removeTargetWithActionForControlEvents(Ref* target, Handler action
 void Control::removeTargetWithActionForControlEvent(Ref* target, Handler action, EventType controlEvent)
 {
     // Retrieve all invocations for the given control event
-    //<Invocation*>
     auto& eventInvocationList = this->dispatchListforControlEvent(controlEvent);
     
     //remove all invocations if the target and action are null
@@ -247,6 +248,20 @@ Vec2 Control::getTouchLocation(Touch* touch)
     
     return touchLocation;
 }
+
+bool Control::onTouchBegan(Touch* /*touch*/, Event* /*event*/) {
+    return false;
+}
+
+void Control::onTouchMoved(Touch* /*touch*/, Event* /*event*/)
+{}
+
+void Control::onTouchEnded(Touch* /*touch*/, Event* /*event*/)
+{}
+
+void Control::onTouchCancelled(Touch* /*touch*/, Event* /*event*/)
+{}
+
 
 bool Control::isTouchInside(Touch* touch)
 {

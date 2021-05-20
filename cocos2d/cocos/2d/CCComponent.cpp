@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -108,7 +109,7 @@ void Component::onRemove()
 #endif
 }
 
-void Component::update(float delta)
+void Component::update(float /*delta*/)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
@@ -118,7 +119,7 @@ void Component::update(float delta)
 #endif
 }
 
-bool Component::serialize(void *ar)
+bool Component::serialize(void* /*ar*/)
 {
     return true;
 }

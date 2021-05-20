@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,42 +23,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
-#include "platform/CCPlatformConfig.h"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-
 #include "platform/CCCommon.h"
 #include "platform/CCStdC.h"
+#include "platform/win32/CCUtils-win32.h"
 
 NS_CC_BEGIN
 
 #define MAX_LEN         (cocos2d::kMaxLogLen + 1)
 
-void MessageBox(const char * pszMsg, const char * pszTitle)
+void ccMessageBox(const char * pszMsg, const char * pszTitle)
 {
-    MessageBoxA(nullptr, pszMsg, pszTitle, MB_OK);
+    std::wstring wsMsg = cocos2d::StringUtf8ToWideChar(pszMsg);
+    std::wstring wsTitle = cocos2d::StringUtf8ToWideChar(pszTitle);
+    MessageBoxW(nullptr, wsMsg.c_str(), wsTitle.c_str(), MB_OK);
 }
 
 void LuaLog(const char *pszMsg)
 {
-    int bufflen = MultiByteToWideChar(CP_UTF8, 0, pszMsg, -1, nullptr, 0);
-    WCHAR* widebuff = new WCHAR[bufflen + 1];
-    memset(widebuff, 0, sizeof(WCHAR) * (bufflen + 1));
-    MultiByteToWideChar(CP_UTF8, 0, pszMsg, -1, widebuff, bufflen);
-
-    OutputDebugStringW(widebuff);
+    OutputDebugStringW(cocos2d::StringUtf8ToWideChar(pszMsg).c_str());
     OutputDebugStringA("\n");
 
-    bufflen = WideCharToMultiByte(CP_ACP, 0, widebuff, -1, nullptr, 0, nullptr, nullptr);
-    char* buff = new char[bufflen + 1];
-    memset(buff, 0, sizeof(char) * (bufflen + 1));
-    WideCharToMultiByte(CP_ACP, 0, widebuff, -1, buff, bufflen, nullptr, nullptr);
-    puts(buff);
-
-    delete[] widebuff;
-    delete[] buff;
+    puts(UTF8StringToMultiByte(pszMsg).c_str());
 }
 
 NS_CC_END
-
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

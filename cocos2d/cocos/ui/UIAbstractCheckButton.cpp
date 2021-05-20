@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,6 +26,7 @@ THE SOFTWARE.
 #include "ui/UIAbstractCheckButton.h"
 #include "2d/CCSprite.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
+#include "renderer/ccShaders.h"
 
 NS_CC_BEGIN
 
@@ -54,16 +56,16 @@ _frontCrossDisabledTexType(TextureResType::LOCAL),
 _zoomScale(0.1f),
 _backgroundTextureScaleX(1.0),
 _backgroundTextureScaleY(1.0),
-_backGroundFileName(""),
-_backGroundSelectedFileName(""),
-_frontCrossFileName(""),
-_backGroundDisabledFileName(""),
-_frontCrossDisabledFileName(""),
 _backGroundBoxRendererAdaptDirty(true),
 _backGroundSelectedBoxRendererAdaptDirty(true),
 _frontCrossRendererAdaptDirty(true),
 _backGroundBoxDisabledRendererAdaptDirty(true),
-_frontCrossDisabledRendererAdaptDirty(true)
+_frontCrossDisabledRendererAdaptDirty(true),
+_backGroundFileName(""),
+_backGroundSelectedFileName(""),
+_frontCrossFileName(""),
+_backGroundDisabledFileName(""),
+_frontCrossDisabledFileName("")
 {
     setTouchEnabled(true);
 }
@@ -73,7 +75,7 @@ AbstractCheckButton::~AbstractCheckButton()
 }
 
 bool AbstractCheckButton::init(const std::string& backGround,
-                    const std::string& backGroundSeleted,
+                    const std::string& backGroundSelected,
                     const std::string& cross,
                     const std::string& backGroundDisabled,
                     const std::string& frontCrossDisabled,
@@ -89,7 +91,7 @@ bool AbstractCheckButton::init(const std::string& backGround,
         }
         
         setSelected(false);
-        loadTextures(backGround, backGroundSeleted, cross, backGroundDisabled, frontCrossDisabled,texType);
+        loadTextures(backGround, backGroundSelected, cross, backGroundDisabled, frontCrossDisabled, texType);
     } while (0);
     return ret;
 }
@@ -172,7 +174,8 @@ void AbstractCheckButton::loadTextureBackGroundSelected(const std::string& backG
 {
     _backGroundSelectedFileName = backGroundSelected;
     _isBackgroundSelectedTextureLoaded = !backGroundSelected.empty();
-
+    if (!_isBackgroundSelectedTextureLoaded) return;
+    
     _backGroundSelectedTexType = texType;
     switch (_backGroundSelectedTexType)
     {
@@ -235,6 +238,7 @@ void AbstractCheckButton::loadTextureBackGroundDisabled(const std::string& backG
 {
     _backGroundDisabledFileName = backGroundDisabled;
     _isBackgroundDisabledTextureLoaded = !backGroundDisabled.empty();
+    if (!_isBackgroundDisabledTextureLoaded) return;
 
     _backGroundDisabledTexType = texType;
     switch (_backGroundDisabledTexType)
@@ -268,6 +272,7 @@ void AbstractCheckButton::loadTextureFrontCrossDisabled(const std::string& front
 {
     _frontCrossDisabledFileName = frontCrossDisabled;
     _isFrontCrossDisabledTextureLoaded = !frontCrossDisabled.empty();
+    if (!_isFrontCrossDisabledTextureLoaded) return;
 
     _frontCrossDisabledTexType = texType;
     switch (_frontCrossDisabledTexType)
@@ -304,8 +309,11 @@ void AbstractCheckButton::onPressStateChangedToNormal()
     _backGroundBoxDisabledRenderer->setVisible(false);
     _frontCrossDisabledRenderer->setVisible(false);
     
-    _backGroundBoxRenderer->setGLProgramState(this->getNormalGLProgramState());
-    _frontCrossRenderer->setGLProgramState(this->getNormalGLProgramState());
+    auto isETC1 = _backGroundBoxRenderer->getTexture() && _backGroundBoxRenderer->getTexture()->getAlphaTextureName();
+    _backGroundBoxRenderer->updateShaders(positionTextureColor_vert, (isETC1)?etc1_frag:positionTextureColor_frag);
+    
+    isETC1 = _frontCrossRenderer->getTexture() && _frontCrossRenderer->getTexture()->getAlphaTextureName();
+    _frontCrossRenderer->updateShaders(positionTextureColor_vert, (isETC1)?etc1_frag:positionTextureColor_frag);
     
     
     _backGroundBoxRenderer->setScale(_backgroundTextureScaleX, _backgroundTextureScaleY);
@@ -321,8 +329,11 @@ void AbstractCheckButton::onPressStateChangedToNormal()
 
 void AbstractCheckButton::onPressStateChangedToPressed()
 {
-    _backGroundBoxRenderer->setGLProgramState(this->getNormalGLProgramState());
-    _frontCrossRenderer->setGLProgramState(this->getNormalGLProgramState());
+    auto isETC1 = _backGroundBoxRenderer->getTexture() && _backGroundBoxRenderer->getTexture()->getAlphaTextureName();
+    _backGroundBoxRenderer->updateShaders(positionTextureColor_vert, (isETC1)?etc1_frag:positionTextureColor_frag);
+    
+    isETC1 = _frontCrossRenderer->getTexture() && _frontCrossRenderer->getTexture()->getAlphaTextureName();
+    _frontCrossRenderer->updateShaders(positionTextureColor_vert, (isETC1)?etc1_frag:positionTextureColor_frag);
     
     if (!_isBackgroundSelectedTextureLoaded)
     {
@@ -345,8 +356,11 @@ void AbstractCheckButton::onPressStateChangedToDisabled()
     if (!_isBackgroundDisabledTextureLoaded
         || !_isFrontCrossDisabledTextureLoaded)
     {
-        _backGroundBoxRenderer->setGLProgramState(this->getGrayGLProgramState());
-        _frontCrossRenderer->setGLProgramState(this->getGrayGLProgramState());
+        auto isETC1 = _backGroundBoxRenderer->getTexture() && _backGroundBoxRenderer->getTexture()->getAlphaTextureName();
+        _backGroundBoxRenderer->updateShaders(positionTextureColor_vert, (isETC1)?etc1Gray_frag:grayScale_frag);
+        
+        isETC1 = _frontCrossRenderer->getTexture() && _frontCrossRenderer->getTexture()->getAlphaTextureName();
+        _frontCrossRenderer->updateShaders(positionTextureColor_vert, (isETC1)?etc1Gray_frag:grayScale_frag);
     }
     else
     {

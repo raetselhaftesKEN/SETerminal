@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -22,13 +23,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "Sprite3DReader.h"
+#include "2d/CCLight.h"
+#include "3d/CCSprite3D.h"
+#include "3d/CCAnimate3D.h"
+#include "3d/CCAnimation3D.h"
+#include "platform/CCFileUtils.h"
+#include "editor-support/cocostudio/WidgetReader/Sprite3DReader/Sprite3DReader.h"
 
-#include "cocostudio/CSParseBinary_generated.h"
-#include "cocostudio/CSParse3DBinary_generated.h"
+#include "editor-support/cocostudio/CSParseBinary_generated.h"
+#include "editor-support/cocostudio/CSParse3DBinary_generated.h"
 
-#include "cocostudio/FlatBuffersSerialize.h"
-#include "cocostudio/WidgetReader/Node3DReader/Node3DReader.h"
+#include "editor-support/cocostudio/FlatBuffersSerialize.h"
+#include "editor-support/cocostudio/WidgetReader/Node3DReader/Node3DReader.h"
 
 #include "tinyxml2.h"
 #include "flatbuffers/flatbuffers.h"
@@ -56,7 +62,7 @@ namespace cocostudio
     {
         if (!_instanceSprite3DReader)
         {
-            _instanceSprite3DReader = new Sprite3DReader();
+            _instanceSprite3DReader = new (std::nothrow) Sprite3DReader();
         }
         
         return _instanceSprite3DReader;
@@ -225,10 +231,10 @@ namespace cocostudio
         
         auto nodeOptions = options->node3DOption()->nodeOptions();
         
-        GLubyte alpha       = (GLubyte)nodeOptions->color()->a();
-        GLubyte red         = (GLubyte)nodeOptions->color()->r();
-        GLubyte green       = (GLubyte)nodeOptions->color()->g();
-        GLubyte blue        = (GLubyte)nodeOptions->color()->b();
+        uint8_t alpha       = (uint8_t)nodeOptions->color()->a();
+        uint8_t red         = (uint8_t)nodeOptions->color()->r();
+        uint8_t green       = (uint8_t)nodeOptions->color()->g();
+        uint8_t blue        = (uint8_t)nodeOptions->color()->b();
         
         if (alpha != 255)
         {
@@ -241,7 +247,7 @@ namespace cocostudio
         if (isFlipped)
         {
             sprite3D->setCullFaceEnabled(true);
-            sprite3D->setCullFace(GL_FRONT);
+            sprite3D->setCullFace(CullFaceSide::FRONT);
         }
 
         if (lightFlag <= 0)

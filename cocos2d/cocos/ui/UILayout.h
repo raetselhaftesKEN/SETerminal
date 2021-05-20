@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -29,6 +30,7 @@ THE SOFTWARE.
 #include "ui/GUIExport.h"
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCGroupCommand.h"
+#include "renderer/CCCallbackCommand.h"
 
 /**
  * @addtogroup ui
@@ -92,12 +94,6 @@ public:
      */
     virtual void doLayout() = 0;
 };
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-#ifdef RELATIVE
-#undef RELATIVE
-#endif
-#endif
 
 /**
  *@brief A container for holding a few child widgets. 
@@ -254,13 +250,13 @@ public:
      *
      * @param opacity The opacity in `GLubyte`.
      */
-    void setBackGroundColorOpacity(GLubyte opacity);
+    void setBackGroundColorOpacity(uint8_t opacity);
     
     /**
      * Get the layout's background color opacity.
      *@return Background color opacity value.
      */
-    GLubyte getBackGroundColorOpacity()const;
+    uint8_t getBackGroundColorOpacity()const;
     
     /**
      * Sets background color vector for layout.
@@ -286,7 +282,7 @@ public:
      * Set opacity of background image.
      *@param opacity Background image opacity in GLubyte.
      */
-    void setBackGroundImageOpacity(GLubyte opacity);
+    void setBackGroundImageOpacity(uint8_t opacity);
     
     /**
      * Get color of layout's background image.
@@ -298,7 +294,7 @@ public:
      * Get the opacity of layout's background image.
      * @return The opacity of layout's background image.
      */
-    GLubyte getBackGroundImageOpacity()const;
+    uint8_t getBackGroundImageOpacity()const;
     
     /**
      * Remove the background image of layout.
@@ -414,6 +410,8 @@ public:
      */
     virtual void onExit() override;
     
+    virtual void setGlobalZOrder(float globalZOrder) override;
+    
     /**
      * If a layout is loop focused which means that the focus movement will be inside the layout
      *@param loop  pass true to let the focus movement loop inside the layout
@@ -504,7 +502,7 @@ protected:
     /**
      * When the layout get focused, it the layout pass the focus to its child, it will use this method to determine which child 
      * will get the focus.  The current algorithm to determine which child will get focus is nearest-distance-priority algorithm
-     *@param dir next focused widget direction
+     *@param direction The next focused widget direction
      *@return The index of child widget in the container
      */
      int findNearestChildWidgetIndex(FocusDirection direction, Widget* baseWidget);
@@ -512,7 +510,7 @@ protected:
     /**
      * When the layout get focused, it the layout pass the focus to its child, it will use this method to determine which child
      * will get the focus.  The current algorithm to determine which child will get focus is farthest-distance-priority algorithm
-     *@param dir next focused widget direction
+     *@param direction The next focused widget direction
      *@return The index of child widget in the container
      */
     int findFarthestChildWidgetIndex(FocusDirection direction, Widget* baseWidget);
@@ -559,7 +557,7 @@ protected:
     
     /**
      * this method is called internally by nextFocusedWidget. When the dir is Right/Down, then this method will be called
-     *@param dir  the direction.
+     *@param direction  the direction.
      *@param current  the current focused widget
      *@return the next focused widget
      */
@@ -567,7 +565,7 @@ protected:
     
     /**
      * this method is called internally by nextFocusedWidget. When the dir is Left/Up, then this method will be called
-     *@param dir  the direction.
+     *@param direction  the direction.
      *@param current  the current focused widget
      *@return the next focused widget
      */
@@ -610,7 +608,7 @@ protected:
     TextureResType _bgImageTexType;
     Size _backGroundImageTextureSize;
     Color3B _backGroundImageColor;
-    GLubyte _backGroundImageOpacity;
+    uint8_t _backGroundImageOpacity;
 
     LayerColor* _colorRender;
     LayerGradient* _gradientRender;
@@ -618,7 +616,7 @@ protected:
     Color3B _gStartColor;
     Color3B _gEndColor;
     Vec2 _alongVector;
-    GLubyte _cOpacity;
+    uint8_t _cOpacity;
     
     //clipping
     bool _clippingEnabled;
@@ -632,14 +630,14 @@ protected:
     bool _clippingRectDirty;
     
     //clipping
-    StencilStateManager *_stencileStateManager;
+    StencilStateManager *_stencilStateManager;
 
     GroupCommand _groupCommand;
-    CustomCommand _beforeVisitCmdStencil;
-    CustomCommand _afterDrawStencilCmd;
-    CustomCommand _afterVisitCmdStencil;
-    CustomCommand _beforeVisitCmdScissor;
-    CustomCommand _afterVisitCmdScissor;
+    CallbackCommand _beforeVisitCmdStencil;
+    CallbackCommand _afterDrawStencilCmd;
+    CallbackCommand _afterVisitCmdStencil;
+    CallbackCommand _beforeVisitCmdScissor;
+    CallbackCommand _afterVisitCmdScissor;
     
     bool _doLayoutDirty;
     bool _isInterceptTouch;

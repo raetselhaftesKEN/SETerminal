@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2015 Mazyad Alabduljaleel
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -23,7 +24,7 @@
  ****************************************************************************/
 
 #import <UIKit/UIKit.h>
-#import "CCUITextInput.h"
+#import "ui/UIEditBox/iOS/CCUITextInput.h"
 
 
 @interface UITextView (CCUITextInput) <CCUITextInput>

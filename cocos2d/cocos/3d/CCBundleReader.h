@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -59,7 +60,7 @@ public:
     
     /**
      * initialise
-     * @param lpbuffer The data buffer pointer
+     * @param buffer The data buffer pointer
      * @param length The data buffer size
      */
     void init(char* buffer, ssize_t length);
@@ -183,7 +184,7 @@ inline bool BundleReader::read<char>(char *ptr)
 * specialization for std::string
 */
 template<>
-inline bool BundleReader::read<std::string>(std::string *ptr)
+inline bool BundleReader::read<std::string>(std::string* /*ptr*/)
 {
     CCLOG("can not read std::string, use readString() instead");
     return false;

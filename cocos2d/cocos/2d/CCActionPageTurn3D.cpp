@@ -1,7 +1,8 @@
 /****************************************************************************
 Copyright (c) 2009      Sindesso Pty Ltd http://www.sindesso.com/
 Copyright (c) 2010-2012 cocos2d-x.org
-CopyRight (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
 http://www.cocos2d-x.org
 
@@ -33,34 +34,30 @@ PageTurn3D* PageTurn3D::create(float duration, const Size& gridSize)
 {
     PageTurn3D *action = new (std::nothrow) PageTurn3D();
 
-    if (action)
+    if (action && action->initWithDuration(duration, gridSize))
     {
-        if (action->initWithDuration(duration, gridSize))
-        {
-            action->autorelease();
-        }
-        else
-        {
-            CC_SAFE_RELEASE_NULL(action);
-        }
+        action->autorelease();
+        return action;
     }
 
-    return action;
+    delete action;
+    return nullptr;
 }
 
 PageTurn3D *PageTurn3D::clone() const
 {
-    // no copy constructor    
-    auto a = new (std::nothrow) PageTurn3D();
-    a->initWithDuration(_duration, _gridSize);
-    a->autorelease();
-    return a;
+    // no copy constructor
+    return PageTurn3D::create(_duration, _gridSize);
 }
 
 GridBase* PageTurn3D::getGrid()
 {
     auto result = Grid3D::create(_gridSize, _gridNodeTarget->getGridRect());
-    result->setNeedDepthTestForBlit(true);
+    if (result)
+    {
+        result->setNeedDepthTestForBlit(true);
+    }
+    
     return result;
 }
 
@@ -75,9 +72,9 @@ void PageTurn3D::update(float time)
     float ay = -100 - deltaAy;
     
     float deltaTheta = sqrtf(time);
-    float theta = deltaTheta>0.5?(float)M_PI_2*deltaTheta:(float)M_PI_2*(1-deltaTheta);
+    float theta = deltaTheta > 0.5f ? (float)M_PI_2*deltaTheta : (float)M_PI_2*(1-deltaTheta);
     
-    float rotateByYAxis = (2-time)* M_PI;
+    float rotateByYAxis = (2-time)* (float)M_PI;
     
     float sinTheta = sinf(theta);
     float cosTheta = cosf(theta);
@@ -86,8 +83,9 @@ void PageTurn3D::update(float time)
     {
         for (int j = 0; j <= _gridSize.height; ++j)
         {
+            Vec2 pos((float)i, (float)j);
             // Get original vertex
-            Vec3 p = getOriginalVertex(Vec2(i ,j));
+            Vec3 p = getOriginalVertex(pos);
             
             p.x -= getGridRect().origin.x;
             float R = sqrtf((p.x * p.x) + ((p.y - ay) * (p.y - ay)));
@@ -127,7 +125,7 @@ void PageTurn3D::update(float time)
             
             // Set new coords
             p.x += getGridRect().origin.x;
-            setVertex(Vec2(i, j), p);
+            setVertex(pos, p);
             
         }
     }

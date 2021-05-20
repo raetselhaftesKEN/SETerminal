@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2013-2014 Chukong Technologies Inc.
+ Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -21,11 +22,11 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "UIPageView.h"
-#include "UILayoutComponent.h"
+#include "ui/UIPageView.h"
+#include "ui/UILayoutComponent.h"
 #include "2d/CCNode.h"
-#include "GUIDefine.h"
-#include "UIHelper.h"
+#include "ui/GUIDefine.h"
+#include "ui/UIHelper.h"
 
 NS_CC_BEGIN
 

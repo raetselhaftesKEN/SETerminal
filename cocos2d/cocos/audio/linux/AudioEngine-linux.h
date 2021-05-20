@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -33,12 +34,12 @@
 #include <map>
 #include "fmod.hpp"
 #include "fmod_errors.h"
-#include "AudioEngine.h"
+#include "audio/include/AudioEngine.h"
 
 #include "base/CCRef.h"
 
 NS_CC_BEGIN
-    namespace experimental{
+
 #define MAX_AUDIOINSTANCES 32
 
 class CC_DLL AudioEngineImpl : public cocos2d::Ref
@@ -83,7 +84,7 @@ private:
     FMOD::Channel * getChannel(FMOD::Sound *);
   
     struct ChannelInfo{
-        size_t id; 
+        int id;
         std::string path; 
         FMOD::Sound * sound;
         FMOD::Channel * channel; 
@@ -93,13 +94,15 @@ private:
     };
     
     std::map<int, ChannelInfo> mapChannelInfo;
+
+    std::map<std::string, int> mapId;
     
     std::map<std::string, FMOD::Sound *> mapSound;  
     
     FMOD::System* pSystem;
     
 };
-}
+
 NS_CC_END
 #endif // __AUDIO_ENGINE_LINUX_H_
 #endif

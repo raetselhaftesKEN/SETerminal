@@ -1,5 +1,6 @@
 ﻿/****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,9 +27,9 @@ THE SOFTWARE.
 #ifndef __CCANIMATION_H__
 #define __CCANIMATION_H__
 
-#include "cocostudio/CCProcessBase.h"
-#include "cocostudio/CCTween.h"
-#include "cocostudio/CocosStudioExport.h"
+#include "editor-support/cocostudio/CCProcessBase.h"
+#include "editor-support/cocostudio/CCTween.h"
+#include "editor-support/cocostudio/CocosStudioExport.h"
 #include <queue>
 
 namespace cocostudio {
@@ -83,7 +84,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ArmatureAnimation(void);
+    virtual ~ArmatureAnimation();
 
     /**
      * Init with a Armature
@@ -279,11 +280,11 @@ protected:
 
     Armature *_armature;                        //! A weak reference of armature
 
-    std::string _movementID;                //! Current movment's name
+    std::string _movementID;                //! Current movement's name
 
     int _toIndex;                                //! The frame index in MovementData->m_pMovFrameDataArr, it's different from m_iFrameIndex.
 
-    cocos2d::Vector<Tween*> _tweenList;
+    std::vector<Tween*> _tweenList;
 
     bool _ignoreFrameEvent;
     

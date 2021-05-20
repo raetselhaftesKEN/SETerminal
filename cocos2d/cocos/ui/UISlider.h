@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -204,6 +205,11 @@ public:
     void setPercent(int percent);
     
     /**
+     * Updates the visual elements of the slider.
+     */
+    void updateVisualSlider();
+    
+    /**
      * Gets the progress direction of slider.
      *
      * @return percent Percent value from 1 to 100.
@@ -223,9 +229,7 @@ public:
      * @return The maximum percent of the Slider.
      */
     int getMaxPercent()const;
-
     
-    CC_DEPRECATED_ATTRIBUTE void addEventListenerSlider(Ref* target,SEL_SlidPercentChangedEvent selector);
     /**
      * Add call back function called when slider's percent has changed to slider.
      *
@@ -247,7 +251,7 @@ public:
     //override "ignoreContentAdaptWithSize" method of widget.
     virtual void ignoreContentAdaptWithSize(bool ignore) override;
     
-    //override the widget's hitTest function to perfom its own
+    //override the widget's hitTest function to perform its own
     virtual bool hitTest(const Vec2 &pt, const Camera* camera, Vec3 *p) const override;
     /**
      * Returns the "class name" of widget.
@@ -264,6 +268,11 @@ public:
      * @since v3.3
      */
     float getZoomScale()const;
+
+    Sprite* getSlidBallNormalRenderer() const;
+    Sprite* getSlidBallPressedRenderer() const;
+    Sprite* getSlidBallDisabledRenderer() const;
+    Node* getSlidBallRenderer() const;
 
     ResourceData getBackFile();
     ResourceData getProgressBarFile();
@@ -300,7 +309,9 @@ protected:
     Scale9Sprite*  _barRenderer;
     Scale9Sprite* _progressBarRenderer;
     Size _barTextureSize;
+    Rect _originalBarRect;
     Size _progressBarTextureSize;
+    Rect _originalProgressBarRect;
     
     Sprite* _slidBallNormalRenderer;
     Sprite* _slidBallPressedRenderer;
@@ -325,18 +336,6 @@ protected:
     Rect _capInsetsProgressBarRenderer;
 
     Ref*       _sliderEventListener;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#endif
-    SEL_SlidPercentChangedEvent    _sliderEventSelector;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
-#endif
     
     ccSliderCallback  _eventCallback;
 

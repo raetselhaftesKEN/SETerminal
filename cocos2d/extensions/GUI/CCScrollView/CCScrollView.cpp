@@ -1,6 +1,7 @@
 /****************************************************************************
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2010 Sangwoo Im
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -64,6 +65,7 @@ ScrollView::ScrollView()
 , _maxScale(0.0f)
 , _scissorRestored(false)
 , _touchListener(nullptr)
+, _animatedScrollAction(nullptr)
 {
 
 }
@@ -111,7 +113,7 @@ bool ScrollView::initWithViewSize(Size size, Node *container/* = nullptr*/)
         if (!this->_container)
         {
             _container = Layer::create();
-            _container->ignoreAnchorPointForPosition(false);
+            _container->setIgnoreAnchorPointForPosition(false);
             _container->setAnchorPoint(Vec2(0.0f, 0.0f));
         }
 
@@ -156,7 +158,7 @@ bool ScrollView::isNodeVisible(Node* node)
     return viewRect.intersectsRect(node->getBoundingBox());
 }
 
-void ScrollView::pause(Ref* sender)
+void ScrollView::pause(Ref* /*sender*/)
 {
     _container->pause();
 
@@ -166,7 +168,7 @@ void ScrollView::pause(Ref* sender)
     }
 }
 
-void ScrollView::resume(Ref* sender)
+void ScrollView::resume(Ref* /*sender*/)
 {
     auto& children = _container->getChildren();
     for(const auto &child : children) {
@@ -189,6 +191,7 @@ void ScrollView::setTouchEnabled(bool enabled)
     if (enabled)
     {
         _touchListener = EventListenerTouchOneByOne::create();
+        _touchListener->setSwallowTouches(true);
         _touchListener->onTouchBegan = CC_CALLBACK_2(ScrollView::onTouchBegan, this);
         _touchListener->onTouchMoved = CC_CALLBACK_2(ScrollView::onTouchMoved, this);
         _touchListener->onTouchEnded = CC_CALLBACK_2(ScrollView::onTouchEnded, this);
@@ -201,6 +204,14 @@ void ScrollView::setTouchEnabled(bool enabled)
         _dragging = false;
         _touchMoved = false;
         _touches.clear();
+    }
+}
+
+void ScrollView::setSwallowTouches(bool needSwallow)
+{
+    if (_touchListener != nullptr)
+    {
+        _touchListener->setSwallowTouches(needSwallow);
     }
 }
 
@@ -234,10 +245,21 @@ void ScrollView::setContentOffsetInDuration(Vec2 offset, float dt)
 {
     FiniteTimeAction *scroll, *expire;
     
+    if (_animatedScrollAction) {
+        stopAnimatedContentOffset();
+    }
     scroll = MoveTo::create(dt, offset);
     expire = CallFuncN::create(CC_CALLBACK_1(ScrollView::stoppedAnimatedScroll,this));
-    _container->runAction(Sequence::create(scroll, expire, nullptr));
+    _animatedScrollAction = _container->runAction(Sequence::create(scroll, expire, nullptr));
+    _animatedScrollAction->retain();
     this->schedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll));
+}
+
+void ScrollView::stopAnimatedContentOffset() {
+    stopAction(_animatedScrollAction);
+    _animatedScrollAction->release();
+    _animatedScrollAction = nullptr;
+    stoppedAnimatedScroll(this);
 }
 
 Vec2 ScrollView::getContentOffset()
@@ -309,7 +331,7 @@ void ScrollView::setZoomScaleInDuration(float s, float dt)
     }
 }
 
-void ScrollView::updateTweenAction(float value, const std::string& key)
+void ScrollView::updateTweenAction(float value, const std::string& /*key*/)
 {
     this->setZoomScale(value);
 }
@@ -335,7 +357,7 @@ void ScrollView::setContainer(Node * pContainer)
     this->removeAllChildrenWithCleanup(true);
     this->_container = pContainer;
 
-    this->_container->ignoreAnchorPointForPosition(false);
+    this->_container->setIgnoreAnchorPointForPosition(false);
     this->_container->setAnchorPoint(Vec2(0.0f, 0.0f));
 
     this->addChild(this->_container);
@@ -404,7 +426,7 @@ Vec2 ScrollView::minContainerOffset()
     return Vec2(_viewSize.width - (1 - anchorPoint.x) * contW, _viewSize.height - (1 - anchorPoint.y) * contH);
 }
 
-void ScrollView::deaccelerateScrolling(float dt)
+void ScrollView::deaccelerateScrolling(float /*dt*/)
 {
     if (_dragging)
     {
@@ -444,7 +466,7 @@ void ScrollView::deaccelerateScrolling(float dt)
     }
 }
 
-void ScrollView::stoppedAnimatedScroll(Node * node)
+void ScrollView::stoppedAnimatedScroll(Node * /*node*/)
 {
     this->unschedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll));
     // After the animation stopped, "scrollViewDidScroll" should be invoked, this could fix the bug of lack of tableview cells.
@@ -454,7 +476,7 @@ void ScrollView::stoppedAnimatedScroll(Node * node)
     }
 }
 
-void ScrollView::performedAnimatedScroll(float dt)
+void ScrollView::performedAnimatedScroll(float /*dt*/)
 {
     if (_dragging)
     {
@@ -545,47 +567,52 @@ void ScrollView::addChild(Node * child, int zOrder, const std::string &name)
 
 void ScrollView::beforeDraw()
 {
+    //TODO: minggo
     //ScrollView don't support drawing in 3D space
-    _beforeDrawCommand.init(_globalZOrder);
-    _beforeDrawCommand.func = CC_CALLBACK_0(ScrollView::onBeforeDraw, this);
-    Director::getInstance()->getRenderer()->addCommand(&_beforeDrawCommand);
-}
+//     _beforeDrawCommand.init(_globalZOrder);
+//     _beforeDrawCommand.func = CC_CALLBACK_0(ScrollView::onBeforeDraw, this);
+//     Director::getInstance()->getRenderer()->addCommand(&_beforeDrawCommand);
+ }
 
 /**
  * clip this view so that outside of the visible bounds can be hidden.
  */
 void ScrollView::onBeforeDraw()
 {
-    if (_clippingToBounds)
-    {
-		_scissorRestored = false;
-        Rect frame = getViewRect();
-        auto glview = Director::getInstance()->getOpenGLView();
-
-        if (glview->isScissorEnabled()) {
-            _scissorRestored = true;
-            _parentScissorRect = glview->getScissorRect();
-            //set the intersection of _parentScissorRect and frame as the new scissor rect
-            if (frame.intersectsRect(_parentScissorRect)) {
-                float x = MAX(frame.origin.x, _parentScissorRect.origin.x);
-                float y = MAX(frame.origin.y, _parentScissorRect.origin.y);
-                float xx = MIN(frame.origin.x+frame.size.width, _parentScissorRect.origin.x+_parentScissorRect.size.width);
-                float yy = MIN(frame.origin.y+frame.size.height, _parentScissorRect.origin.y+_parentScissorRect.size.height);
-                glview->setScissorInPoints(x, y, xx-x, yy-y);
-            }
-        }
-        else {
-            glEnable(GL_SCISSOR_TEST);
-            glview->setScissorInPoints(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
-        }
-    }
+    //TODO: minggo
+//    if (_clippingToBounds)
+//    {
+//        _scissorRestored = false;
+//        Rect frame = getViewRect();
+//        auto glview = Director::getInstance()->getOpenGLView();
+//
+//        if (glview->getVR() == nullptr) {
+//            if (glview->isScissorEnabled()) {
+//                _scissorRestored = true;
+//                _parentScissorRect = glview->getScissorRect();
+//                //set the intersection of _parentScissorRect and frame as the new scissor rect
+//                if (frame.intersectsRect(_parentScissorRect)) {
+//                    float x = MAX(frame.origin.x, _parentScissorRect.origin.x);
+//                    float y = MAX(frame.origin.y, _parentScissorRect.origin.y);
+//                    float xx = MIN(frame.origin.x + frame.size.width, _parentScissorRect.origin.x + _parentScissorRect.size.width);
+//                    float yy = MIN(frame.origin.y + frame.size.height, _parentScissorRect.origin.y + _parentScissorRect.size.height);
+//                    glview->setScissorInPoints(x, y, xx - x, yy - y);
+//                }
+//            }
+//            else {
+//                glEnable(GL_SCISSOR_TEST);
+//                glview->setScissorInPoints(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+//            }
+//        }
+//    }
 }
 
 void ScrollView::afterDraw()
 {
-    _afterDrawCommand.init(_globalZOrder);
-    _afterDrawCommand.func = CC_CALLBACK_0(ScrollView::onAfterDraw, this);
-    Director::getInstance()->getRenderer()->addCommand(&_afterDrawCommand);
+    //TODO: minggo
+    // _afterDrawCommand.init(_globalZOrder);
+    // _afterDrawCommand.func = CC_CALLBACK_0(ScrollView::onAfterDraw, this);
+    // Director::getInstance()->getRenderer()->addCommand(&_afterDrawCommand);
 }
 
 /**
@@ -594,17 +621,19 @@ void ScrollView::afterDraw()
  */
 void ScrollView::onAfterDraw()
 {
-    if (_clippingToBounds)
-    {
-        if (_scissorRestored) {//restore the parent's scissor rect
-            auto glview = Director::getInstance()->getOpenGLView();
-
-            glview->setScissorInPoints(_parentScissorRect.origin.x, _parentScissorRect.origin.y, _parentScissorRect.size.width, _parentScissorRect.size.height);
-        }
-        else {
-            glDisable(GL_SCISSOR_TEST);
-        }
-    }
+    //TODO:minggo
+//    if (_clippingToBounds)
+//    {
+//        auto glview = Director::getInstance()->getOpenGLView();
+//        if (glview->getVR() == nullptr) {
+//            if (_scissorRestored) {//restore the parent's scissor rect
+//                glview->setScissorInPoints(_parentScissorRect.origin.x, _parentScissorRect.origin.y, _parentScissorRect.size.width, _parentScissorRect.size.height);
+//            }
+//            else {
+//                glDisable(GL_SCISSOR_TEST);
+//            }
+//        }
+//    }
 }
 
 void ScrollView::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
@@ -667,7 +696,7 @@ void ScrollView::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 
-bool ScrollView::onTouchBegan(Touch* touch, Event* event)
+bool ScrollView::onTouchBegan(Touch* touch, Event* /*event*/)
 {
     if (!this->isVisible() || !this->hasVisibleParents())
     {
@@ -710,7 +739,7 @@ bool ScrollView::onTouchBegan(Touch* touch, Event* event)
     return true;
 }
 
-void ScrollView::onTouchMoved(Touch* touch, Event* event)
+void ScrollView::onTouchMoved(Touch* touch, Event* /*event*/)
 {
     if (!this->isVisible())
     {
@@ -806,7 +835,7 @@ void ScrollView::onTouchMoved(Touch* touch, Event* event)
     }
 }
 
-void ScrollView::onTouchEnded(Touch* touch, Event* event)
+void ScrollView::onTouchEnded(Touch* touch, Event* /*event*/)
 {
     if (!this->isVisible())
     {
@@ -831,7 +860,7 @@ void ScrollView::onTouchEnded(Touch* touch, Event* event)
     }
 }
 
-void ScrollView::onTouchCancelled(Touch* touch, Event* event)
+void ScrollView::onTouchCancelled(Touch* touch, Event* /*event*/)
 {
     if (!this->isVisible())
     {
@@ -839,6 +868,10 @@ void ScrollView::onTouchCancelled(Touch* touch, Event* event)
     }
     
     auto touchIter = std::find(_touches.begin(), _touches.end(), touch);
+
+    if ( touchIter == _touches.end() )
+        return;
+    
     _touches.erase(touchIter);
     
     if (_touches.size() == 0)

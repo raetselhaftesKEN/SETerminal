@@ -1,7 +1,8 @@
 /****************************************************************************
 Copyright (C) 2010      Lam Pham
 Copyright (c) 2010-2012 cocos2d-x.org
-CopyRight (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
 http://www.cocos2d-x.org
 
@@ -55,8 +56,8 @@ public:
     //
     // Overrides
     //
-	virtual ProgressTo* clone() const override;
-	virtual ProgressTo* reverse() const override;
+    virtual ProgressTo* clone() const override;
+    virtual ProgressTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     virtual void update(float time) override;
     
@@ -99,8 +100,8 @@ public:
     //
     // Overrides
     //
-	virtual ProgressFromTo* clone() const override;
-	virtual ProgressFromTo* reverse() const override;
+    virtual ProgressFromTo* clone() const override;
+    virtual ProgressFromTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     virtual void update(float time) override;
     

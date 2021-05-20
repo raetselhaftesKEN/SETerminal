@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -36,22 +37,6 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 namespace ui{
-    
-/**
- * ListView click item event type.
- */
-typedef enum
-{
-    LISTVIEW_ONSELECTEDITEM_START,
-    LISTVIEW_ONSELECTEDITEM_END
-}ListViewEventType;
-
-/**
- * A callback which would be called when a ListView item is clicked.
- *@deprecated Use `ccListViewCallback` instead.
- */
-typedef void (Ref::*SEL_ListViewEvent)(Ref*,ListViewEventType);
-#define listvieweventselector(_SELECTOR) (SEL_ListViewEvent)(&_SELECTOR)
 
 /**
  *@brief ListView is a view group that displays a list of scrollable items.
@@ -128,7 +113,7 @@ public:
     static ListView* create();
     
     /**
-     * Set a item model for listview.
+     * Set an item model for listview.
      *
      * When calling `pushBackDefaultItem`, the model will be used as a blueprint and new model copy will be inserted into ListView.
      * @param model  Model in `Widget*`.
@@ -142,13 +127,13 @@ public:
     
     /**
      * Insert a default item(create by cloning model) into listview at a give index.
-     *@param index  A index in ssize_t.
+     *@param index  An index in ssize_t.
      */
     void insertDefaultItem(ssize_t index);
     
     /**
      * Insert a  custom item into the end of ListView.
-     *@param item A item in `Widget*`.
+     *@param item An item in `Widget*`.
      */
     void pushBackCustomItem(Widget* item);
     
@@ -167,7 +152,7 @@ public:
     void removeLastItem();
     
     /**
-     * Remove a item at given index.
+     * Remove an item at given index.
      *
      * @param index A given index in ssize_t.
      */
@@ -181,7 +166,7 @@ public:
     void removeAllItems();
     
     /**
-     * Return a item at a given index.
+     * Return an item at a given index.
      *
      * @param index A given index in ssize_t.
      * @return A widget instance.
@@ -232,7 +217,7 @@ public:
     /**
      * Set the margin between each item in ListView.
      *
-     * @param margin
+     * @param margin A margin in float.
      */
     void setItemsMargin(float margin);
     
@@ -243,6 +228,78 @@ public:
      * @return A margin in float.
      */
     float getItemsMargin()const;
+
+    /**
+     * Change padding with left, top, right, and bottom padding.
+     * @param l Left padding in float.
+     * @param t Top margin in float.
+     * @param r Right margin in float.
+     * @param b Bottom margin in float.
+     */
+    void setPadding(float l, float t, float r, float b);
+
+    /**
+     * Change padding with left padding
+     * @param l Left padding in float.
+     */
+    void setLeftPadding(float l);
+
+    /**
+     * Change padding with top padding
+     * @param t Top padding in float
+     */
+    void setTopPadding(float t);
+
+    /**
+     * Change padding with right padding
+     * @param r Right padding in float
+     */
+    void setRightPadding(float r);
+
+    /**
+     * Change padding with bottom padding
+     * @param b Bottom padding in float
+     */
+    void setBottomPadding(float b);
+
+    /**
+     * Get the left padding in ListView
+     * @return Left padding in float
+     */
+    float getLeftPadding() const;
+
+    /**
+     * Get the top padding in ListView
+     * @return Top padding in float
+     */
+    float getTopPadding() const;
+
+    /**
+     * Get the right padding in ListView
+     * @return Right padding in float
+     */
+    float getRightPadding() const;
+
+    /**
+     * Get the bottom padding in ListView
+     * @return Bottom padding in float
+     */
+    float getBottomPadding() const;
+
+    /**
+     * Set the time in seconds to scroll between items.
+     * Subsequent calls of function 'scrollToItem', will take 'time' seconds for scrolling.
+     * @param time The seconds needed to scroll between two items. 'time' must be >= 0
+     * @see scrollToItem(ssize_t, const Vec2&, const Vec2&)
+     */
+    void  setScrollDuration(float time);
+    
+     /**
+     * Get the time in seconds to scroll between items.
+     * @return The time in seconds to scroll between items
+     * @see setScrollDuration(float)
+     */
+    float getScrollDuration() const;
     
     //override methods
     virtual void doLayout() override;
@@ -253,14 +310,14 @@ public:
     virtual void addChild(Node* child, int zOrder, const std::string &name) override;
     virtual void removeAllChildren() override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
-    virtual void removeChild(Node* child, bool cleaup = true) override;
+    virtual void removeChild(Node* child, bool cleanup = true) override;
 
     /**
      * @brief Query the closest item to a specific position in inner container.
      *
      * @param targetPosition Specifies the target position in inner container's coordinates.
      * @param itemAnchorPoint Specifies an anchor point of each item for position to calculate distance.
-     * @return A item instance if list view is not empty. Otherwise, returns null.
+     * @return An item instance if list view is not empty. Otherwise, returns null.
      */
     Widget* getClosestItemToPosition(const Vec2& targetPosition, const Vec2& itemAnchorPoint) const;
     
@@ -270,37 +327,37 @@ public:
      *
      * @param positionRatioInView Specifies the target position with ratio in list view's content size.
      * @param itemAnchorPoint Specifies an anchor point of each item for position to calculate distance.
-     * @return A item instance if list view is not empty. Otherwise, returns null.
+     * @return An item instance if list view is not empty. Otherwise, returns null.
      */
     Widget* getClosestItemToPositionInCurrentView(const Vec2& positionRatioInView, const Vec2& itemAnchorPoint) const;
     
     /**
      * @brief Query the center item
-     * @return A item instance.
+     * @return An item instance.
      */
     Widget* getCenterItemInCurrentView() const;
     
     /**
      * @brief Query the leftmost item in horizontal list
-     * @return A item instance.
+     * @return An item instance.
      */
     Widget* getLeftmostItemInCurrentView() const;
     
     /**
      * @brief Query the rightmost item in horizontal list
-     * @return A item instance.
+     * @return An item instance.
      */
     Widget* getRightmostItemInCurrentView() const;
     
     /**
      * @brief Query the topmost item in horizontal list
-     * @return A item instance.
+     * @return An item instance.
      */
     Widget* getTopmostItemInCurrentView() const;
     
     /**
      * @brief Query the bottommost item in horizontal list
-     * @return A item instance.
+     * @return An item instance.
      */
     Widget* getBottommostItemInCurrentView() const;
 
@@ -337,23 +394,21 @@ public:
     void scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint, float timeInSec);
     
     /**
-     * @brief Query current selected widget's idnex.
+     * @brief Query current selected widget's index.
      *
      
-     * @return A index of a selected item.
+     * @return An index of a selected item.
      */
     ssize_t getCurSelectedIndex() const;
     
     /**
-     * Add a event click callback to ListView, then one item of Listview is clicked, the callback will be called.
-     *@deprecated Use  `addEventListener` instead.
-     *@param target A pointer of `Ref*` type.
-     *@param selector A member function pointer with type of `SEL_ListViewEvent`.
+     * @brief Set current selected widget's index and call TouchEventType::ENDED event.
+     * @param itemIndex A index of a selected item.
      */
-    CC_DEPRECATED_ATTRIBUTE void addEventListenerListView(Ref* target, SEL_ListViewEvent selector);
-
+     void setCurSelectedIndex(int itemIndex);
+    
     /**
-     * Add a event click callback to ListView, then one item of Listview is clicked, the callback will be called.
+     * Add an event click callback to ListView, then one item of Listview is clicked, the callback will be called.
      *@param callback A callback function with type of `ccListViewCallback`.
      */
     void addEventListener(const ccListViewCallback& callback);
@@ -368,19 +423,6 @@ public:
     virtual void setDirection(Direction dir) override;
     
     virtual std::string getDescription() const override;
-    
-    /**
-     * @brief Refresh view and layout of ListView manually.
-     * This method will mark ListView content as dirty and the content view will be refreshed in the next frame.
-     * @deprecated Use method requestDoLayout() instead
-     */
-    CC_DEPRECATED_ATTRIBUTE void requestRefreshView();
-
-    /**
-     * @brief Refresh content view of ListView.
-     * @deprecated Use method forceDoLayout() instead
-     */
-    CC_DEPRECATED_ATTRIBUTE void refreshView();
 
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
@@ -420,24 +462,17 @@ protected:
     bool _magneticAllowedOutOfBoundary;
     
     float _itemsMargin;
+
+    float _leftPadding;
+    float _topPadding;
+    float _rightPadding;
+    float _bottomPadding;
+
+    float _scrollTime;
     
     ssize_t _curSelectedIndex;
 
     bool _innerContainerDoLayoutDirty;
-    
-    Ref*       _listViewEventListener;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#endif
-    SEL_ListViewEvent    _listViewEventSelector;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
-#endif
     ccListViewCallback _eventCallback;
 };
 

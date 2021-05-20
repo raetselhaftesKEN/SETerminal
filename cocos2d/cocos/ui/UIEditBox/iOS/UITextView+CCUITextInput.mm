@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2015 Mazyad Alabduljaleel
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
  http://www.cocos2d-x.org
  
@@ -22,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "UITextView+CCUITextInput.h"
+#import "ui/UIEditBox/iOS/UITextView+CCUITextInput.h"
 
 
 @implementation UITextView (CCUITextInput)
@@ -72,6 +73,50 @@
 - (void)ccui_setFont:(UIFont *)ccui_font
 {
     self.font = ccui_font;
+}
+
+- (NSTextAlignment)ccui_alignment
+{
+    return self.textAlignment;
+}
+
+- (void)ccui_setTextHorizontalAlignment:(NSTextAlignment)ccui_alignment
+{
+    self.textAlignment = ccui_alignment;
+}
+
+- (UIColor *)ccui_placeholderTextColor
+{
+    SEL selector = NSSelectorFromString(@"placeHolderLabel");
+    if ([self respondsToSelector:selector]) {
+        return ((UILabel *)[self performSelector:selector]).textColor;
+    }
+    return nil;
+}
+
+- (void)ccui_setPlaceholderTextColor:(UIColor *)ccui_placeholderTextColor
+{
+    SEL selector = NSSelectorFromString(@"placeHolderLabel");
+    if ([self respondsToSelector:selector]) {
+        ((UILabel *)[self performSelector:selector]).textColor = ccui_placeholderTextColor;
+    }
+}
+
+- (UIFont *)ccui_placeholderFont
+{
+    SEL selector = NSSelectorFromString(@"placeHolderLabel");
+    if ([self respondsToSelector:selector]) {
+        return ((UILabel *)[self performSelector:selector]).font;
+    }
+    return nil;
+}
+
+- (void)ccui_setPlaceholderFont:(UIFont *)ccui_placeholderFont
+{
+    SEL selector = NSSelectorFromString(@"placeHolderLabel");
+    if ([self respondsToSelector:selector]) {
+        ((UILabel *)[self performSelector:selector]).font = ccui_placeholderFont;
+    }
 }
 
 - (BOOL)ccui_secureTextEntry

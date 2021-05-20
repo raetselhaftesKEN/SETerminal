@@ -2,7 +2,8 @@
 Copyright (c) 2009-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,21 +25,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_FAST_TMX_TILEMAP_H__
-#define __CC_FAST_TMX_TILEMAP_H__
+#pragma once
 
-#include "CCNode.h"
-#include "CCTMXObjectGroup.h"
+#include "2d/CCNode.h"
+#include "2d/CCTMXObjectGroup.h"
 
 NS_CC_BEGIN
 
 class TMXLayerInfo;
 class TMXTilesetInfo;
 class TMXMapInfo;
-
-namespace experimental {
-    
-class TMXLayer;
+class FastTMXLayer;
 /**
  * @addtogroup _2d
  * @{
@@ -96,14 +93,14 @@ class TMXLayer;
  * @since v3.2
  * @js NA
  */
-class CC_DLL TMXTiledMap : public Node
+class CC_DLL FastTMXTiledMap : public Node
 {
 public:
     /** Creates a TMX Tiled Map with a TMX file.
      *
      * @return An autorelease object.
      */
-    static TMXTiledMap* create(const std::string& tmxFile);
+    static FastTMXTiledMap* create(const std::string& tmxFile);
 
     /** Initializes a TMX Tiled Map with a TMX formatted XML string and a path to TMX resources. 
      *
@@ -111,13 +108,13 @@ public:
      * @param resourcePath A path to TMX resources.
      * @return An autorelease object.
      */
-    static TMXTiledMap* createWithXML(const std::string& tmxString, const std::string& resourcePath);
+    static FastTMXTiledMap* createWithXML(const std::string& tmxString, const std::string& resourcePath);
 
     /** Return the FastTMXLayer for the specific layer. 
      * 
      * @return Return the FastTMXLayer for the specific layer.
      */
-    TMXLayer* getLayer(const std::string& layerName) const;
+    FastTMXLayer* getLayer(const std::string& layerName) const;
 
     /** Return the TMXObjectGroup for the specific group. 
      * 
@@ -141,66 +138,66 @@ public:
      *
      * @return The map's size property measured in tiles.
      */
-    inline const Size& getMapSize() const { return _mapSize; };
+    const Size& getMapSize() const { return _mapSize; }
     
     /** Set the map's size property measured in tiles.
      *
      * @param mapSize The map's size property measured in tiles.
      */
-    inline void setMapSize(const Size& mapSize) { _mapSize = mapSize; };
+    void setMapSize(const Size& mapSize) { _mapSize = mapSize; }
 
     /** The tiles's size property measured in pixels.
      *
      * @return The tiles's size property measured in pixels.
      */
-    inline const Size& getTileSize() const { return _tileSize; };
+    const Size& getTileSize() const { return _tileSize; }
     
     /** Set the tiles's size property measured in pixels. 
      *
      * @param tileSize The tiles's size property measured in pixels.
      */
-    inline void setTileSize(const Size& tileSize) { _tileSize = tileSize; };
+    void setTileSize(const Size& tileSize) { _tileSize = tileSize; }
 
     /** Get map orientation. 
      *
      * @return The map orientation.
      */
-    inline int getMapOrientation() const { return _mapOrientation; };
+    int getMapOrientation() const { return _mapOrientation; }
     
     /** Set map orientation. 
      *
      * @param mapOrientation The map orientation.
      */
-    inline void setMapOrientation(int mapOrientation) { _mapOrientation = mapOrientation; };
+    void setMapOrientation(int mapOrientation) { _mapOrientation = mapOrientation; }
 
     /** Get object groups. 
      *
      * @return Object groups.
      */
-    inline const Vector<TMXObjectGroup*>& getObjectGroups() const { return _objectGroups; };
-    inline Vector<TMXObjectGroup*>& getObjectGroups() { return _objectGroups; };
+    const Vector<TMXObjectGroup*>& getObjectGroups() const { return _objectGroups; }
+    Vector<TMXObjectGroup*>& getObjectGroups() { return _objectGroups; }
     
     /** Set object groups. 
      *
      * @param groups An object groups.
      */
-    inline void setObjectGroups(const Vector<TMXObjectGroup*>& groups) {
+    void setObjectGroups(const Vector<TMXObjectGroup*>& groups) {
         _objectGroups = groups;
-    };
+    }
     
     /** Get properties.
      *
      * @return Properties.
      */
-    inline const ValueMap& getProperties() const { return _properties; };
+    const ValueMap& getProperties() const { return _properties; }
     
     /** Set properties. 
      *
      * @param properties An ValueMap Properties.
      */
-    inline void setProperties(const ValueMap& properties) {
+    void setProperties(const ValueMap& properties) {
         _properties = properties;
-    };
+    }
 
     virtual std::string getDescription() const override;
 
@@ -208,12 +205,12 @@ protected:
     /**
      * @js ctor
      */
-    TMXTiledMap();
+    FastTMXTiledMap();
     /**
      * @js NA
      * @lua NA
      */
-    virtual ~TMXTiledMap();
+    virtual ~FastTMXTiledMap();
 
     /** initializes a TMX Tiled Map with a TMX file */
     bool initWithTMXFile(const std::string& tmxFile);
@@ -221,7 +218,7 @@ protected:
     /** initializes a TMX Tiled Map with a TMX formatted XML string and a path to TMX resources */
     bool initWithXML(const std::string& tmxString, const std::string& resourcePath);
     
-    TMXLayer * parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    FastTMXLayer * parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
     TMXTilesetInfo * tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
     void buildWithMapInfo(TMXMapInfo* mapInfo);
 
@@ -240,17 +237,12 @@ protected:
     ValueMapIntKey _tileProperties;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TMXTiledMap);
+    CC_DISALLOW_COPY_AND_ASSIGN(FastTMXTiledMap);
 
 };
 
 // end of tilemap_parallax_nodes group
 /** @} */
     
-} //end of namespace experimental
 
 NS_CC_END
-
-#endif //__CCTMX_TILE_MAP2_H__
-
-

@@ -3,7 +3,8 @@ Copyright (c) 2009-2010 Ricardo Quesada
 Copyright (c) 2009      Matt Oswald
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,16 +26,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
 #include "2d/CCSpriteBatchNode.h"
+#include <stddef.h> // offsetof
+#include "base/ccTypes.h"
 #include "2d/CCSprite.h"
 #include "base/CCDirector.h"
+#include "base/CCProfiling.h"
+#include "base/ccUTF8.h"
 #include "renderer/CCTextureCache.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCQuadCommand.h"
-
-#include "deprecated/CCString.h" // For StringUtils::format
-
+#include "renderer/ccShaders.h"
+#include "renderer/backend/ProgramState.h"
+#include "renderer/backend/Device.h"
 
 NS_CC_BEGIN
 
@@ -45,10 +49,14 @@ NS_CC_BEGIN
 SpriteBatchNode* SpriteBatchNode::createWithTexture(Texture2D* tex, ssize_t capacity/* = DEFAULT_CAPACITY*/)
 {
     SpriteBatchNode *batchNode = new (std::nothrow) SpriteBatchNode();
-    batchNode->initWithTexture(tex, capacity);
-    batchNode->autorelease();
-
-    return batchNode;
+    if(batchNode && batchNode->initWithTexture(tex, capacity))
+    {
+        batchNode->autorelease();
+        return batchNode;
+    }
+    
+    delete batchNode;
+    return nullptr;
 }
 
 /*
@@ -58,10 +66,14 @@ SpriteBatchNode* SpriteBatchNode::createWithTexture(Texture2D* tex, ssize_t capa
 SpriteBatchNode* SpriteBatchNode::create(const std::string& fileImage, ssize_t capacity/* = DEFAULT_CAPACITY*/)
 {
     SpriteBatchNode *batchNode = new (std::nothrow) SpriteBatchNode();
-    batchNode->initWithFile(fileImage, capacity);
-    batchNode->autorelease();
-
-    return batchNode;
+    if(batchNode && batchNode->initWithFile(fileImage, capacity))
+    {
+        batchNode->autorelease();
+        return batchNode;
+    }
+    
+    delete batchNode;
+    return nullptr;
 }
 
 /*
@@ -69,6 +81,11 @@ SpriteBatchNode* SpriteBatchNode::create(const std::string& fileImage, ssize_t c
 */
 bool SpriteBatchNode::initWithTexture(Texture2D *tex, ssize_t capacity/* = DEFAULT_CAPACITY*/)
 {
+    if(tex == nullptr)
+    {
+        return false;
+    }
+    
     CCASSERT(capacity>=0, "Capacity must be >= 0");
     
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
@@ -78,7 +95,7 @@ bool SpriteBatchNode::initWithTexture(Texture2D *tex, ssize_t capacity/* = DEFAU
     }
     _textureAtlas = new (std::nothrow) TextureAtlas();
 
-    if (capacity == 0)
+    if (capacity <= 0)
     {
         capacity = DEFAULT_CAPACITY;
     }
@@ -91,8 +108,73 @@ bool SpriteBatchNode::initWithTexture(Texture2D *tex, ssize_t capacity/* = DEFAU
 
     _descendants.reserve(capacity);
     
-    setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
+    updateShaders(positionTextureColor_vert, positionTextureColor_frag);
+    
     return true;
+}
+
+void SpriteBatchNode::updateShaders(const std::string &vertexShader, const std::string &fragmentShader)
+{
+    auto& pipelineDescriptor = _quadCommand.getPipelineDescriptor();
+    auto* program = backend::Device::getInstance()->newProgram(vertexShader, fragmentShader);
+    CC_SAFE_RELEASE(_programState);
+    _programState = new (std::nothrow) backend::ProgramState(program);
+    pipelineDescriptor.programState = _programState;
+    
+    CC_SAFE_RELEASE(program);
+    
+    setVertexLayout();
+    setUniformLocation();
+}
+
+void SpriteBatchNode::setUniformLocation()
+{
+    CCASSERT(_programState, "programState should not be nullptr");
+    _mvpMatrixLocaiton = _programState->getUniformLocation("u_MVPMatrix");
+    _textureLocation = _programState->getUniformLocation("u_texture");
+}
+
+void SpriteBatchNode::setVertexLayout()
+{
+    CCASSERT(_programState, "programState should not be nullptr");
+    //set vertexLayout according to V3F_C4B_T2F structure
+    auto vertexLayout = _programState->getVertexLayout();
+    ///a_position
+    vertexLayout->setAttribute(backend::ATTRIBUTE_NAME_POSITION,
+                              _programState->getAttributeLocation(backend::Attribute::POSITION),
+                              backend::VertexFormat::FLOAT3,
+                              0,
+                              false);
+    ///a_texCoord
+    vertexLayout->setAttribute(backend::ATTRIBUTE_NAME_TEXCOORD,
+                              _programState->getAttributeLocation(backend::Attribute::TEXCOORD),
+                              backend::VertexFormat::FLOAT2,
+                              offsetof(V3F_C4B_T2F, texCoords),
+                              false);
+    
+    ///a_color
+    vertexLayout->setAttribute(backend::ATTRIBUTE_NAME_COLOR,
+                              _programState->getAttributeLocation(backend::Attribute::COLOR),
+                              backend::VertexFormat::UBYTE4,
+                              offsetof(V3F_C4B_T2F, colors),
+                              true);
+    vertexLayout->setLayout(sizeof(V3F_C4B_T2F));
+}
+
+void SpriteBatchNode::setProgramState(backend::ProgramState *programState)
+{
+    CCASSERT(programState, "programState should not be nullptr");
+    auto& pipelineDescriptor = _quadCommand.getPipelineDescriptor();
+    if (_programState != programState)
+    {
+        CC_SAFE_RELEASE(_programState);
+        _programState = programState;
+        CC_SAFE_RETAIN(programState);
+    }
+    pipelineDescriptor.programState = _programState;
+    
+    setVertexLayout();
+    setUniformLocation();
 }
 
 bool SpriteBatchNode::init()
@@ -112,7 +194,6 @@ bool SpriteBatchNode::initWithFile(const std::string& fileImage, ssize_t capacit
 }
 
 SpriteBatchNode::SpriteBatchNode()
-: _textureAtlas(nullptr)
 {
 }
 
@@ -148,13 +229,12 @@ void SpriteBatchNode::visit(Renderer *renderer, const Mat4 &parentTransform, uin
         // IMPORTANT:
         // To ease the migration to v3.0, we still support the Mat4 stack,
         // but it is deprecated and your code should not rely on it
-        Director* director = Director::getInstance();
-        director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-        director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
+        _director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+        _director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
         
         draw(renderer, _modelViewTransform, flags);
         
-        director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+        _director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
         // FIX ME: Why need to set _orderOfArrival to 0??
         // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
         //    setOrderOfArrival(0);
@@ -169,7 +249,7 @@ void SpriteBatchNode::addChild(Node *child, int zOrder, int tag)
     CCASSERT(dynamic_cast<Sprite*>(child) != nullptr, "CCSpriteBatchNode only supports Sprites as children");
     Sprite *sprite = static_cast<Sprite*>(child);
     // check Sprite is using the same texture id
-    CCASSERT(sprite->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCSprite is not using the same texture id");
+    CCASSERT(sprite->getTexture()->getBackendTexture() == _textureAtlas->getTexture()->getBackendTexture(), "CCSprite is not using the same texture id");
 
     Node::addChild(child, zOrder, tag);
 
@@ -182,7 +262,7 @@ void SpriteBatchNode::addChild(Node * child, int zOrder, const std::string &name
     CCASSERT(dynamic_cast<Sprite*>(child) != nullptr, "CCSpriteBatchNode only supports Sprites as children");
     Sprite *sprite = static_cast<Sprite*>(child);
     // check Sprite is using the same texture id
-    CCASSERT(sprite->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCSprite is not using the same texture id");
+    CCASSERT(sprite->getTexture() == _textureAtlas->getTexture(), "CCSprite is not using the same texture id");
     
     Node::addChild(child, zOrder, name);
     
@@ -240,7 +320,7 @@ void SpriteBatchNode::removeAllChildrenWithCleanup(bool doCleanup)
     Node::removeAllChildrenWithCleanup(doCleanup);
 
     _descendants.clear();
-    _textureAtlas->removeAllQuads();
+    if (_textureAtlas) {_textureAtlas->removeAllQuads();}
 }
 
 //override sortAllChildren
@@ -248,7 +328,7 @@ void SpriteBatchNode::sortAllChildren()
 {
     if (_reorderChildDirty)
     {
-        std::sort(std::begin(_children), std::end(_children), nodeComparisonLess);
+        sortNodes(_children);
 
         //sorted now check all children
         if (!_children.empty())
@@ -369,9 +449,14 @@ void SpriteBatchNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t f
     {
         child->updateTransform();
     }
+    
+    const auto& matrixProjection = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+    auto programState = _quadCommand.getPipelineDescriptor().programState;
+    programState->setUniform(_mvpMatrixLocaiton, matrixProjection.m, sizeof(matrixProjection.m));
+    programState->setTexture(_textureLocation, 0, _textureAtlas->getTexture()->getBackendTexture());
 
-    _batchCommand.init(_globalZOrder, getGLProgram(), _blendFunc, _textureAtlas, transform, flags);
-    renderer->addCommand(&_batchCommand);
+    _quadCommand.init(_globalZOrder, _textureAtlas->getTexture(), _blendFunc, _textureAtlas->getQuads(), _textureAtlas->getTotalQuads(), transform, flags);
+    renderer->addCommand(&_quadCommand);
 }
 
 void SpriteBatchNode::increaseAtlasCapacity()
@@ -386,6 +471,19 @@ void SpriteBatchNode::increaseAtlasCapacity()
         static_cast<int>(quantity));
 
     if (! _textureAtlas->resizeCapacity(quantity))
+    {
+        // serious problems
+        CCLOGWARN("cocos2d: WARNING: Not enough memory to resize the atlas");
+        CCASSERT(false, "Not enough memory to resize the atlas");
+    }
+}
+
+void SpriteBatchNode::reserveCapacity(ssize_t newCapacity)
+{
+    if (newCapacity <= _textureAtlas->getCapacity())
+        return;
+
+    if (! _textureAtlas->resizeCapacity(newCapacity))
     {
         // serious problems
         CCLOGWARN("cocos2d: WARNING: Not enough memory to resize the atlas");
@@ -428,7 +526,7 @@ ssize_t SpriteBatchNode::highestAtlasIndexInChild(Sprite *sprite)
 {
     auto& children = sprite->getChildren();
 
-    if (children.size() == 0)
+    if (children.empty())
     {
         return sprite->getAtlasIndex();
     }
@@ -533,6 +631,18 @@ void SpriteBatchNode::appendChild(Sprite* sprite)
     // add children recursively
     auto& children = sprite->getChildren();
     for(const auto &child: children) {
+#if CC_SPRITE_DEBUG_DRAW
+        // when using CC_SPRITE_DEBUG_DRAW, a DrawNode is appended to sprites. remove it since only Sprites can be used
+        // as children in SpriteBatchNode
+        // Github issue #14730
+        if (dynamic_cast<DrawNode*>(child)) {
+            // to avoid calling Sprite::removeChild()
+            sprite->Node::removeChild(child, true);
+        }
+        else
+#else
+        CCASSERT(dynamic_cast<Sprite*>(child) != nullptr, "You can only add Sprites (or subclass of Sprite) to SpriteBatchNode");
+#endif
         appendChild(static_cast<Sprite*>(child));
     }
 }
@@ -551,7 +661,7 @@ void SpriteBatchNode::removeSpriteFromAtlas(Sprite *sprite)
         auto next = std::next(it);
 
         Sprite *spr = nullptr;
-        for(; next != _descendants.end(); ++next) {
+        for(auto nextEnd = _descendants.end(); next != nextEnd; ++next) {
             spr = *next;
             spr->setAtlasIndex( spr->getAtlasIndex() - 1 );
         }
@@ -668,7 +778,7 @@ SpriteBatchNode * SpriteBatchNode::addSpriteWithoutQuad(Sprite*child, int z, int
 
     // FIXME:: optimize with a binary search
     auto it = _descendants.begin();
-    for (; it != _descendants.end(); ++it)
+    for (auto itEnd = _descendants.end(); it != itEnd; ++it)
     {
         if((*it)->getAtlasIndex() >= z)
             break;

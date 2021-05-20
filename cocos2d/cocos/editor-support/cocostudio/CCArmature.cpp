@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,23 +23,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "cocostudio/CCArmature.h"
-#include "cocostudio/CCArmatureDataManager.h"
-#include "cocostudio/CCArmatureDefine.h"
-#include "cocostudio/CCDataReaderHelper.h"
-#include "cocostudio/CCDatas.h"
-#include "cocostudio/CCSkin.h"
+#include "editor-support/cocostudio/CCArmature.h"
+#include "editor-support/cocostudio/CCArmatureDataManager.h"
+#include "editor-support/cocostudio/CCArmatureDefine.h"
+#include "editor-support/cocostudio/CCDataReaderHelper.h"
+#include "editor-support/cocostudio/CCDatas.h"
+#include "editor-support/cocostudio/CCSkin.h"
 
 #include "renderer/CCRenderer.h"
 #include "renderer/CCGroupCommand.h"
-#include "renderer/CCGLProgramState.h"
-#include "2d/CCDrawingPrimitives.h"
 #include "base/CCDirector.h"
 
 #if ENABLE_PHYSICS_BOX2D_DETECT
 #include "Box2D/Box2D.h"
 #elif ENABLE_PHYSICS_CHIPMUNK_DETECT
-#include "chipmunk.h"
+#include "chipmunk/chipmunk.h"
 #endif
 
 using namespace cocos2d;
@@ -93,7 +92,7 @@ Armature::Armature()
 }
 
 
-Armature::~Armature(void)
+Armature::~Armature()
 {
     _boneDic.clear();
     _topBoneList.clear();
@@ -143,15 +142,15 @@ bool Armature::init(const std::string& name)
 
             for (auto& element : armatureData->boneDataDic)
             {
-                Bone *bone = createBone(element.first.c_str());
+                Bone *bone = createBone(element.first);
 
                 //! init bone's  Tween to 1st movement's 1st frame
                 do
                 {
-                    MovementData *movData = animationData->getMovement(animationData->movementNames.at(0).c_str());
+                    MovementData *movData = animationData->getMovement(animationData->movementNames.at(0));
                     CC_BREAK_IF(!movData);
 
-                    MovementBoneData *movBoneData = movData->getMovementBoneData(bone->getName().c_str());
+                    MovementBoneData *movBoneData = movData->getMovementBoneData(bone->getName());
                     CC_BREAK_IF(!movBoneData || movBoneData->frameList.size() <= 0);
 
                     FrameData *frameData = movBoneData->getFrameData(0);
@@ -175,14 +174,12 @@ bool Armature::init(const std::string& name)
             AnimationData *animationData = AnimationData::create();
             animationData->name = _name;
 
-            armatureDataManager->addArmatureData(_name.c_str(), _armatureData);
-            armatureDataManager->addAnimationData(_name.c_str(), animationData);
+            armatureDataManager->addArmatureData(_name, _armatureData);
+            armatureDataManager->addAnimationData(_name, animationData);
 
             _animation->setAnimationData(animationData);
 
         }
-
-        setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
 
         setCascadeOpacityEnabled(true);
         setCascadeColorEnabled(true);
@@ -214,9 +211,9 @@ Bone *Armature::createBone(const std::string& boneName)
 
     if( !parentName.empty())
     {
-        createBone(parentName.c_str());
+        createBone(parentName);
         bone = Bone::create(boneName);
-        addBone(bone, parentName.c_str());
+        addBone(bone, parentName);
     }
     else
     {
@@ -625,8 +622,7 @@ void Armature::drawContour()
 #pragma warning (push)
 #pragma warning (disable: 4996)
 #endif
-            
-            DrawPrimitives::drawPoly( points, (unsigned int)length, true );
+            cocos2d::log("TODO in %s %s %d", __FILE__, __FUNCTION__, __LINE__);
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #pragma GCC diagnostic warning "-Wdeprecated-declarations"

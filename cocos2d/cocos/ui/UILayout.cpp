@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,19 +26,15 @@ THE SOFTWARE.
 #include "ui/UILayout.h"
 #include "ui/UIHelper.h"
 #include "ui/UIScale9Sprite.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/ccGLStateCache.h"
 #include "renderer/CCRenderState.h"
 #include "base/CCDirector.h"
-#include "2d/CCDrawingPrimitives.h"
 #include "renderer/CCRenderer.h"
 #include "ui/UILayoutManager.h"
 #include "2d/CCDrawNode.h"
 #include "2d/CCLayer.h"
 #include "2d/CCSprite.h"
 #include "base/CCEventFocus.h"
-#include "base/CCStencilStateManager.hpp"
+#include "base/CCStencilStateManager.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
 
 
@@ -74,7 +71,7 @@ _clippingStencil(nullptr),
 _clippingRect(Rect::ZERO),
 _clippingParent(nullptr),
 _clippingRectDirty(true),
-_stencileStateManager(new StencilStateManager()),
+_stencilStateManager(new StencilStateManager()),
 _doLayoutDirty(true),
 _isInterceptTouch(false),
 _loopFocus(false),
@@ -87,7 +84,7 @@ _isFocusPassing(false)
 Layout::~Layout()
 {
     CC_SAFE_RELEASE(_clippingStencil);
-    CC_SAFE_DELETE(_stencileStateManager);
+    CC_SAFE_DELETE(_stencilStateManager);
 }
     
 void Layout::onEnter()
@@ -124,6 +121,18 @@ void Layout::onExit()
     {
         _clippingStencil->onExit();
     }
+}
+    
+void Layout::setGlobalZOrder(float globalZOrder)
+{
+    // _protectedChildren's global z order is set in ProtectedNode::setGlobalZOrder()
+
+    Widget::setGlobalZOrder(globalZOrder);
+    if (_clippingStencil)
+        _clippingStencil->setGlobalZOrder(globalZOrder);
+    
+    for (auto &child : _children)
+        child->setGlobalZOrder(globalZOrder);
 }
 
 Layout* Layout::create()
@@ -166,6 +175,7 @@ void Layout::addChild(Node *child, int zOrder, int tag)
     if (dynamic_cast<Widget*>(child)) {
         supplyTheLayoutParameterLackToChild(static_cast<Widget*>(child));
     }
+    child->setGlobalZOrder(_globalZOrder);
     Widget::addChild(child, zOrder, tag);
     _doLayoutDirty = true;
 }
@@ -175,6 +185,7 @@ void Layout::addChild(Node* child, int zOrder, const std::string &name)
     if (dynamic_cast<Widget*>(child)) {
         supplyTheLayoutParameterLackToChild(static_cast<Widget*>(child));
     }
+    child->setGlobalZOrder(_globalZOrder);
     Widget::addChild(child, zOrder, name);
     _doLayoutDirty = true;
 }
@@ -253,14 +264,15 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     
     renderer->pushGroup(_groupCommand.getRenderQueueID());
     
-    _beforeVisitCmdStencil.init(_globalZOrder);
-    _beforeVisitCmdStencil.func = CC_CALLBACK_0(StencilStateManager::onBeforeVisit, _stencileStateManager);
-    renderer->addCommand(&_beforeVisitCmdStencil);
+//    _beforeVisitCmdStencil.init(_globalZOrder);
+//    _beforeVisitCmdStencil.func = CC_CALLBACK_0(StencilStateManager::onBeforeVisit, _stencilStateManager);
+//    renderer->addCommand(&_beforeVisitCmdStencil);
+    _stencilStateManager->onBeforeVisit(_globalZOrder);
     
     _clippingStencil->visit(renderer, _modelViewTransform, flags);
     
     _afterDrawStencilCmd.init(_globalZOrder);
-    _afterDrawStencilCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterDrawStencil, _stencileStateManager);
+    _afterDrawStencilCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterDrawStencil, _stencilStateManager);
     renderer->addCommand(&_afterDrawStencilCmd);
     
     int i = 0;      // used by _children
@@ -272,21 +284,21 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     //
     // draw children and protectedChildren zOrder < 0
     //
-    for( ; i < _children.size(); i++ )
+    for(auto size = _children.size(); i < size; i++)
     {
         auto node = _children.at(i);
         
-        if ( node && node->getLocalZOrder() < 0 )
+        if (node && node->getLocalZOrder() < 0)
             node->visit(renderer, _modelViewTransform, flags);
         else
             break;
     }
     
-    for( ; j < _protectedChildren.size(); j++ )
+    for(auto size = _protectedChildren.size(); j < size; j++)
     {
         auto node = _protectedChildren.at(j);
         
-        if ( node && node->getLocalZOrder() < 0 )
+        if (node && node->getLocalZOrder() < 0)
             node->visit(renderer, _modelViewTransform, flags);
         else
             break;
@@ -300,15 +312,15 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     //
     // draw children and protectedChildren zOrder >= 0
     //
-    for(auto it=_protectedChildren.cbegin()+j; it != _protectedChildren.cend(); ++it)
+    for(auto it=_protectedChildren.cbegin()+j, itCend = _protectedChildren.cend(); it != itCend; ++it)
         (*it)->visit(renderer, _modelViewTransform, flags);
     
-    for(auto it=_children.cbegin()+i; it != _children.cend(); ++it)
+    for(auto it=_children.cbegin()+i, itCend = _children.cend(); it != itCend; ++it)
         (*it)->visit(renderer, _modelViewTransform, flags);
 
     
     _afterVisitCmdStencil.init(_globalZOrder);
-    _afterVisitCmdStencil.func = CC_CALLBACK_0(StencilStateManager::onAfterVisit, _stencileStateManager);
+    _afterVisitCmdStencil.func = CC_CALLBACK_0(StencilStateManager::onAfterVisit, _stencilStateManager);
     renderer->addCommand(&_afterVisitCmdStencil);
     
     renderer->popGroup();
@@ -323,7 +335,8 @@ void Layout::onBeforeVisitScissor()
     _scissorOldState = glview->isScissorEnabled();
     if (false == _scissorOldState)
     {
-        glEnable(GL_SCISSOR_TEST);
+        auto renderer = Director::getInstance()->getRenderer();
+        renderer->setScissorTest(true);
     }
 
     // apply scissor box
@@ -355,7 +368,8 @@ void Layout::onAfterVisitScissor()
     else
     {
         // revert scissor test
-        glDisable(GL_SCISSOR_TEST);
+        auto renderer = Director::getInstance()->getRenderer();
+        renderer->setScissorTest(false);
     }
 }
     
@@ -365,6 +379,16 @@ void Layout::scissorClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     {
         _clippingRectDirty = true;
     }
+    
+    Director* director = Director::getInstance();
+    CCASSERT(nullptr != director, "Director is null when setting matrix stack");
+    director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+    director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
+    
+    _groupCommand.init(_globalZOrder);
+    renderer->addCommand(&_groupCommand);
+    renderer->pushGroup(_groupCommand.getRenderQueueID());
+
     _beforeVisitCmdScissor.init(_globalZOrder);
     _beforeVisitCmdScissor.func = CC_CALLBACK_0(Layout::onBeforeVisitScissor, this);
     renderer->addCommand(&_beforeVisitCmdScissor);
@@ -374,6 +398,9 @@ void Layout::scissorClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     _afterVisitCmdScissor.init(_globalZOrder);
     _afterVisitCmdScissor.func = CC_CALLBACK_0(Layout::onAfterVisitScissor, this);
     renderer->addCommand(&_afterVisitCmdScissor);
+    
+    renderer->popGroup();
+    director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 
 void Layout::setClippingEnabled(bool able)
@@ -389,6 +416,7 @@ void Layout::setClippingEnabled(bool able)
             if (able)
             {
                 _clippingStencil = DrawNode::create();
+                _clippingStencil->setGlobalZOrder(_globalZOrder);
                 if (_running)
                 {
                     _clippingStencil->onEnter();
@@ -428,7 +456,7 @@ Layout::ClippingType Layout::getClippingType()const
     return _clippingType;
 }
     
-void Layout::setStencilClippingSize(const Size &size)
+void Layout::setStencilClippingSize(const Size& /*size*/)
 {
     if (_clippingEnabled && _clippingType == ClippingType::STENCIL)
     {
@@ -494,7 +522,7 @@ const Rect& Layout::getClippingRect()
             float bottomOffset = worldPos.y - parentClippingRect.origin.y;
             if (bottomOffset < 0.0f)
             {
-                finalY = parentClippingRect.origin.x;
+                finalY = parentClippingRect.origin.y;
                 finalHeight += bottomOffset;
             }
             if (finalWidth < 0.0f)
@@ -793,7 +821,7 @@ const Color3B& Layout::getBackGroundEndColor()const
     return _gEndColor;
 }
 
-void Layout::setBackGroundColorOpacity(GLubyte opacity)
+void Layout::setBackGroundColorOpacity(uint8_t opacity)
 {
     _cOpacity = opacity;
     switch (_colorType)
@@ -811,7 +839,7 @@ void Layout::setBackGroundColorOpacity(GLubyte opacity)
     }
 }
     
-GLubyte Layout::getBackGroundColorOpacity()const
+uint8_t Layout::getBackGroundColorOpacity()const
 {
     return _cOpacity;
 }
@@ -836,7 +864,7 @@ void Layout::setBackGroundImageColor(const Color3B &color)
     updateBackGroundImageColor();
 }
 
-void Layout::setBackGroundImageOpacity(GLubyte opacity)
+void Layout::setBackGroundImageOpacity(uint8_t opacity)
 {
     _backGroundImageOpacity = opacity;
     updateBackGroundImageOpacity();
@@ -847,7 +875,7 @@ const Color3B& Layout::getBackGroundImageColor()const
     return _backGroundImageColor;
 }
 
-GLubyte Layout::getBackGroundImageOpacity()const
+uint8_t Layout::getBackGroundImageOpacity()const
 {
     return _backGroundImageOpacity;
 }
@@ -1048,7 +1076,7 @@ Size Layout::getLayoutAccumulatedSize()const
         }
     }
     
-    //substract extra size
+    //subtract extra size
     Type type = this->getLayoutType();
     if (type == Type::HORIZONTAL)
     {
@@ -1066,7 +1094,7 @@ Vec2 Layout::getWorldCenterPoint(Widget* widget)const
     Layout *layout = dynamic_cast<Layout*>(widget);
     //FIXEDME: we don't need to calculate the content size of layout anymore
     Size widgetSize = layout ? layout->getLayoutAccumulatedSize() :  widget->getContentSize();
-//    CCLOG("contnet size : width = %f, height = %f", widgetSize.width, widgetSize.height);
+//    CCLOG("content size : width = %f, height = %f", widgetSize.width, widgetSize.height);
     return widget->convertToWorldSpace(Vec2(widgetSize.width/2, widgetSize.height/2));
 }
 
@@ -1156,7 +1184,7 @@ int Layout::findFirstFocusEnabledWidgetIndex()
         }
         index++;
     }
-    CCASSERT(0, "invalide operation");
+    CCASSERT(0, "invalid operation");
     return 0;
 }
 
@@ -1470,7 +1498,7 @@ Widget* Layout::getPreviousFocusedWidget(FocusDirection direction, Widget *curre
         }
         else
         {
-            //handling the disabled widget, there is no actual focus lose or get, so we don't need any envet
+            //handling the disabled widget, there is no actual focus lose or get, so we don't need any event
             return this->getPreviousFocusedWidget(direction, nextWidget);
         }
     }
