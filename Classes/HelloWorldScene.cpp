@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,6 +23,9 @@
  ****************************************************************************/
 
 #include "HelloWorldScene.h"
+#include "GameOverScene.h"
+#include "Player.h"
+#include "Bullet.h"
 
 USING_NS_CC;
 
@@ -43,90 +46,152 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Scene::init() )
+    if (!Scene::init())
+    {
+        return false;
+    }
+    if (!Scene::initWithPhysics())
     {
         return false;
     }
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    auto winSize = Director::getInstance()->getVisibleSize();
+    auto origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+    //set background with grey color
+    auto background = DrawNode::create();
+    background->drawSolidRect(origin, winSize, cocos2d::Color4F(0.6, 0.6, 0.6, 1));
+    this->addChild(background);
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    player_ = Player::create("player.png");
+    this->addChild(player_);
 
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-        float y = origin.y + closeItem->getContentSize().height/2;
-        closeItem->setPosition(Vec2(x,y));
-    }
+    srand((unsigned int)time(nullptr));
+    this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::addMonster), 1.5);
 
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
+    auto touchListener = cocos2d::EventListenerTouchOneByOne::create();
+    touchListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, player_);
 
-    // add a label shows "Hello World"
-    // create and initialize a label
+    auto contactListener = cocos2d::EventListenerPhysicsContact::create();
+    contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegan, this);
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
+    auto keyboardListener = cocos2d::EventListenerKeyboard::create();
+    keyboardListener->onKeyPressed = CC_CALLBACK_2(Player::listenToKeyPress, player_);
+    keyboardListener->onKeyReleased = CC_CALLBACK_2(Player::listenToKeyRelease, player_);
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
     return true;
 }
 
-
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void HelloWorld::addMonster(float dt)
 {
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
+    auto monster = Sprite::create("monster.png");
+    if (monster == nullptr)
+    {
+        problemLoading("monster.png");
+    }
+    else {
+        auto minY = monster->getContentSize().height / 2;
+        auto maxY = this->getContentSize().height - minY;
+        auto rangeY = maxY - minY;
+        int randomY = (rand() % static_cast<int>(rangeY)) + minY;
+        int maxX = this->getContentSize().width;
+        int randomX = maxX - (rand() % (int)(maxX / 2));
+        float monsterSpeed = 160;
+        float randomDuration2 = (float)randomX / monsterSpeed;
+        float randomDuration1 = (float)(maxX - randomX) / monsterSpeed;
+        monster->setPosition(this->getContentSize().width + monster->getContentSize().width / 2, randomY);
+        auto move1 = MoveTo::create(randomDuration1, Vec2(randomX, randomY));
+        auto move2 = MoveTo::create(randomDuration2, Vec2(-monster->getContentSize().width / 2, randomY));
 
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
+        auto physicsBody = PhysicsBody::createBox(monster->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+        physicsBody->setDynamic(false);
+        physicsBody->setContactTestBitmask(1);
+        physicsBody->setCategoryBitmask(3);
+        monster->setPhysicsBody(physicsBody);
+        monster->setTag(ENEMY);
+        this->addChild(monster);
 
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
+        int minDuration = 2, maxDuration = 4, rangeDuration = maxDuration - minDuration;
+        int randomDuration = (rand() % rangeDuration) + minDuration;
+        auto actionMove = MoveTo::create(randomDuration, Vec2(-monster->getContentSize().width / 2, randomY));
+        auto actionRemove = RemoveSelf::create();
 
+        auto shootStar = CallFunc::create([=]() {
+            Sprite* eDart = Sprite::create("dart_enemy.png");
+            if (eDart == nullptr)
+            {
+                problemLoading("dart_enemy.png");
+            }
+            else
+            {
+                eDart->setPosition(monster->getPosition());
+                auto physicsBody = PhysicsBody::createBox(eDart->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
+                physicsBody->setDynamic(false);
+                physicsBody->setCategoryBitmask(3);
+                physicsBody->setContactTestBitmask(4);
+                eDart->setPhysicsBody(physicsBody);
+                eDart->setTag(ENEMY_BULLET);
+                this->addChild(eDart);
 
+                float starSpeed = 120;
+                float maxX = this->getContentSize().width;
+                float starDuration = (float)randomX / starSpeed;
+                auto eDartMove = MoveTo::create(starDuration, player_->getPosition());
+                auto eDartRemove = RemoveSelf::create();
+                eDart->runAction(Sequence::create(eDartMove, eDartRemove, nullptr));
+            }
+            });
+
+        auto delay = cocos2d::DelayTime::create(0.05);
+        monster->runAction(Sequence::create(move1, delay, shootStar, move2, actionRemove, nullptr));
+    }
+}
+
+bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
+{
+    auto touchLocation = touch->getLocation();
+    auto offset = touchLocation - player_->getPosition();
+    offset.normalize();
+    auto realDest = offset * 1000 + touchLocation;
+
+    auto bullet = Bullet::create(player_->getBulletName());
+    bullet->setPosition(player_->getPosition());
+    this->addChild(bullet, 1);
+    bullet->shoot(offset);
+
+    return true;
+}
+
+bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
+{
+    auto nodeA = physicsContact.getShapeA()->getBody()->getNode();
+    auto nodeB = physicsContact.getShapeB()->getBody()->getNode();
+
+    if (nodeA && nodeB)
+    {
+        auto tagA = nodeA->getTag();
+        auto tagB = nodeB->getTag();
+
+        //player kills enemy or enemy's bullet
+        if (tagA == ME_BULLET)
+        {
+            nodeB->removeFromParentAndCleanup(true);
+        }
+        else if (tagB == ME_BULLET)
+        {
+            nodeA->removeFromParentAndCleanup(true);
+        }
+
+        //enemy kills player
+        if (tagA == ME || tagB == ME)
+        {
+            Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
+        }
+    }
+
+    return true;
 }
