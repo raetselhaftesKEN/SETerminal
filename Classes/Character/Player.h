@@ -48,15 +48,21 @@ public:
 
 
 	/**
-* @brief 获取角色当前装备的主武器对象
-* @return 指向角色当前装备的主武器对象的指针
+* @brief 切换武器
+*/
+	void switchWeapon();
+
+
+	/**
+* @brief 获取角色当前装备的武器对象
+* @return 指向角色当前装备的武器对象的指针
 */
 	Weapon* getPrimaryWeaponInstance();
 
 
 	/**
-* @brief 获取角色当前装备的副武器对象
-* @return 指向角色当前装备的副武器对象的指针
+* @brief 获取角色当前未装备的副武器对象
+* @return 指向角色当前未装备的副武器对象的指针
 */
 	Weapon* getSecondaryWeaponInstance();
 
@@ -84,7 +90,7 @@ protected:
 
 	bool keyPressed_[4]{};								//方向键状态，true表示按下
 
-	Weapon* primaryWeapon_;					//主武器
+	Weapon* primaryWeapon_;					//使用中的武器
 
 	Weapon* secondaryWeapon_;				//副武器
 

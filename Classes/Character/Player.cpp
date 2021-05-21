@@ -27,7 +27,8 @@ Player* Player::create(const std::string& filename)
 		player->bulletFilename = "dart.png";
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);
-		player->primaryWeapon_->setVisible(false);
+		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
+		player->secondaryWeapon_->setVisible(false);
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
 
@@ -69,7 +70,10 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 	{
 		keyPressed_[D] = true;
 	}
-
+	if (keyCode == K::KEY_Q)
+	{
+		switchWeapon();
+	}
 }
 
 void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* unusedEvent)
@@ -96,6 +100,18 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 
 }
 
+void Player::switchWeapon()
+{
+	if (secondaryWeapon_ != nullptr)
+	{
+		primaryWeapon_->setVisible(false);
+		secondaryWeapon_->setVisible(true);
+		auto t = primaryWeapon_;
+		primaryWeapon_ = secondaryWeapon_;
+		secondaryWeapon_ = t;
+	}
+}
+
 Weapon* Player::getPrimaryWeaponInstance()
 {
 	return primaryWeapon_;
@@ -116,18 +132,23 @@ void Player::update(float dt)
 	x_ = getPosition().x;
 	y_ = getPosition().y;
 
-	if (keyPressed_[W]) {
+	if (keyPressed_[W]) 
+	{
 		y_ += stepLength_;
 	}
-	if (keyPressed_[A]) {
+	if (keyPressed_[A]) 
+	{
 		x_ -= stepLength_;
 	}
-	if (keyPressed_[S]) {
+	if (keyPressed_[S]) 
+	{
 		y_ -= stepLength_;
 	}
-	if (keyPressed_[D]) {
+	if (keyPressed_[D]) 
+	{
 		x_ += stepLength_;
 	}
+
 
 	setPosition(x_, y_);
 }
