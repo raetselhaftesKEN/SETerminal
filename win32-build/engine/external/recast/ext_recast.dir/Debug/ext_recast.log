@@ -1,1 +1,21 @@
-﻿
+﻿  Building Custom Rule D:/cocos/FinalProjectGit/SETerminal/cocos2d/external/recast/CMakeLists.txt
+  DebugDraw.cpp
+  DetourDebugDraw.cpp
+  DetourAlloc.cpp
+  DetourCommon.cpp
+  DetourNavMesh.cpp
+  DetourNavMeshBuilder.cpp
+  DetourNavMeshQuery.cpp
+  DetourNode.cpp
+  DetourCrowd.cpp
+  DetourLocalBoundary.cpp
+  DetourObstacleAvoidance.cpp
+D:\cocos\FinalProjectGit\SETerminal\cocos2d\external\recast\DetourCrowd\DetourObstacleAvoidance.cpp(334,18): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  DetourPathCorridor.cpp
+  DetourPathQueue.cpp
+  DetourProximityGrid.cpp
+  DetourTileCache.cpp
+  DetourTileCacheBuilder.cpp
+  正在生成代码...
+  fastlz.c
+  ext_recast.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\lib\Debug\ext_recast.lib
