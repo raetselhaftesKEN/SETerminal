@@ -801,6 +801,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Classes\Character\Character.h" />
     <ClInclude Include="..\Classes\Character\Player.h" />
     <ClInclude Include="..\Classes\Item\Bullet.h" />
     <ClInclude Include="..\Classes\Item\Weapon.h" />
@@ -809,6 +810,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h" />
+    <ClCompile Include="..\Classes\Character\Character.cpp" />
     <ClCompile Include="..\Classes\Character\Player.cpp" />
     <ClCompile Include="..\Classes\Item\Bullet.cpp" />
     <ClCompile Include="..\Classes\Item\Weapon.cpp" />

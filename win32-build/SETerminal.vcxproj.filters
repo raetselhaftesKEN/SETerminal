@@ -25,6 +25,9 @@
     <ClCompile Include="..\Classes\Scene\HelloWorldScene.cpp">
       <Filter>Source Files\Classes\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Character\Character.cpp">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.h">
@@ -68,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\HelloWorldScene.h">
       <Filter>Source Files\Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Character\Character.h">
+      <Filter>Source Files\Classes\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

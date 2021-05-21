@@ -13,30 +13,39 @@ Player* Player::create(const std::string& filename)
 	{
 		return nullptr;
 	}
-	player->sprite_ = cocos2d::Sprite::create(filename);
+	player->bindPictureSprite(cocos2d::Sprite::create(filename));
 
 	if (player && player->sprite_)
 	{
-		//设置角色贴图
-		player->addChild(player->sprite_);
 		//设置角色初始位置
 		player->setPosition(cocos2d::Vec2(player->x_, player->y_));
 		//标记角色
 		player->setTag(ME);
 		//初始化角色武器和弹药
-		player->weapon_ = Weapon::create("default_weapon.png");
+		player->primaryWeapon_ = Weapon::create("default_weapon.png");
+		player->secondaryWeapon_ = Weapon::create("default_sec_weapon.png");
 		player->bulletFilename = "dart.png";
-		player->addChild(player->weapon_);
+		player->addChild(player->primaryWeapon_);
+		player->addChild(player->secondaryWeapon_);
+		player->primaryWeapon_->setVisible(false);
 		//为角色设置物理躯干
-		auto physicsBody = cocos2d::PhysicsBody::createBox(player->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
-		physicsBody->setDynamic(false);
-		physicsBody->setContactTestBitmask(1);
-		physicsBody->setCategoryBitmask(5);
-		player->setPhysicsBody(physicsBody);
+		player->bindPhysicsBody();
+
 		player->autorelease();
 		return player;
 	}
 	return nullptr;
+}
+
+bool Player::bindPhysicsBody()
+{
+	auto physicsBody = cocos2d::PhysicsBody::createBox(getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+	physicsBody->setDynamic(false);
+	physicsBody->setContactTestBitmask(1);
+	physicsBody->setCategoryBitmask(5);
+	setPhysicsBody(physicsBody);
+
+	return true;
 }
 
 void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* unusedEvent)
@@ -87,12 +96,17 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 
 }
 
-Weapon* Player::getWeaponInstance()
+Weapon* Player::getPrimaryWeaponInstance()
 {
-	return weapon_;
+	return primaryWeapon_;
 }
 
-const std::string Player::getBulletName()
+Weapon* Player::getSecondaryWeaponInstance()
+{
+	return secondaryWeapon_;
+}
+
+const std::string Player::getBulletName() const
 {
 	return bulletFilename;
 }

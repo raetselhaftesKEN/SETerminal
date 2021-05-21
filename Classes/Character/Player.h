@@ -7,13 +7,14 @@
 
 #include "cocos2d.h"
 #include "./Item/Weapon.h"
+#include "Character.h"
 #include <string>
 
 /**
 *@brief 角色类
 */
 
-class Player : public cocos2d::Sprite
+class Player : public Character
 {
 public:
 
@@ -23,6 +24,13 @@ public:
 * @return 指向该Player实例的指针
 */
 	static Player* create(const std::string& filename);
+
+
+	/**
+* @brief 为Player对象绑定物理躯干
+* @return 绑定是否成功
+*/
+	virtual bool bindPhysicsBody();
 
 
 	/**
@@ -40,17 +48,24 @@ public:
 
 
 	/**
-* @brief 获取角色当前装备的武器对象
-* @return 指向角色当前装备的武器对象的指针
+* @brief 获取角色当前装备的主武器对象
+* @return 指向角色当前装备的主武器对象的指针
 */
-	Weapon* getWeaponInstance();
+	Weapon* getPrimaryWeaponInstance();
+
+
+	/**
+* @brief 获取角色当前装备的副武器对象
+* @return 指向角色当前装备的副武器对象的指针
+*/
+	Weapon* getSecondaryWeaponInstance();
 
 
 	/**
 * @brief 获取角色当前装备的子弹种类对应的素材文件名
 * @return 角色当前装备的子弹种类对应的素材文件名的字符串
 */
-	const std::string getBulletName();
+	const std::string getBulletName() const;
 
 
 	/**
@@ -65,13 +80,13 @@ protected:
 
 	static constexpr int stepLength_ = 4;		//角色移动速度
 
-	cocos2d::Sprite* sprite_;
-
 	float x_ = 50.0, y_ = 50.0f;						//初始默认位置
 
 	bool keyPressed_[4]{};								//方向键状态，true表示按下
 
-	Weapon* weapon_;									//当前装备的武器
+	Weapon* primaryWeapon_;					//主武器
+
+	Weapon* secondaryWeapon_;				//副武器
 
 	std::string bulletFilename;						//当前装备的子弹
 
