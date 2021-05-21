@@ -65,6 +65,8 @@ protected:
 
 	static constexpr int stepLength_ = 4;		//角色移动速度
 
+	cocos2d::Sprite* sprite_;
+
 	float x_ = 50.0, y_ = 50.0f;						//初始默认位置
 
 	bool keyPressed_[4]{};								//方向键状态，true表示按下

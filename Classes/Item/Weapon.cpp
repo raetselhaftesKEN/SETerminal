@@ -13,11 +13,11 @@ Weapon* Weapon::create(const std::string& filename)
 	{
 		return nullptr;
 	}
-	auto picture = cocos2d::Sprite::create(filename);
+	weapon->sprite_ = cocos2d::Sprite::create(filename);
 
-	if (weapon && picture)
+	if (weapon && weapon->sprite_)
 	{
-		weapon->addChild(picture);
+		weapon->addChild(weapon->sprite_);
 		weapon->autorelease();
 		return weapon;
 	}

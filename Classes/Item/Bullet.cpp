@@ -13,15 +13,15 @@ Bullet* Bullet::create(const std::string& filename)
     {
         return nullptr;
     }
-    auto picture = cocos2d::Sprite::create(filename);
+    bullet->sprite_ = cocos2d::Sprite::create(filename);
 
-    if (bullet && picture)
+    if (bullet && bullet->sprite_)
     {
         //设置子弹属性
         bullet->bulletSpeed_ = 2.0f;
         bullet->bulletRange_ = 500.0f;
         //设置子弹贴图
-        bullet->addChild(picture);
+        bullet->addChild(bullet->sprite_);
         //设置子弹物理躯干
         auto physicsBody = cocos2d::PhysicsBody::createBox(bullet->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
         physicsBody->setDynamic(false);

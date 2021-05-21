@@ -25,6 +25,8 @@ public:
 	
 protected:
 
+	cocos2d::Sprite* sprite_;
+
 	//待更新射速，攻击方式等
 
 };

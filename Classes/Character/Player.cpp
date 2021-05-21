@@ -13,12 +13,12 @@ Player* Player::create(const std::string& filename)
 	{
 		return nullptr;
 	}
-	auto picture = cocos2d::Sprite::create(filename);
+	player->sprite_ = cocos2d::Sprite::create(filename);
 
-	if (picture &&player)
+	if (player && player->sprite_)
 	{
 		//设置角色贴图
-		player->addChild(picture);
+		player->addChild(player->sprite_);
 		//设置角色初始位置
 		player->setPosition(cocos2d::Vec2(player->x_, player->y_));
 		//标记角色

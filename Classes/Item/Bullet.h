@@ -32,7 +32,10 @@ public:
 
 protected:
 
+	cocos2d::Sprite* sprite_;
+
 	float bulletSpeed_;									//子弹飞行速度
+
 	float bulletRange_;									//子弹最大飞行距离
 
 	//待更新子弹攻击力等
