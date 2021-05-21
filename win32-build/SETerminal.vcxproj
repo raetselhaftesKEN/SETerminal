@@ -115,7 +115,8 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <PostBuildEvent>
-      <Message>												</Message>
+      <Message>
+      </Message>
       <Command>setlocal
 "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different D:/cocos/FinalProjectGit/SETerminal/cocos2d/external/openssl/prebuilt/win32/libssl-1_1.dll D:/cocos/FinalProjectGit/SETerminal/win32-build/bin/SETerminal/Debug/libssl-1_1.dll
 if %errorlevel% neq 0 goto :cmEnd
@@ -279,7 +280,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <PostBuildEvent>
-      <Message>												</Message>
+      <Message>
+      </Message>
       <Command>setlocal
 "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different D:/cocos/FinalProjectGit/SETerminal/cocos2d/external/openssl/prebuilt/win32/libssl-1_1.dll D:/cocos/FinalProjectGit/SETerminal/win32-build/bin/SETerminal/Release/libssl-1_1.dll
 if %errorlevel% neq 0 goto :cmEnd
@@ -443,7 +445,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <PostBuildEvent>
-      <Message>												</Message>
+      <Message>
+      </Message>
       <Command>setlocal
 "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different D:/cocos/FinalProjectGit/SETerminal/cocos2d/external/openssl/prebuilt/win32/libssl-1_1.dll D:/cocos/FinalProjectGit/SETerminal/win32-build/bin/SETerminal/MinSizeRel/libssl-1_1.dll
 if %errorlevel% neq 0 goto :cmEnd
@@ -606,7 +609,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <PostBuildEvent>
-      <Message>												</Message>
+      <Message>
+      </Message>
       <Command>setlocal
 "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different D:/cocos/FinalProjectGit/SETerminal/cocos2d/external/openssl/prebuilt/win32/libssl-1_1.dll D:/cocos/FinalProjectGit/SETerminal/win32-build/bin/SETerminal/RelWithDebInfo/libssl-1_1.dll
 if %errorlevel% neq 0 goto :cmEnd
@@ -797,12 +801,20 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Classes\Character\Player.h" />
+    <ClInclude Include="..\Classes\Item\Bullet.h" />
+    <ClInclude Include="..\Classes\Item\Weapon.h" />
+    <ClInclude Include="..\Classes\Scene\GameOverScene.h" />
+    <ClInclude Include="..\Classes\Scene\HelloWorldScene.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.h" />
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\HelloWorldScene.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h" />
+    <ClCompile Include="..\Classes\Character\Player.cpp" />
+    <ClCompile Include="..\Classes\Item\Bullet.cpp" />
+    <ClCompile Include="..\Classes\Item\Weapon.cpp" />
+    <ClCompile Include="..\Classes\Scene\GameOverScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\HelloWorldScene.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp" />
-    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp" />
     <ResourceCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\game.rc" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseNormal.png" />
