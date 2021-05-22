@@ -1,5 +1,6 @@
 /**
 * @file Player.cpp
+* @author √œ”Ó
 */
 
 #include "Player.h"
@@ -74,6 +75,10 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 	{
 		switchWeapon();
 	}
+	if (keyCode == K::KEY_SPACE)
+	{
+		dodge();
+	}
 }
 
 void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* unusedEvent)
@@ -97,7 +102,27 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 	{
 		keyPressed_[D] = false;
 	}
+}
 
+void Player::dodge()
+{
+	if (keyPressed_[W])
+	{
+		y_ += dodgeLength_;
+	}
+	if (keyPressed_[A])
+	{
+		x_ -= dodgeLength_;
+	}
+	if (keyPressed_[S])
+	{
+		y_ -= dodgeLength_;
+	}
+	if (keyPressed_[D])
+	{
+		x_ += dodgeLength_;
+	}
+	setPosition(x_, y_);
 }
 
 void Player::switchWeapon()

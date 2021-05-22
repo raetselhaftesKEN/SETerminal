@@ -1,5 +1,6 @@
 /**
 * @file Player.h
+* @author 孟宇
 */
 
 #ifndef PLAYER_H
@@ -48,6 +49,12 @@ public:
 
 
 	/**
+* @brief 闪避
+*/
+	void dodge();
+
+
+	/**
 * @brief 切换武器
 */
 	void switchWeapon();
@@ -87,6 +94,8 @@ protected:
 	static constexpr int stepLength_ = 4;		//角色移动速度
 
 	float x_ = 50.0, y_ = 50.0f;						//初始默认位置
+
+	float dodgeLength_ = 40.0f;						//闪避距离
 
 	bool keyPressed_[4]{};								//方向键状态，true表示按下
 
