@@ -1,6 +1,5 @@
 /**
 * @file Character.h
-* @author 孟宇
 */
 
 #ifndef __CHARACTER_H__
@@ -22,12 +21,14 @@ public:
     /**
 *@brief 绑定贴图精灵
 * @param 指向被绑定给角色对象的精灵
+* @author 孟宇
 */
     void bindPictureSprite(cocos2d::Sprite* sprite);
 
 
     /**
 *@brief 绑定物理躯干
+* @author 孟宇
 */
     virtual bool bindPhysicsBody() = 0;
 

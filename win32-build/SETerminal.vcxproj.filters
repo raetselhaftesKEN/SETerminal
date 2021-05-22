@@ -28,6 +28,9 @@
     <ClCompile Include="..\Classes\Character\Character.cpp">
       <Filter>Source Files\Classes\Character</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Item\Item.cpp">
+      <Filter>Source Files\Classes\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.h">
@@ -74,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Character\Character.h">
       <Filter>Source Files\Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Item\Item.h">
+      <Filter>Source Files\Classes\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

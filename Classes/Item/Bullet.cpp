@@ -13,21 +13,15 @@ Bullet* Bullet::create(const std::string& filename)
     {
         return nullptr;
     }
-    bullet->sprite_ = cocos2d::Sprite::create(filename);
+    bullet->bindPictureSprite(cocos2d::Sprite::create(filename));
 
     if (bullet && bullet->sprite_)
     {
         //设置子弹属性
         bullet->bulletSpeed_ = 2.0f;
         bullet->bulletRange_ = 500.0f;
-        //设置子弹贴图
-        bullet->addChild(bullet->sprite_);
         //设置子弹物理躯干
-        auto physicsBody = cocos2d::PhysicsBody::createBox(bullet->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
-        physicsBody->setDynamic(false);
-        physicsBody->setContactTestBitmask(2);
-        physicsBody->setCategoryBitmask(5);
-        bullet->setPhysicsBody(physicsBody);
+        bullet->bindPhysicsBody();
         //使用tag标记我方子弹
         bullet->setTag(ME_BULLET);
 
@@ -35,6 +29,17 @@ Bullet* Bullet::create(const std::string& filename)
     }
 
     return nullptr;
+}
+
+bool Bullet::bindPhysicsBody()
+{
+    auto physicsBody = cocos2d::PhysicsBody::createBox(getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+    physicsBody->setDynamic(false);
+    physicsBody->setContactTestBitmask(2);
+    physicsBody->setCategoryBitmask(5);
+    setPhysicsBody(physicsBody);
+
+    return true;
 }
 
 bool Bullet::shoot(const cocos2d::Vec2 shootDirection)

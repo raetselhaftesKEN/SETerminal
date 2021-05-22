@@ -1,6 +1,5 @@
 /**
 * @file Character.cpp
-* @author √œ”Ó
 */
 
 #include "cocos2d.h"
@@ -9,5 +8,5 @@
 void Character::bindPictureSprite(cocos2d::Sprite* sprite)
 {
 	sprite_ = sprite;
-	addChild(sprite);
+	addChild(sprite_);
 }

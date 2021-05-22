@@ -1,6 +1,5 @@
 /**
 * @file Player.cpp
-* @author цосН
 */
 
 #include "Player.h"

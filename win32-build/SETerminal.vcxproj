@@ -804,6 +804,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\Classes\Character\Character.h" />
     <ClInclude Include="..\Classes\Character\Player.h" />
     <ClInclude Include="..\Classes\Item\Bullet.h" />
+    <ClInclude Include="..\Classes\Item\Item.h" />
     <ClInclude Include="..\Classes\Item\Weapon.h" />
     <ClInclude Include="..\Classes\Scene\GameOverScene.h" />
     <ClInclude Include="..\Classes\Scene\HelloWorldScene.h" />
@@ -813,6 +814,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\Classes\Character\Character.cpp" />
     <ClCompile Include="..\Classes\Character\Player.cpp" />
     <ClCompile Include="..\Classes\Item\Bullet.cpp" />
+    <ClCompile Include="..\Classes\Item\Item.cpp" />
     <ClCompile Include="..\Classes\Item\Weapon.cpp" />
     <ClCompile Include="..\Classes\Scene\GameOverScene.cpp" />
     <ClCompile Include="..\Classes\Scene\HelloWorldScene.cpp" />
