@@ -39,7 +39,13 @@ bool HelloWorld::init()
     //绘制灰色背景
     auto background = DrawNode::create();
     background->drawSolidRect(origin, winSize, cocos2d::Color4F(0.6, 0.6, 0.6, 1));
-    this->addChild(background);
+    //将其改为-2层次，防止盖住下边的tmx地图文件
+    this->addChild(background, -2);
+
+    //get tmx pic from files  从文件中搞到tmx地图文件
+    _tileMap = TMXTiledMap::create("myfirst.tmx");
+    _tileMap->setPosition(Vec2(0, 0));
+    this->addChild(_tileMap, -1);
 
     //生成玩家角色实例
     player_ = Player::create("player.png");
