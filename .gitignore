@@ -1,1 +1,5 @@
 win32-build
+proj.android
+proj.ios_mac
+proj.linux
+cocos2d
