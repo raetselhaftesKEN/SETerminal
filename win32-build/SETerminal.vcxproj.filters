@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
+      <Filter>Source Files\proj.win32</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\cocos2d\cocos\precheader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Character\Player.cpp">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Item\Bullet.cpp">
+      <Filter>Source Files\Classes\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Item\Weapon.cpp">
+      <Filter>Source Files\Classes\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\GameOverScene.cpp">
+      <Filter>Source Files\Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\HelloWorldScene.cpp">
+      <Filter>Source Files\Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Character\Character.cpp">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Item\Item.cpp">
+      <Filter>Source Files\Classes\Item</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.h">
+      <Filter>Source Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
+      <Filter>Source Files\proj.win32</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h">
+      <Filter>Source Files\proj.win32</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseNormal.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseSelected.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\HelloWorld.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\fonts\Marker Felt.ttf">
+      <Filter>Resources\fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\fonts\arial.ttf">
+      <Filter>Resources\fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep">
+      <Filter>Resources\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Character\Player.h">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Item\Bullet.h">
+      <Filter>Source Files\Classes\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Item\Weapon.h">
+      <Filter>Source Files\Classes\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\GameOverScene.h">
+      <Filter>Source Files\Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\HelloWorldScene.h">
+      <Filter>Source Files\Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Character\Character.h">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Item\Item.h">
+      <Filter>Source Files\Classes\Item</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\cocos\FinalProjectGit\SETerminal\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\game.rc">
+      <Filter>Source Files\proj.win32</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{FB07A800-3385-3433-924C-213D644B587F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\fonts">
+      <UniqueIdentifier>{61BF2F31-0B69-3806-B8B1-2CA4E603B4E0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\res">
+      <UniqueIdentifier>{153A4AA6-51EE-3EDC-93FC-AA4E4269061F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{26DD61CF-9592-326B-ADD4-BFDE31D534A1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes">
+      <UniqueIdentifier>{E1C73969-94C4-37CB-9CEB-8D9B8E358788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\proj.win32">
+      <UniqueIdentifier>{1587A5D8-87E1-3FB2-9C4A-2763A805660F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Character">
+      <UniqueIdentifier>{38f56a27-a058-45f5-9259-539331b17622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Item">
+      <UniqueIdentifier>{3bf87939-00c9-4247-b9d5-4709842560e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Scene">
+      <UniqueIdentifier>{0aa3933d-ecc0-4a11-90ae-e3ef1034b499}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
