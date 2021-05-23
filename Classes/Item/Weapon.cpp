@@ -4,7 +4,7 @@
 
 #include "cocos2d.h"
 #include "Weapon.h"
-#include "HelloWorldScene.h"
+#include "./Scene/HelloWorldScene.h"
 
 Weapon* Weapon::create(const std::string& filename)
 {
@@ -13,11 +13,10 @@ Weapon* Weapon::create(const std::string& filename)
 	{
 		return nullptr;
 	}
-	auto picture = cocos2d::Sprite::create(filename);
+	weapon->bindPictureSprite(cocos2d::Sprite::create(filename));
 
-	if (weapon && picture)
+	if (weapon && weapon->sprite_)
 	{
-		weapon->addChild(picture);
 		weapon->autorelease();
 		return weapon;
 	}
