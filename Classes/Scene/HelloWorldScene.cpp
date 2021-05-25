@@ -182,10 +182,25 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
         }
 
         //玩家被击杀
-        if (tagA == ME || tagB == ME)
+        if (tagA == ME)
         {
-            //替换到Gameover场景
-            Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
+            auto tmp = dynamic_cast<Player*>(nodeA);
+            tmp->getInjured(6);
+            if (tmp->isAlive() == false)
+            {
+                //替换到Gameover场景
+                Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
+            }
+        }
+        if (tagB == ME)
+        {
+            auto tmp = dynamic_cast<Player*>(nodeB);
+            tmp->getInjured(6);
+            if (tmp->isAlive() == false)
+            {
+                //替换到Gameover场景
+                Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
+            }
         }
     }
 

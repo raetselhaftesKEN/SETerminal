@@ -103,6 +103,30 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 	}
 }
 
+void Player::getInjured(int damage)
+{
+	int realDamage = static_cast<int>(damage * (1 - shield));
+	if (realDamage >= health_)
+	{
+		die();
+	}
+	else
+	{
+		health_ -= realDamage;
+	}
+}
+
+bool Player::isAlive()
+{
+	return isAlive_;
+}
+
+void Player::die()
+{
+	health_ = 0;
+	isAlive_ = false;
+}
+
 void Player::dodge()
 {
 	auto dodgeDirection = cocos2d::Vec2::ZERO;

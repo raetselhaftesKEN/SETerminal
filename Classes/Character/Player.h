@@ -52,6 +52,28 @@ public:
 
 
 	/**
+* @brief 受伤
+* @author 孟宇
+*/
+	void getInjured(int damage);
+
+
+	/**
+* @brief 获取角色是否生存
+* @return 存活状态
+* @author 孟宇
+*/
+	bool isAlive();
+
+
+	/**
+* @brief 角色死亡
+* @author 孟宇
+*/
+	void die();
+
+
+	/**
 * @brief 闪避
 * @author 孟宇
 */
@@ -100,11 +122,17 @@ protected:
 
 	enum Key{W, A, S, D};
 
-	static constexpr int moveSpeed_ = 400;							//角色移动速度
+	 int moveSpeed_ = 400;													//角色移动速度
 
-	static constexpr float dodgeRate_ = 100.0f;						//闪避倍率
+	float dodgeRate_ = 100.0f;												//闪避倍率
 
 	bool keyPressed_[4]{};														//方向键状态，true表示按下
+
+	int health_ = 3;																//生命值
+
+	bool isAlive_ = true;														//是否存活
+
+	float shield = 0.5f;															//护甲减伤率
 
 	Weapon* primaryWeapon_;											//使用中的武器
 
