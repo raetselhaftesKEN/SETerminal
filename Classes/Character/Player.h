@@ -100,11 +100,9 @@ protected:
 
 	enum Key{W, A, S, D};
 
-	static constexpr int stepLength_ = 4;								//角色移动速度
+	static constexpr int moveSpeed_ = 400;							//角色移动速度
 
-	float x_ = 50.0, y_ = 50.0f;												//初始默认位置
-
-	static constexpr float dodgeLength_ = 40.0f;					//闪避距离
+	static constexpr float dodgeRate_ = 100.0f;						//闪避倍率
 
 	bool keyPressed_[4]{};														//方向键状态，true表示按下
 

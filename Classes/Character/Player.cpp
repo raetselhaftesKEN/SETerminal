@@ -18,7 +18,7 @@ Player* Player::create(const std::string& filename)
 	if (player && player->sprite_)
 	{
 		//设置角色初始位置
-		player->setPosition(cocos2d::Vec2(player->x_, player->y_));
+		player->setPosition(cocos2d::Vec2(50, 50));
 		//标记角色
 		player->setTag(ME);
 		//初始化角色武器和弹药
@@ -105,23 +105,28 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 
 void Player::dodge()
 {
+	auto dodgeDirection = cocos2d::Vec2::ZERO;
 	if (keyPressed_[W])
 	{
-		y_ += dodgeLength_;
+		dodgeDirection.y += 1;
 	}
 	if (keyPressed_[A])
 	{
-		x_ -= dodgeLength_;
+		dodgeDirection.x -= 1;
 	}
 	if (keyPressed_[S])
 	{
-		y_ -= dodgeLength_;
+		dodgeDirection.y -= 1;
 	}
 	if (keyPressed_[D])
 	{
-		x_ += dodgeLength_;
+		dodgeDirection.x += 1;
 	}
-	setPosition(x_, y_);
+
+	dodgeDirection.normalize();
+	dodgeDirection *= 100;
+
+	setPosition(getPosition() + dodgeDirection);
 }
 
 void Player::switchWeapon()
@@ -153,26 +158,28 @@ const std::string Player::getBulletName() const
 
 void Player::update(float dt)
 {
-	x_ = getPosition().x;
-	y_ = getPosition().y;
+	auto velocity = cocos2d::Vec2::ZERO;
 
 	if (keyPressed_[W]) 
 	{
-		y_ += stepLength_;
+		velocity.y += moveSpeed_;
 	}
 	if (keyPressed_[A]) 
 	{
-		x_ -= stepLength_;
+		velocity.x -= moveSpeed_;
 	}
 	if (keyPressed_[S]) 
 	{
-		y_ -= stepLength_;
+		velocity.y -= moveSpeed_;
 	}
 	if (keyPressed_[D]) 
 	{
-		x_ += stepLength_;
+		velocity.x += moveSpeed_;
 	}
 
 
-	setPosition(x_, y_);
+	velocity.normalize();
+	velocity *= moveSpeed_;
+	getPhysicsBody()->setVelocity(velocity);
+
 }
