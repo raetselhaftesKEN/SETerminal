@@ -6,6 +6,7 @@
 #include "GameOverScene.h"
 #include "./Character/Player.h"
 #include "./Item/Bullet.h"
+#include "./Character/Monster.h"
 
 USING_NS_CC;
 
@@ -39,7 +40,13 @@ bool HelloWorld::init()
     //绘制灰色背景
     auto background = DrawNode::create();
     background->drawSolidRect(origin, winSize, cocos2d::Color4F(0.6, 0.6, 0.6, 1));
-    this->addChild(background);
+    //将其改为-2层次，防止盖住下边的tmx地图文件
+    this->addChild(background, -2);
+
+    //get tmx pic from files  从文件中搞到tmx地图文件
+    _tileMap = TMXTiledMap::create("myfirst.tmx");
+    _tileMap->setPosition(Vec2(0, 0));
+    this->addChild(_tileMap, -1);
 
     //生成玩家角色实例
     player_ = Player::create("player.png");
@@ -67,6 +74,23 @@ bool HelloWorld::init()
 
     return true;
 }
+
+//void HelloWorld::addMonster(float dt)
+//{
+//    float sizeX = this->getContentSize().width;
+//    float sizeY = this->getContentSize().height;
+//    //生成怪物实例
+//    auto monster = Monster::create("monster.png", sizeX, sizeY);
+//    
+//    if (monster == nullptr)
+//    {
+//        problemLoading("monster.png");
+//    }
+//    else {
+//        monster->move(sizeX, sizeY, player_->getPosition());
+//    }
+//    this->addChild(monster);
+//}
 
 void HelloWorld::addMonster(float dt)
 {
@@ -124,7 +148,7 @@ void HelloWorld::addMonster(float dt)
                 enemyBullet->setTag(ENEMY_BULLET);
                 this->addChild(enemyBullet);
                 //为敌方子弹绑定发射动画
-                float starSpeed = 120;
+                float starSpeed = 1200;
                 float maxX = this->getContentSize().width;
                 float starDuration = (float)randomX / starSpeed;
                 auto eDartMove = cocos2d::MoveTo::create(starDuration, player_->getPosition());
@@ -176,10 +200,25 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
         }
 
         //玩家被击杀
-        if (tagA == ME || tagB == ME)
+        if (tagA == ME)
         {
-            //替换到Gameover场景
-            Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
+            auto tmp = dynamic_cast<Player*>(nodeA);
+            tmp->getInjured(6);
+            if (tmp->isAlive() == false)
+            {
+                //替换到Gameover场景
+                Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
+            }
+        }
+        if (tagB == ME)
+        {
+            auto tmp = dynamic_cast<Player*>(nodeB);
+            tmp->getInjured(6);
+            if (tmp->isAlive() == false)
+            {
+                //替换到Gameover场景
+                Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
+            }
         }
     }
 

@@ -25,7 +25,7 @@
 
 cmake_minimum_required(VERSION 3.6)
 
-set(APP_NAME SETerminal)
+set(APP_NAME MengYuHelloWorld)
 
 project(${APP_NAME})
 
@@ -35,7 +35,7 @@ if(XCODE)
     endif()
 endif()
 
-if(NOT DEFINED BUILD_ENGINE_DONE) # to test SETerminal into root project
+if(NOT DEFINED BUILD_ENGINE_DONE) # to test MengYuHelloWorld into root project
     set(COCOS2DX_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cocos2d)
     set(CMAKE_MODULE_PATH ${COCOS2DX_ROOT_PATH}/cmake/Modules/)
 
@@ -57,11 +57,25 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/HelloWorldScene.cpp
+     Classes/Scene/HelloWorldScene.cpp
+     Classes/Item/Bullet.cpp
+     Classes/Scene/GameOverScene.cpp
+     Classes/Character/Player.cpp
+     Classes/Character/Character.cpp
+     Classes/Character/Monster.cpp
+     Classes/Item/Weapon.cpp
+     Classes/Item/Item.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
-     Classes/HelloWorldScene.h
+     Classes/Scene/HelloWorldScene.h
+     Classes/Item/Bullet.h
+     Classes/Scene/GameOverScene.h
+     Classes/Character/Player.h
+     Classes/Character/Character.h
+     Classes/Character/Monster.h
+     Classes/Item/Weapon.h
+     Classes/Item/Item.h
      )
 
 if(ANDROID)

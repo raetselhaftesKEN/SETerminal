@@ -18,7 +18,12 @@
 
 class HelloWorld : public cocos2d::Scene
 {
+private:
     Player* player_;
+    //地图类,对应相关的tmx文件
+    cocos2d::TMXTiledMap* _tileMap;
+    //地图中的一个层
+    cocos2d::TMXLayer* _background;
 public:
 
     /**
@@ -48,7 +53,7 @@ public:
 
 
     /**
-* @brief 响应场景内的物理碰撞
+* @brief 响应场景内的物理碰撞，击中敌人后，将敌人删除
 */
     bool onContactBegan(cocos2d::PhysicsContact& physicsContact);
 
