@@ -52,11 +52,37 @@ public:
 
 
 	/**
-* @brief 闪避
+* @brief 受伤
 * @author 孟宇
 */
-	void dodge();
+	void getInjured(int damage);
 
+
+	/**
+* @brief 获取角色是否生存
+* @return 存活状态
+* @author 孟宇
+*/
+	bool isAlive();
+
+
+	/**
+* @brief 角色死亡
+* @author 孟宇
+*/
+	void die();
+
+
+	/**
+* @brief 闪避
+* @author 孟宇
+*/	
+	void dodge();
+	
+	//闪避动画
+	void DodgeAnimeStart();
+	void DodgeAnime(cocos2d::Vec2 dir);
+	void DodgeAnimeEnd();
 
 	/**
 * @brief 切换武器
@@ -100,13 +126,29 @@ protected:
 
 	enum Key{W, A, S, D};
 
-	static constexpr int stepLength_ = 4;								//角色移动速度
+	 int moveSpeed_ = 400;													//角色移动速度
 
-	float x_ = 50.0, y_ = 50.0f;												//初始默认位置
+	 float speedBoostFactor = 1;
 
-	static constexpr float dodgeLength_ = 40.0f;					//闪避距离
+	 bool allowMove = true;
+
+	 bool canDodge = true;
+
+	float dodgeRate_ = 100.0f;												//闪避倍率
+
+	float dodgeSpeedBoost = 3.0f;
+
+	float dodgeTime = 0.1f;
+
+	bool superBody = false;
 
 	bool keyPressed_[4]{};														//方向键状态，true表示按下
+
+	int health_ = 3;																//生命值
+
+	bool isAlive_ = true;														//是否存活
+
+	float shield = 0.5f;															//护甲减伤率
 
 	Weapon* primaryWeapon_;											//使用中的武器
 

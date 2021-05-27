@@ -18,7 +18,7 @@ Player* Player::create(const std::string& filename)
 	if (player && player->sprite_)
 	{
 		//设置角色初始位置
-		player->setPosition(cocos2d::Vec2(player->x_, player->y_));
+		player->setPosition(cocos2d::Vec2(50, 50));
 		//标记角色
 		player->setTag(ME);
 		//初始化角色武器和弹药
@@ -42,7 +42,6 @@ bool Player::bindPhysicsBody()
 {
 	auto physicsBody = cocos2d::PhysicsBody::createBox(getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
 	physicsBody->setDynamic(false);
-	//以下两句搭配，控制是否在碰撞后产生消息
 	physicsBody->setContactTestBitmask(1);
 	physicsBody->setCategoryBitmask(5);
 	setPhysicsBody(physicsBody);
@@ -104,25 +103,92 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 	}
 }
 
-void Player::dodge()
+void Player::getInjured(int damage)
 {
+	if (!superBody)
+	{
+		int realDamage = static_cast<int>(damage * (1 - shield));
+		if (realDamage >= health_)
+		{
+			die();
+		}
+		else
+		{
+			health_ -= realDamage;
+		}
+	}	
+}
+
+bool Player::isAlive()
+{
+	return isAlive_;
+}
+
+void Player::die()
+{
+	health_ = 0;
+	isAlive_ = false;
+}
+
+void Player::dodge()
+{	
+	auto dodgeDirection = cocos2d::Vec2::ZERO;
 	if (keyPressed_[W])
 	{
-		y_ += dodgeLength_;
+		dodgeDirection.y += 1;
 	}
 	if (keyPressed_[A])
 	{
-		x_ -= dodgeLength_;
+		dodgeDirection.x -= 1;
 	}
 	if (keyPressed_[S])
 	{
-		y_ -= dodgeLength_;
+		dodgeDirection.y -= 1;
 	}
 	if (keyPressed_[D])
 	{
-		x_ += dodgeLength_;
+		dodgeDirection.x += 1;
 	}
-	setPosition(x_, y_);
+	if (dodgeDirection.x == 0 && dodgeDirection.y == 0)
+	{
+		dodgeDirection.y += 1;
+	}
+	
+
+	dodgeDirection.normalize();
+	auto delay = cocos2d::DelayTime::create(dodgeTime);
+	auto start = cocos2d::CallFunc::create([=]() {
+		DodgeAnimeStart();
+		});
+	auto act = cocos2d::CallFunc::create([=]() {
+		DodgeAnime(dodgeDirection);
+		});
+	auto end = cocos2d::CallFunc::create([=]() {
+		DodgeAnimeEnd();
+		});
+	this->runAction(cocos2d::Sequence::create(start, act, delay, end, nullptr));
+	
+	
+	
+}
+
+void Player::DodgeAnimeStart()
+{
+	canDodge = false;
+	superBody = true;
+	allowMove = false;
+}
+
+void Player::DodgeAnime(cocos2d::Vec2 dir)
+{
+	getPhysicsBody()->setVelocity(moveSpeed_ * dodgeSpeedBoost * dir);	
+}
+
+void Player::DodgeAnimeEnd()
+{
+	canDodge = true;
+	superBody = false;
+	allowMove = true;
 }
 
 void Player::switchWeapon()
@@ -154,26 +220,29 @@ const std::string Player::getBulletName() const
 
 void Player::update(float dt)
 {
-	x_ = getPosition().x;
-	y_ = getPosition().y;
+	auto velocity = cocos2d::Vec2::ZERO;
+	if (allowMove)
+	{
+		if (keyPressed_[W])
+		{
+			velocity.y += moveSpeed_ * speedBoostFactor;
+		}
+		if (keyPressed_[A])
+		{
+			velocity.x -= moveSpeed_ * speedBoostFactor;
+		}
+		if (keyPressed_[S])
+		{
+			velocity.y -= moveSpeed_ * speedBoostFactor;
+		}
+		if (keyPressed_[D])
+		{
+			velocity.x += moveSpeed_ * speedBoostFactor;
+		}
 
-	if (keyPressed_[W]) 
-	{
-		y_ += stepLength_;
-	}
-	if (keyPressed_[A]) 
-	{
-		x_ -= stepLength_;
-	}
-	if (keyPressed_[S]) 
-	{
-		y_ -= stepLength_;
-	}
-	if (keyPressed_[D]) 
-	{
-		x_ += stepLength_;
-	}
-
-
-	setPosition(x_, y_);
+		//先进行标准化，在乘以模长
+		velocity.normalize();
+		velocity *= moveSpeed_;
+		getPhysicsBody()->setVelocity(velocity);
+	}	
 }

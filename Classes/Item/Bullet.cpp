@@ -18,7 +18,7 @@ Bullet* Bullet::create(const std::string& filename)
     if (bullet && bullet->sprite_)
     {
         //设置子弹属性
-        bullet->bulletSpeed_ = 2.0f;
+        bullet->bulletSpeed_ = 0.5f;
         bullet->bulletRange_ = 500.0f;
         //设置子弹物理躯干
         bullet->bindPhysicsBody();
