@@ -3,7 +3,7 @@
 */
 
 #include "Player.h"
-#include "./Item/Weapon.h"
+#include "./Item/PlayerWeapon/Weapon.h"
 #include "./Scene/HelloWorldScene.h"
 
 Player* Player::create(const std::string& filename)
@@ -105,15 +105,18 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 
 void Player::getInjured(int damage)
 {
-	int realDamage = static_cast<int>(damage * (1 - shield));
-	if (realDamage >= health_)
+	if (!superBody)
 	{
-		die();
-	}
-	else
-	{
-		health_ -= realDamage;
-	}
+		int realDamage = static_cast<int>(damage * (1 - shield));
+		if (realDamage >= health_)
+		{
+			die();
+		}
+		else
+		{
+			health_ -= realDamage;
+		}
+	}	
 }
 
 bool Player::isAlive()
@@ -128,7 +131,7 @@ void Player::die()
 }
 
 void Player::dodge()
-{
+{	
 	auto dodgeDirection = cocos2d::Vec2::ZERO;
 	if (keyPressed_[W])
 	{
@@ -146,11 +149,46 @@ void Player::dodge()
 	{
 		dodgeDirection.x += 1;
 	}
+	if (dodgeDirection.x == 0 && dodgeDirection.y == 0)
+	{
+		dodgeDirection.y += 1;
+	}
+	
 
 	dodgeDirection.normalize();
-	dodgeDirection *= 100;
+	auto delay = cocos2d::DelayTime::create(dodgeTime);
+	auto start = cocos2d::CallFunc::create([=]() {
+		DodgeAnimeStart();
+		});
+	auto act = cocos2d::CallFunc::create([=]() {
+		DodgeAnime(dodgeDirection);
+		});
+	auto end = cocos2d::CallFunc::create([=]() {
+		DodgeAnimeEnd();
+		});
+	this->runAction(cocos2d::Sequence::create(start, act, delay, end, nullptr));
+	
+	
+	
+}
 
-	setPosition(getPosition() + dodgeDirection);
+void Player::DodgeAnimeStart()
+{
+	canDodge = false;
+	superBody = true;
+	allowMove = false;
+}
+
+void Player::DodgeAnime(cocos2d::Vec2 dir)
+{
+	getPhysicsBody()->setVelocity(moveSpeed_ * dodgeSpeedBoost * dir);	
+}
+
+void Player::DodgeAnimeEnd()
+{
+	canDodge = true;
+	superBody = false;
+	allowMove = true;
 }
 
 void Player::switchWeapon()
@@ -183,27 +221,28 @@ const std::string Player::getBulletName() const
 void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
-
-	if (keyPressed_[W]) 
+	if (allowMove)
 	{
-		velocity.y += moveSpeed_;
-	}
-	if (keyPressed_[A]) 
-	{
-		velocity.x -= moveSpeed_;
-	}
-	if (keyPressed_[S]) 
-	{
-		velocity.y -= moveSpeed_;
-	}
-	if (keyPressed_[D]) 
-	{
-		velocity.x += moveSpeed_;
-	}
+		if (keyPressed_[W])
+		{
+			velocity.y += moveSpeed_ * speedBoostFactor;
+		}
+		if (keyPressed_[A])
+		{
+			velocity.x -= moveSpeed_ * speedBoostFactor;
+		}
+		if (keyPressed_[S])
+		{
+			velocity.y -= moveSpeed_ * speedBoostFactor;
+		}
+		if (keyPressed_[D])
+		{
+			velocity.x += moveSpeed_ * speedBoostFactor;
+		}
 
-
-	velocity.normalize();
-	velocity *= moveSpeed_;
-	getPhysicsBody()->setVelocity(velocity);
-
+		//先进行标准化，再乘以模长
+		velocity.normalize();
+		velocity *= moveSpeed_;
+		getPhysicsBody()->setVelocity(velocity);
+	}	
 }

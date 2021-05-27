@@ -53,7 +53,7 @@ public:
 
 
     /**
-* @brief 响应场景内的物理碰撞
+* @brief 响应场景内的物理碰撞，击中敌人后，将敌人删除
 */
     bool onContactBegan(cocos2d::PhysicsContact& physicsContact);
 

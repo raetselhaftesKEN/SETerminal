@@ -5,7 +5,8 @@
 #include "HelloWorldScene.h"
 #include "GameOverScene.h"
 #include "./Character/Player.h"
-#include "./Item/Bullet.h"
+#include "./Item/Bullet/Bullet.h"
+#include "./Character/Monster.h"
 
 USING_NS_CC;
 
@@ -74,6 +75,7 @@ bool HelloWorld::init()
     return true;
 }
 
+
 void HelloWorld::addMonster(float dt)
 {
     //生成怪物实例
@@ -130,7 +132,7 @@ void HelloWorld::addMonster(float dt)
                 enemyBullet->setTag(ENEMY_BULLET);
                 this->addChild(enemyBullet);
                 //为敌方子弹绑定发射动画
-                float starSpeed = 120;
+                float starSpeed = 600;
                 float maxX = this->getContentSize().width;
                 float starDuration = (float)randomX / starSpeed;
                 auto eDartMove = cocos2d::MoveTo::create(starDuration, player_->getPosition());

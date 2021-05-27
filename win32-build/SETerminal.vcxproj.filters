@@ -4,37 +4,64 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.cpp">
+      <Filter>Source Files\Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.cpp">
+      <Filter>Source Files\Classes\Item\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\GameOverScene.cpp">
+      <Filter>Source Files\Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Player.cpp">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Character.cpp">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.cpp">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\Weapon.cpp">
+      <Filter>Source Files\Classes\Item\PlayerWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Item.cpp">
+      <Filter>Source Files\Classes\Item</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\cocos2d\cocos\precheader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Character\Player.cpp">
-      <Filter>Source Files\Classes\Character</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Item\Bullet.cpp">
-      <Filter>Source Files\Classes\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Item\Weapon.cpp">
-      <Filter>Source Files\Classes\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Scene\GameOverScene.cpp">
-      <Filter>Source Files\Classes\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Scene\HelloWorldScene.cpp">
-      <Filter>Source Files\Classes\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Character\Character.cpp">
-      <Filter>Source Files\Classes\Character</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Item\Item.cpp">
-      <Filter>Source Files\Classes\Item</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.h">
       <Filter>Source Files\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.h">
+      <Filter>Source Files\Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.h">
+      <Filter>Source Files\Classes\Item\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\GameOverScene.h">
+      <Filter>Source Files\Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Player.h">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Character.h">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.h">
+      <Filter>Source Files\Classes\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\Weapon.h">
+      <Filter>Source Files\Classes\Item\PlayerWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Item.h">
+      <Filter>Source Files\Classes\Item</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
@@ -51,35 +78,44 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\HelloWorld.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\dart.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\dart_enemy.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\default_sec_weapon.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\default_weapon.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\fonts\Marker Felt.ttf">
       <Filter>Resources\fonts</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\fonts\arial.ttf">
       <Filter>Resources\fonts</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\gameover.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\monster.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\myfirst.tmx">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\player.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep">
       <Filter>Resources\res</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Character\Player.h">
-      <Filter>Source Files\Classes\Character</Filter>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\tmw_desert_spacing.png">
+      <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Item\Bullet.h">
-      <Filter>Source Files\Classes\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Item\Weapon.h">
-      <Filter>Source Files\Classes\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scene\GameOverScene.h">
-      <Filter>Source Files\Classes\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scene\HelloWorldScene.h">
-      <Filter>Source Files\Classes\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Character\Character.h">
-      <Filter>Source Files\Classes\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Item\Item.h">
-      <Filter>Source Files\Classes\Item</Filter>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\tmw_desert_spacing.tsx">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -106,17 +142,23 @@
     <Filter Include="Source Files\Classes">
       <UniqueIdentifier>{E1C73969-94C4-37CB-9CEB-8D9B8E358788}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\proj.win32">
-      <UniqueIdentifier>{1587A5D8-87E1-3FB2-9C4A-2763A805660F}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Classes\Character">
-      <UniqueIdentifier>{38f56a27-a058-45f5-9259-539331b17622}</UniqueIdentifier>
+      <UniqueIdentifier>{115E1831-493C-32CD-88DC-46AE19DC1CE8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Item">
-      <UniqueIdentifier>{3bf87939-00c9-4247-b9d5-4709842560e2}</UniqueIdentifier>
+      <UniqueIdentifier>{A50EFEC4-2926-372A-A79C-13FAF6785F09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Item\Bullet">
+      <UniqueIdentifier>{9CCFDC9E-7B05-3307-81C6-C8796D4E9769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Item\PlayerWeapon">
+      <UniqueIdentifier>{DDFAE087-D3A5-3F7A-922C-0B950936474B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Scene">
-      <UniqueIdentifier>{0aa3933d-ecc0-4a11-90ae-e3ef1034b499}</UniqueIdentifier>
+      <UniqueIdentifier>{6D16BEF7-7EA4-3B86-8388-C3879B1B06DE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\proj.win32">
+      <UniqueIdentifier>{1587A5D8-87E1-3FB2-9C4A-2763A805660F}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
