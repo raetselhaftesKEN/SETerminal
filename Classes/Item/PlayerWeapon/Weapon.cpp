@@ -4,7 +4,7 @@
 
 #include "cocos2d.h"
 #include "Weapon.h"
-#include "./Scene/HelloWorldScene.h"
+#include "././Scene/HelloWorldScene.h"
 
 Weapon* Weapon::create(const std::string& filename)
 {

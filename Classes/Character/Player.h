@@ -6,7 +6,7 @@
 #define PLAYER_H
 
 #include "cocos2d.h"
-#include "./Item/Weapon.h"
+#include "./Item/PlayerWeapon/Weapon.h"
 #include "Character.h"
 #include <string>
 

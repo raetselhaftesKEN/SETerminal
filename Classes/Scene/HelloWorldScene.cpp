@@ -5,7 +5,7 @@
 #include "HelloWorldScene.h"
 #include "GameOverScene.h"
 #include "./Character/Player.h"
-#include "./Item/Bullet.h"
+#include "./Item/Bullet/Bullet.h"
 #include "./Character/Monster.h"
 
 USING_NS_CC;

@@ -3,7 +3,7 @@
 */
 
 #include "Player.h"
-#include "./Item/Weapon.h"
+#include "./Item/PlayerWeapon/Weapon.h"
 #include "./Scene/HelloWorldScene.h"
 
 Player* Player::create(const std::string& filename)

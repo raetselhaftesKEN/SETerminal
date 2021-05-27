@@ -10,7 +10,7 @@
 */
 #define ME 100
 #define ENEMY 200
-#define ME_BULLET 10
+#define ME_BULLET 11
 #define ENEMY_BULLET 20
 
 #include "cocos2d.h"

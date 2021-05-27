@@ -58,23 +58,23 @@ endif()
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/Scene/HelloWorldScene.cpp
-     Classes/Item/Bullet.cpp
+     Classes/Item/Bullet/Bullet.cpp
      Classes/Scene/GameOverScene.cpp
      Classes/Character/Player.cpp
      Classes/Character/Character.cpp
      Classes/Character/Monster.cpp
-     Classes/Item/Weapon.cpp
+     Classes/Item/PlayerWeapon/Weapon.cpp
      Classes/Item/Item.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/Scene/HelloWorldScene.h
-     Classes/Item/Bullet.h
+     Classes/Item/Bullet/Bullet.h
      Classes/Scene/GameOverScene.h
      Classes/Character/Player.h
      Classes/Character/Character.h
      Classes/Character/Monster.h
-     Classes/Item/Weapon.h
+     Classes/Item/PlayerWeapon/Weapon.h
      Classes/Item/Item.h
      )
 

@@ -120,3 +120,34 @@ bool Monster::bindPhysicsBody()
 }
 
 
+void Monster::receiveDamage(int damage)
+{
+	if (!superBody)
+	{
+		int realDamage = static_cast<int>(damage * (1 - shield));
+		if (realDamage >= health_)
+		{
+			die();
+		}
+		else
+		{
+			health_ -= realDamage;
+		}
+	}
+
+}
+
+
+bool Monster::isAlive()
+{
+	return isAlive_;
+
+}
+
+void Monster::die()
+{
+	health_ = 0;
+	isAlive_ = false;
+}
+
+

@@ -6,7 +6,7 @@
 #define __BULLET_H__
 
 #include "cocos2d.h"
-#include "Item.h"
+#include "../Item.h"
 
 /**
 *@brief ×Óµ¯Àà
