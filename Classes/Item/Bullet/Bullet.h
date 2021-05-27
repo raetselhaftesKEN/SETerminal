@@ -6,7 +6,7 @@
 #define __BULLET_H__
 
 #include "cocos2d.h"
-#include "Item.h"
+#include "../Item.h"
 
 /**
 *@brief 子弹类
@@ -19,28 +19,17 @@ public:
 	virtual ~Bullet() = default;
 
 
-	/**
-* @brief 生成一个Bullet实例
-* @param Bullet实例对应的素材文件名
-* @return 指向该Bullet实例的指针
-* @author 孟宇
-*/
+	//生成一个Bullet实例
 	static Bullet* create(const std::string& filename);
 
 
-	/**
-* @brief 为Bullet对象绑定物理躯干
-* @return 绑定是否成功
-* @author 孟宇
-*/
+	//为Bullet对象绑定物理躯干
 	virtual bool bindPhysicsBody();
-
-	/**
-* @brief 为Bullet实例绑定发射动画
-* @param 指向发射方向的单位向量
-* @return 发射是否成功
-* @author 孟宇
-*/
+	
+	//子弹死亡特效，比如粒子效果，爆炸
+	void dieEffect();
+	
+	//为Bullet实例绑定发射动画
 	bool shoot(const cocos2d::Vec2 shootDirection);
 
 protected:

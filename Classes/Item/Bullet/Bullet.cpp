@@ -4,7 +4,7 @@
 
 #include "cocos2d.h"
 #include "Bullet.h"
-#include "./Scene/HelloWorldScene.h"
+#include "././Scene/HelloWorldScene.h"
 
 Bullet* Bullet::create(const std::string& filename)
 {
@@ -18,8 +18,8 @@ Bullet* Bullet::create(const std::string& filename)
     if (bullet && bullet->sprite_)
     {
         //设置子弹属性
-        bullet->bulletSpeed_ = 0.5f;
-        bullet->bulletRange_ = 500.0f;
+        bullet->bulletSpeed_ = 600.0f;
+        bullet->bulletRange_ = 1500.0f;
         //设置子弹物理躯干
         bullet->bindPhysicsBody();
         //使用tag标记我方子弹
@@ -42,14 +42,20 @@ bool Bullet::bindPhysicsBody()
     return true;
 }
 
+void Bullet::dieEffect()
+{
+
+}
+
 bool Bullet::shoot(const cocos2d::Vec2 shootDirection)
 {
     //生成子弹飞行运动动画
-    auto actionMove = cocos2d::MoveTo::create(bulletSpeed_, getPosition() + shootDirection * bulletRange_);
+    auto actionMove = cocos2d::MoveTo::create(bulletRange_ / bulletSpeed_, getPosition() + shootDirection * bulletRange_);
     //释放子弹
     auto actionRemove = cocos2d::RemoveSelf::create();
     //为子弹实例绑定飞行-释放的动画
-    runAction(cocos2d::Sequence::create(actionMove, actionRemove, nullptr));
+    auto end = cocos2d::CallFunc::create([=]() {dieEffect(); });
+    runAction(cocos2d::Sequence::create(actionMove, dieEffect, actionRemove, nullptr));
 
     return true;
 }

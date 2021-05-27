@@ -3,7 +3,7 @@
 */
 
 #include "Player.h"
-#include "./Item/Weapon.h"
+#include "./Item/PlayerWeapon/Weapon.h"
 #include "./Scene/HelloWorldScene.h"
 
 Player* Player::create(const std::string& filename)
@@ -240,7 +240,7 @@ void Player::update(float dt)
 			velocity.x += moveSpeed_ * speedBoostFactor;
 		}
 
-		//先进行标准化，在乘以模长
+		//先进行标准化，再乘以模长
 		velocity.normalize();
 		velocity *= moveSpeed_;
 		getPhysicsBody()->setVelocity(velocity);
