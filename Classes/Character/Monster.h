@@ -7,9 +7,9 @@
 #define MONSTER_H
 
 #include "cocos2d.h"
-#include "./Item/Weapon.h"
 #include "Character.h"
 #include <string>
+#include "./Scene/HelloWorldScene.h"
 
 /**
 *@brief 怪物类
@@ -25,15 +25,15 @@ public:
 * @return 指向该Monster实例的指针
 * @author 戴仁杰
 */
-	static Monster* create(const std::string& filename, float sizeX, float sizeY);
+	static Monster* create(const std::string& filename);
 
 
 	/**
-* @brief 为Monster对象绑定物理躯干
-* @return 绑定是否成功
+* @brief Monster的移动以及发射子弹函数，未来可以将怪物发射子弹单独独立
+* @return 无
 * @author 戴仁杰
 */
-	void Monster::move(float sizeX, float sizeY, cocos2d::Vec2 playerPostionInScene);
+	void Monster::move();
 
 
 	/**
@@ -54,7 +54,6 @@ protected:
 	//怪物移动速度
 	float monsterSpeed = 160.0f;
 
-	//待更新属性、血量、buff等
 
 };
 

@@ -10,6 +10,8 @@
 
 USING_NS_CC;
 
+
+
 Scene* HelloWorld::createScene()
 {
     return HelloWorld::create();
@@ -80,7 +82,7 @@ void HelloWorld::addMonster(float dt)
     float sizeX = this->getContentSize().width;
     float sizeY = this->getContentSize().height;
     //生成怪物实例
-    auto monster = Monster::create("monster.png", sizeX, sizeY);
+    auto monster = Monster::create("monster.png");
     
     
     this->addChild(monster);
@@ -89,7 +91,7 @@ void HelloWorld::addMonster(float dt)
         problemLoading("monster.png");
     }
     else {
-        monster->move(sizeX, sizeY, player_->getPosition());
+        monster->move();
     }
     
 }

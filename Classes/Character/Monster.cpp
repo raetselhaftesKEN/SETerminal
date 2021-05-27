@@ -3,7 +3,6 @@
 */
 
 #include "Monster.h"
-#include "./Scene/HelloWorldScene.h"
 
 static void problemLoading(const char* filename)
 {
@@ -11,7 +10,7 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-Monster* Monster::create(const std::string& filename, float sizeX, float sizeY)
+Monster* Monster::create(const std::string& filename)
 {
 	auto monster = new(std::nothrow) Monster();
 	if (!monster)
@@ -20,15 +19,19 @@ Monster* Monster::create(const std::string& filename, float sizeX, float sizeY)
 	}
 	monster->bindPictureMonster(cocos2d::Sprite::create(filename));
 
+	//为了在Monster类内使用外部的东西，使用以下语句获得当前进行的场景
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
+	auto runningSceneSize = runningScene->getContentSize();
+
 	if (monster && monster->monster_)
 	{
 		//怪物在右侧随机位置出现，计算怪物生成和发射子弹的合法坐标范围
 		auto minY = monster->getContentSize().height / 2;
-		auto maxY = sizeY - minY;
+		auto maxY = runningSceneSize.height - minY;
 		auto rangeY = maxY - minY;
 		int randomY = (rand() % static_cast<int>(rangeY)) + minY;
 		//设置怪物生成坐标
-		monster->setPosition(sizeX + monster->getContentSize().width / 2, randomY);
+		monster->setPosition(runningSceneSize.width + monster->getContentSize().width / 2, randomY);
 
 		//为角色设置物理躯干
 		monster->bindPhysicsBody();
@@ -42,18 +45,18 @@ Monster* Monster::create(const std::string& filename, float sizeX, float sizeY)
 	return nullptr;
 }
 
-void Monster::move(float sizeX, float sizeY, cocos2d::Vec2 playerPostionInScene)
+void Monster::move()
 {
 	auto monsterPosition = getPosition();
 	//产生一个0-屏幕宽度范围之间的数，用以随机停止
 	int randomX = (rand() % static_cast<int>(monsterPosition.x));
-	float randomDuration1 = randomX / monsterSpeed;
-	float randomDuration2 = (monsterPosition.x - randomX) / monsterSpeed;
+	float randomDuration1 = (monsterPosition.x - randomX) / monsterSpeed;
+	float randomDuration2 = randomX / monsterSpeed;
 
-	//move1：怪物从右侧移动到中间随机位置，花费时间为randomDuration1，注意这里的坐标原点是以怪物为0,0来确定的
-	auto move1 = cocos2d::MoveTo::create(randomDuration1, cocos2d::Vec2(-randomX, 0));
+	//move1：怪物从右侧移动到中间随机位置，花费时间为randomDuration1
+	auto move1 = cocos2d::MoveTo::create(randomDuration1, cocos2d::Vec2(randomX, monsterPosition.y));
 	//move2：怪物从中间随机位置移动到左侧，花费时间为randomDuration2
-	auto move2 = cocos2d::MoveTo::create(randomDuration2, cocos2d::Vec2(-monsterPosition.x, 0));
+	auto move2 = cocos2d::MoveTo::create(randomDuration2, cocos2d::Vec2(0, monsterPosition.y));
 	//actionRemove：释放怪物对象
 	auto actionRemove = cocos2d::RemoveSelf::create();
 
@@ -67,7 +70,8 @@ void Monster::move(float sizeX, float sizeY, cocos2d::Vec2 playerPostionInScene)
 		}
 		else
 		{
-			enemyBullet->setPosition(cocos2d::Vec2(-randomX, 0));
+			//setPosition是指的自己和他父节点的相对位置，子弹的父节点设为场景Helloworld
+			enemyBullet->setPosition(cocos2d::Vec2(randomX, monsterPosition.y));
 			//设置敌方子弹的物理躯干
 			auto physicsBody = cocos2d::PhysicsBody::createBox(enemyBullet->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
 			physicsBody->setDynamic(false);
@@ -75,14 +79,24 @@ void Monster::move(float sizeX, float sizeY, cocos2d::Vec2 playerPostionInScene)
 			physicsBody->setContactTestBitmask(4);
 			enemyBullet->setPhysicsBody(physicsBody);
 			enemyBullet->setTag(ENEMY_BULLET);
-			this->addChild(enemyBullet);
-			//为敌方子弹绑定发射动画
-            float starSpeed = 1200;
+
+			//为了在Monster类内使用外部的东西，使用以下几句
+			auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
+			auto playerOfNode = runningScene->getChildByTag(ME);
+			cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
+			//获得当前我方player位置
+			if (playerOfNode != nullptr)
+			{
+				auto playerOfPlayer = dynamic_cast<Player*>(playerOfNode);
+				playerPositionInScene = playerOfPlayer->getPosition();
+			}			
+
+			runningScene->addChild(enemyBullet);
+			//为敌方子弹绑定发射动画，速度暂时用不到，先用1s时间模拟
+			float starSpeed = 1200;
+
 			//在Monster视角下的player的坐标（Monster坐标为0,0）
-			cocos2d::Vec2 playerPositionInMonster;
-			playerPositionInMonster.x = playerPostionInScene.x - monsterPosition.x;
-			playerPositionInMonster.y = playerPostionInScene.y - monsterPosition.y;
-			auto eDartMove = cocos2d::MoveTo::create(3.0f, playerPositionInMonster);
+			auto eDartMove = cocos2d::MoveTo::create(1.0f, playerPositionInScene);
             auto eDartRemove = cocos2d::RemoveSelf::create();
 			enemyBullet->runAction(cocos2d::Sequence::create(eDartMove, eDartRemove, nullptr));
 		}
@@ -90,17 +104,13 @@ void Monster::move(float sizeX, float sizeY, cocos2d::Vec2 playerPostionInScene)
 	////怪物发射子弹时略微停顿
 	auto delay = cocos2d::DelayTime::create(0.1);
 
-	monster_->runAction(cocos2d::Sequence::create(move1,  delay, move2, nullptr));
-	auto monsterPosition1 = getPosition();
+	runAction(cocos2d::Sequence::create(move1, shootStar, delay, move2, actionRemove, nullptr));
 
 }
 
 bool Monster::bindPhysicsBody()
 {
-	cocos2d::Size t;
-	t.width = 50;
-	t.height = 50;
-	auto physicsBody = cocos2d::PhysicsBody::createBox(getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+	auto physicsBody = cocos2d::PhysicsBody::createBox(monster_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
 	physicsBody->setDynamic(false);
 	physicsBody->setContactTestBitmask(1);
 	physicsBody->setCategoryBitmask(3);
