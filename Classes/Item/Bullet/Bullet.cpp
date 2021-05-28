@@ -55,7 +55,7 @@ bool Bullet::shoot(const cocos2d::Vec2 shootDirection)
     auto actionRemove = cocos2d::RemoveSelf::create();
     //为子弹实例绑定飞行-释放的动画
     auto end = cocos2d::CallFunc::create([=]() {dieEffect(); });
-    runAction(cocos2d::Sequence::create(actionMove, dieEffect, actionRemove, nullptr));
+    //runAction(cocos2d::Sequence::create(actionMove, dieEffect, actionRemove, nullptr));
 
     return true;
 }
