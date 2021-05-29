@@ -29,6 +29,9 @@ Player* Player::create(const std::string& filename)
 		player->addChild(player->secondaryWeapon_);
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);
+		player->moveSpeed_ = 400.f;
+		player->health_ = 3;
+		player->shield_ = 0.5f;
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
 
@@ -88,18 +91,22 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 	if (keyCode == K::KEY_W)
 	{
 		keyPressed_[W] = false;
+		Status = walk_back;
 	}
 	if (keyCode == K::KEY_A)
 	{
 		keyPressed_[A] = false;
+		Status =walk_left;
 	}
 	if (keyCode == K::KEY_S)
 	{
 		keyPressed_[S] = false;
+		Status = walk_front;
 	}
 	if (keyCode == K::KEY_D)
 	{
 		keyPressed_[D] = false;
+		Status = walk_right;
 	}
 }
 
@@ -107,7 +114,7 @@ void Player::getInjured(int damage)
 {
 	if (!superBody)
 	{
-		int realDamage = static_cast<int>(damage * (1 - shield));
+		int realDamage = static_cast<int>(damage * (1 - shield_));
 		if (realDamage >= health_)
 		{
 			die();
@@ -122,12 +129,6 @@ void Player::getInjured(int damage)
 bool Player::isAlive()
 {
 	return isAlive_;
-}
-
-void Player::die()
-{
-	health_ = 0;
-	isAlive_ = false;
 }
 
 void Player::dodge()
@@ -196,7 +197,7 @@ void Player::switchWeapon()
 	if (secondaryWeapon_ != nullptr)
 	{
 		primaryWeapon_->setVisible(false);
-		secondaryWeapon_->setVisible(true);
+		secondaryWeapon_->setVisible(false);
 		auto t = primaryWeapon_;
 		primaryWeapon_ = secondaryWeapon_;
 		secondaryWeapon_ = t;
@@ -223,21 +224,31 @@ void Player::update(float dt)
 	auto velocity = cocos2d::Vec2::ZERO;
 	if (allowMove)
 	{
+		keyPressed_[4] = false;
 		if (keyPressed_[W])
 		{
+			keyPressed_[4] = true;
 			velocity.y += moveSpeed_ * speedBoostFactor;
+			sprite_->setTexture("MIKU/idle_back/miku_13.png");
+			
 		}
 		if (keyPressed_[A])
 		{
+			keyPressed_[4] = true;
 			velocity.x -= moveSpeed_ * speedBoostFactor;
+			sprite_->setTexture("MIKU/idle_left/miku_05.png");
 		}
 		if (keyPressed_[S])
 		{
+			keyPressed_[4] = true;
 			velocity.y -= moveSpeed_ * speedBoostFactor;
+			sprite_->setTexture("MIKU/idle_front/miku_01.png");
 		}
 		if (keyPressed_[D])
 		{
+			keyPressed_[4] = true;
 			velocity.x += moveSpeed_ * speedBoostFactor;
+			sprite_->setTexture("MIKU/idle_right/miku_11.png");
 		}
 
 		//先进行标准化，再乘以模长

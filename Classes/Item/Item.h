@@ -26,7 +26,7 @@ public:
 *@brief Ωªª•
 * @author √œ”Ó
 */
-	//virtual void interact() = 0;
+	//virtual void interact() = 0
 
 
 		/**

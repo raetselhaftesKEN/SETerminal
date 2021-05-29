@@ -48,16 +48,6 @@ public:
 
 protected:
 
-	int health_ = 3;																//生命值
-
-	bool isAlive_ = true;														//是否存活
-
-	float shield = 0.5f;															//护甲减伤率
-	//怪物移动速度
-	float monsterSpeed = 160;
-
-	//待更新属性、血量、buff等
-
 };
 
 

@@ -42,10 +42,6 @@ public:
 	bool isAlive();
 
 
-	//角色死亡
-	void die();
-
-
 	//闪避
 	void dodge();
 	
@@ -76,15 +72,17 @@ public:
 
 protected:
 
-	enum Key{W, A, S, D};
+	enum PlayerStatus{idle_front,idle_back,idle_left,idle_right,walk_front,walk_back,walk_left,walk_right};
 
-	 int moveSpeed_ = 400;													//角色移动速度
+	int Status;
 
-	 float speedBoostFactor = 1;
+	enum Key { W, A, S, D };
 
-	 bool allowMove = true;
+	float speedBoostFactor = 1;
 
-	 bool canDodge = true;
+	bool allowMove = true;
+
+	bool canDodge = true;
 
 	float dodgeRate_ = 100.0f;												//闪避倍率
 
@@ -94,13 +92,7 @@ protected:
 
 	bool superBody = false;
 
-	bool keyPressed_[4]{};														//方向键状态，true表示按下
-
-	int health_ = 3;																//生命值
-
-	bool isAlive_ = true;														//是否存活
-
-	float shield = 0.5f;															//护甲减伤率
+	bool keyPressed_[5]{};														//方向键状态，true表示按下
 
 	Weapon* primaryWeapon_;											//使用中的武器
 

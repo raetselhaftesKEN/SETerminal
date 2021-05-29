@@ -11,4 +11,8 @@ void Character::bindPictureSprite(cocos2d::Sprite* sprite)
 	addChild(sprite_);
 }
 
-
+void Character::die()
+{
+	isAlive_ = false;
+	health_ = 0;
+}

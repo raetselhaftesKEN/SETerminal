@@ -27,6 +27,13 @@ public:
 
 
     /**
+*@brief 死亡
+* @author 孟宇
+*/
+    void die();
+
+
+    /**
 *@brief 绑定物理躯干
 * @author 孟宇
 */
@@ -36,6 +43,14 @@ public:
 protected:
 
     cocos2d::Sprite* sprite_;
+
+    int health_;
+
+    float shield_;
+
+    bool isAlive_ = true;
+
+    float moveSpeed_;
 
 };
 

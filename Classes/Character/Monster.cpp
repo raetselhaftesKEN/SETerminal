@@ -19,7 +19,9 @@ Monster* Monster::create(const std::string& filename)
 		return nullptr;
 	}
 	monster->bindPictureSprite(cocos2d::Sprite::create(filename));
-
+	monster->moveSpeed_ = 160.f;
+	monster->health_ = 3;
+	monster->shield_ = 0.5f;
 	
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
 	auto runningSceneSize = runningScene->getContentSize();
@@ -51,8 +53,8 @@ void Monster::move()
 	auto monsterPosition = getPosition();
 	//产生一个0-屏幕宽度范围之间的数，用以随机停止
 	int randomX = (rand() % static_cast<int>(monsterPosition.x));
-	float randomDuration1 = (monsterPosition.x - randomX) / monsterSpeed;
-	float randomDuration2 = randomX / monsterSpeed;
+	float randomDuration1 = (monsterPosition.x - randomX) / moveSpeed_;
+	float randomDuration2 = randomX / moveSpeed_;
 
 	//move1：怪物从右侧移动到中间随机位置，花费时间为randomDuration1
 	auto move1 = cocos2d::MoveTo::create(randomDuration1, cocos2d::Vec2(randomX, monsterPosition.y));

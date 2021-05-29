@@ -49,7 +49,7 @@ bool HelloWorld::init()
     this->addChild(_tileMap, -1);
 
     //生成玩家角色实例
-    player_ = Player::create("player.png");
+    player_ = Player::create("/MIKU/idle_front/miku_01.png");
     this->addChild(player_);
 
     //调用addMonster方法在随机位置生成怪物
