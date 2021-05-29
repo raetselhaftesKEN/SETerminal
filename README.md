@@ -5,3 +5,8 @@ this line is added in branch_my instead of master.
 ### 2021 5 27 21:43 更新怪物类，修复了无法攻击的bug
 
 ### 2021 5 27 23:18 更新了目录结构与CMakeList
+
+### 2021 5 29 14:27 略微清理冗余函数
+
+###### 更新解决方案名为SETerminal
+

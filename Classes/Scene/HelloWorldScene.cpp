@@ -79,8 +79,6 @@ bool HelloWorld::init()
 
 void HelloWorld::addMonster(float dt)
 {
-    float sizeX = this->getContentSize().width;
-    float sizeY = this->getContentSize().height;
     //生成怪物实例
     auto monster = Monster::create("monster.png");
     

@@ -17,13 +17,13 @@ Monster* Monster::create(const std::string& filename)
 	{
 		return nullptr;
 	}
-	monster->bindPictureMonster(cocos2d::Sprite::create(filename));
+	monster->bindPictureSprite(cocos2d::Sprite::create(filename));
 
 	//为了在Monster类内使用外部的东西，使用以下语句获得当前进行的场景
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
 	auto runningSceneSize = runningScene->getContentSize();
 
-	if (monster && monster->monster_)
+	if (monster && monster->sprite_)
 	{
 		//怪物在右侧随机位置出现，计算怪物生成和发射子弹的合法坐标范围
 		auto minY = monster->getContentSize().height / 2;
@@ -110,7 +110,7 @@ void Monster::move()
 
 bool Monster::bindPhysicsBody()
 {
-	auto physicsBody = cocos2d::PhysicsBody::createBox(monster_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
 	physicsBody->setDynamic(false);
 	physicsBody->setContactTestBitmask(1);
 	physicsBody->setCategoryBitmask(3);

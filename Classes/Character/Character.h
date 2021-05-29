@@ -25,8 +25,6 @@ public:
 */
     void bindPictureSprite(cocos2d::Sprite* sprite);
 
-    void bindPictureMonster(cocos2d::Sprite* sprite);
-
 
     /**
 *@brief 绑定物理躯干
@@ -38,7 +36,6 @@ public:
 protected:
 
     cocos2d::Sprite* sprite_;
-    cocos2d::Sprite* monster_;
 
 };
 
