@@ -1,3 +1,4 @@
-﻿  ConvertUTF.c
+﻿  Building Custom Rule D:/cocos/FinalProjectGit/SETerminal/cocos2d/external/ConvertUTF/CMakeLists.txt
+  ConvertUTF.c
   ConvertUTFWrapper.cpp
   ext_convertUTF.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\lib\Debug\ext_convertUTF.lib

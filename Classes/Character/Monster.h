@@ -25,7 +25,7 @@ public:
 * @return 指向该Monster实例的指针
 * @author 戴仁杰
 */
-	static Monster* create(const std::string& filename, float sizeX, float sizeY);
+	static Monster* create(const std::string& filename);
 
 
 	/**
@@ -33,7 +33,7 @@ public:
 * @return 绑定是否成功
 * @author 戴仁杰
 */
-	void Monster::move(float sizeX, float sizeY, cocos2d::Vec2 playerPostion);
+	void Monster::move();
 
 
 	/**

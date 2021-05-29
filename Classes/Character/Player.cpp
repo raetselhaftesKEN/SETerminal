@@ -40,7 +40,7 @@ Player* Player::create(const std::string& filename)
 
 bool Player::bindPhysicsBody()
 {
-	auto physicsBody = cocos2d::PhysicsBody::createBox(getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
 	physicsBody->setDynamic(false);
 	physicsBody->setContactTestBitmask(1);
 	physicsBody->setCategoryBitmask(5);
