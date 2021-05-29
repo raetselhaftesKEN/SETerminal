@@ -10,3 +10,5 @@ this line is added in branch_my instead of master.
 
 ###### 更新解决方案名为SETerminal
 
+### 2021 5 29 19:46 初步更新背景音乐效果
+

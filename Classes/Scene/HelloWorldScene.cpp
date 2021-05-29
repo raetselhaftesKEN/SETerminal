@@ -8,9 +8,11 @@
 #include "./Item/Bullet/Bullet.h"
 #include "./Character/Monster.h"
 
+#include "AudioEngine.h"
+
 USING_NS_CC;
 
-
+int bgm1Num;
 
 Scene* HelloWorld::createScene()
 {
@@ -34,6 +36,15 @@ bool HelloWorld::init()
     {
         return false;
     }
+
+    static const char kBgm1[] = "Audio/bgm_1Low.mp3";
+    static const char kBtnPressed[] = "Audio/fx_btn1.mp3";
+
+    bgm1Num = AudioEngine::play2d(kBgm1, true, 0.5);
+    AudioEngine::preload(kBtnPressed);
+
+
+
 
     //获取窗口大小和原点坐标
     auto winSize = Director::getInstance()->getVisibleSize();
@@ -166,6 +177,9 @@ void HelloWorld::addMonster(float dt)
 
 bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
 {
+    AudioEngine::play2d("Audio/bulletEffect.mp3", false, 0.5);
+    AudioEngine::pause(bgm1Num);
+
     //取得点击屏幕位置的坐标
     auto touchLocation = touch->getLocation();
     auto offset = touchLocation - player_->getPosition();

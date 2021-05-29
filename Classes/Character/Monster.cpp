@@ -110,6 +110,11 @@ void Monster::move()
 
 bool Monster::bindPhysicsBody()
 {
+	//¿ÕÖ¸Õë£¬°ó¶¨Ê§°Ü
+	if (sprite_ == nullptr)
+	{
+		return false;
+	}	
 	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
 	physicsBody->setDynamic(false);
 	physicsBody->setContactTestBitmask(1);
