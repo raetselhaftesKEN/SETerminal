@@ -95,6 +95,7 @@ void HelloWorld::addMonster(float dt)
     
     
     this->addChild(monster);
+    
     if (monster == nullptr)
     {
         problemLoading("monster.png");
@@ -102,6 +103,7 @@ void HelloWorld::addMonster(float dt)
     else {
         monster->move();
     }
+    
     
 }
 

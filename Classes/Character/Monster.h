@@ -67,6 +67,15 @@ public:
 	void die();
 
 
+	/**
+* @brief 产生一个随机位置的坐标值
+* @return 返回一个Vec2类型的坐标(x,y)数对
+* @author 戴仁杰
+*/
+	cocos2d::Vec2 getRandomPosition();
+
+	void randomMove();
+
 
 protected:
 
