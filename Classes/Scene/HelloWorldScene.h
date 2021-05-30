@@ -52,6 +52,8 @@ public:
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
 
 
+    void onMouseMove(cocos2d::EventMouse* mouse);
+
     /**
 * @brief 响应场景内的物理碰撞，击中敌人后，将敌人删除
 */

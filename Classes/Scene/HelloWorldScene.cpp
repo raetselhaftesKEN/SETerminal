@@ -61,6 +61,11 @@ bool HelloWorld::init()
     touchListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, player_);
 
+    //电脑专用的鼠标监听器
+    auto mouseListener = cocos2d::EventListenerMouse::create();
+    mouseListener->onMouseMove = CC_CALLBACK_1(HelloWorld::onMouseMove, this);
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, player_);
+
     //生成场景内物理碰撞事件的监听器
     auto contactListener = cocos2d::EventListenerPhysicsContact::create();
     contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegan, this);
@@ -151,6 +156,7 @@ bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
     //取得点击屏幕位置的坐标
     auto touchLocation = touch->getLocation();
     auto offset = touchLocation - player_->getPosition();
+    player_->listenToMouseEvent(offset, true);
     //取得子弹发射方向的单位向量
     offset.normalize();
     //在场景内创建子弹实例
@@ -161,6 +167,13 @@ bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
     bullet->shoot(offset);
 
     return true;
+}
+
+void HelloWorld::onMouseMove(cocos2d::EventMouse* mouse)
+{
+    auto mouseLocation = convertToNodeSpace(mouse->getLocationInView());
+    auto offset = mouseLocation - player_->getPosition();
+    player_->listenToMouseEvent(offset, false);
 }
 
 bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)

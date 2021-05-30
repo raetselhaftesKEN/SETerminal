@@ -111,6 +111,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto scene = HelloWorld::createScene();
 
     // run
+//    AllocConsole();
     director->runWithScene(scene);
 
     return true;

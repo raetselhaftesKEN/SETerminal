@@ -34,6 +34,10 @@ public:
 	void listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event* unusedEvent);
 
 
+	//接收鼠标事件
+	void listenToMouseEvent(cocos2d::Vec2, bool isPressed);
+
+
 	//受伤
 	void getInjured(int damage);
 
@@ -45,6 +49,7 @@ public:
 	//角色死亡
 	void die();
 
+	void playMoveAnimate();
 
 	//闪避
 	void dodge();
@@ -76,6 +81,33 @@ public:
 
 protected:
 
+	cocos2d::Vec2 FacingDir;
+
+	enum PlayerStatus{
+		idle_back, 
+		idle_front,
+		idle_left,
+		idle_right,
+		walk_back,
+		walk_front,
+		walk_left,
+		walk_right
+	};
+
+	cocos2d::Animate* walkUp;
+	cocos2d::Animate* walkDown;
+	cocos2d::Animate* walkLeft;
+	cocos2d::Animate* walkRight;
+	cocos2d::Animate* idleUp;
+	cocos2d::Animate* idleDown;
+	cocos2d::Animate* idleLeft;
+	cocos2d::Animate* idleRight;
+	cocos2d::Animate* animateBeingPlayed;
+
+	int Status;
+
+	int preStatus;
+
 	enum Key{W, A, S, D};
 
 	 int moveSpeed_ = 400;													//角色移动速度
@@ -94,7 +126,7 @@ protected:
 
 	bool superBody = false;
 
-	bool keyPressed_[4]{};														//方向键状态，true表示按下
+	bool keyPressed_[5]{};														//方向键状态，true表示按下
 
 	int health_ = 3;																//生命值
 

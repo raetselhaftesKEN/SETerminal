@@ -21,6 +21,16 @@ Player* Player::create(const std::string& filename)
 		player->setPosition(cocos2d::Vec2(50, 50));
 		//标记角色
 		player->setTag(ME);
+
+		player->walkRight = createAnimate("/MIKU/walk_right/walk_right", player->sprite_->getContentSize().width, player->sprite_->getContentSize().height);
+		player->walkLeft = createAnimate("/MIKU/walk_left/walk_left", player->sprite_->getContentSize().width, player->sprite_->getContentSize().height);
+		player->walkUp = createAnimate("/MIKU/walk_up/walk_up", player->sprite_->getContentSize().width, player->sprite_->getContentSize().height);
+		player->walkDown = createAnimate("/MIKU/walk_down/walk_down", player->sprite_->getContentSize().width, player->sprite_->getContentSize().height);
+		player->idleUp = createAnimate("/MIKU/idle_up/idle_up", player->sprite_->getContentSize().width, player->sprite_->getContentSize().height, 1);
+		player->idleDown = createAnimate("/MIKU/idle_down/idle_down", player->sprite_->getContentSize().width, player->sprite_->getContentSize().height, 1);
+		player->idleLeft = createAnimate("/MIKU/idle_left/idle_left", player->sprite_->getContentSize().width, player->sprite_->getContentSize().height, 1);
+		player->idleRight = createAnimate("/MIKU/idle_right/idle_right", player->sprite_->getContentSize().width, player->sprite_->getContentSize().height, 1);
+
 		//初始化角色武器和弹药
 		player->primaryWeapon_ = Weapon::create("default_weapon.png");
 		player->secondaryWeapon_ = Weapon::create("default_sec_weapon.png");
@@ -29,6 +39,9 @@ Player* Player::create(const std::string& filename)
 		player->addChild(player->secondaryWeapon_);
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);
+		player->moveSpeed_ = 400.f;
+		player->health_ = 3;
+		player->shield_ = 0.5f;
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
 
@@ -36,6 +49,44 @@ Player* Player::create(const std::string& filename)
 		return player;
 	}
 	return nullptr;
+}
+
+void Player::playMoveAnimate()
+{
+	if (Status != preStatus)
+	{
+		sprite_->stopAction(animateBeingPlayed);
+		switch (Status)
+		{
+			case walk_back:
+				animateBeingPlayed = walkUp;
+				break;
+			case walk_front:
+				animateBeingPlayed = walkDown;
+				break;
+			case walk_left:
+				animateBeingPlayed = walkLeft;
+				break;
+			case walk_right:
+				animateBeingPlayed = walkRight;
+				break;
+			case idle_back:
+				animateBeingPlayed = idleUp;
+				break;
+			case idle_front:
+				animateBeingPlayed = idleDown;
+				break;
+			case idle_left:
+				animateBeingPlayed = idleLeft;
+				break;
+			case idle_right:
+				animateBeingPlayed = idleRight;
+				break;
+			default:
+				break;
+		}
+		sprite_->runAction(animateBeingPlayed);
+	}
 }
 
 bool Player::bindPhysicsBody()
@@ -78,6 +129,14 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 	{
 		dodge();
 	}
+
+	for (auto i : keyPressed_)
+	{
+		if (i)
+		{
+			keyPressed_[4] = true;
+		}
+	}
 }
 
 void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* unusedEvent)
@@ -100,6 +159,46 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 	if (keyCode == K::KEY_D)
 	{
 		keyPressed_[D] = false;
+	}
+
+	keyPressed_[4] = false;
+	for (auto i : keyPressed_)
+	{
+		if (i)
+		{
+			keyPressed_[4] = true;
+		}
+	}
+}
+
+void Player::listenToMouseEvent(cocos2d::Vec2 direction, bool isPressed)
+{
+	FacingDir = direction;
+	preStatus = Status;
+	if (direction.x > 0 && abs(direction.y) <= direction.x)
+	{
+		Status = keyPressed_[4] ? walk_right : idle_right;
+	}
+	else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
+	{
+		Status = keyPressed_[4] ? walk_left : idle_left;
+	}
+	else if (direction.y > 0 && abs(direction.x) <= direction.y)
+	{
+		Status = keyPressed_[4] ? walk_back : idle_back;
+	}
+	else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
+	{
+		Status = keyPressed_[4] ? walk_front : idle_front;
+	}
+	else
+	{
+		Status -= Status > 3 && keyPressed_[4] ? 4 : 0;
+	}
+
+	if (isPressed)
+	{
+		//Attack
 	}
 }
 
@@ -151,10 +250,10 @@ void Player::dodge()
 	}
 	if (dodgeDirection.x == 0 && dodgeDirection.y == 0)
 	{
-		dodgeDirection.y += 1;
+		dodgeDirection.x = -FacingDir.x;
+		dodgeDirection.y = -FacingDir.y;		
 	}
 	
-
 	dodgeDirection.normalize();
 	auto delay = cocos2d::DelayTime::create(dodgeTime);
 	auto start = cocos2d::CallFunc::create([=]() {
@@ -166,10 +265,7 @@ void Player::dodge()
 	auto end = cocos2d::CallFunc::create([=]() {
 		DodgeAnimeEnd();
 		});
-	this->runAction(cocos2d::Sequence::create(start, act, delay, end, nullptr));
-	
-	
-	
+	this->runAction(cocos2d::Sequence::create(start, act, delay, end, nullptr));			
 }
 
 void Player::DodgeAnimeStart()
@@ -245,4 +341,5 @@ void Player::update(float dt)
 		velocity *= moveSpeed_;
 		getPhysicsBody()->setVelocity(velocity);
 	}	
+	playMoveAnimate();
 }

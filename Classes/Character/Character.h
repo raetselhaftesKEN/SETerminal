@@ -25,7 +25,12 @@ public:
 */
     void bindPictureSprite(cocos2d::Sprite* sprite);
 
-    void bindPictureMonster(cocos2d::Sprite* sprite);
+
+    /**
+*@brief À¿Õˆ
+* @author √œ”Ó
+*/
+    void die();
 
 
     /**
@@ -35,10 +40,19 @@ public:
     virtual bool bindPhysicsBody() = 0;
 
 
+    static cocos2d::Animate* createAnimate(const char* animateName, int width, int height, int frames = 4);
+
 protected:
 
     cocos2d::Sprite* sprite_;
-    cocos2d::Sprite* monster_;
+
+    int health_;
+
+    float shield_;
+
+    bool isAlive_ = true;
+
+    float moveSpeed_;
 
 };
 
