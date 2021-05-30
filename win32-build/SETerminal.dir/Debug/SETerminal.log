@@ -1,2 +1,3 @@
-﻿  Player.cpp
+﻿  HelloWorldScene.cpp
+D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.cpp(42,81): warning C4305: “参数”: 从“double”到“float”截断
   SETerminal.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\SETerminal.exe
