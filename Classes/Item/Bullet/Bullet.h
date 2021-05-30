@@ -26,11 +26,14 @@ public:
 	//为Bullet对象绑定物理躯干
 	virtual bool bindPhysicsBody();
 	
+
 	//子弹死亡特效，比如粒子效果，爆炸
 	void dieEffect();
 	
+
 	//为Bullet实例绑定发射动画
 	bool shoot(const cocos2d::Vec2 shootDirection);
+
 
 protected:
 

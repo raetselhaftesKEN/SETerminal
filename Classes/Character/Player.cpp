@@ -21,10 +21,13 @@ Player* Player::create(const std::string& filename)
 		player->setPosition(cocos2d::Vec2(50, 50));
 		//标记角色
 		player->setTag(ME);
+
+		player->bindAnimate("MIKU");
+
 		//初始化角色武器和弹药
 		player->primaryWeapon_ = Weapon::create("default_weapon.png");
 		player->secondaryWeapon_ = Weapon::create("default_sec_weapon.png");
-		player->bulletFilename = "dart.png";
+		player->bulletFilename_ = "dart.png";
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
@@ -81,6 +84,7 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 	{
 		dodge();
 	}
+		
 }
 
 void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* unusedEvent)
@@ -91,28 +95,34 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 	if (keyCode == K::KEY_W)
 	{
 		keyPressed_[W] = false;
-		Status = walk_back;
 	}
 	if (keyCode == K::KEY_A)
 	{
 		keyPressed_[A] = false;
-		Status =walk_left;
 	}
 	if (keyCode == K::KEY_S)
 	{
 		keyPressed_[S] = false;
-		Status = walk_front;
 	}
 	if (keyCode == K::KEY_D)
 	{
 		keyPressed_[D] = false;
-		Status = walk_right;
+	}
+}
+
+void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
+{
+	facingPoint_ = facingPoint;
+
+	if (isPressed)
+	{
+		//Attack
 	}
 }
 
 void Player::getInjured(int damage)
 {
-	if (!superBody)
+	if (!superBody_)
 	{
 		int realDamage = static_cast<int>(damage * (1 - shield_));
 		if (realDamage >= health_)
@@ -132,7 +142,7 @@ bool Player::isAlive()
 }
 
 void Player::dodge()
-{	
+{
 	auto dodgeDirection = cocos2d::Vec2::ZERO;
 	if (keyPressed_[W])
 	{
@@ -152,12 +162,13 @@ void Player::dodge()
 	}
 	if (dodgeDirection.x == 0 && dodgeDirection.y == 0)
 	{
-		dodgeDirection.y += 1;
+		auto facingDir = facingPoint_ - getPosition();
+		dodgeDirection.x = -facingDir.x;
+		dodgeDirection.y = -facingDir.y;
 	}
-	
 
 	dodgeDirection.normalize();
-	auto delay = cocos2d::DelayTime::create(dodgeTime);
+	auto delay = cocos2d::DelayTime::create(dodgeTime_);
 	auto start = cocos2d::CallFunc::create([=]() {
 		DodgeAnimeStart();
 		});
@@ -168,28 +179,68 @@ void Player::dodge()
 		DodgeAnimeEnd();
 		});
 	this->runAction(cocos2d::Sequence::create(start, act, delay, end, nullptr));
+}
+
+void Player::updateFacingStatus()
+{
+	auto direction = facingPoint_ - getPosition();
+	preFacingStatus_ = curFacingStatus_;
 	
-	
-	
+	if (direction.x > 0 && abs(direction.y) <= direction.x)
+	{
+		curFacingStatus_ = FacingStatus::right;
+	}
+	else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
+	{
+		curFacingStatus_ = FacingStatus::left;
+	}
+	else if (direction.y > 0 && abs(direction.x) <= direction.y)
+	{
+		curFacingStatus_ = FacingStatus::up;
+	}
+	else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
+	{
+		curFacingStatus_ = FacingStatus::down;
+	}
+
+	if (preFacingStatus_ != curFacingStatus_)
+	{
+		statusChanged_ = true;
+	}
+}
+
+void Player::updateWalkingStatus()
+{
+	preWalkingStatus_ = curWalkingStatus_;
+	curWalkingStatus_ = WalkingStatus::idle;
+	for (auto i : keyPressed_)
+	{
+		if (i)
+			curWalkingStatus_ = WalkingStatus::walk;
+	}
+	if (preWalkingStatus_ != curWalkingStatus_)
+	{
+		statusChanged_ = true;
+	}
 }
 
 void Player::DodgeAnimeStart()
 {
-	canDodge = false;
-	superBody = true;
-	allowMove = false;
+	canDodge_ = false;
+	superBody_ = true;
+	allowMove_ = false;
 }
 
 void Player::DodgeAnime(cocos2d::Vec2 dir)
 {
-	getPhysicsBody()->setVelocity(moveSpeed_ * dodgeSpeedBoost * dir);	
+	getPhysicsBody()->setVelocity(moveSpeed_ * dodgeSpeedBoost_ * dir);	
 }
 
 void Player::DodgeAnimeEnd()
 {
-	canDodge = true;
-	superBody = false;
-	allowMove = true;
+	canDodge_ = true;
+	superBody_ = false;
+	allowMove_ = true;
 }
 
 void Player::switchWeapon()
@@ -216,44 +267,39 @@ Weapon* Player::getSecondaryWeaponInstance()
 
 const std::string Player::getBulletName() const
 {
-	return bulletFilename;
+	return bulletFilename_;
 }
 
 void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
-	if (allowMove)
+	if (allowMove_)
 	{
-		keyPressed_[4] = false;
 		if (keyPressed_[W])
 		{
-			keyPressed_[4] = true;
-			velocity.y += moveSpeed_ * speedBoostFactor;
-			sprite_->setTexture("MIKU/idle_back/miku_13.png");
-			
+			velocity.y += moveSpeed_ * speedBoostFactor_;
 		}
 		if (keyPressed_[A])
 		{
-			keyPressed_[4] = true;
-			velocity.x -= moveSpeed_ * speedBoostFactor;
-			sprite_->setTexture("MIKU/idle_left/miku_05.png");
+			velocity.x -= moveSpeed_ * speedBoostFactor_;
 		}
 		if (keyPressed_[S])
 		{
-			keyPressed_[4] = true;
-			velocity.y -= moveSpeed_ * speedBoostFactor;
-			sprite_->setTexture("MIKU/idle_front/miku_01.png");
+			velocity.y -= moveSpeed_ * speedBoostFactor_;
 		}
 		if (keyPressed_[D])
 		{
-			keyPressed_[4] = true;
-			velocity.x += moveSpeed_ * speedBoostFactor;
-			sprite_->setTexture("MIKU/idle_right/miku_11.png");
+			velocity.x += moveSpeed_ * speedBoostFactor_;
 		}
 
 		//先进行标准化，再乘以模长
 		velocity.normalize();
 		velocity *= moveSpeed_;
 		getPhysicsBody()->setVelocity(velocity);
+
+		updateFacingStatus();
+		updateWalkingStatus();
+		updateMoveAnimate();
+		statusChanged_ = false;
 	}	
 }

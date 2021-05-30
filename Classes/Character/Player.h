@@ -34,6 +34,10 @@ public:
 	void listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event* unusedEvent);
 
 
+	//接收鼠标事件
+	void listenToMouseEvent(cocos2d::Vec2, bool isPressed);
+
+
 	//受伤
 	void getInjured(int damage);
 
@@ -44,11 +48,18 @@ public:
 
 	//闪避
 	void dodge();
+
+
+	virtual void updateFacingStatus();
+
+
+	virtual void updateWalkingStatus();
 	
 	//闪避动画
 	void DodgeAnimeStart();
 	void DodgeAnime(cocos2d::Vec2 dir);
 	void DodgeAnimeEnd();
+
 
 	//切换武器
 	void switchWeapon();
@@ -71,34 +82,30 @@ public:
 
 
 protected:
-
-	enum PlayerStatus{idle_front,idle_back,idle_left,idle_right,walk_front,walk_back,walk_left,walk_right};
-
-	int Status;
-
+	
 	enum Key { W, A, S, D };
 
-	float speedBoostFactor = 1;
+	bool keyPressed_[4]{};	
 
-	bool allowMove = true;
+	float speedBoostFactor_ = 1;
 
-	bool canDodge = true;
+	bool allowMove_ = true;
+
+	bool canDodge_ = true;
 
 	float dodgeRate_ = 100.0f;												//闪避倍率
 
-	float dodgeSpeedBoost = 3.0f;
+	float dodgeSpeedBoost_ = 3.0f;
 
-	float dodgeTime = 0.1f;
+	float dodgeTime_ = 0.1f;
 
-	bool superBody = false;
-
-	bool keyPressed_[5]{};														//方向键状态，true表示按下
+	bool superBody_ = false;
 
 	Weapon* primaryWeapon_;											//使用中的武器
 
 	Weapon* secondaryWeapon_;										//副武器
 
-	std::string bulletFilename;												//当前装备的子弹
+	std::string bulletFilename_;												//当前装备的子弹
 
 	//待更新属性、血量、buff等
 
