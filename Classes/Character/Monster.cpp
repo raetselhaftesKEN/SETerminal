@@ -36,7 +36,12 @@ cocos2d::Vec2 Monster::getRandomPosition()
 }
 
 void Monster::move() {
-	auto nextPosition = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(ME)->getPosition();
+	auto nextPosition = getRandomPosition();
+	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(ME);
+	if (playerNode != nullptr)
+	{
+		nextPosition = playerNode->getPosition();
+	}
 	auto realDest = nextPosition - getPosition();
 	realDest.normalize();
 	auto moveOnce = cocos2d::MoveBy::create(2.f, realDest * 50);
@@ -146,9 +151,12 @@ bool Monster::bindPhysicsBody()
 
 void Monster::updateFacingStatus()
 {
-
-	auto playerPos = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(ME)->getPosition();
-	facingPoint_ = playerPos;
+	facingPoint_ = getRandomPosition();
+	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(ME);
+	if (playerNode != nullptr)
+	{
+		facingPoint_ = playerNode->getPosition();
+	}
 	auto direction = facingPoint_ - getPosition();
 	preFacingStatus_ = curFacingStatus_;
 
