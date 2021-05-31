@@ -26,7 +26,10 @@ HealthBar* HealthBar::create(Player* player)
 		healthBar->health_->setPercentage(static_cast<float>(healthBar->player_->Character::health_) / 100 * 100);
 		std::string healthInfo = std::to_string(healthBar->player_->Character::health_) + "/100";
 		healthBar->healthInfo_ = cocos2d::Label::createWithTTF(healthInfo, "fonts/IRANYekanBold.ttf", 18.f);
-		healthBar->addChild(healthBar->health_, 3);
+		healthBar->healthInfo_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
+		healthBar->healthInfo_->setPosition(cocos2d::Vec2(10, -50));
+		healthBar->addChild(healthBar->health_, 2);
+		healthBar->addChild(healthBar->healthInfo_, 3);
 		healthBar->autorelease();
 
 		healthBar->schedule(CC_SCHEDULE_SELECTOR(HealthBar::update), 0.1f);
