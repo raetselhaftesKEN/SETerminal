@@ -26,6 +26,9 @@ public:
     void bindPictureSprite(cocos2d::Sprite* sprite);
 
 
+	virtual void receiveDamage(int damage);
+
+
     /**
 *@brief ËÀÍö
 * @author ÃÏÓî

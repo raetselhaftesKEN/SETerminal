@@ -15,12 +15,14 @@
 
 #include "cocos2d.h"
 #include "./Character/Player.h"
+#include "Component/HealthBar/HealthBar.h"
 
 class HelloWorld : public cocos2d::Scene
 {
 private:
     Player* player_;
     //地图类,对应相关的tmx文件
+    HealthBar* healthBar_;
     cocos2d::TMXTiledMap* _tileMap;
     //地图中的一个层
     cocos2d::TMXLayer* _background;
@@ -63,6 +65,8 @@ public:
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__

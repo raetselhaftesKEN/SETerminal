@@ -1,0 +1,48 @@
+#include "cocos2d.h"
+#include "HealthBar.h"
+
+HealthBar* HealthBar::create(Player* player)
+{
+	auto healthBar = new(std::nothrow) HealthBar();
+	if (healthBar == nullptr)
+	{
+		return nullptr;
+	}
+
+	healthBar->sprite_ = cocos2d::Sprite::create("health_bar.png");
+	healthBar->sprite_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
+	
+	if (healthBar && healthBar->sprite_)
+	{
+		healthBar->addChild(healthBar->sprite_, 1);
+		healthBar->player_ = player;
+		healthBar->curHealth_ = healthBar->player_->health_;
+
+		healthBar->health_ = cocos2d::ProgressTimer::create(cocos2d::Sprite::create("health_max.png"));
+		healthBar->health_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
+		healthBar->health_->setType(cocos2d::ProgressTimer::Type::BAR);
+		healthBar->health_->setMidpoint(cocos2d::Point(0, 0.5f));
+		healthBar->health_->setBarChangeRate(cocos2d::Point(1.f, 0));
+		healthBar->health_->setPercentage(static_cast<float>(healthBar->player_->Character::health_) / 100 * 100);
+		std::string healthInfo = std::to_string(healthBar->player_->Character::health_) + "/100";
+		healthBar->healthInfo_ = cocos2d::Label::createWithTTF(healthInfo, "fonts/IRANYekanBold.ttf", 18.f);
+		healthBar->addChild(healthBar->health_, 3);
+		healthBar->autorelease();
+
+		healthBar->schedule(CC_SCHEDULE_SELECTOR(HealthBar::update), 0.1f);
+		return healthBar;
+	}
+
+	return nullptr;
+}
+
+void HealthBar::update(float dt)
+{
+	if (player_->health_ != curHealth_)
+	{
+		curHealth_ = player_->health_;
+		health_->setPercentage(static_cast<float>(player_->Character::health_) / 100 * 100);
+		std::string healthInfo = std::to_string(player_->Character::health_) + "/100";
+		healthInfo_->setString(healthInfo);
+	}
+}

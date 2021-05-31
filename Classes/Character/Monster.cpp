@@ -146,6 +146,7 @@ bool Monster::bindPhysicsBody()
 
 void Monster::updateFacingStatus()
 {
+
 	auto playerPos = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(ME)->getPosition();
 	facingPoint_ = playerPos;
 	auto direction = facingPoint_ - getPosition();

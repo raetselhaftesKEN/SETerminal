@@ -50,7 +50,27 @@ bool HelloWorld::init()
 
     //生成玩家角色实例
     player_ = Player::create("MIKU/idle_down/idle_down1.png");
-    this->addChild(player_);
+    this->addChild(player_, 2);
+
+    healthBar_ = HealthBar::create(player_);
+    healthBar_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
+    healthBar_->setPosition(cocos2d::Point(10, winSize.height));
+    addChild(healthBar_, 2);
+
+    //auto barrier = cocos2d::Sprite::create("stone.png");
+    //barrier->setScale(0.3);
+    //barrier->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
+    //auto physicsBody = cocos2d::PhysicsBody::createBox(barrier->getContentSize(), cocos2d::PhysicsMaterial(0, 1, 0));
+    //physicsBody->setDynamic(false);
+    //physicsBody->setGravityEnable(false);
+    //physicsBody->setRotationEnable(false);
+    //physicsBody->setContactTestBitmask(1);
+    //physicsBody->setCategoryBitmask(1);
+    //physicsBody->setCollisionBitmask(3);
+    //physicsBody->setMass(1e10);
+    //barrier->setPhysicsBody(physicsBody);
+    //addChild(barrier, 1);
+    //barrier->setPosition(300, 500);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
@@ -144,7 +164,7 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
         if (tagA == ME)
         {
             auto tmp = dynamic_cast<Player*>(nodeA);
-            tmp->getInjured(0);
+            tmp->receiveDamage(10);
             if (tmp->isAlive() == false)
             {
                 //替换到Gameover场景
@@ -154,7 +174,7 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
         if (tagB == ME)
         {
             auto tmp = dynamic_cast<Player*>(nodeB);
-            tmp->getInjured(0);
+            tmp->receiveDamage(10);
             if (tmp->isAlive() == false)
             {
                 //替换到Gameover场景

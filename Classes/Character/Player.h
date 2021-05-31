@@ -39,7 +39,7 @@ public:
 
 
 	//受伤
-	void getInjured(int damage);
+	virtual void receiveDamage(int damage);
 
 
 	//获取角色是否生存
@@ -82,6 +82,10 @@ public:
 
 
 protected:
+
+	
+
+	friend class HealthBar;
 	
 	enum Key { W, A, S, D };
 

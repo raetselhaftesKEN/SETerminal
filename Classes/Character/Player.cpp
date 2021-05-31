@@ -33,12 +33,13 @@ Player* Player::create(const std::string& filename)
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);
 		player->moveSpeed_ = 400.f;
-		player->health_ = 3;
+		player->health_ = 100;
 		player->shield_ = 0.5f;
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
 
 		player->autorelease();
+
 		return player;
 	}
 	return nullptr;
@@ -46,8 +47,11 @@ Player* Player::create(const std::string& filename)
 
 bool Player::bindPhysicsBody()
 {
-	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 1.0f, 0.0f));
 	physicsBody->setDynamic(false);
+	physicsBody->setGravityEnable(false);
+	physicsBody->setRotationEnable(false);
+	physicsBody->setMass(0.1);
 	physicsBody->setContactTestBitmask(1);
 	physicsBody->setCategoryBitmask(5);
 	setPhysicsBody(physicsBody);
@@ -120,7 +124,7 @@ void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
 	}
 }
 
-void Player::getInjured(int damage)
+void Player::receiveDamage(int damage)
 {
 	if (!superBody_)
 	{
@@ -273,6 +277,7 @@ const std::string Player::getBulletName() const
 void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
+
 	if (allowMove_)
 	{
 		if (keyPressed_[W])

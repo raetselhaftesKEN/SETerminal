@@ -19,6 +19,19 @@ void Character::die()
 	health_ = 0;
 }
 
+void Character::receiveDamage(int damage)
+{
+	int realDamage = static_cast<int>(damage * (1 - shield_));
+	if (realDamage >= health_)
+	{
+		die();
+	}
+	else
+	{
+		health_ -= realDamage;
+	}
+}
+
 void Character::updateMoveAnimate()
 {
 	if (statusChanged_)
