@@ -1,2 +1,12 @@
-﻿  HealthBar.cpp
+﻿  AppDelegate.cpp
+  Character.cpp
+  Monster.cpp
+  Player.cpp
+  HealthBar.cpp
+  Bullet.cpp
+  Weapon.cpp
+  HelloWorldScene.cpp
+D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Player.cpp(54,26): warning C4305: “参数”: 从“double”到“float”截断
+D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.cpp(95,45): warning C4305: “参数”: 从“double”到“float”截断
+D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.cpp(42,81): warning C4305: “参数”: 从“double”到“float”截断
   SETerminal.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\SETerminal.exe

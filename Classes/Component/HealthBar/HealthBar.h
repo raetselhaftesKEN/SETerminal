@@ -6,14 +6,14 @@
 #define __HEALTH_BAR_H__
 
 #include "cocos2d.h"
-#include "Character/Player.h"
+#include "Character/Character.h"
 
 class HealthBar : public cocos2d::Node
 {
 public:
 
 
-	static HealthBar* create(Player* player);
+	static HealthBar* create(Character* character);
 
 
 	void update(float dt);
@@ -23,7 +23,7 @@ protected:
 
 	cocos2d::Sprite* sprite_;
 	
-	Player* player_;
+	Character* character_;
 
 	int curHealth_;
 

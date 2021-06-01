@@ -84,9 +84,6 @@ public:
 protected:
 
 	
-
-	friend class HealthBar;
-	
 	enum Key { W, A, S, D };
 
 	bool keyPressed_[4]{};	

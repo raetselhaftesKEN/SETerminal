@@ -59,6 +59,8 @@ public:
 
 protected:
 
+	friend class HealthBar;
+
     cocos2d::Sprite* sprite_;
 
     int health_;
