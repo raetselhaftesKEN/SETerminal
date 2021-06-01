@@ -4,7 +4,7 @@
 
 #include "Player.h"
 #include "./Item/PlayerWeapon/Weapon.h"
-#include "./Scene/HelloWorldScene.h"
+#include "Const/Const.h"
 
 Player* Player::create(const std::string& filename)
 {
@@ -20,7 +20,7 @@ Player* Player::create(const std::string& filename)
 		//设置角色初始位置
 		player->setPosition(cocos2d::Vec2(50, 50));
 		//标记角色
-		player->setTag(ME);
+		player->setTag(PLAYER_TAG);
 
 		player->bindAnimate("MIKU");
 
@@ -32,9 +32,9 @@ Player* Player::create(const std::string& filename)
 		player->addChild(player->secondaryWeapon_);
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);
-		player->moveSpeed_ = 400.f;
-		player->health_ = 100;
-		player->shield_ = 0.5f;
+		player->moveSpeed_ = PLAYER_DEFAULT_MOVE_SPEED;
+		player->health_ = PLAYER_MAX_HEALTH;
+		player->shield_ = PLAYER_DEFAULT_SHIELD;
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
 
@@ -52,8 +52,8 @@ bool Player::bindPhysicsBody()
 	physicsBody->setGravityEnable(false);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setMass(0.1);
-	physicsBody->setContactTestBitmask(1);
-	physicsBody->setCategoryBitmask(5);
+	physicsBody->setContactTestBitmask(PLAYER_CONTACT_MASK);
+	physicsBody->setCategoryBitmask(PLAYER_CATEGORY_MASK);
 	setPhysicsBody(physicsBody);
 
 	return true;

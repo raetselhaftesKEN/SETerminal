@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 #include "Medkit.h"
+#include "Const/Const.h"
 
 Medkit* Medkit::create()
 {
@@ -23,8 +24,8 @@ Medkit* Medkit::create()
 		medkit->addChild(medkit->itemInfo_, 2);
 		medkit->itemInfo_->setTextColor(cocos2d::Color4B(0, 0, 0, 255));
 		medkit->itemInfo_->setPosition(cocos2d::Vec2(0, 400));
-		//medkit->itemInfo_->setVisible(false);
-		medkit->setTag(50);
+		medkit->itemInfo_->setVisible(false);
+		medkit->setTag(ITEM_TAG);
 		medkit->setScale(0.05f);
 		medkit->bindPhysicsBody();
 		medkit->retain();
@@ -40,8 +41,8 @@ bool Medkit::bindPhysicsBody()
 	physicsBody->setDynamic(false);
 	physicsBody->setGravityEnable(false);
 	physicsBody->setRotationEnable(false);
-	physicsBody->setContactTestBitmask(1);
-	physicsBody->setCategoryBitmask(5);
+	physicsBody->setContactTestBitmask(ITEM_CONTACT_MASK);
+	physicsBody->setCategoryBitmask(ITEM_CATEGORY_MASK);
 	setPhysicsBody(physicsBody);
 
 	return true;

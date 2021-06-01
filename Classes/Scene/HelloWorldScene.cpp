@@ -6,6 +6,7 @@
 #include "GameOverScene.h"
 #include "./Item/Bullet/Bullet.h"
 #include "Item/Medkit/Medkit.h"
+#include "Const/Const.h"
 
 USING_NS_CC;
 
@@ -59,21 +60,6 @@ bool HelloWorld::init()
     auto medkit = Medkit::create();
     addChild(medkit, 2);
     medkit->setPosition(500, 500);
-
-    //auto barrier = cocos2d::Sprite::create("stone.png");
-    //barrier->setScale(0.3);
-    //barrier->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
-    //auto physicsBody = cocos2d::PhysicsBody::createBox(barrier->getContentSize(), cocos2d::PhysicsMaterial(0, 1, 0));
-    //physicsBody->setDynamic(false);
-    //physicsBody->setGravityEnable(false);
-    //physicsBody->setRotationEnable(false);
-    //physicsBody->setContactTestBitmask(1);
-    //physicsBody->setCategoryBitmask(1);
-    //physicsBody->setCollisionBitmask(3);
-    //physicsBody->setMass(1e10);
-    //barrier->setPhysicsBody(physicsBody);
-    //addChild(barrier, 1);
-    //barrier->setPosition(300, 500);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
@@ -150,70 +136,31 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
 
     if (nodeA && nodeB)
     {
-        if (nodeA->getTag() == ME && nodeB->getTag() == ITEM)
+        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG)
         {
             contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeA), dynamic_cast<Item*>(nodeB));
         }
-        else if (nodeA->getTag() == ITEM && nodeB->getTag() == ME)
+        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG)
         {
             contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeB), dynamic_cast<Item*>(nodeA));
         }
-        else if (nodeA->getTag() == ME && nodeB->getTag() == ENEMY_BULLET)
+        else if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == MONSTER_BULLET_TAG)
         {
             contactBetweenPlayerAndBullet(dynamic_cast<Player*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
         }
-        else if (nodeA->getTag() == ENEMY_BULLET && nodeB->getTag() == ME)
+        else if (nodeA->getTag() == MONSTER_BULLET_TAG && nodeB->getTag() == PLAYER_TAG)
         {
             contactBetweenPlayerAndBullet(dynamic_cast<Player*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
         }
-        else if (nodeA->getTag() == ENEMY && nodeB->getTag() == ME_BULLET)
+        else if (nodeA->getTag() == MONSTER_TAG && nodeB->getTag() == PLAYER_BULLET_TAG)
         {
             contactBetweenMonsterAndBullet(dynamic_cast<Monster*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
         }
-        else if (nodeA->getTag() == ME_BULLET && nodeB->getTag() == ENEMY)
+        else if (nodeA->getTag() == PLAYER_BULLET_TAG && nodeB->getTag() == MONSTER_TAG)
         {
             contactBetweenMonsterAndBullet(dynamic_cast<Monster*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
         }
     }
-    //if (nodeA && nodeB)
-    //{
-    //    auto tagA = nodeA->getTag();
-    //    auto tagB = nodeB->getTag();
-
-    //    //玩家击杀怪物或怪物的子弹
-    //    if (tagA == ME_BULLET)
-    //    {
-    //        nodeB->removeFromParentAndCleanup(true);
-    //        cocos2d::log("player kill");
-    //    }
-    //    else if (tagB == ME_BULLET)
-    //    {
-    //        nodeA->removeFromParentAndCleanup(true);
-    //        cocos2d::log("player kill");
-    //    }
-
-    //    //玩家被击杀
-    //    if (tagA == ME)
-    //    {
-    //        auto tmp = dynamic_cast<Player*>(nodeA);
-    //        tmp->receiveDamage(10);
-    //        if (tmp->isAlive() == false)
-    //        {
-    //            //替换到Gameover场景
-    //            Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
-    //        }
-    //    }
-    //    if (tagB == ME)
-    //    {
-    //        auto tmp = dynamic_cast<Player*>(nodeB);
-    //        tmp->receiveDamage(10);
-    //        if (tmp->isAlive() == false)
-    //        {
-    //            //替换到Gameover场景
-    //            Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
-    //        }
-    //    }
-    //}
 
     return true;
 }
@@ -225,11 +172,11 @@ bool HelloWorld::onContactSeparated(cocos2d::PhysicsContact& physicsContact)
     if (nodeA && nodeB)
     {
         Player* playerNode = nullptr;
-        if (nodeA->getTag() == ME && nodeB->getTag() == ITEM)
+        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG)
         {
             playerNode = dynamic_cast<Player*>(nodeA);
         }
-        else if (nodeA->getTag() == ITEM && nodeB->getTag() == ME)
+        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG)
         {
             playerNode = dynamic_cast<Player*>(nodeB);
         }

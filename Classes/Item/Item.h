@@ -36,12 +36,6 @@ public:
 	virtual bool bindPhysicsBody() = 0;
 
 
-	bool onContactBegan(cocos2d::PhysicsContact& physicsContact);
-
-
-	bool onCantactSeparate(cocos2d::PhysicsContact& physicsContact);
-
-
 	cocos2d::Label* getItemInfo();
 
 

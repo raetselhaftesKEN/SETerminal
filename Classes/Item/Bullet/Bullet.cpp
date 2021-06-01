@@ -4,7 +4,7 @@
 
 #include "cocos2d.h"
 #include "Bullet.h"
-#include "././Scene/HelloWorldScene.h"
+#include "Const/Const.h"
 
 Bullet* Bullet::create(const std::string& filename)
 {
@@ -23,7 +23,7 @@ Bullet* Bullet::create(const std::string& filename)
         //设置子弹物理躯干
         bullet->bindPhysicsBody();
         //使用tag标记我方子弹
-        bullet->setTag(ME_BULLET);
+        bullet->setTag(PLAYER_BULLET_TAG);
 
         return bullet;
     }

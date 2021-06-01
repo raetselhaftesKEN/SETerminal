@@ -8,16 +8,13 @@
 /**
 * @brief 标记角色，怪物和飞镖的tag
 */
-#define ME 100
-#define ENEMY 200
-#define ME_BULLET 10
-#define ENEMY_BULLET 20
-#define ITEM 50
+
 
 #include "cocos2d.h"
 #include "Character/Player.h"
 #include "Character/Monster.h"
 #include "Component/HealthBar/HealthBar.h"
+#include "Const/Const.h"
 
 class HelloWorld : public cocos2d::Scene
 {

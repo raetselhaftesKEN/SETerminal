@@ -75,6 +75,9 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.h">
       <Filter>Source Files\Classes\Item\Medkit</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Const\Const.h">
+      <Filter>Source Files\Classes\Const</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
     </ClInclude>
@@ -243,6 +246,9 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\health_max.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\medkit.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\monster.png">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -345,6 +351,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Component\HealthBar">
       <UniqueIdentifier>{AB0AE64D-1C33-30C7-99CF-0D59F076137C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Const">
+      <UniqueIdentifier>{614668E2-CB5F-37F3-A5A9-DB7EB8004759}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Item">
       <UniqueIdentifier>{A50EFEC4-2926-372A-A79C-13FAF6785F09}</UniqueIdentifier>

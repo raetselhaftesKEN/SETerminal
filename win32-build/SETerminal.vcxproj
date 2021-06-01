@@ -808,6 +808,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Item.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\HealthBar\HealthBar.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Const\Const.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp" />
@@ -877,6 +878,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\gameover.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\health_bar.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\health_max.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\medkit.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\monster.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\myfirst.tmx" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep" />

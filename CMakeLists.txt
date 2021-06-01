@@ -80,6 +80,7 @@ list(APPEND GAME_HEADER
      Classes/Item/Item.h
      Classes/Component/HealthBar/HealthBar.h
      Classes/Item/Medkit/Medkit.h
+     Classes/Const/Const.h
      )
 
 if(ANDROID)
