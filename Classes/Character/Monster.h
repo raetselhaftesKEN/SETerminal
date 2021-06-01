@@ -45,50 +45,26 @@ public:
 
 
 	/**
-* @brief 受伤情况，通过原始伤害与后期护甲魔抗等减伤搭配使用
-* @param 收到的原始伤害值
-* @author 戴仁杰
-*/
-	void receiveDamage(int damage);
-
-
-	/**
-* @brief 获取角色是否生存
-* @return 存活状态
-* @author 戴仁杰
-*/
-	bool isAlive();
-
-
-	/**
-* @brief 角色死亡
-* @author 戴仁杰
-*/
-	void die();
-
-
-	/**
 * @brief 产生一个随机位置的坐标值
 * @return 返回一个Vec2类型的坐标(x,y)数对
 * @author 戴仁杰
 */
 	cocos2d::Vec2 getRandomPosition();
 
-	void randomMove();
+
+
+	virtual void updateFacingStatus();
+
+
+	virtual void updateWalkingStatus();
+
+
+	void update(float dt);
 
 
 protected:
 
-	//生命值
-	int health_ = 3;																
-	//是否存活
-	bool isAlive_ = true;														
-	//护甲减伤率
-	float shield = 0.5f;
-	//怪物移动速度
-	float monsterSpeed = 160.0f;
-	//无敌状态，默认为false
-	bool superBody = false;
+
 
 };
 

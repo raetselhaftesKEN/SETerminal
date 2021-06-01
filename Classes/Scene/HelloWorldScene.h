@@ -10,12 +10,11 @@
 */
 #define ME 100
 #define ENEMY 200
-#define ME_BULLET 11
+#define ME_BULLET 10
 #define ENEMY_BULLET 20
 
 #include "cocos2d.h"
 #include "./Character/Player.h"
-
 
 class HelloWorld : public cocos2d::Scene
 {
@@ -51,6 +50,9 @@ public:
 * @brief 响应场景内的屏幕触摸（即鼠标单击）
 */
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
+
+
+    void onMouseMove(cocos2d::EventMouse* mouse);
 
 
     /**

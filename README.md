@@ -16,3 +16,5 @@ this line is added in branch_my instead of master.
 
 ###### 此处使用了比较复杂的回调函数实现怪物在存活时一直随机运动+攻击的功能
 
+### 2021 6 1 14:57 pull角色界面更新，尝试设置障碍物
+
