@@ -140,10 +140,7 @@ void Player::receiveDamage(int damage)
 	}	
 }
 
-bool Player::isAlive()
-{
-	return isAlive_;
-}
+
 
 void Player::dodge()
 {
@@ -245,6 +242,16 @@ void Player::DodgeAnimeEnd()
 	canDodge_ = true;
 	superBody_ = false;
 	allowMove_ = true;
+}
+
+Item* Player::getInteractItem()
+{
+	return InteractItem_;
+}
+
+void Player::setInteractItem(Item* interactItem)
+{
+	InteractItem_ = interactItem;
 }
 
 void Player::switchWeapon()

@@ -26,7 +26,7 @@ public:
 *@brief 交互
 * @author 孟宇
 */
-	//virtual void interact() = 0
+	//void pickedUp();
 
 
 		/**
@@ -35,9 +35,24 @@ public:
 */
 	virtual bool bindPhysicsBody() = 0;
 
+
+	bool onContactBegan(cocos2d::PhysicsContact& physicsContact);
+
+
+	bool onCantactSeparate(cocos2d::PhysicsContact& physicsContact);
+
+
+	cocos2d::Label* getItemInfo();
+
+
 protected:
 
+	//是否被持有
+	bool isHeld_ = false;
+
 	cocos2d::Sprite* sprite_;
+
+	cocos2d::Label* itemInfo_ = nullptr;
 };
 
 #endif	// !__ITEM_H__

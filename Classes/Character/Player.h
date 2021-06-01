@@ -42,8 +42,7 @@ public:
 	virtual void receiveDamage(int damage);
 
 
-	//获取角色是否生存
-	bool isAlive();
+	
 
 
 	//闪避
@@ -59,6 +58,10 @@ public:
 	void DodgeAnimeStart();
 	void DodgeAnime(cocos2d::Vec2 dir);
 	void DodgeAnimeEnd();
+
+
+	Item* getInteractItem();
+	void setInteractItem(Item* interactItem);
 
 
 	//切换武器
@@ -101,6 +104,8 @@ protected:
 	float dodgeTime_ = 0.1f;
 
 	bool superBody_ = false;
+
+	Item* InteractItem_ = nullptr;
 
 	Weapon* primaryWeapon_;											//使用中的武器
 

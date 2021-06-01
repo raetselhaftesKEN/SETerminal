@@ -24,6 +24,7 @@ HealthBar* HealthBar::create(Character* character)
 		healthBar->health_->setMidpoint(cocos2d::Point(0, 0.5f));
 		healthBar->health_->setBarChangeRate(cocos2d::Point(1.f, 0));
 		healthBar->health_->setPercentage(static_cast<float>(healthBar->character_->Character::health_) / 100 * 100);
+
 		std::string healthInfo = std::to_string(healthBar->character_->Character::health_) + "/100";
 		healthBar->healthInfo_ = cocos2d::Label::createWithTTF(healthInfo, "fonts/IRANYekanBold.ttf", 18.f);
 		healthBar->healthInfo_->setAnchorPoint(cocos2d::Point(0.f, 1.f));

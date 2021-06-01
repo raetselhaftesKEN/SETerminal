@@ -12,9 +12,11 @@
 #define ENEMY 200
 #define ME_BULLET 10
 #define ENEMY_BULLET 20
+#define ITEM 50
 
 #include "cocos2d.h"
-#include "./Character/Player.h"
+#include "Character/Player.h"
+#include "Character/Monster.h"
 #include "Component/HealthBar/HealthBar.h"
 
 class HelloWorld : public cocos2d::Scene
@@ -61,6 +63,14 @@ public:
 * @brief 响应场景内的物理碰撞，击中敌人后，将敌人删除
 */
     bool onContactBegan(cocos2d::PhysicsContact& physicsContact);
+
+
+    bool onContactSeparated(cocos2d::PhysicsContact& physicsContact);
+
+
+    void contactBetweenPlayerAndItem(Player* player, Item* Item);
+    void contactBetweenPlayerAndBullet(Player* player, cocos2d::Sprite* bullet);
+    void contactBetweenMonsterAndBullet(Monster* monster, cocos2d::Sprite* bullet);
 
 
     // implement the "static create()" method manually

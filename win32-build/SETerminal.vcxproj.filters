@@ -31,6 +31,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\HealthBar\HealthBar.cpp">
       <Filter>Source Files\Classes\Component\HealthBar</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.cpp">
+      <Filter>Source Files\Classes\Item\Medkit</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -68,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\HealthBar\HealthBar.h">
       <Filter>Source Files\Classes\Component\HealthBar</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.h">
+      <Filter>Source Files\Classes\Item\Medkit</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
@@ -219,6 +225,9 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\default_weapon.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\fonts\IRANYekanBold.ttf">
+      <Filter>Resources\fonts</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\fonts\Marker Felt.ttf">
       <Filter>Resources\fonts</Filter>
     </ClInclude>
@@ -228,13 +237,16 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\gameover.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\health_bar.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\health_max.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\monster.png">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\myfirst.tmx">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\player.png">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep">
@@ -339,6 +351,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Item\Bullet">
       <UniqueIdentifier>{9CCFDC9E-7B05-3307-81C6-C8796D4E9769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Item\Medkit">
+      <UniqueIdentifier>{17EE8043-2927-38F8-80D4-9685A654C024}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Item\PlayerWeapon">
       <UniqueIdentifier>{DDFAE087-D3A5-3F7A-922C-0B950936474B}</UniqueIdentifier>

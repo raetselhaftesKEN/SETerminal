@@ -66,6 +66,7 @@ list(APPEND GAME_SOURCE
      Classes/Item/PlayerWeapon/Weapon.cpp
      Classes/Item/Item.cpp
      Classes/Component/HealthBar/HealthBar.cpp
+     Classes/Item/Medkit/Medkit.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -78,6 +79,7 @@ list(APPEND GAME_HEADER
      Classes/Item/PlayerWeapon/Weapon.h
      Classes/Item/Item.h
      Classes/Component/HealthBar/HealthBar.h
+     Classes/Item/Medkit/Medkit.h
      )
 
 if(ANDROID)

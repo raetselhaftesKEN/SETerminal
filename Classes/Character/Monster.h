@@ -8,7 +8,6 @@
 
 #include "cocos2d.h"
 #include "Character.h"
-#include "Scene/HelloWorldScene.h"
 
 /**
 *@brief π÷ŒÔ¿‡

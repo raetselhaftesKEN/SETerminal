@@ -36,6 +36,10 @@ public:
     void die();
 
 
+	//获取角色是否生存
+	bool isAlive();
+
+
 	void updateMoveAnimate();
 
 

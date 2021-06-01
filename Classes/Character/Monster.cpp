@@ -3,6 +3,7 @@
 */
 
 #include "Monster.h"
+#include "Player.h"
 
 static void problemLoading(const char* filename)
 {
@@ -35,6 +36,7 @@ cocos2d::Vec2 Monster::getRandomPosition()
 	return position;
 }
 
+#define ME 100
 void Monster::move() {
 	auto nextPosition = getRandomPosition();
 	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(ME);
@@ -57,6 +59,7 @@ void Monster::move() {
 		}
 		else
 		{
+#define ENEMY_BULLET 20
 			//setPosition是指的自己和他父节点的相对位置，子弹的父节点设为场景Helloworld
 			enemyBullet->setPosition(getPosition());
 			//设置敌方子弹的物理躯干
@@ -117,12 +120,16 @@ Monster* Monster::create(const std::string& filename)
 		auto monsterPosition = monster->getRandomPosition();
 		monster->bindAnimate("MONSTER2");
 
+		monster->health_ = 10;
+		monster->shield_ = 0.5f;
+
 		//设置怪物生成坐标
 		monster->setPosition(monsterPosition);
 
 		//为角色设置物理躯干
 		monster->bindPhysicsBody();
 
+#define ENEMY 200
 		//标记角色
 		monster->setTag(ENEMY);
 

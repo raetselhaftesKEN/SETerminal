@@ -19,6 +19,11 @@ void Character::die()
 	health_ = 0;
 }
 
+bool Character::isAlive()
+{
+	return isAlive_;
+}
+
 void Character::receiveDamage(int damage)
 {
 	int realDamage = static_cast<int>(damage * (1 - shield_));
