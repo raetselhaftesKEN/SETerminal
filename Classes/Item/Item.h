@@ -26,7 +26,7 @@ public:
 *@brief Ωªª•
 * @author √œ”Ó
 */
-	//void pickedUp();
+	virtual void interact() = 0;
 
 
 		/**

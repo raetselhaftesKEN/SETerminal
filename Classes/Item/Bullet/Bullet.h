@@ -23,6 +23,9 @@ public:
 	static Bullet* create(const std::string& filename);
 
 
+	virtual void interact(){}
+
+
 	//为Bullet对象绑定物理躯干
 	virtual bool bindPhysicsBody();
 	

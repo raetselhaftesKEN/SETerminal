@@ -23,9 +23,12 @@ public:
 	int getRecovery();
 
 
+	virtual void interact();
+
+
 protected:
 
-	int recovery_ = MEDKIT_DEFAULT_RECOVERABILITY;
+	int recovery_ = MEDKIT_MAX_NUM;
 	
 
 };

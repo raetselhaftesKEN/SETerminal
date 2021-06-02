@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 #include "Medkit.h"
+#include "Character/Player.h"
 #include "Const/Const.h"
 
 Medkit* Medkit::create()
@@ -51,4 +52,15 @@ bool Medkit::bindPhysicsBody()
 int Medkit::getRecovery()
 {
 	return recovery_;
+}
+
+void Medkit::interact()
+{
+	auto player = dynamic_cast<Player*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(PLAYER_TAG));
+	if (player && player->getInteractItem() == this && player->isMedkitFull() == false)
+	{
+		player->getMedkitBagInstance()->push(this);
+		retain();
+		removeFromParent();
+	}
 }

@@ -2,14 +2,16 @@
 * @file Player.h
 */
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
 
 #include "cocos2d.h"
 #include "./Item/PlayerWeapon/Weapon.h"
 #include "Character.h"
-#include "Item/Medkit/Medkit.h"
 #include <string>
+#include "Const/Const.h"
+#include "Item/Medkit/Medkit.h"
+
 
 /**
 *@brief 角色类
@@ -68,7 +70,8 @@ public:
 
 
 	int getMedkitNum();
-
+	bool isMedkitFull();
+	std::stack<Medkit*>* getMedkitBagInstance();
 
 	void useMedkit();
 
@@ -98,7 +101,7 @@ protected:
 
 	bool superBody_ = false;
 
-	Item* InteractItem_ = nullptr;
+	Item* interactItem_ = nullptr;
 
 	Weapon* primaryWeapon_;											//使用中的武器
 
@@ -108,8 +111,8 @@ protected:
 
 	std::stack<Medkit*> medkit_;
 
-	//待更新属性、血量、buff等
+	int medkitMaxNum_ = MEDKIT_MAX_NUM;
 
 };
 
-#endif // !PLAYER_H
+#endif // !__PLAYER_H__

@@ -3,6 +3,7 @@
 */
 
 #include "Player.h"
+#include "Item/Medkit/Medkit.h"
 #include "./Item/PlayerWeapon/Weapon.h"
 #include "Const/Const.h"
 
@@ -36,6 +37,7 @@ Player* Player::create(const std::string& filename)
 		player->health_ = PLAYER_MAX_HEALTH;
 		player->maxHealth_ = PLAYER_MAX_HEALTH;
 		player->shield_ = PLAYER_DEFAULT_SHIELD;
+		player->medkitMaxNum_ = MEDKIT_MAX_NUM;
 
 		//Medkit* test = Medkit::create();
 		//test->retain();
@@ -97,6 +99,13 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 	if (keyCode == K::KEY_E)
 	{
 		useMedkit();
+	}
+	if (keyCode == K::KEY_F)
+	{
+		if (interactItem_ != nullptr)
+		{
+			interactItem_->interact();
+		}
 	}
 		
 }
@@ -256,12 +265,12 @@ void Player::DodgeAnimeEnd()
 
 Item* Player::getInteractItem()
 {
-	return InteractItem_;
+	return interactItem_;
 }
 
 void Player::setInteractItem(Item* interactItem)
 {
-	InteractItem_ = interactItem;
+	interactItem_ = interactItem;
 }
 
 void Player::switchWeapon()
@@ -294,6 +303,16 @@ const std::string Player::getBulletName() const
 int Player::getMedkitNum()
 {
 	return medkit_.size();
+}
+
+bool Player::isMedkitFull()
+{
+	return medkit_.size() == medkitMaxNum_;
+}
+
+std::stack<Medkit*>* Player::getMedkitBagInstance()
+{
+	return &medkit_;
 }
 
 void Player::useMedkit()

@@ -19,6 +19,9 @@ public:
 	virtual ~Weapon() = default;
 
 
+	virtual void interact(){}
+
+
 	/**
 * @brief 生成一个Weapon实例
 * @param Weapon实例对应的素材文件名
