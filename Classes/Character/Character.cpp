@@ -37,6 +37,14 @@ void Character::receiveDamage(int damage)
 	}
 }
 
+void Character::recoverHealth(int recovery)
+{
+	if (isAlive())
+	{
+		health_ = (((health_ + recovery) > maxHealth_ ) ? maxHealth_ : (health_ + recovery));
+	}
+}
+
 void Character::updateMoveAnimate()
 {
 	if (statusChanged_)

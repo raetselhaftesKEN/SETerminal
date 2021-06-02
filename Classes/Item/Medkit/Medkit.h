@@ -7,6 +7,7 @@
 
 #include "cocos2d.h"
 #include "Item/Item.h"
+#include "Const/Const.h"
 
 class Medkit : public Item
 {
@@ -19,13 +20,12 @@ public:
 	virtual bool bindPhysicsBody();
 
 
-
+	int getRecovery();
 
 
 protected:
 
-
-
+	int recovery_ = MEDKIT_DEFAULT_RECOVERABILITY;
 	
 
 };

@@ -29,6 +29,9 @@ public:
 	virtual void receiveDamage(int damage);
 
 
+	void recoverHealth(int recovery);
+
+
     /**
 *@brief À¿Õˆ
 * @author √œ”Ó
@@ -68,6 +71,8 @@ protected:
     cocos2d::Sprite* sprite_;
 
     int health_;
+
+	int maxHealth_;
 
     float shield_;
 

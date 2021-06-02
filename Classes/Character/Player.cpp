@@ -34,7 +34,13 @@ Player* Player::create(const std::string& filename)
 		player->secondaryWeapon_->setVisible(false);
 		player->moveSpeed_ = PLAYER_DEFAULT_MOVE_SPEED;
 		player->health_ = PLAYER_MAX_HEALTH;
+		player->maxHealth_ = PLAYER_MAX_HEALTH;
 		player->shield_ = PLAYER_DEFAULT_SHIELD;
+
+		//Medkit* test = Medkit::create();
+		//test->retain();
+		//player->medkit_.push(test);
+
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
 
@@ -87,6 +93,10 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 	if (keyCode == K::KEY_SPACE)
 	{
 		dodge();
+	}
+	if (keyCode == K::KEY_E)
+	{
+		useMedkit();
 	}
 		
 }
@@ -279,6 +289,21 @@ Weapon* Player::getSecondaryWeaponInstance()
 const std::string Player::getBulletName() const
 {
 	return bulletFilename_;
+}
+
+int Player::getMedkitNum()
+{
+	return medkit_.size();
+}
+
+void Player::useMedkit()
+{
+	if (health_ != maxHealth_ && getMedkitNum() != 0)
+	{
+		recoverHealth(medkit_.top()->getRecovery());
+		medkit_.top()->release();
+		medkit_.pop();
+	}
 }
 
 void Player::update(float dt)

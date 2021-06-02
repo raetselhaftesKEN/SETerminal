@@ -121,6 +121,7 @@ Monster* Monster::create(const std::string& filename)
 		monster->bindAnimate("MONSTER2");
 
 		monster->health_ = MONSTER_MAX_HEALTH;
+		monster->maxHealth_ = MONSTER_MAX_HEALTH;
 		monster->shield_ = MONSTER_DEFAULT_SHIELD;
 
 		//设置怪物生成坐标

@@ -8,6 +8,7 @@
 #include "cocos2d.h"
 #include "./Item/PlayerWeapon/Weapon.h"
 #include "Character.h"
+#include "Item/Medkit/Medkit.h"
 #include <string>
 
 /**
@@ -28,12 +29,8 @@ public:
 
 	//响应键盘按下，移动角色
 	void listenToKeyPress(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event* unusedEvent);
-
-
 	//响应键盘松开，停止移动
 	void listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event* unusedEvent);
-
-
 	//接收鼠标事件
 	void listenToMouseEvent(cocos2d::Vec2, bool isPressed);
 
@@ -42,19 +39,11 @@ public:
 	virtual void receiveDamage(int damage);
 
 
-	
-
-
-	//闪避
-	void dodge();
-
-
 	virtual void updateFacingStatus();
-
-
 	virtual void updateWalkingStatus();
 	
-	//闪避动画
+
+	void dodge();
 	void DodgeAnimeStart();
 	void DodgeAnime(cocos2d::Vec2 dir);
 	void DodgeAnimeEnd();
@@ -70,14 +59,18 @@ public:
 
 	// 获取角色当前装备的武器对象
 	Weapon* getPrimaryWeaponInstance();
-
-
 	//获取角色当前未装备的副武器对象
 	Weapon* getSecondaryWeaponInstance();
 
 
 	//获取角色当前装备的子弹种类对应的素材文件名
 	const std::string getBulletName() const;
+
+
+	int getMedkitNum();
+
+
+	void useMedkit();
 
 
 	//更新角色状态
@@ -112,6 +105,8 @@ protected:
 	Weapon* secondaryWeapon_;										//副武器
 
 	std::string bulletFilename_;												//当前装备的子弹
+
+	std::stack<Medkit*> medkit_;
 
 	//待更新属性、血量、buff等
 

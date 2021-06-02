@@ -19,7 +19,7 @@ Medkit* Medkit::create()
 	if (medkit && medkit->sprite_)
 	{
 		medkit->addChild(medkit->sprite_);
-
+		medkit->recovery_ = MEDKIT_DEFAULT_RECOVERABILITY;
 		medkit->itemInfo_ = cocos2d::Label::createWithTTF("Medkit", "fonts/IRANYekanBold.ttf", 360);
 		medkit->addChild(medkit->itemInfo_, 2);
 		medkit->itemInfo_->setTextColor(cocos2d::Color4B(0, 0, 0, 255));
@@ -46,4 +46,9 @@ bool Medkit::bindPhysicsBody()
 	setPhysicsBody(physicsBody);
 
 	return true;
+}
+
+int Medkit::getRecovery()
+{
+	return recovery_;
 }

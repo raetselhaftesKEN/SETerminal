@@ -1,13 +1,5 @@
-﻿  AppDelegate.cpp
-  Monster.cpp
-  Player.cpp
-  Bullet.cpp
-  Medkit.cpp
-  Weapon.cpp
-  HelloWorldScene.cpp
-D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Player.cpp(54,26): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.cpp(98,45): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.cpp(42,81): warning C4305: “参数”: 从“double”到“float”截断
+﻿  Player.cpp
+D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Player.cpp(60,26): warning C4305: “参数”: 从“double”到“float”截断
 libchipmunk.lib(cpArbiter.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpArbiter.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(chipmunk.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(chipmunk.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(cpBody.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpBody.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
@@ -32,11 +24,11 @@ libchipmunk.lib(cpSimpleMotor.obj) : warning LNK4099: 未找到 PDB“chipmunk_s
 libchipmunk.lib(cpHashSet.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpHashSet.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(cpArray.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpArray.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(cpCollision.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpCollision.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-libbullet.lib(btAlignedAllocator.obj) : warning LNK4075: 忽略“/EDITANDCONTINUE”(由于“/SAFESEH”规范)
 libchipmunk.lib(cpSpaceHash.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpSpaceHash.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(cpBBTree.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpBBTree.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(cpSpatialIndex.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpSpatialIndex.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(cpRobust.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpRobust.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+libbullet.lib(btAlignedAllocator.obj) : warning LNK4075: 忽略“/EDITANDCONTINUE”(由于“/SAFESEH”规范)
 libbullet.lib(btAlignedAllocator.obj) : warning LNK4099: 未找到 PDB“libbullet.pdb”(使用“libbullet.lib(btAlignedAllocator.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\libbullet.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libbullet.lib(btCollisionDispatcher.obj) : warning LNK4099: 未找到 PDB“libbullet.pdb”(使用“libbullet.lib(btCollisionDispatcher.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\libbullet.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libbullet.lib(btCollisionWorld.obj) : warning LNK4099: 未找到 PDB“libbullet.pdb”(使用“libbullet.lib(btCollisionWorld.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\libbullet.pdb”中寻找)；正在链接对象，如同没有调试信息一样
