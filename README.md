@@ -18,3 +18,4 @@ this line is added in branch_my instead of master.
 
 ### 2021 6 1 14:57 pull角色界面更新，尝试设置障碍物
 
+### 2021 6 2 21:46 将障碍物封装为类

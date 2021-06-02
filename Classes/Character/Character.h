@@ -26,11 +26,21 @@ public:
     void bindPictureSprite(cocos2d::Sprite* sprite);
 
 
+	virtual void receiveDamage(int damage);
+
+
+	void recoverHealth(int recovery);
+
+
     /**
 *@brief 死亡
 * @author 孟宇
 */
     void die();
+
+
+	//获取角色是否生存
+	bool isAlive();
 
 
 	void updateMoveAnimate();
@@ -56,9 +66,13 @@ public:
 
 protected:
 
+	friend class HealthBar;
+
     cocos2d::Sprite* sprite_;
 
     int health_;
+
+	int maxHealth_;
 
     float shield_;
 

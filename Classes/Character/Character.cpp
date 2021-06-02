@@ -19,6 +19,32 @@ void Character::die()
 	health_ = 0;
 }
 
+bool Character::isAlive()
+{
+	return isAlive_;
+}
+
+void Character::receiveDamage(int damage)
+{
+	int realDamage = static_cast<int>(damage * (1 - shield_));
+	if (realDamage >= health_)
+	{
+		die();
+	}
+	else
+	{
+		health_ -= realDamage;
+	}
+}
+
+void Character::recoverHealth(int recovery)
+{
+	if (isAlive())
+	{
+		health_ = (((health_ + recovery) > maxHealth_ ) ? maxHealth_ : (health_ + recovery));
+	}
+}
+
 void Character::updateMoveAnimate()
 {
 	if (statusChanged_)

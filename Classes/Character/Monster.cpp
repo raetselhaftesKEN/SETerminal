@@ -3,6 +3,8 @@
 */
 
 #include "Monster.h"
+#include "Player.h"
+#include "Const/Const.h"
 
 static void problemLoading(const char* filename)
 {
@@ -35,12 +37,31 @@ cocos2d::Vec2 Monster::getRandomPosition()
 	return position;
 }
 
+
 void Monster::move() {
-	auto nextPosition = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(ME)->getPosition();
+	auto nextPosition = getRandomPosition();
+	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(PLAYER_TAG);
+	if (playerNode != nullptr)
+	{
+		nextPosition = playerNode->getPosition();
+	}
 	auto realDest = nextPosition - getPosition();
 	realDest.normalize();
-	auto moveOnce = cocos2d::MoveBy::create(2.f, realDest * 50);
+	auto moveOnce = cocos2d::MoveBy::create(0.25f, realDest * 6.25);
+
 	facingPoint_ = nextPosition;
+
+
+	auto monsterPos = this->getPosition();
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
+	auto obstacleOfNode = runningScene->getChildByTag(133);
+	//如果场景已经被释放，找不到怪物位置，直接退出
+	if (obstacleOfNode != nullptr)
+	{
+		auto obstacle = dynamic_cast<Obstacle*>(obstacleOfNode);
+		obstacle->collision(this);
+	}
+
 
 	//怪物在move1和move2中间的随机位置发射子弹的动作，使用lambda表达式实现
 	auto shootStar = cocos2d::CallFunc::create([=]() {
@@ -57,14 +78,14 @@ void Monster::move() {
 			//设置敌方子弹的物理躯干
 			auto physicsBody = cocos2d::PhysicsBody::createBox(enemyBullet->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
 			physicsBody->setDynamic(false);
-			physicsBody->setCategoryBitmask(3);
-			physicsBody->setContactTestBitmask(4);
+			physicsBody->setCategoryBitmask(MONSTER_CATEGORY_MASK);
+			physicsBody->setContactTestBitmask(MONSTER_CONTACT_MASK);
 			enemyBullet->setPhysicsBody(physicsBody);
-			enemyBullet->setTag(ENEMY_BULLET);
+			enemyBullet->setTag(MONSTER_BULLET_TAG);
 
 			//为了在Monster类内使用外部的东西，使用以下几句
 			auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
-			auto playerOfNode = runningScene->getChildByTag(ME);
+			auto playerOfNode = runningScene->getChildByTag(PLAYER_TAG);
 			cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
 			//如果场景已经被释放，找不到我方player位置，直接退出
 			if (playerOfNode == nullptr)
@@ -112,6 +133,10 @@ Monster* Monster::create(const std::string& filename)
 		auto monsterPosition = monster->getRandomPosition();
 		monster->bindAnimate("MONSTER2");
 
+		monster->health_ = MONSTER_MAX_HEALTH;
+		monster->maxHealth_ = MONSTER_MAX_HEALTH;
+		monster->shield_ = MONSTER_DEFAULT_SHIELD;
+
 		//设置怪物生成坐标
 		monster->setPosition(monsterPosition);
 
@@ -119,7 +144,7 @@ Monster* Monster::create(const std::string& filename)
 		monster->bindPhysicsBody();
 
 		//标记角色
-		monster->setTag(ENEMY);
+		monster->setTag(MONSTER_TAG);
 
 
 		monster->autorelease();
@@ -146,8 +171,12 @@ bool Monster::bindPhysicsBody()
 
 void Monster::updateFacingStatus()
 {
-	auto playerPos = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(ME)->getPosition();
-	facingPoint_ = playerPos;
+	facingPoint_ = getRandomPosition();
+	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(PLAYER_TAG);
+	if (playerNode != nullptr)
+	{
+		facingPoint_ = playerNode->getPosition();
+	}
 	auto direction = facingPoint_ - getPosition();
 	preFacingStatus_ = curFacingStatus_;
 

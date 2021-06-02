@@ -4,9 +4,10 @@
 
 #include "HelloWorldScene.h"
 #include "GameOverScene.h"
-#include "./Character/Player.h"
 #include "./Item/Bullet/Bullet.h"
-#include "./Character/Monster.h"
+#include "Item/Medkit/Medkit.h"
+#include "Const/Const.h"
+#include "../Item/Obstacle/Obstacle.h"
 
 USING_NS_CC;
 
@@ -37,13 +38,6 @@ bool HelloWorld::init()
     auto winSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
-    auto testpic = Sprite::create("tmw_desert_spacing.png");
-    testpic->setPosition(500, 350);
-    testpic->setTag(133);
-    this->addChild(testpic);   
-
-
-
     //绘制灰色背景
     auto background = DrawNode::create();
     background->drawSolidRect(origin, winSize, cocos2d::Color4F(0.6, 0.6, 0.6, 1));
@@ -56,8 +50,22 @@ bool HelloWorld::init()
     this->addChild(_tileMap, -1);
 
     //生成玩家角色实例
-    player_ = Player::create("/MIKU/idle_down/idle_down1.png");
-    this->addChild(player_);
+    player_ = Player::create("MIKU/idle_down/idle_down1.png");
+    this->addChild(player_, 2);
+
+    healthBar_ = HealthBar::create(player_);
+    healthBar_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
+    healthBar_->setPosition(cocos2d::Point(10, winSize.height));
+    addChild(healthBar_, 2);
+
+    auto medkit = Medkit::create();
+    addChild(medkit, 2);
+    medkit->setPosition(500, 500);
+
+    auto obstacle = Obstacle::create("wall.png");
+    obstacle->setPosition(300, 100);
+    obstacle->setTag(133);
+    addChild(obstacle, 0);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
@@ -76,6 +84,7 @@ bool HelloWorld::init()
     //生成场景内物理碰撞事件的监听器
     auto contactListener = cocos2d::EventListenerPhysicsContact::create();
     contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegan, this);
+    contactListener->onContactSeparate = CC_CALLBACK_1(HelloWorld::onContactSeparated, this);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
     //生成键盘操作事件的监听器
@@ -83,6 +92,7 @@ bool HelloWorld::init()
     keyboardListener->onKeyPressed = CC_CALLBACK_2(Player::listenToKeyPress, player_);
     keyboardListener->onKeyReleased = CC_CALLBACK_2(Player::listenToKeyRelease, player_);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+
 
     return true;
 }
@@ -132,43 +142,96 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
 
     if (nodeA && nodeB)
     {
-        auto tagA = nodeA->getTag();
-        auto tagB = nodeB->getTag();
-
-        //玩家击杀怪物或怪物的子弹
-        if (tagA == ME_BULLET)
+        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG)
         {
-            nodeB->removeFromParentAndCleanup(true);
-            cocos2d::log("player kill");
+            contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeA), dynamic_cast<Item*>(nodeB));
         }
-        else if (tagB == ME_BULLET)
+        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG)
         {
-            nodeA->removeFromParentAndCleanup(true);
-            cocos2d::log("player kill");
+            contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeB), dynamic_cast<Item*>(nodeA));
         }
-
-        //玩家被击杀
-        if (tagA == ME)
+        else if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == MONSTER_BULLET_TAG)
         {
-            auto tmp = dynamic_cast<Player*>(nodeA);
-            tmp->getInjured(0);
-            if (tmp->isAlive() == false)
-            {
-                //替换到Gameover场景
-                Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
-            }
+            contactBetweenPlayerAndBullet(dynamic_cast<Player*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
         }
-        if (tagB == ME)
+        else if (nodeA->getTag() == MONSTER_BULLET_TAG && nodeB->getTag() == PLAYER_TAG)
         {
-            auto tmp = dynamic_cast<Player*>(nodeB);
-            tmp->getInjured(0);
-            if (tmp->isAlive() == false)
-            {
-                //替换到Gameover场景
-                Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
-            }
+            contactBetweenPlayerAndBullet(dynamic_cast<Player*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
+        }
+        else if (nodeA->getTag() == MONSTER_TAG && nodeB->getTag() == PLAYER_BULLET_TAG)
+        {
+            contactBetweenMonsterAndBullet(dynamic_cast<Monster*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
+        }
+        else if (nodeA->getTag() == PLAYER_BULLET_TAG && nodeB->getTag() == MONSTER_TAG)
+        {
+            contactBetweenMonsterAndBullet(dynamic_cast<Monster*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
         }
     }
 
     return true;
+}
+
+bool HelloWorld::onContactSeparated(cocos2d::PhysicsContact& physicsContact)
+{
+    auto nodeA = physicsContact.getShapeA()->getBody()->getNode();
+    auto nodeB = physicsContact.getShapeB()->getBody()->getNode();
+    if (nodeA && nodeB)
+    {
+        Player* playerNode = nullptr;
+        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG)
+        {
+            playerNode = dynamic_cast<Player*>(nodeA);
+        }
+        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG)
+        {
+            playerNode = dynamic_cast<Player*>(nodeB);
+        }
+
+        if (playerNode != nullptr && playerNode->getInteractItem() == nodeB)
+        {
+            cocos2d::log("item separate");
+            playerNode->setInteractItem(nullptr);
+            if (dynamic_cast<Item*>(nodeB)->getItemInfo() && dynamic_cast<Item*>(nodeB)->getItemInfo()->getParent() == nodeB)
+            {
+                dynamic_cast<Item*>(nodeB)->getItemInfo()->setVisible(false);
+            }
+        }
+    }
+    return true;
+}
+
+void HelloWorld::contactBetweenPlayerAndItem(Player* player, Item* item)
+{
+    if (player != nullptr && player->getInteractItem() == nullptr && item != nullptr)
+    {
+        player->setInteractItem(item);
+        if (item->getItemInfo() && item->getItemInfo()->getParent() == item)
+        {
+            item->getItemInfo()->setVisible(true);
+        }
+    }
+}
+
+void HelloWorld::contactBetweenPlayerAndBullet(Player* player, cocos2d::Sprite* bullet)
+{
+    if (player && bullet)
+    {
+        player->receiveDamage(10);
+        if (player->isAlive() == false)
+        {
+            Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
+        }
+    }
+}
+
+void HelloWorld::contactBetweenMonsterAndBullet(Monster* monster, cocos2d::Sprite* bullet)
+{
+    if (monster && bullet)
+    {
+        monster->receiveDamage(10);
+        if (monster->isAlive() == false)
+        {
+            monster->removeFromParentAndCleanup(true);
+        }
+    }
 }

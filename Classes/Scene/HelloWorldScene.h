@@ -8,19 +8,20 @@
 /**
 * @brief 标记角色，怪物和飞镖的tag
 */
-#define ME 100
-#define ENEMY 200
-#define ME_BULLET 10
-#define ENEMY_BULLET 20
+
 
 #include "cocos2d.h"
-#include "./Character/Player.h"
+#include "Character/Player.h"
+#include "Character/Monster.h"
+#include "Component/HealthBar/HealthBar.h"
+#include "Const/Const.h"
 
 class HelloWorld : public cocos2d::Scene
 {
 private:
     Player* player_;
     //地图类,对应相关的tmx文件
+    HealthBar* healthBar_;
     cocos2d::TMXTiledMap* _tileMap;
     //地图中的一个层
     cocos2d::TMXLayer* _background;
@@ -61,8 +62,18 @@ public:
     bool onContactBegan(cocos2d::PhysicsContact& physicsContact);
 
 
+    bool onContactSeparated(cocos2d::PhysicsContact& physicsContact);
+
+
+    void contactBetweenPlayerAndItem(Player* player, Item* Item);
+    void contactBetweenPlayerAndBullet(Player* player, cocos2d::Sprite* bullet);
+    void contactBetweenMonsterAndBullet(Monster* monster, cocos2d::Sprite* bullet);
+
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__

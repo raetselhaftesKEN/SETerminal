@@ -65,6 +65,8 @@ list(APPEND GAME_SOURCE
      Classes/Character/Monster.cpp
      Classes/Item/PlayerWeapon/Weapon.cpp
      Classes/Item/Item.cpp
+     Classes/Component/HealthBar/HealthBar.cpp
+     Classes/Item/Medkit/Medkit.cpp
      Classes/Item/Obstacle/Obstacle.cpp
      )
 list(APPEND GAME_HEADER
@@ -77,6 +79,9 @@ list(APPEND GAME_HEADER
      Classes/Character/Monster.h
      Classes/Item/PlayerWeapon/Weapon.h
      Classes/Item/Item.h
+     Classes/Component/HealthBar/HealthBar.h
+     Classes/Item/Medkit/Medkit.h
+     Classes/Const/Const.h
      Classes/Item/Obstacle/Obstacle.h
      )
 

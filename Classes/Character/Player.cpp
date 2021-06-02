@@ -3,9 +3,9 @@
 */
 
 #include "Player.h"
+#include "Item/Medkit/Medkit.h"
 #include "./Item/PlayerWeapon/Weapon.h"
-#include "./Scene/HelloWorldScene.h"
-#include <cmath>
+#include "Const/Const.h"
 
 Player* Player::create(const std::string& filename)
 {
@@ -21,7 +21,7 @@ Player* Player::create(const std::string& filename)
 		//设置角色初始位置
 		player->setPosition(cocos2d::Vec2(50, 50));
 		//标记角色
-		player->setTag(ME);
+		player->setTag(PLAYER_TAG);
 
 		player->bindAnimate("MIKU");
 
@@ -33,13 +33,21 @@ Player* Player::create(const std::string& filename)
 		player->addChild(player->secondaryWeapon_);
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);
-		player->moveSpeed_ = 400.f;
-		player->health_ = 3;
-		player->shield_ = 0.5f;
+		player->moveSpeed_ = PLAYER_DEFAULT_MOVE_SPEED;
+		player->health_ = PLAYER_MAX_HEALTH;
+		player->maxHealth_ = PLAYER_MAX_HEALTH;
+		player->shield_ = PLAYER_DEFAULT_SHIELD;
+		player->medkitMaxNum_ = MEDKIT_MAX_NUM;
+
+		//Medkit* test = Medkit::create();
+		//test->retain();
+		//player->medkit_.push(test);
+
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
 
 		player->autorelease();
+
 		return player;
 	}
 	return nullptr;
@@ -47,10 +55,13 @@ Player* Player::create(const std::string& filename)
 
 bool Player::bindPhysicsBody()
 {
-	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 1.0f, 0.0f));
 	physicsBody->setDynamic(false);
-	physicsBody->setContactTestBitmask(1);
-	physicsBody->setCategoryBitmask(5);
+	physicsBody->setGravityEnable(false);
+	physicsBody->setRotationEnable(false);
+	physicsBody->setMass(0.1);
+	physicsBody->setContactTestBitmask(PLAYER_CONTACT_MASK);
+	physicsBody->setCategoryBitmask(PLAYER_CATEGORY_MASK);
 	setPhysicsBody(physicsBody);
 
 	return true;
@@ -84,6 +95,17 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 	if (keyCode == K::KEY_SPACE)
 	{
 		dodge();
+	}
+	if (keyCode == K::KEY_E)
+	{
+		useMedkit();
+	}
+	if (keyCode == K::KEY_F)
+	{
+		if (interactItem_ != nullptr)
+		{
+			interactItem_->interact();
+		}
 	}
 		
 }
@@ -121,7 +143,7 @@ void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
 	}
 }
 
-void Player::getInjured(int damage)
+void Player::receiveDamage(int damage)
 {
 	if (!superBody_)
 	{
@@ -137,10 +159,7 @@ void Player::getInjured(int damage)
 	}	
 }
 
-bool Player::isAlive()
-{
-	return isAlive_;
-}
+
 
 void Player::dodge()
 {
@@ -244,6 +263,16 @@ void Player::DodgeAnimeEnd()
 	allowMove_ = true;
 }
 
+Item* Player::getInteractItem()
+{
+	return interactItem_;
+}
+
+void Player::setInteractItem(Item* interactItem)
+{
+	interactItem_ = interactItem;
+}
+
 void Player::switchWeapon()
 {
 	if (secondaryWeapon_ != nullptr)
@@ -271,9 +300,35 @@ const std::string Player::getBulletName() const
 	return bulletFilename_;
 }
 
+int Player::getMedkitNum()
+{
+	return medkit_.size();
+}
+
+bool Player::isMedkitFull()
+{
+	return medkit_.size() == medkitMaxNum_;
+}
+
+std::stack<Medkit*>* Player::getMedkitBagInstance()
+{
+	return &medkit_;
+}
+
+void Player::useMedkit()
+{
+	if (health_ != maxHealth_ && getMedkitNum() != 0)
+	{
+		recoverHealth(medkit_.top()->getRecovery());
+		medkit_.top()->release();
+		medkit_.pop();
+	}
+}
+
 void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
+
 	if (allowMove_)
 	{
 		if (keyPressed_[W])
@@ -306,19 +361,11 @@ void Player::update(float dt)
 		auto playerPos = this->getPosition();
 		auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
 		auto boxOfNode = runningScene->getChildByTag(133);
-		cocos2d::Vec2 boxPositionInScene = cocos2d::Vec2::ZERO;
 		//如果场景已经被释放，找不到我方player位置，直接退出
 		if (boxOfNode != nullptr)
 		{
-			//获得当前我方player位置
-			auto boxOfPlayer = dynamic_cast<Sprite*>(boxOfNode);
-			boxPositionInScene = boxOfPlayer->getPosition();
-			//撞到了
-			if (fabs(boxPositionInScene.x - playerPos.x) < 154.5 && fabs(boxPositionInScene.y - playerPos.y) < 99.4)
-			{
-				this->setPosition(cocos2d::Vec2(playerPos.x, 250.5));
-			}
+			auto obstacle = dynamic_cast<Obstacle*>(boxOfNode);
+			obstacle->collision(this);
 		}
-
 	}	
 }
