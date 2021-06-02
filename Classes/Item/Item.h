@@ -26,11 +26,7 @@ public:
 *@brief Ωªª•
 * @author √œ”Ó
 */
-<<<<<<< Updated upstream
-	//virtual void interact() = 0;
-=======
 	//virtual void interact() = 0
->>>>>>> Stashed changes
 
 
 		/**

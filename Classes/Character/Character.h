@@ -26,12 +26,9 @@ public:
     void bindPictureSprite(cocos2d::Sprite* sprite);
 
 
-<<<<<<< Updated upstream
-=======
 	virtual void receiveDamage(int damage);
 
 
->>>>>>> Stashed changes
     /**
 *@brief 死亡
 * @author 孟宇
@@ -39,8 +36,6 @@ public:
     void die();
 
 
-<<<<<<< Updated upstream
-=======
 	void updateMoveAnimate();
 
 
@@ -50,7 +45,6 @@ public:
 	virtual void updateWalkingStatus() = 0;
 
 
->>>>>>> Stashed changes
     /**
 *@brief 绑定物理躯干
 * @author 孟宇
@@ -58,14 +52,10 @@ public:
     virtual bool bindPhysicsBody() = 0;
 
 
-<<<<<<< Updated upstream
-    static cocos2d::Animate* createAnimate(const char* animateName, int width, int height, int frames = 4);
-=======
     static cocos2d::Animate* createAnimate(const char* animateName, cocos2d::Size size, int frames = 4);
 
 
 	void bindAnimate(const std::string& characterName);
->>>>>>> Stashed changes
 
 protected:
 
@@ -76,11 +66,6 @@ protected:
     float shield_;
 
     bool isAlive_ = true;
-<<<<<<< Updated upstream
-
-    float moveSpeed_;
-
-=======
 	
     float moveSpeed_;
 
@@ -111,7 +96,6 @@ protected:
 	//状态是否发生改变
 	bool statusChanged_ = false;
 
->>>>>>> Stashed changes
 };
 
 #endif // !__CHARACTER_H__

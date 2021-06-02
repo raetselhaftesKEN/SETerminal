@@ -42,23 +42,6 @@ bool Bullet::bindPhysicsBody()
     return true;
 }
 
-<<<<<<< Updated upstream
-//void Bullet::dieEffect()
-//{
-//
-//}
-
-bool Bullet::shoot(const cocos2d::Vec2 shootDirection)
-{
-    //生成子弹飞行运动动画
-    auto actionMove = cocos2d::MoveTo::create(bulletRange_ / bulletSpeed_, getPosition() + shootDirection * bulletRange_);
-    //释放子弹
-    auto actionRemove = cocos2d::RemoveSelf::create();
-    //为子弹实例绑定飞行-释放的动画
- //   auto end = cocos2d::CallFunc::create([=]() {dieEffect(); });
- //   runAction(cocos2d::Sequence::create(actionMove, dieEffect, actionRemove, nullptr));
-    runAction(cocos2d::Sequence::create(actionMove, actionRemove, nullptr));
-=======
 void Bullet::dieEffect()
 {
 
@@ -73,7 +56,6 @@ bool Bullet::shoot(const cocos2d::Vec2 shootDirection, float Speed)
     //为子弹实例绑定飞行-释放的动画
     auto end = cocos2d::CallFunc::create([=]() {dieEffect(); });
     runAction(cocos2d::Sequence::create(actionMove/*, dieEffect*/, actionRemove, nullptr));
->>>>>>> Stashed changes
 
     return true;
 }

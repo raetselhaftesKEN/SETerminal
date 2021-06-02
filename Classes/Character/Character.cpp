@@ -4,11 +4,8 @@
 
 #include "cocos2d.h"
 #include "Character.h"
-<<<<<<< Updated upstream
-=======
 #include <string>
 using namespace std::string_literals;
->>>>>>> Stashed changes
 
 void Character::bindPictureSprite(cocos2d::Sprite* sprite)
 {
@@ -22,9 +19,6 @@ void Character::die()
 	health_ = 0;
 }
 
-<<<<<<< Updated upstream
-cocos2d::Animate* Character::createAnimate(const char* animateName, int width, int height, int frames)
-=======
 void Character::receiveDamage(int damage)
 {
 	int realDamage = static_cast<int>(damage * (1 - shield_));
@@ -65,17 +59,12 @@ void Character::updateMoveAnimate()
 }
 
 cocos2d::Animate* Character::createAnimate(const char* animateName, cocos2d::Size size, int frames)
->>>>>>> Stashed changes
 {
 	cocos2d::SpriteFrame* frame = nullptr;
 	cocos2d::Vector<cocos2d::SpriteFrame*> frameVector;
 	for (int i = 1; i <= frames; i++)
 	{
-<<<<<<< Updated upstream
-		frame = cocos2d::SpriteFrame::create(cocos2d::StringUtils::format("%s%d.png", animateName, i), cocos2d::Rect(0, 0, width, height));
-=======
 		frame = cocos2d::SpriteFrame::create(cocos2d::StringUtils::format("%s%d.png", animateName, i), cocos2d::Rect(0, 0, size.width, size.height));
->>>>>>> Stashed changes
 		if (frame == nullptr)
 		{
 			cocos2d::log("animate loading failed");
@@ -91,8 +80,6 @@ cocos2d::Animate* Character::createAnimate(const char* animateName, cocos2d::Siz
 	action->retain();
 
 	return action;
-<<<<<<< Updated upstream
-=======
 }
 
 void Character::bindAnimate(const std::string& characterName)
@@ -105,5 +92,4 @@ void Character::bindAnimate(const std::string& characterName)
 	idleDown_ = createAnimate((characterName + "/"s + "idle_down/idle_down"s).c_str(), sprite_->getContentSize(), 1);
 	idleLeft_ = createAnimate((characterName + "/"s + "idle_left/idle_left"s).c_str(), sprite_->getContentSize(), 1);
 	idleRight_ = createAnimate((characterName + "/"s + "idle_right/idle_right"s).c_str(), sprite_->getContentSize(), 1);
->>>>>>> Stashed changes
 }

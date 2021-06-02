@@ -80,6 +80,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
         director->setOpenGLView(glview);
     }
 
+    glview->setCursorVisible(false);   //Òþ²ØÊó±êÖ¸Õë
+
     // turn on display FPS
     director->setDisplayStats(true);
 
@@ -111,7 +113,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto scene = HelloWorld::createScene();
     AllocConsole();
     // run
-//    AllocConsole();
     director->runWithScene(scene);
 
     return true;
