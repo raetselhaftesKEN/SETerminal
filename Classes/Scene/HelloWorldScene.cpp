@@ -49,8 +49,28 @@ bool HelloWorld::init()
     this->addChild(_tileMap, -1);
 
     //生成玩家角色实例
-    player_ = Player::create("player.png");
-    this->addChild(player_);
+    player_ = Player::create("MIKU/idle_down/idle_down1.png");
+    this->addChild(player_, 2);
+
+    healthBar_ = HealthBar::create(player_);
+    healthBar_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
+    healthBar_->setPosition(cocos2d::Point(10, winSize.height));
+    addChild(healthBar_, 2);
+
+    //auto barrier = cocos2d::Sprite::create("stone.png");
+    //barrier->setScale(0.3);
+    //barrier->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
+    //auto physicsBody = cocos2d::PhysicsBody::createBox(barrier->getContentSize(), cocos2d::PhysicsMaterial(0, 1, 0));
+    //physicsBody->setDynamic(false);
+    //physicsBody->setGravityEnable(false);
+    //physicsBody->setRotationEnable(false);
+    //physicsBody->setContactTestBitmask(1);
+    //physicsBody->setCategoryBitmask(1);
+    //physicsBody->setCollisionBitmask(3);
+    //physicsBody->setMass(1e10);
+    //barrier->setPhysicsBody(physicsBody);
+    //addChild(barrier, 1);
+    //barrier->setPosition(300, 500);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
@@ -59,6 +79,7 @@ bool HelloWorld::init()
     //生成屏幕触摸（即鼠标单击）事件的监听器
     auto touchListener = cocos2d::EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
+    touchListener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, player_);
 
     //电脑专用的鼠标监听器
@@ -84,11 +105,12 @@ bool HelloWorld::init()
 void HelloWorld::addMonster(float dt)
 {
     //生成怪物实例
-    auto monster = Sprite::create("monster.png");
+    auto monster = Monster::create("MONSTER2/idle_down/idle_down1.png");
     if (monster == nullptr)
     {
         problemLoading("monster.png");
     }
+<<<<<<< Updated upstream
     else {
         //怪物在右侧随机位置出现，计算怪物生成和发射子弹的合法坐标范围
         auto minY = monster->getContentSize().height / 2;
@@ -148,32 +170,54 @@ void HelloWorld::addMonster(float dt)
         //怪物发射子弹时略微停顿
         auto delay = cocos2d::DelayTime::create(0.05);
         monster->runAction(Sequence::create(move1, delay, shootStar, move2, actionRemove, nullptr));
+=======
+    else 
+    {
+        addChild(monster);
+        monster->move();
+>>>>>>> Stashed changes
     }
 }
 
 bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
 {
+<<<<<<< Updated upstream
     //取得点击屏幕位置的坐标
     auto touchLocation = touch->getLocation();
     auto offset = touchLocation - player_->getPosition();
     player_->listenToMouseEvent(offset, true);
     //取得子弹发射方向的单位向量
     offset.normalize();
+=======
+    ////取得点击屏幕位置的坐标
+    //auto touchLocation = touch->getLocation();
+    //auto offset = touchLocation - player_->getPosition();
+    ////取得子弹发射方向的单位向量
+    //offset.normalize();
+>>>>>>> Stashed changes
     //在场景内创建子弹实例
-    auto bullet = Bullet::create(player_->getBulletName());
-    bullet->setPosition(player_->getPosition());
-    this->addChild(bullet, 1);
-    //为子弹实例绑定播放发射的飞行动画
-    bullet->shoot(offset);
+    player_->isAttacking = true;
+    TouchHolding = true;      
+    return true;
+}
 
+bool HelloWorld::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
+{
+    player_->isAttacking = false;
+    TouchHolding = false;
     return true;
 }
 
 void HelloWorld::onMouseMove(cocos2d::EventMouse* mouse)
+<<<<<<< Updated upstream
 {
     auto mouseLocation = convertToNodeSpace(mouse->getLocationInView());
     auto offset = mouseLocation - player_->getPosition();
     player_->listenToMouseEvent(offset, false);
+=======
+{   
+    player_->listenToMouseEvent(convertToNodeSpace(mouse->getLocationInView()), false);
+>>>>>>> Stashed changes
 }
 
 bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
@@ -190,17 +234,23 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
         if (tagA == ME_BULLET)
         {
             nodeB->removeFromParentAndCleanup(true);
+            cocos2d::log("player kill");
         }
         else if (tagB == ME_BULLET)
         {
             nodeA->removeFromParentAndCleanup(true);
+            cocos2d::log("player kill");
         }
 
         //玩家被击杀
         if (tagA == ME)
         {
             auto tmp = dynamic_cast<Player*>(nodeA);
+<<<<<<< Updated upstream
             tmp->getInjured(6);
+=======
+            tmp->receiveDamage(10);
+>>>>>>> Stashed changes
             if (tmp->isAlive() == false)
             {
                 //替换到Gameover场景
@@ -210,7 +260,11 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
         if (tagB == ME)
         {
             auto tmp = dynamic_cast<Player*>(nodeB);
+<<<<<<< Updated upstream
             tmp->getInjured(6);
+=======
+            tmp->receiveDamage(10);
+>>>>>>> Stashed changes
             if (tmp->isAlive() == false)
             {
                 //替换到Gameover场景

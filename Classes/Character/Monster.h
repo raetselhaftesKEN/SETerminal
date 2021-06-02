@@ -8,7 +8,11 @@
 
 #include "cocos2d.h"
 #include "Character.h"
+<<<<<<< Updated upstream
 #include <string>
+=======
+#include "Scene/HelloWorldScene.h"
+>>>>>>> Stashed changes
 
 /**
 *@brief 怪物类
@@ -24,6 +28,7 @@ public:
 * @return 指向该Monster实例的指针
 * @author 戴仁杰
 */
+<<<<<<< Updated upstream
 	static Monster* create(const std::string& filename, float sizeX, float sizeY);
 
 
@@ -33,6 +38,17 @@ public:
 * @author 戴仁杰
 */
 	void Monster::move(float sizeX, float sizeY, cocos2d::Vec2 playerPostion);
+=======
+	static Monster* create(const std::string& filename);
+
+
+	/**
+* @brief Monster的移动以及发射子弹函数，未来可以将怪物发射子弹单独独立
+* @return 无
+* @author 戴仁杰
+*/
+	void Monster::move();
+>>>>>>> Stashed changes
 
 
 	/**
@@ -43,6 +59,7 @@ public:
 	virtual bool bindPhysicsBody();
 
 
+<<<<<<< Updated upstream
 
 
 protected:
@@ -56,6 +73,29 @@ protected:
 	float monsterSpeed = 160;
 
 	//待更新属性、血量、buff等
+=======
+	/**
+* @brief 产生一个随机位置的坐标值
+* @return 返回一个Vec2类型的坐标(x,y)数对
+* @author 戴仁杰
+*/
+	cocos2d::Vec2 getRandomPosition();
+
+
+
+	virtual void updateFacingStatus();
+
+
+	virtual void updateWalkingStatus();
+
+
+	void update(float dt);
+
+
+protected:
+
+
+>>>>>>> Stashed changes
 
 };
 

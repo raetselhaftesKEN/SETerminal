@@ -39,12 +39,17 @@ public:
 
 
 	//受伤
+<<<<<<< Updated upstream
 	void getInjured(int damage);
+=======
+	virtual void receiveDamage(int damage);
+>>>>>>> Stashed changes
 
 
 	//获取角色是否生存
 	bool isAlive();
 
+<<<<<<< Updated upstream
 
 	//角色死亡
 	void die();
@@ -53,12 +58,35 @@ public:
 
 	//闪避
 	void dodge();
+=======
+	/*
+	攻击，会使用目前的主武器攻击
+	杨孟臻
+	*/
+	void Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
+
+	/*
+	闪避
+	杨孟臻
+	*/
+	void dodge();
+
+
+	virtual void updateFacingStatus();
+
+
+	virtual void updateWalkingStatus();
+>>>>>>> Stashed changes
 	
 	//闪避动画
 	void DodgeAnimeStart();
 	void DodgeAnime(cocos2d::Vec2 dir);
 	void DodgeAnimeEnd();
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	//切换武器
 	void switchWeapon();
 
@@ -70,17 +98,23 @@ public:
 	//获取角色当前未装备的副武器对象
 	Weapon* getSecondaryWeaponInstance();
 
+<<<<<<< Updated upstream
 
 	//获取角色当前装备的子弹种类对应的素材文件名
 	const std::string getBulletName() const;
 
 
+=======
+>>>>>>> Stashed changes
 	//更新角色状态
 	void update(float dt);
 
 
+	bool isAttacking = false;
+
 protected:
 
+<<<<<<< Updated upstream
 	cocos2d::Vec2 FacingDir;
 
 	enum PlayerStatus{
@@ -139,6 +173,33 @@ protected:
 	Weapon* secondaryWeapon_;										//副武器
 
 	std::string bulletFilename;												//当前装备的子弹
+=======
+	
+
+	friend class HealthBar;
+	
+	enum Key { W, A, S, D };
+
+	bool keyPressed_[4]{};	
+
+	float speedBoostFactor_ = 1;	
+
+	bool allowMove_ = true;
+
+	bool canDodge_ = true;
+
+	float dodgeRate_ = 100.0f;												//闪避倍率
+
+	float dodgeSpeedBoost_ = 3.0f;
+
+	float dodgeTime_ = 0.1f;
+
+	bool superBody_ = false;
+
+	Weapon* primaryWeapon_;											//使用中的武器
+
+	Weapon* secondaryWeapon_;										//副武器
+>>>>>>> Stashed changes
 
 	//待更新属性、血量、buff等
 
