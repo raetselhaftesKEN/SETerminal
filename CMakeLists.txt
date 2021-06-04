@@ -68,6 +68,7 @@ list(APPEND GAME_SOURCE
      Classes/Component/HealthBar/HealthBar.cpp
      Classes/Item/Medkit/Medkit.cpp
      Classes/Scene/FightScene/FightScene.cpp
+     Classes/Obstacle/Obstacle.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -83,6 +84,7 @@ list(APPEND GAME_HEADER
      Classes/Item/Medkit/Medkit.h
      Classes/Scene/FightScene/FightScene.h
      Classes/Const/Const.h
+     Classes/Obstacle/Obstacle.h
      )
 
 if(ANDROID)

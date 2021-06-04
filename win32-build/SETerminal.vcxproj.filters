@@ -37,6 +37,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp">
       <Filter>Source Files\Classes\Scene\FightScene</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Obstacle\Obstacle.cpp">
+      <Filter>Source Files\Classes\Obstacle</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -83,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Const\Const.h">
       <Filter>Source Files\Classes\Const</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Obstacle\Obstacle.h">
+      <Filter>Source Files\Classes\Obstacle</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
@@ -372,6 +378,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Item\PlayerWeapon">
       <UniqueIdentifier>{DDFAE087-D3A5-3F7A-922C-0B950936474B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Obstacle">
+      <UniqueIdentifier>{D9911D92-3627-3691-8C3D-515D9ED49301}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Scene">
       <UniqueIdentifier>{6D16BEF7-7EA4-3B86-8388-C3879B1B06DE}</UniqueIdentifier>

@@ -810,6 +810,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Const\Const.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Obstacle\Obstacle.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp" />
@@ -824,6 +825,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\HealthBar\HealthBar.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Obstacle\Obstacle.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp" />
     <ResourceCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\game.rc" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseNormal.png" />

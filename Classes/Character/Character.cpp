@@ -106,3 +106,8 @@ void Character::bindAnimate(const std::string& characterName)
 	idleLeft_ = createAnimate((characterName + "/"s + "idle_left/idle_left"s).c_str(), sprite_->getContentSize(), 1);
 	idleRight_ = createAnimate((characterName + "/"s + "idle_right/idle_right"s).c_str(), sprite_->getContentSize(), 1);
 }
+
+cocos2d::Sprite* Character::getPictureSprite()
+{
+	return sprite_;
+}

@@ -64,6 +64,8 @@ public:
 
 	void bindAnimate(const std::string& characterName);
 
+	cocos2d::Sprite* getPictureSprite();
+
 protected:
 
 	friend class HealthBar;
