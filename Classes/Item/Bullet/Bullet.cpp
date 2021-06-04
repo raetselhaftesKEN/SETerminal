@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 #include "Bullet.h"
+#include "././Scene/HelloWorldScene.h"
 #include "Const/Const.h"
 
 Bullet* Bullet::create(const std::string& filename)
@@ -35,27 +36,34 @@ bool Bullet::bindPhysicsBody()
 {
     auto physicsBody = cocos2d::PhysicsBody::createBox(getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
     physicsBody->setDynamic(false);
-    physicsBody->setContactTestBitmask(2);
-    physicsBody->setCategoryBitmask(5);
+    physicsBody->setContactTestBitmask(PLAYER_BULLET_CONTACT_MASK);
+    physicsBody->setCategoryBitmask(PLAYER_BULLET_CATEGORY_MASK);
     setPhysicsBody(physicsBody);
 
     return true;
 }
 
-void Bullet::dieEffect()
+int Bullet::getBulletAtk()
 {
-
+    return bulletAtk_;
 }
 
-bool Bullet::shoot(const cocos2d::Vec2 shootDirection)
+void Bullet::dieEffect()
+{
+    auto blastSprite = cocos2d::Sprite::create("blast/blast1.png");
+    auto blastSize = getContentSize();
+    runAction(cocos2d::Sequence::create(Character::createAnimate("blast/blast", blastSize, 7), cocos2d::DelayTime::create(0.1f), cocos2d::RemoveSelf::create(), nullptr));
+}
+
+bool Bullet::shoot(const cocos2d::Vec2 shootDirection, float Speed)
 {
     //生成子弹飞行运动动画
-    auto actionMove = cocos2d::MoveTo::create(bulletRange_ / bulletSpeed_, getPosition() + shootDirection * bulletRange_);
+    auto actionMove = cocos2d::MoveTo::create(bulletRange_ / Speed, getPosition() + shootDirection * bulletRange_);
     //释放子弹
     auto actionRemove = cocos2d::RemoveSelf::create();
     //为子弹实例绑定飞行-释放的动画
     auto end = cocos2d::CallFunc::create([=]() {dieEffect(); });
-    runAction(cocos2d::Sequence::create(actionMove/*, dieEffect*/, actionRemove, nullptr));
+    runAction(cocos2d::Sequence::create(actionMove, actionRemove, nullptr));
 
     return true;
 }

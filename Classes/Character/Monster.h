@@ -53,6 +53,7 @@ public:
 	cocos2d::Vec2 getRandomPosition();
 
 
+	virtual void receiveDamage(int damage);
 
 	virtual void updateFacingStatus();
 

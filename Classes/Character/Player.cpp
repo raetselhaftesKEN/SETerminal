@@ -24,14 +24,21 @@ Player* Player::create(const std::string& filename)
 		//标记角色
 		player->setTag(PLAYER_TAG);
 
-		player->bindAnimate("MIKU");
+		player->bindCharacterAnimate("MIKU");
 
 		//初始化角色武器和弹药
-		player->primaryWeapon_ = Weapon::create("default_weapon.png");
-		player->secondaryWeapon_ = Weapon::create("default_sec_weapon.png");
+		player->primaryWeapon_ = Weapon::create("MP5.png");
+		player->secondaryWeapon_ = Weapon::create("AK47.png");
+		player->primaryWeapon_->setScale(0.3f, 0.3f);
+		player->secondaryWeapon_->setScale(0.3f, 0.3f);
+
 		player->bulletFilename_ = "dart.png";
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);
+
+		player->primaryWeapon_->Active(true);
+		player->secondaryWeapon_->Active(false);
+
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);
 		player->moveSpeed_ = PLAYER_DEFAULT_MOVE_SPEED;
@@ -40,12 +47,11 @@ Player* Player::create(const std::string& filename)
 		player->shield_ = PLAYER_DEFAULT_SHIELD;
 		player->medkitMaxNum_ = MEDKIT_MAX_NUM;
 
-		//Medkit* test = Medkit::create();
-		//test->retain();
-		//player->medkit_.push(test);
 
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
+
+		player->getAimPointInstance();
 
 		player->autorelease();
 
@@ -60,12 +66,19 @@ bool Player::bindPhysicsBody()
 	physicsBody->setDynamic(false);
 	physicsBody->setGravityEnable(false);
 	physicsBody->setRotationEnable(false);
-	physicsBody->setMass(0.1);
 	physicsBody->setContactTestBitmask(PLAYER_CONTACT_MASK);
 	physicsBody->setCategoryBitmask(PLAYER_CATEGORY_MASK);
 	setPhysicsBody(physicsBody);
 
 	return true;
+}
+
+void Player::getAimPointInstance()
+{
+	this->addChild(primaryWeapon_->MyAimPoint);
+	this->addChild(primaryWeapon_->ReloadAimPoint);
+	this->addChild(secondaryWeapon_->MyAimPoint);
+	this->addChild(secondaryWeapon_->ReloadAimPoint);
 }
 
 void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* unusedEvent)
@@ -108,6 +121,10 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 			interactItem_->interact();
 		}
 	}
+	if (keyCode == K::KEY_R)
+	{
+		primaryWeapon_->PlayerReload();
+	}
 		
 }
 
@@ -142,6 +159,7 @@ void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
 	{
 		//Attack
 	}
+
 }
 
 void Player::receiveDamage(int damage)
@@ -165,6 +183,11 @@ void Player::die()
 	isAlive_ = false;
 	health_ = 0;
 	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(0.2f, GameOver::create()));
+}
+
+void Player::attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)
+{
+	primaryWeapon_->Attack(pos, dir);
 }
 
 void Player::dodge()
@@ -283,11 +306,11 @@ void Player::switchWeapon()
 {
 	if (secondaryWeapon_ != nullptr)
 	{
-		primaryWeapon_->setVisible(false);
-		secondaryWeapon_->setVisible(false);
 		auto t = primaryWeapon_;
 		primaryWeapon_ = secondaryWeapon_;
 		secondaryWeapon_ = t;
+		primaryWeapon_->Active(true);
+		secondaryWeapon_->Active(false);
 	}
 }
 
@@ -334,6 +357,37 @@ void Player::useMedkit()
 void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
+	cocos2d::Vec2 offset = facingPoint_ - this->getPosition();
+
+	offset.normalize();
+
+	if (primaryWeapon_->ActiveAimPoint != nullptr)
+	{
+		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_ - this->getPosition());
+	}
+
+	if (isAttacking)
+	{
+		attack(this->getPosition(), offset);
+	}
+
+	weaponRotation_ = CC_RADIANS_TO_DEGREES(cocos2d::Vec2::angle(offset, cocos2d::Vec2::ANCHOR_BOTTOM_RIGHT));
+	if (offset.y >= 0)
+	{
+		weaponRotation_ = 360 - weaponRotation_;
+	}
+	if (offset.x <= 0)
+	{
+		primaryWeapon_->setFlippedX(true);
+		secondaryWeapon_->setFlippedX(true);
+	}
+	else
+	{
+		primaryWeapon_->setFlippedX(false);
+		secondaryWeapon_->setFlippedX(false);
+	}
+	primaryWeapon_->setRotation(weaponRotation_);
+	secondaryWeapon_->setRotation(weaponRotation_);
 
 	if (allowMove_)
 	{

@@ -39,6 +39,19 @@ cocos2d::Vec2 Monster::getRandomPosition()
 	return position;
 }
 
+void Monster::receiveDamage(int damage)
+{
+	int realDamage = static_cast<int>(damage * (1 - shield_));
+	if (realDamage >= health_)
+	{
+		die();
+	}
+	else
+	{
+		health_ -= realDamage;
+	}
+
+}
 
 void Monster::move() {
 	auto nextPosition = getRandomPosition();
@@ -55,7 +68,7 @@ void Monster::move() {
 	//怪物在move1和move2中间的随机位置发射子弹的动作，使用lambda表达式实现
 	auto shootStar = cocos2d::CallFunc::create([=]() {
 		//生成敌人子弹
-		Sprite* enemyBullet = Sprite::create("dart_enemy.png");
+		Bullet* enemyBullet = Bullet::create("dart_enemy.png");
 		if (enemyBullet == nullptr)
 		{
 			problemLoading("dart_enemy.png");
@@ -105,15 +118,18 @@ void Monster::move() {
 
 void Monster::die()
 {	
-	auto scene = cocos2d::Director::getInstance()->getRunningScene();
-	auto medkitNode = dynamic_cast<cocos2d::Node*>(Medkit::create(getPosition()));
-
-	if (scene && medkitNode)
+	int dropItem = rand() % 10;
+	if (dropItem == 9)
 	{
-		HelloWorld::getGenerateNode() = medkitNode;
-		scene->scheduleOnce(CC_SCHEDULE_SELECTOR(HelloWorld::generateNode), 0.f);
-	}
+		auto scene = cocos2d::Director::getInstance()->getRunningScene();
+		auto medkitNode = dynamic_cast<cocos2d::Node*>(Medkit::create(getPosition()));
 
+		if (scene && medkitNode)
+		{
+			HelloWorld::getGenerateNode() = medkitNode;
+			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(HelloWorld::generateNode), 0.f);
+		}
+	}
 	isAlive_ = false;
 	health_ = 0;
 	removeFromParentAndCleanup(true);
@@ -136,7 +152,7 @@ Monster* Monster::create(const std::string& filename)
 	if (monster && monster->sprite_)
 	{
 		auto monsterPosition = monster->getRandomPosition();
-		monster->bindAnimate("MONSTER2");
+		monster->bindCharacterAnimate("MONSTER2");
 
 		monster->health_ = MONSTER_MAX_HEALTH;
 		monster->maxHealth_ = MONSTER_MAX_HEALTH;

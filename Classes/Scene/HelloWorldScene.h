@@ -14,6 +14,7 @@
 #include "Character/Player.h"
 #include "Character/Monster.h"
 #include "Component/HealthBar/HealthBar.h"
+#include "Item/Bullet/Bullet.h"
 #include "Const/Const.h"
 
 class HelloWorld : public cocos2d::Scene
@@ -26,6 +27,8 @@ private:
     static cocos2d::Node* generateNode_;
 
     cocos2d::TMXTiledMap* _tileMap;
+
+    bool TouchHolding = false;
     //地图中的一个层
     //cocos2d::TMXLayer* _background;
 public:
@@ -55,6 +58,11 @@ public:
 */
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
 
+    /*
+触摸（鼠标单击）结束
+*/
+    bool onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
+
 
     void onMouseMove(cocos2d::EventMouse* mouse);
 
@@ -69,7 +77,7 @@ public:
 
 
     void contactBetweenPlayerAndItem(Player* player, Item* Item);
-    void contactBetweenCharacterAndBullet(Character* character, cocos2d::Sprite* bullet);
+    void contactBetweenCharacterAndBullet(Character* character, Bullet* bullet);
 
 
     void generateNode(float dt);

@@ -59,10 +59,13 @@ public:
     virtual bool bindPhysicsBody() = 0;
 
 
-    static cocos2d::Animate* createAnimate(const char* animateName, cocos2d::Size size, int frames = 4);
+    static cocos2d::Animate* createAnimate(const char* animateName, cocos2d::Size size, float interval = 0.2, int frames = 4);
 
 
-	void bindAnimate(const std::string& characterName);
+	void bindCharacterAnimate(const std::string& characterName, float interval = 0.2);
+
+
+	void receiveDamageEffect();
 
 	cocos2d::Sprite* getPictureSprite();
 

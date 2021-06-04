@@ -25,6 +25,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\Weapon.cpp">
       <Filter>Source Files\Classes\Item\PlayerWeapon</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\PlayerAimPoint.cpp">
+      <Filter>Source Files\Classes\Item\PlayerWeapon</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Item.cpp">
       <Filter>Source Files\Classes\Item</Filter>
     </ClCompile>
@@ -70,6 +73,9 @@
       <Filter>Source Files\Classes\Character</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\Weapon.h">
+      <Filter>Source Files\Classes\Item\PlayerWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\PlayerAimPoint.h">
       <Filter>Source Files\Classes\Item\PlayerWeapon</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Item.h">

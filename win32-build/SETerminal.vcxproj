@@ -805,6 +805,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Character.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\Weapon.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\PlayerAimPoint.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Item.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\HealthBar\HealthBar.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.h" />
@@ -821,6 +822,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Character.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\Weapon.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\PlayerWeapon\PlayerAimPoint.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Item.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\HealthBar\HealthBar.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.cpp" />

@@ -66,6 +66,7 @@ bool HelloWorld::init()
     //生成屏幕触摸（即鼠标单击）事件的监听器
    auto touchListener = cocos2d::EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
+    touchListener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, player_);
 
     //电脑专用的鼠标监听器
@@ -107,18 +108,17 @@ void HelloWorld::addMonster(float dt)
 
 bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
 {
-    //取得点击屏幕位置的坐标
-    auto touchLocation = touch->getLocation();
-    auto offset = touchLocation - player_->getPosition();
-    //取得子弹发射方向的单位向量
-    offset.normalize();
-    //在场景内创建子弹实例
-    auto bullet = Bullet::create(player_->getBulletName());
-    bullet->setPosition(player_->getPosition());
-    this->addChild(bullet, 1);
-    //为子弹实例绑定播放发射的飞行动画
-    bullet->shoot(offset);
+    player_->isAttacking = true;
+    TouchHolding = true;
+    return true;
 
+    return true;
+}
+
+bool HelloWorld::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
+{
+    player_->isAttacking = false;
+    TouchHolding = false;
     return true;
 }
 
@@ -145,12 +145,12 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
         else if ((nodeA->getTag() == PLAYER_TAG || nodeA->getTag() == MONSTER_TAG)
             && (nodeB->getTag() == PLAYER_BULLET_TAG || nodeB->getTag() == MONSTER_BULLET_TAG))
         {
-            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
+            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeA), dynamic_cast<Bullet*>(nodeB));
         }
         else if ((nodeA->getTag() == PLAYER_BULLET_TAG || nodeA->getTag() == MONSTER_BULLET_TAG)
             && (nodeB->getTag() == PLAYER_TAG || nodeB->getTag() == MONSTER_TAG))
         {
-            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
+            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeB), dynamic_cast<Bullet*>(nodeA));
         }
     }
 
@@ -198,11 +198,12 @@ void HelloWorld::contactBetweenPlayerAndItem(Player* player, Item* item)
     }
 }
 
-void HelloWorld::contactBetweenCharacterAndBullet(Character* character, cocos2d::Sprite* bullet)
+void HelloWorld::contactBetweenCharacterAndBullet(Character* character, Bullet* bullet)
 {
     if (character && bullet)
     {
-        character->receiveDamage(10);
+        character->receiveDamage(bullet->getBulletAtk());
+        bullet->removeFromParentAndCleanup(true);
     }
 }
 
