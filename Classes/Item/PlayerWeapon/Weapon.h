@@ -49,6 +49,8 @@ public:
 
 	void PlayerReload();
 
+	void ReloadingStatusReset();
+
 	/*
 恢复武器后坐力
 @杨孟臻
@@ -59,9 +61,9 @@ public:
 *@brief 绑定物理躯干
 * @author 孟宇
 */
-	virtual bool bindPhysicsBody() { return true; }
+	virtual bool bindPhysicsBody();
 
-	virtual void interact(){}
+	virtual void interact();
 
 	std::string bulletFilename_;	//武器所使用的子弹
 

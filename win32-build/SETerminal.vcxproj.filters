@@ -102,10 +102,22 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h">
       <Filter>Source Files\proj.win32</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AK47.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseNormal.png">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseSelected.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultAimPoint.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultBullet-2.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultBullet.png">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\HelloWorld.png">
@@ -234,6 +246,33 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER2\walk_up\walk_up4.png">
       <Filter>Resources\MONSTER2\walk_up</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MP5.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Reloading.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast1.png">
+      <Filter>Resources\blast</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast2.png">
+      <Filter>Resources\blast</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast3.png">
+      <Filter>Resources\blast</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast4.png">
+      <Filter>Resources\blast</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast5.png">
+      <Filter>Resources\blast</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast6.png">
+      <Filter>Resources\blast</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast7.png">
+      <Filter>Resources\blast</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\dart.png">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -280,6 +319,9 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\tmw_desert_spacing.tsx">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\wall.png">
       <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
@@ -348,6 +390,9 @@
     </Filter>
     <Filter Include="Resources\MONSTER2\walk_up">
       <UniqueIdentifier>{0CA13DF4-22FC-362D-9608-3DDB735A0B32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\blast">
+      <UniqueIdentifier>{19307408-D6EF-3872-95E5-FDAC53DBA158}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\fonts">
       <UniqueIdentifier>{61BF2F31-0B69-3806-B8B1-2CA4E603B4E0}</UniqueIdentifier>

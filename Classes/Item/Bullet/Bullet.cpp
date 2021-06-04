@@ -50,9 +50,6 @@ int Bullet::getBulletAtk()
 
 void Bullet::dieEffect()
 {
-    auto blastSprite = cocos2d::Sprite::create("blast/blast1.png");
-    auto blastSize = getContentSize();
-    runAction(cocos2d::Sequence::create(Character::createAnimate("blast/blast", blastSize, 7), cocos2d::DelayTime::create(0.1f), cocos2d::RemoveSelf::create(), nullptr));
 }
 
 bool Bullet::shoot(const cocos2d::Vec2 shootDirection, float Speed)

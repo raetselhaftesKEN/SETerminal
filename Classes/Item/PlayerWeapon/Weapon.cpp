@@ -6,6 +6,7 @@
 #include "Weapon.h"
 #include "././Scene/HelloWorldScene.h"
 #include "../Bullet/Bullet.h"
+#include "Const/Const.h"
 
 Weapon* Weapon::create(const std::string& filename)
 {
@@ -19,6 +20,8 @@ Weapon* Weapon::create(const std::string& filename)
 	if (weapon && weapon->sprite_)
 	{
 		weapon->autorelease();
+		weapon->bindPhysicsBody();
+		weapon->setTag(ITEM_TAG);
 		weapon->bulletFilename_ = "DefaultBullet-2.png";
 		weapon->aimPointFilename_ = "DefaultAimPoint.png";
 
@@ -40,10 +43,22 @@ Weapon* Weapon::create(const std::string& filename)
 	return nullptr;
 }
 
+bool Weapon::bindPhysicsBody()
+{
+	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 1.0f, 0.0f));
+	physicsBody->setDynamic(false);
+	physicsBody->setGravityEnable(false);
+	physicsBody->setRotationEnable(false);
+	physicsBody->setContactTestBitmask(ITEM_CONTACT_MASK);
+	physicsBody->setCategoryBitmask(ITEM_CATEGORY_MASK);
+	setPhysicsBody(physicsBody);
+
+	return true;
+}
+
 void Weapon::Active(bool ActivateStatus)
 {
 	setVisible(ActivateStatus);
-	MyAimPoint->setVisible(ActivateStatus);
 }
 
 void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//暂时先通过这个方式来生成子弹  如果有特殊子弹的武器，需要重载Attack
@@ -116,8 +131,58 @@ void Weapon::Reload()
 	this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
 }
 
+void Weapon::ReloadingStatusReset()
+{
+	if (CurrentMagazine > 0)
+	{
+		MyAimPoint->setVisible(true);
+		ReloadAimPoint->setVisible(false);
+		CanShoot = true;
+	}
+	else
+	{
+		MyAimPoint->setVisible(false);
+		ReloadAimPoint->setVisible(true);
+		CanShoot = false;
+		Reload();
+	}
+}
+
 void Weapon::RecoverRecoil()
 {
 	MyAimPoint->RecoverRecoil(RecoilRecover / 60);
 	ReloadAimPoint->RecoverRecoil(RecoilRecover / 60);
+}
+
+void Weapon::interact()
+{
+	auto player = dynamic_cast<Player*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(PLAYER_TAG));
+	if (player && player->getInteractItem() == this)
+	{
+		if (player->getPrimaryWeaponInstance() && player->getSecondaryWeaponInstance())
+		{
+			player->abandonPrimaryWeapon();
+			player->setPrimaryWeaponInstance(this);
+			this->Active(true);
+		}
+		else if (player->getPrimaryWeaponInstance() != nullptr && player->getSecondaryWeaponInstance() == nullptr)
+		{
+			player->setSecondaryWeaponInstance(this);
+			this->Active(false);
+		}
+		else
+		{
+			player->setPrimaryWeaponInstance(this);
+			this->Active(true);
+		}
+	}
+
+	this->retain();
+	this->removeFromParent();
+	this->setPosition(cocos2d::Vec2::ZERO);
+	this->Item::pickUp();
+	player->addChild(this);
+	player->setInteractItem(nullptr);
+	player->getAimPointInstance();
+	player->getPrimaryWeaponInstance()->ReloadingStatusReset();
 }

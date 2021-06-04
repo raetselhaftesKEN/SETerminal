@@ -52,7 +52,6 @@ bool Medkit::bindPhysicsBody()
 	physicsBody->setContactTestBitmask(ITEM_CONTACT_MASK);
 	physicsBody->setCategoryBitmask(ITEM_CATEGORY_MASK);
 	setPhysicsBody(physicsBody);
-
 	return true;
 }
 

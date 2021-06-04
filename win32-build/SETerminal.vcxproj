@@ -830,8 +830,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Obstacle\Obstacle.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp" />
     <ResourceCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\game.rc" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AK47.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseNormal.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseSelected.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultAimPoint.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultBullet-2.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultBullet.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\HelloWorld.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MIKU.zip" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MIKU\idle_down\idle_down1.png" />
@@ -874,6 +878,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER2\walk_up\walk_up2.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER2\walk_up\walk_up3.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER2\walk_up\walk_up4.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MP5.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Reloading.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast1.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast2.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast3.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast4.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast5.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast6.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast7.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\dart.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\dart_enemy.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\default_sec_weapon.png" />
@@ -890,6 +903,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\tmw_desert_spacing.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\tmw_desert_spacing.tsx" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\wall.png" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\cocos2d\cocos\precheader.cpp" />
   </ItemGroup>
   <ItemGroup>

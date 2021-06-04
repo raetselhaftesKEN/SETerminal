@@ -138,11 +138,11 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
 
     if (nodeA && nodeB)
     {
-        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG)
+        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG && !dynamic_cast<Item*>(nodeB)->isHeld())
         {
             contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeA), dynamic_cast<Item*>(nodeB));
         }
-        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG)
+        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG && !dynamic_cast<Item*>(nodeA)->isHeld())
         {
             contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeB), dynamic_cast<Item*>(nodeA));
         }
@@ -215,6 +215,7 @@ void HelloWorld::generateNode(float dt)
 {
     if (generateNode_ != nullptr)
     {
+        auto node = generateNode_;
         auto dropTo = generateNode_->getPosition();
         generateNode_->setPosition(cocos2d::Point(dropTo.x, dropTo.y + 30));
         auto dropAction = cocos2d::MoveTo::create(0.2f, dropTo);

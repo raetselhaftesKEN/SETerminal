@@ -124,7 +124,6 @@ void Character::detectCollision()
 		obstacles = i;
 		if (obstacles != nullptr)
 		{
-
 			obstacles->collision(this);
 		}
 

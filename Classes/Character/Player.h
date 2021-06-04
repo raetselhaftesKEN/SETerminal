@@ -63,9 +63,12 @@ public:
 
 	// 获取角色当前装备的武器对象
 	Weapon* getPrimaryWeaponInstance();
+	void setPrimaryWeaponInstance(Weapon* weapon);
 	//获取角色当前未装备的副武器对象
 	Weapon* getSecondaryWeaponInstance();
+	void setSecondaryWeaponInstance(Weapon* weapon);
 
+	void abandonPrimaryWeapon();
 
 	//获取角色当前装备的子弹种类对应的素材文件名
 	const std::string getBulletName() const;
@@ -89,6 +92,7 @@ public:
 	virtual void attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
 
 	void getAimPointInstance();
+	void removeAimPoint(Weapon* weapon);
 
 	bool isAttacking = false;
 

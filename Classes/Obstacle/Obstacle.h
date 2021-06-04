@@ -34,7 +34,9 @@ public:
 	static std::vector<Obstacle*>* getObstacles();
 
 protected:
+
 	cocos2d::Sprite* sprite_;
+
 	static std::vector<Obstacle*>obstacles_;
 };
 

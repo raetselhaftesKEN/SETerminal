@@ -16,3 +16,17 @@ cocos2d::Label* Item::getItemInfo()
 	return itemInfo_;
 }
 
+void Item::pickUp()
+{
+	isHeld_ = true;
+}
+
+void Item::abandon()
+{
+	isHeld_ = false;
+}
+
+bool Item::isHeld()
+{
+	return isHeld_;
+}
