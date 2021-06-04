@@ -26,10 +26,6 @@ Weapon* Weapon::create(const std::string& filename)
 		weapon->ReloadAimPoint = PlayerAimPoint::create("Reloading.png");
 		weapon->MyAimPoint->retain();
 		weapon->ReloadAimPoint->retain();
-		//weapon->addChild(weapon->MyAimPoint);
-		//weapon->addChild(weapon->ReloadAimPoint);
-//		weapon->MyAimPoint->setScale(3, 3);
-//		weapon->ReloadAimPoint->setScale(3, 3);
 		weapon->MyAimPoint->setVisible(true);
 		weapon->ReloadAimPoint->setVisible(false);
 		weapon->ActiveAimPoint = weapon->MyAimPoint;
@@ -74,24 +70,17 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 			});
 			auto delay = cocos2d::DelayTime::create(1 / ShootingSpeed);
 			this->runAction(cocos2d::Sequence::create(shoot, delay, recover, nullptr));
+			
+			ReloadAimPoint->RecoilStatus += Recoil;
+			MyAimPoint->RecoilStatus += Recoil;//ºó×øÁ¦µþ¼Ó
 		}
 		else
 		{
 			CanShoot = false;
 			MyAimPoint->setVisible(false);
 			ReloadAimPoint->setVisible(true);
-
-			//auto Temp1 = MyAimPoint;
-			//auto Temp2 = ReloadAimPoint;
-			//MyAimPoint->retain();
-			//ReloadAimPoint->retain();
-			//ReloadAimPoint->removeFromParent();
-			//MyAimPoint->getParent()->addChild(Temp2);
-			//MyAimPoint->removeFromParent();
-			//this->addChild(Temp1);
-
 			ActiveAimPoint = ReloadAimPoint;
-//			Reload();
+			Reload();
 		}
 	}
 	
@@ -120,3 +109,10 @@ void Weapon::Reload()
 	auto delay = cocos2d::DelayTime::create(ReloadTime);
 	this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
 }
+
+void Weapon::RecoverRecoil()
+{
+	MyAimPoint->RecoverRecoil(RecoilRecover / 60);
+	ReloadAimPoint->RecoverRecoil(RecoilRecover / 60);
+}
+

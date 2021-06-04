@@ -59,10 +59,27 @@ public:
 
 	std::string aimPointFilename_;  //准星名称
 
+	/*
+	武器的准星
+	@杨孟臻
+	*/
 	PlayerAimPoint* MyAimPoint;
 	PlayerAimPoint* ReloadAimPoint;
 
+	/*
+	武器目前被激活的准星
+	@杨孟臻
+	*/
 	PlayerAimPoint* ActiveAimPoint;
+
+
+	/*
+	恢复武器后坐力
+	@杨孟臻
+	*/
+	void RecoverRecoil();
+
+	 
 
 protected:
 
@@ -76,7 +93,9 @@ protected:
 
 	int Accuracy = 97;//1-Accuracy是扩散角度
 
-	float Recoil = 1;//准星上弹程度
+	float Recoil = 10;//准星上弹程度
+
+	float RecoilRecover = 60;//准星回复  
 
 	int MagazineSize = 30;//弹夹容量
 
