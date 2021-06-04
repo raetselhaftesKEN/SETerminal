@@ -34,6 +34,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.cpp">
       <Filter>Source Files\Classes\Item\Medkit</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp">
+      <Filter>Source Files\Classes\Scene\FightScene</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -74,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Medkit\Medkit.h">
       <Filter>Source Files\Classes\Item\Medkit</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.h">
+      <Filter>Source Files\Classes\Scene\FightScene</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Const\Const.h">
       <Filter>Source Files\Classes\Const</Filter>
@@ -369,6 +375,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Scene">
       <UniqueIdentifier>{6D16BEF7-7EA4-3B86-8388-C3879B1B06DE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Scene\FightScene">
+      <UniqueIdentifier>{1C194A18-8C02-3381-95CC-FDAC73E3B29E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\proj.win32">
       <UniqueIdentifier>{1587A5D8-87E1-3FB2-9C4A-2763A805660F}</UniqueIdentifier>

@@ -36,7 +36,7 @@ public:
 *@brief 死亡
 * @author 孟宇
 */
-    void die();
+    virtual void die();
 
 
 	//获取角色是否生存

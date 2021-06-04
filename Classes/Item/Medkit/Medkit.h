@@ -16,6 +16,7 @@ public:
 
 	static Medkit* create();
 
+	static Medkit* create(cocos2d::Vec2 pos);
 
 	virtual bool bindPhysicsBody();
 

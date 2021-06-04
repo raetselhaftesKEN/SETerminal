@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Item/Medkit/Medkit.h"
 #include "./Item/PlayerWeapon/Weapon.h"
+#include "Scene/GameOverScene.h"
 #include "Const/Const.h"
 
 Player* Player::create(const std::string& filename)
@@ -159,7 +160,12 @@ void Player::receiveDamage(int damage)
 	}	
 }
 
-
+void Player::die()
+{
+	isAlive_ = false;
+	health_ = 0;
+	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(0.2f, GameOver::create()));
+}
 
 void Player::dodge()
 {

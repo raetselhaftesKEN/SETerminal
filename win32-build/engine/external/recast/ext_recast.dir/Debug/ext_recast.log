@@ -1,5 +1,12 @@
-﻿  DebugDraw.cpp
+﻿  Building Custom Rule D:/cocos/FinalProjectGit/SETerminal/cocos2d/external/recast/CMakeLists.txt
+  DebugDraw.cpp
   DetourDebugDraw.cpp
+  DetourAlloc.cpp
+  DetourCommon.cpp
+  DetourNavMesh.cpp
+  DetourNavMeshBuilder.cpp
+  DetourNavMeshQuery.cpp
+  DetourNode.cpp
   DetourCrowd.cpp
   DetourLocalBoundary.cpp
   DetourObstacleAvoidance.cpp
@@ -9,12 +16,6 @@ D:\cocos\FinalProjectGit\SETerminal\cocos2d\external\recast\DetourCrowd\DetourOb
   DetourProximityGrid.cpp
   DetourTileCache.cpp
   DetourTileCacheBuilder.cpp
-  DetourAlloc.cpp
-  DetourCommon.cpp
-  DetourNavMesh.cpp
-  DetourNavMeshBuilder.cpp
-  DetourNavMeshQuery.cpp
-  DetourNode.cpp
   正在生成代码...
   fastlz.c
   ext_recast.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\lib\Debug\ext_recast.lib

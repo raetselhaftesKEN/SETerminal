@@ -10,6 +10,8 @@
 
 USING_NS_CC;
 
+cocos2d::Node* HelloWorld::generateNode_ = nullptr;
+
 Scene* HelloWorld::createScene()
 {
     return HelloWorld::create();
@@ -56,10 +58,6 @@ bool HelloWorld::init()
     healthBar_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
     healthBar_->setPosition(cocos2d::Point(10, winSize.height));
     addChild(healthBar_, 2);
-
-    auto medkit = Medkit::create();
-    addChild(medkit, 2);
-    medkit->setPosition(500, 500);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
@@ -144,21 +142,15 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
         {
             contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeB), dynamic_cast<Item*>(nodeA));
         }
-        else if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == MONSTER_BULLET_TAG)
+        else if ((nodeA->getTag() == PLAYER_TAG || nodeA->getTag() == MONSTER_TAG)
+            && (nodeB->getTag() == PLAYER_BULLET_TAG || nodeB->getTag() == MONSTER_BULLET_TAG))
         {
-            contactBetweenPlayerAndBullet(dynamic_cast<Player*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
+            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
         }
-        else if (nodeA->getTag() == MONSTER_BULLET_TAG && nodeB->getTag() == PLAYER_TAG)
+        else if ((nodeA->getTag() == PLAYER_BULLET_TAG || nodeA->getTag() == MONSTER_BULLET_TAG)
+            && (nodeB->getTag() == PLAYER_TAG || nodeB->getTag() == MONSTER_TAG))
         {
-            contactBetweenPlayerAndBullet(dynamic_cast<Player*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
-        }
-        else if (nodeA->getTag() == MONSTER_TAG && nodeB->getTag() == PLAYER_BULLET_TAG)
-        {
-            contactBetweenMonsterAndBullet(dynamic_cast<Monster*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
-        }
-        else if (nodeA->getTag() == PLAYER_BULLET_TAG && nodeB->getTag() == MONSTER_TAG)
-        {
-            contactBetweenMonsterAndBullet(dynamic_cast<Monster*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
+            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
         }
     }
 
@@ -206,26 +198,27 @@ void HelloWorld::contactBetweenPlayerAndItem(Player* player, Item* item)
     }
 }
 
-void HelloWorld::contactBetweenPlayerAndBullet(Player* player, cocos2d::Sprite* bullet)
+void HelloWorld::contactBetweenCharacterAndBullet(Character* character, cocos2d::Sprite* bullet)
 {
-    if (player && bullet)
+    if (character && bullet)
     {
-        player->receiveDamage(10);
-        if (player->isAlive() == false)
-        {
-            Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
-        }
+        character->receiveDamage(10);
     }
 }
 
-void HelloWorld::contactBetweenMonsterAndBullet(Monster* monster, cocos2d::Sprite* bullet)
+void HelloWorld::generateNode(float dt)
 {
-    if (monster && bullet)
+    if (generateNode_ != nullptr)
     {
-        monster->receiveDamage(10);
-        if (monster->isAlive() == false)
-        {
-            monster->removeFromParentAndCleanup(true);
-        }
+        auto dropTo = generateNode_->getPosition();
+        generateNode_->setPosition(cocos2d::Point(dropTo.x, dropTo.y + 30));
+        auto dropAction = cocos2d::MoveTo::create(0.2f, dropTo);
+        generateNode_->runAction(dropAction);
+        addChild(generateNode_, 2);
     }
+}
+
+cocos2d::Node*& HelloWorld::getGenerateNode()
+{
+    return generateNode_;
 }

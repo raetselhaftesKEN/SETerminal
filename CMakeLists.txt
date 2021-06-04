@@ -67,6 +67,7 @@ list(APPEND GAME_SOURCE
      Classes/Item/Item.cpp
      Classes/Component/HealthBar/HealthBar.cpp
      Classes/Item/Medkit/Medkit.cpp
+     Classes/Scene/FightScene/FightScene.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -80,6 +81,7 @@ list(APPEND GAME_HEADER
      Classes/Item/Item.h
      Classes/Component/HealthBar/HealthBar.h
      Classes/Item/Medkit/Medkit.h
+     Classes/Scene/FightScene/FightScene.h
      Classes/Const/Const.h
      )
 

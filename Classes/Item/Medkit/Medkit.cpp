@@ -36,6 +36,13 @@ Medkit* Medkit::create()
 	return nullptr;
 }
 
+Medkit* Medkit::create(cocos2d::Vec2 pos)
+{
+	auto medkit = Medkit::create();
+	medkit->setPosition(pos);
+	return medkit;
+}
+
 bool Medkit::bindPhysicsBody()
 {
 	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 1.0f, 0.0f));
@@ -61,6 +68,7 @@ void Medkit::interact()
 	{
 		player->getMedkitBagInstance()->push(this);
 		retain();
+		player->setInteractItem(nullptr);
 		removeFromParent();
 	}
 }

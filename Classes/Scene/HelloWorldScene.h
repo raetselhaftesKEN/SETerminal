@@ -22,9 +22,12 @@ private:
     Player* player_;
     //地图类,对应相关的tmx文件
     HealthBar* healthBar_;
+
+    static cocos2d::Node* generateNode_;
+
     cocos2d::TMXTiledMap* _tileMap;
     //地图中的一个层
-    cocos2d::TMXLayer* _background;
+    //cocos2d::TMXLayer* _background;
 public:
 
     /**
@@ -66,8 +69,13 @@ public:
 
 
     void contactBetweenPlayerAndItem(Player* player, Item* Item);
-    void contactBetweenPlayerAndBullet(Player* player, cocos2d::Sprite* bullet);
-    void contactBetweenMonsterAndBullet(Monster* monster, cocos2d::Sprite* bullet);
+    void contactBetweenCharacterAndBullet(Character* character, cocos2d::Sprite* bullet);
+
+
+    void generateNode(float dt);
+
+    static cocos2d::Node*& getGenerateNode();
+    
 
 
     // implement the "static create()" method manually

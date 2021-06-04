@@ -40,6 +40,7 @@ public:
 	// ‹…À
 	virtual void receiveDamage(int damage);
 
+	virtual void die();
 
 	virtual void updateFacingStatus();
 	virtual void updateWalkingStatus();

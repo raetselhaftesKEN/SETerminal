@@ -4,7 +4,9 @@
 
 #include "Monster.h"
 #include "Player.h"
+#include "Item/Medkit/Medkit.h"
 #include "Const/Const.h"
+#include "Scene/HelloWorldScene.h"
 
 static void problemLoading(const char* filename)
 {
@@ -65,8 +67,8 @@ void Monster::move() {
 			//设置敌方子弹的物理躯干
 			auto physicsBody = cocos2d::PhysicsBody::createBox(enemyBullet->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
 			physicsBody->setDynamic(false);
-			physicsBody->setCategoryBitmask(MONSTER_CATEGORY_MASK);
-			physicsBody->setContactTestBitmask(MONSTER_CONTACT_MASK);
+			physicsBody->setCategoryBitmask(MOSNTER_BULLET_CATEGORY_MASK);
+			physicsBody->setContactTestBitmask(MONSTER_BULLET_CONTACT_MASK);
 			enemyBullet->setPhysicsBody(physicsBody);
 			enemyBullet->setTag(MONSTER_BULLET_TAG);
 
@@ -99,6 +101,22 @@ void Monster::move() {
 
 	//在这里死循环递归，只要怪物还活着，就一直跑
 	runAction(cocos2d::Sequence::create(moveOnce, shootStar, cocos2d::CallFunc::create([=] {move(); }), nullptr));
+}
+
+void Monster::die()
+{	
+	auto scene = cocos2d::Director::getInstance()->getRunningScene();
+	auto medkitNode = dynamic_cast<cocos2d::Node*>(Medkit::create(getPosition()));
+
+	if (scene && medkitNode)
+	{
+		HelloWorld::getGenerateNode() = medkitNode;
+		scene->scheduleOnce(CC_SCHEDULE_SELECTOR(HelloWorld::generateNode), 0.f);
+	}
+
+	isAlive_ = false;
+	health_ = 0;
+	removeFromParentAndCleanup(true);
 }
 
 Monster* Monster::create(const std::string& filename)
