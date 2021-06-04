@@ -1,1 +1,7 @@
-﻿  ext_poly2tri.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\lib\Debug\ext_poly2tri.lib
+﻿  shapes.cc
+  advancing_front.cc
+  cdt.cc
+  sweep.cc
+  sweep_context.cc
+  正在生成代码...
+  ext_poly2tri.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\lib\Debug\ext_poly2tri.lib

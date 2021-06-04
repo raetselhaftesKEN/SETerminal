@@ -65,9 +65,11 @@ public:
 	void bindCharacterAnimate(const std::string& characterName, float interval = 0.2);
 
 
-	void receiveDamageEffect();
-
 	cocos2d::Sprite* getPictureSprite();
+
+
+	void detectCollision();
+	
 
 protected:
 

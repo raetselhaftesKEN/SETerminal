@@ -6,11 +6,11 @@
   Bullet.cpp
   Medkit.cpp
   Weapon.cpp
+  Obstacle.cpp
   FightScene.cpp
   HelloWorldScene.cpp
-D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.cpp(48,12): warning C4244: “return”: 从“float”转换到“int”，可能丢失数据
 D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.cpp(113,45): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.cpp(44,81): warning C4305: “参数”: 从“double”到“float”截断
+D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.cpp(48,12): warning C4244: “return”: 从“float”转换到“int”，可能丢失数据
 libchipmunk.lib(cpArbiter.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpArbiter.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(chipmunk.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(chipmunk.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(cpBody.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpBody.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样

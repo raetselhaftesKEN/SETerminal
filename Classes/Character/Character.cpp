@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 #include "Character.h"
+#include "Obstacle/Obstacle.h"
 #include <string>
 using namespace std::string_literals;
 
@@ -108,12 +109,24 @@ void Character::bindCharacterAnimate(const std::string& characterName, float int
 	idleRight_ = createAnimate((characterName + "/"s + "idle_right/idle_right"s).c_str(), sprite_->getContentSize(), interval, 1);
 }
 
-void Character::receiveDamageEffect()
-{
-	
-}
 
 cocos2d::Sprite* Character::getPictureSprite()
 {
 	return sprite_;
+}
+
+void Character::detectCollision()
+{
+	Obstacle* obstacles = nullptr;
+
+	for (auto i : *(Obstacle::getObstacles()))
+	{
+		obstacles = i;
+		if (obstacles != nullptr)
+		{
+
+			obstacles->collision(this);
+		}
+
+	}
 }

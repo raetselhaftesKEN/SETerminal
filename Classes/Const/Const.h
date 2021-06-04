@@ -27,6 +27,7 @@
 #define MONSTER_TAG 200
 #define MONSTER_BULLET_TAG 20
 #define ITEM_TAG 50
+#define OBSTACLE_TAG 60
 
 //default values
 #define PLAYER_MAX_HEALTH 100

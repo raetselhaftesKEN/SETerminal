@@ -236,9 +236,9 @@ void Monster::updateWalkingStatus()
 
 void Monster::update(float dt)
 {
-		updateFacingStatus();
-		updateWalkingStatus();
-		updateMoveAnimate();
-		statusChanged_ = false;
-	
+	updateFacingStatus();
+	updateWalkingStatus();
+	updateMoveAnimate();
+	statusChanged_ = false;
+	detectCollision();
 }

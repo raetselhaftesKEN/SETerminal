@@ -357,18 +357,18 @@ void Player::useMedkit()
 void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
-	cocos2d::Vec2 offset = facingPoint_ - this->getPosition();
+	cocos2d::Vec2 offset = facingPoint_ - getPosition();
 
 	offset.normalize();
 
 	if (primaryWeapon_->ActiveAimPoint != nullptr)
 	{
-		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_ - this->getPosition());
+		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_ - getPosition());
 	}
 
 	if (isAttacking)
 	{
-		attack(this->getPosition(), offset);
+		attack(getPosition(), offset);
 	}
 
 	weaponRotation_ = CC_RADIANS_TO_DEGREES(cocos2d::Vec2::angle(offset, cocos2d::Vec2::ANCHOR_BOTTOM_RIGHT));
@@ -417,5 +417,6 @@ void Player::update(float dt)
 		updateWalkingStatus();
 		updateMoveAnimate();
 		statusChanged_ = false;
+		detectCollision();
 	}	
 }

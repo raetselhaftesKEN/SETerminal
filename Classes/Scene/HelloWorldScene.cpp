@@ -7,6 +7,7 @@
 #include "./Item/Bullet/Bullet.h"
 #include "Item/Medkit/Medkit.h"
 #include "Const/Const.h"
+#include "Obstacle/Obstacle.h"
 
 USING_NS_CC;
 
@@ -35,15 +36,11 @@ bool HelloWorld::init()
         return false;
     }
 
+    Obstacle::getObstacles()->clear();
+
     //获取窗口大小和原点坐标
     auto winSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
-
-    //绘制灰色背景
-    auto background = DrawNode::create();
-    background->drawSolidRect(origin, winSize, cocos2d::Color4F(0.6, 0.6, 0.6, 1));
-    //将其改为-2层次，防止盖住下边的tmx地图文件
-    this->addChild(background, -2);
 
     //get tmx pic from files  从文件中搞到tmx地图文件
     _tileMap = TMXTiledMap::create("myfirst.tmx");
@@ -58,6 +55,13 @@ bool HelloWorld::init()
     healthBar_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
     healthBar_->setPosition(cocos2d::Point(10, winSize.height));
     addChild(healthBar_, 2);
+
+    auto obstacle = Obstacle::create("wall.png");
+    obstacle->setPosition(500, 300);
+    addChild(obstacle, 0);
+    auto obs2 = Obstacle::create("wall.png");
+    obs2->setPosition(300, 100);
+    addChild(obs2, 0);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));

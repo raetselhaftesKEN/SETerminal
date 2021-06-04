@@ -1,1 +1,2 @@
-﻿  ext_xxhash.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\lib\Debug\ext_xxhash.lib
+﻿  xxhash.c
+  ext_xxhash.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\lib\Debug\ext_xxhash.lib
