@@ -5,6 +5,7 @@
 #include "cocos2d.h"
 #include "Character.h"
 #include <string>
+#include "Obstacle/Obstacle.h"
 using namespace std::string_literals;
 
 void Character::bindPictureSprite(cocos2d::Sprite* sprite)
@@ -105,4 +106,25 @@ void Character::bindAnimate(const std::string& characterName)
 	idleDown_ = createAnimate((characterName + "/"s + "idle_down/idle_down"s).c_str(), sprite_->getContentSize(), 1);
 	idleLeft_ = createAnimate((characterName + "/"s + "idle_left/idle_left"s).c_str(), sprite_->getContentSize(), 1);
 	idleRight_ = createAnimate((characterName + "/"s + "idle_right/idle_right"s).c_str(), sprite_->getContentSize(), 1);
+}
+
+cocos2d::Sprite* Character::getPictureSprite()
+{
+	return this->sprite_;
+}
+
+void Character::detectCollision()
+{
+	Obstacle* obstacles = nullptr;
+
+	for (auto i : *(Obstacle::getObstacles()))
+	{
+		obstacles = i;
+		if (obstacles != nullptr)
+		{
+
+			obstacles->collision(this);
+		}
+
+	}
 }

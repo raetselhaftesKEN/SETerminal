@@ -7,7 +7,7 @@
 #include "./Item/Bullet/Bullet.h"
 #include "Item/Medkit/Medkit.h"
 #include "Const/Const.h"
-#include "../Item/Obstacle/Obstacle.h"
+#include "../Obstacle/Obstacle.h"
 
 USING_NS_CC;
 
@@ -62,10 +62,15 @@ bool HelloWorld::init()
     addChild(medkit, 2);
     medkit->setPosition(500, 500);
 
-    auto obstacle = Obstacle::create("wall.png");
-    obstacle->setPosition(300, 100);
+    auto obstacle = Obstacle::create("health_max.png");
+    obstacle->setPosition(500, 300);
     obstacle->setTag(133);
     addChild(obstacle, 0);
+    auto obs2 = Obstacle::create("wall.png");
+    obs2->setPosition(300, 100);
+    obs2->setTag(133);
+    addChild(obs2, 0);
+
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));

@@ -4,7 +4,8 @@
 
 #include "Obstacle.h"
 #include <cmath>
-#include <vector>
+
+std::vector<Obstacle*> Obstacle::obstacles_{};
 
 Obstacle* Obstacle::create(const std::string& filename)
 {
@@ -18,6 +19,7 @@ Obstacle* Obstacle::create(const std::string& filename)
 	if (obstacle && obstacle->sprite_)
 	{
 		obstacle->autorelease();
+		obstacles_.push_back(obstacle);
 		return obstacle;
 	}
 
@@ -25,32 +27,30 @@ Obstacle* Obstacle::create(const std::string& filename)
 
 }
 
-bool Obstacle::bindPhysicsBody()
-{
-	auto physicsBody = cocos2d::PhysicsBody::createBox(getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
-	physicsBody->setDynamic(false);
-	physicsBody->setContactTestBitmask(0b11111111);
-	physicsBody->setCategoryBitmask(0b11111111);
-	setPhysicsBody(physicsBody);
 
-	return true;
+void Obstacle::bindPictureSprite(cocos2d::Sprite* sprite)
+{
+	sprite_ = sprite;
+	addChild(sprite_);
 }
 
-void Obstacle::collision(Sprite* targetSprite, bool flag)
+
+void Obstacle::collision(Character* targetSprite, bool flag)
 {
 
 	auto obstaclePosition = this->getPosition();
 	//要检测的东西的位置
 	auto targetPosition = targetSprite->getPosition();
 	auto obstacleSize = sprite_->getContentSize();
+	auto targetSize = targetSprite->getPictureSprite()->getContentSize();
 	//检测到碰撞
-	if (fabs(obstaclePosition.x - targetPosition.x) < obstacleSize.width / 2 && fabs(obstaclePosition.y - targetPosition.y) < obstacleSize.height / 2)
+	if (fabs(obstaclePosition.x - targetPosition.x) < (obstacleSize.width / 2 + targetSize.width / 2) && fabs(obstaclePosition.y - targetPosition.y) < (obstacleSize.height / 2 + targetSize.height / 2))
 	{
 		//当前离4个边界的垂直距离
-		float leftDistance = targetPosition.x - (obstaclePosition.x - obstacleSize.width / 2);		
-		float rightDistance = (obstaclePosition.x + obstacleSize.width / 2) - targetPosition.x;
-		float topDistance = (obstaclePosition.y + obstacleSize.height / 2) - targetPosition.y;
-		float bottomDistance = targetPosition.y - (obstaclePosition.y - obstacleSize.height / 2);
+		float leftDistance = (targetPosition.x + targetSize.width / 2) - (obstaclePosition.x - obstacleSize.width / 2);
+		float rightDistance = (obstaclePosition.x + obstacleSize.width / 2) - (targetPosition.x - targetSize.width / 2);
+		float topDistance = (obstaclePosition.y + obstacleSize.height / 2) - (targetPosition.y - targetSize.height / 2);
+		float bottomDistance = (targetPosition.y + targetSize.height / 2) - (obstaclePosition.y - obstacleSize.height / 2);
 		std::vector<float> distance = { leftDistance, rightDistance, topDistance, bottomDistance };
 		float minDistance = 99999;
 		int minIndex = -1;
@@ -67,19 +67,19 @@ void Obstacle::collision(Sprite* targetSprite, bool flag)
 		switch (minIndex)
 		{
 		case 0:
-			nextPositionX = obstaclePosition.x - obstacleSize.width / 2;
+			nextPositionX = obstaclePosition.x - obstacleSize.width / 2 - targetSize.width / 2;
 			targetSprite->setPosition(cocos2d::Vec2(nextPositionX, targetPosition.y));
 			break;
 		case 1:
-			nextPositionX = obstaclePosition.x + obstacleSize.width / 2;
+			nextPositionX = obstaclePosition.x + obstacleSize.width / 2 + targetSize.width / 2;
 			targetSprite->setPosition(cocos2d::Vec2(nextPositionX, targetPosition.y));
 			break;
 		case 2:
-			nextPositionY = obstaclePosition.y + obstacleSize.height / 2;
+			nextPositionY = obstaclePosition.y + obstacleSize.height / 2 + targetSize.height / 2;
 			targetSprite->setPosition(cocos2d::Vec2(targetPosition.x, nextPositionY));
 			break;
 		case 3:
-			nextPositionY = obstaclePosition.y - obstacleSize.height / 2;
+			nextPositionY = obstaclePosition.y - obstacleSize.height / 2 - targetSize.height / 2;
 			targetSprite->setPosition(cocos2d::Vec2(targetPosition.x, nextPositionY));
 			break;
 		default:
@@ -91,4 +91,10 @@ void Obstacle::collision(Sprite* targetSprite, bool flag)
 	}
 	
 
+}
+
+
+std::vector<Obstacle*>* Obstacle::getObstacles()
+{
+	return &obstacles_;
 }

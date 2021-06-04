@@ -47,20 +47,9 @@ void Monster::move() {
 	}
 	auto realDest = nextPosition - getPosition();
 	realDest.normalize();
-	auto moveOnce = cocos2d::MoveBy::create(0.25f, realDest * 6.25);
+	auto moveOnce = cocos2d::MoveBy::create(2.0f, realDest * 50);
 
 	facingPoint_ = nextPosition;
-
-
-	auto monsterPos = this->getPosition();
-	auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
-	auto obstacleOfNode = runningScene->getChildByTag(133);
-	//如果场景已经被释放，找不到怪物位置，直接退出
-	if (obstacleOfNode != nullptr)
-	{
-		auto obstacle = dynamic_cast<Obstacle*>(obstacleOfNode);
-		obstacle->collision(this);
-	}
 
 
 	//怪物在move1和move2中间的随机位置发射子弹的动作，使用lambda表达式实现
@@ -215,9 +204,11 @@ void Monster::updateWalkingStatus()
 
 void Monster::update(float dt)
 {
-		updateFacingStatus();
-		updateWalkingStatus();
-		updateMoveAnimate();
-		statusChanged_ = false;
-	
+	updateFacingStatus();
+	updateWalkingStatus();
+	updateMoveAnimate();
+	statusChanged_ = false;
+	//检测Monster与障碍物的碰撞
+	this->detectCollision();
+
 }

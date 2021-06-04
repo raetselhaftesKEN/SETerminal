@@ -357,15 +357,8 @@ void Player::update(float dt)
 		updateWalkingStatus();
 		updateMoveAnimate();
 		statusChanged_ = false;
+		//检测怪物与障碍物的碰撞
+		this->detectCollision();
 
-		auto playerPos = this->getPosition();
-		auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
-		auto boxOfNode = runningScene->getChildByTag(133);
-		//如果场景已经被释放，找不到我方player位置，直接退出
-		if (boxOfNode != nullptr)
-		{
-			auto obstacle = dynamic_cast<Obstacle*>(boxOfNode);
-			obstacle->collision(this);
-		}
 	}	
 }

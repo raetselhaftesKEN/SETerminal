@@ -6,6 +6,7 @@
 #define __CHARACTER_H__
 
 #include "cocos2d.h"
+//#include "Obstacle/Obstacle.h"
 
 /**
 *@brief 角色类，预计包含玩家和怪物
@@ -63,6 +64,12 @@ public:
 
 
 	void bindAnimate(const std::string& characterName);
+
+
+	cocos2d::Sprite* getPictureSprite();
+
+
+	void detectCollision();
 
 protected:
 

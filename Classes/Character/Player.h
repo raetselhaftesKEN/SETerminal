@@ -11,7 +11,7 @@
 #include <string>
 #include "Const/Const.h"
 #include "Item/Medkit/Medkit.h"
-#include "../Item/Obstacle/Obstacle.h"
+#include "../Obstacle/Obstacle.h"
 
 
 /**
