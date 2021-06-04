@@ -96,7 +96,7 @@ public:
 protected:
 
 	
-
+	 
 	friend class HealthBar;
 	
 	enum Key { W, A, S, D };

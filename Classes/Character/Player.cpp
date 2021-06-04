@@ -129,7 +129,7 @@ void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 	{
 		keyPressed_[D] = false;
 	}
-}
+} 
 
 void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
 {
