@@ -31,7 +31,13 @@ public:
 
 	virtual void interact(){}
 
+	void RecoverRecoil(float RecoverSpeed);
+
+	float RecoilStatus = 0;
+
 protected:
+
+	cocos2d::Vec2 TargetPos = cocos2d::Vec2::ZERO;
 
 };
 

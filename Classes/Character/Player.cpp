@@ -357,26 +357,26 @@ void Player::useMedkit()
 void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
-	cocos2d::Vec2 offset = facingPoint_ - getPosition();
-
-	offset.normalize();
+	auto TargetPos = primaryWeapon_->ActiveAimPoint->getPosition();
+	TargetPos.normalize();
 
 	if (primaryWeapon_->ActiveAimPoint != nullptr)
 	{
-		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_ - getPosition());
+		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_ - this->getPosition());
+		primaryWeapon_->RecoverRecoil();
 	}
 
 	if (isAttacking)
 	{
-		attack(getPosition(), offset);
+		attack(this->getPosition(), TargetPos);
 	}
 
-	weaponRotation_ = CC_RADIANS_TO_DEGREES(cocos2d::Vec2::angle(offset, cocos2d::Vec2::ANCHOR_BOTTOM_RIGHT));
-	if (offset.y >= 0)
+	weaponRotation_ = CC_RADIANS_TO_DEGREES(cocos2d::Vec2::angle(TargetPos, cocos2d::Vec2::ANCHOR_BOTTOM_RIGHT));
+	if (TargetPos.y >= 0)
 	{
 		weaponRotation_ = 360 - weaponRotation_;
 	}
-	if (offset.x <= 0)
+	/*if (TargetPos.x <= 0)
 	{
 		primaryWeapon_->setFlippedX(true);
 		secondaryWeapon_->setFlippedX(true);
@@ -385,7 +385,7 @@ void Player::update(float dt)
 	{
 		primaryWeapon_->setFlippedX(false);
 		secondaryWeapon_->setFlippedX(false);
-	}
+	}*/
 	primaryWeapon_->setRotation(weaponRotation_);
 	secondaryWeapon_->setRotation(weaponRotation_);
 

@@ -79,7 +79,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #endif
         director->setOpenGLView(glview);
     }
-
+    glview->setCursorVisible(false);
     // turn on display FPS
     director->setDisplayStats(true);
 

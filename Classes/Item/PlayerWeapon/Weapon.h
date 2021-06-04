@@ -49,6 +49,12 @@ public:
 
 	void PlayerReload();
 
+	/*
+恢复武器后坐力
+@杨孟臻
+*/
+	void RecoverRecoil();
+
 	/**
 *@brief 绑定物理躯干
 * @author 孟宇
@@ -78,7 +84,9 @@ protected:
 
 	int Accuracy = 97;//1-Accuracy是扩散角度
 
-	float Recoil = 1;//准星上弹程度
+	float Recoil = 10;//准星上弹程度
+
+	float RecoilRecover = 60;//准星回复  
 
 	int MagazineSize = 30;//弹夹容量
 

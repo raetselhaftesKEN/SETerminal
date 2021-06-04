@@ -75,6 +75,9 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 				});
 			auto delay = cocos2d::DelayTime::create(1 / ShootingSpeed);
 			this->runAction(cocos2d::Sequence::create(shoot, delay, recover, nullptr));
+
+			ReloadAimPoint->RecoilStatus += Recoil;
+			MyAimPoint->RecoilStatus += Recoil;//ºó×øÁ¦µþ¼Ó
 		}
 		else
 		{
@@ -111,4 +114,10 @@ void Weapon::Reload()
 		});
 	auto delay = cocos2d::DelayTime::create(ReloadTime);
 	this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
+}
+
+void Weapon::RecoverRecoil()
+{
+	MyAimPoint->RecoverRecoil(RecoilRecover / 60);
+	ReloadAimPoint->RecoverRecoil(RecoilRecover / 60);
 }

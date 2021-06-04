@@ -26,5 +26,18 @@ PlayerAimPoint* PlayerAimPoint::create(const std::string& filename)
 
 void PlayerAimPoint::SetTarget(cocos2d::Vec2 Target)
 {
-	setPosition(Target);
+	TargetPos = Target;
+	setPosition(TargetPos + RecoilStatus * cocos2d::Vec2::ANCHOR_TOP_LEFT);
+}
+
+void PlayerAimPoint::RecoverRecoil(float RecoverSpeed)
+{
+	if (RecoilStatus - RecoverSpeed > 0)
+	{
+		RecoilStatus -= RecoverSpeed;
+	}
+	else
+	{
+		RecoilStatus = 0;
+	}
 }
