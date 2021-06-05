@@ -162,8 +162,8 @@ void Weapon::interact()
 		if (player->getPrimaryWeaponInstance() && player->getSecondaryWeaponInstance())
 		{
 			player->abandonPrimaryWeapon();
-			player->setPrimaryWeaponInstance(this);
-			this->Active(true);
+			player->setSecondaryWeaponInstance(this);
+			this->Active(false);
 		}
 		else if (player->getPrimaryWeaponInstance() != nullptr && player->getSecondaryWeaponInstance() == nullptr)
 		{

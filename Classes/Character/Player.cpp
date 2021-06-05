@@ -97,7 +97,7 @@ void Player::getAimPointInstance()
 			this->addChild(primaryWeapon_->ReloadAimPoint);
 		}
 	}
-	if (secondaryWeapon_ != nullptr)
+	if (secondaryWeapon_ != nullptr)	//不加载副武器准星
 	{
 		if (secondaryWeapon_->MyAimPoint->getParent() == this)
 		{
@@ -120,7 +120,7 @@ void Player::abandonPrimaryWeapon()
 		removeAimPoint(primaryWeapon_);						//解除当前主武器准星
 		auto offset = facingPoint_ - getPosition();
 		offset.normalize();
-		auto dropPosition = getPosition() + 60 * offset;
+		auto dropPosition = getPosition() + DISCARD_ITEM_DISTANCE * offset;
 		primaryWeapon_->setPosition(dropPosition);		//主武器位置设为玩家位置
 		primaryWeapon_->Active(false);
 		primaryWeapon_->setVisible(true);

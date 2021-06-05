@@ -76,8 +76,6 @@ public:
 
 protected:
 
-
-
 	float ShootingSpeed = 10;//每秒能够attack的次数
 
 	bool CanShoot = true;

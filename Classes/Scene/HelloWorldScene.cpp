@@ -56,12 +56,17 @@ bool HelloWorld::init()
     healthBar_->setPosition(cocos2d::Point(10, winSize.height));
     addChild(healthBar_, 2);
 
-    auto obstacle = Obstacle::create("wall.png");
-    obstacle->setPosition(500, 300);
-    addChild(obstacle, 0);
-    auto obs2 = Obstacle::create("wall.png");
-    obs2->setPosition(300, 100);
-    addChild(obs2, 0);
+    //auto obstacle = Obstacle::create("wall.png");
+    //obstacle->setPosition(500, 300);
+    //addChild(obstacle, 0);
+    //auto obs2 = Obstacle::create("wall.png");
+    //obs2->setPosition(300, 100);
+    //addChild(obs2, 0);
+
+    auto weapon = Weapon::create("AK47.png");
+    addChild(weapon, 2);
+    weapon->setPosition(500, 300);
+    weapon->setScale(0.3);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));

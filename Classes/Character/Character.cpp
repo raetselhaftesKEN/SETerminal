@@ -14,6 +14,11 @@ void Character::bindPictureSprite(cocos2d::Sprite* sprite)
 	addChild(sprite_);
 }
 
+cocos2d::Vec2 Character::getFacingPoint()
+{
+	return facingPoint_;
+}
+
 void Character::die()
 {
 	isAlive_ = false;

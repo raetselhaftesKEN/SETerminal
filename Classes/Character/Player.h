@@ -45,6 +45,7 @@ public:
 
 	virtual void updateFacingStatus();
 	virtual void updateWalkingStatus();
+
 	
 
 	void dodge();
