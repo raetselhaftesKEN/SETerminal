@@ -9,6 +9,9 @@
 #include "Const/Const.h"
 #include "../Obstacle/Obstacle.h"
 
+#include "AudioEngine.h"
+#include "ui/UIButton.h"
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -98,6 +101,7 @@ bool HelloWorld::init()
     keyboardListener->onKeyReleased = CC_CALLBACK_2(Player::listenToKeyRelease, player_);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
+    buildSettingBtn();
 
     return true;
 }
@@ -239,4 +243,55 @@ void HelloWorld::contactBetweenMonsterAndBullet(Monster* monster, cocos2d::Sprit
             monster->removeFromParentAndCleanup(true);
         }
     }
+}
+
+int  gBackgroundMusicID;
+bool isPlaying = true;
+
+void HelloWorld::buildSettingBtn()
+{
+    gBackgroundMusicID = AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
+    auto btnSetting = cocos2d::ui::Button::create("btn_default.png",
+        "btn_default_pressed.png");
+    auto settingImg = Sprite::create("settings.png");
+
+    if (btnSetting == nullptr || settingImg == nullptr)
+    {
+        problemLoading("'btn_default.png'");
+        problemLoading("'settings.png'");
+    }
+    else
+    {
+        btnSetting->setScale9Enabled(true);
+        // 设置素材内容部分贴图大小
+        btnSetting->setCapInsets(Rect(12, 12, 30, 18));
+        btnSetting->setContentSize(Size(100, 80));
+        btnSetting->setPosition(Vec2(60, 40));
+        settingImg->setPosition(Vec2(60, 40));
+        btnSetting->addClickEventListener([&](Ref*) {
+            log("Setting Pressed!");
+
+
+
+            if (!isPlaying)
+            {
+                AudioEngine::resume(gBackgroundMusicID);
+                isPlaying = true;
+            }
+            else
+            {
+                AudioEngine::pause(gBackgroundMusicID);
+                isPlaying = false;
+            }
+            /*auto menu = PauseMenu::create(sk::kKnight);
+            Director::getInstance()->pause();
+            Director::getInstance()->pushScene(menu);*/
+            }
+        );
+    }
+
+    this->addChild(btnSetting, 3);
+    this->addChild(settingImg, 4);
+
+
 }

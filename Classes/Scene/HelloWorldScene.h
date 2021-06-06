@@ -69,6 +69,9 @@ public:
     void contactBetweenPlayerAndBullet(Player* player, cocos2d::Sprite* bullet);
     void contactBetweenMonsterAndBullet(Monster* monster, cocos2d::Sprite* bullet);
 
+    //…Ë÷√∞¥≈•∞¥º¸
+    void buildSettingBtn();
+
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
