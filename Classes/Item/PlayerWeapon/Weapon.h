@@ -49,41 +49,34 @@ public:
 
 	void PlayerReload();
 
+	/*
+恢复武器后坐力
+@杨孟臻
+*/
+	void RecoverRecoil(float Boost = 1);
+
 	/**
 *@brief 绑定物理躯干
 * @author 孟宇
 */
 	virtual bool bindPhysicsBody() { return true; }
-	
+
+	virtual void interact(){}
+
 	std::string bulletFilename_;	//武器所使用的子弹
 
 	std::string aimPointFilename_;  //准星名称
 
-	/*
-	武器的准星
-	@杨孟臻
-	*/
 	PlayerAimPoint* MyAimPoint;
 	PlayerAimPoint* ReloadAimPoint;
-	 
-	/*
-	武器目前被激活的准星
-	@杨孟臻
-	*/
+
 	PlayerAimPoint* ActiveAimPoint;
 
-
-	/*
-	恢复武器后坐力
-	@杨孟臻
-	*/
-	void RecoverRecoil();
-
-	 
+	int CurrentMagazine = 30;
 
 protected:
 
-	
+
 
 	float ShootingSpeed = 10;//每秒能够attack的次数
 
@@ -91,18 +84,18 @@ protected:
 
 	float BulletSpeed = 2000;
 
-	int Accuracy = 97;//1-Accuracy是扩散角度
+	int Accuracy = 95;//1-Accuracy是扩散角度
 
-	float Recoil = 10;//准星上弹程度
+	float Recoil = 30;//准星上弹程度
 
 	float RecoilRecover = 60;//准星回复  
 
+	float MaxRecoil = 250;
+
 	int MagazineSize = 30;//弹夹容量
 
-	int CurrentMagazine = 30;
-
 	float ReloadTime = 2;//再装填时间
-	
+
 };
 
 #endif // !__WEAPON_H__

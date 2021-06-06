@@ -29,11 +29,18 @@ public:
 	virtual void receiveDamage(int damage);
 
 
+	void recoverHealth(int recovery);
+
+
     /**
 *@brief 死亡
 * @author 孟宇
 */
-    void die();
+    virtual void die();
+
+
+	//获取角色是否生存
+	bool isAlive();
 
 
 	void updateMoveAnimate();
@@ -52,16 +59,27 @@ public:
     virtual bool bindPhysicsBody() = 0;
 
 
-    static cocos2d::Animate* createAnimate(const char* animateName, cocos2d::Size size, int frames = 4);
+    static cocos2d::Animate* createAnimate(const char* animateName, cocos2d::Size size, float interval = 0.2, int frames = 4);
 
 
-	void bindAnimate(const std::string& characterName);
+	void bindCharacterAnimate(const std::string& characterName, float interval = 0.2);
+
+
+	cocos2d::Sprite* getPictureSprite();
+
+
+	void detectCollision();
+	
 
 protected:
+
+	friend class HealthBar;
 
     cocos2d::Sprite* sprite_;
 
     int health_;
+
+	int maxHealth_;
 
     float shield_;
 

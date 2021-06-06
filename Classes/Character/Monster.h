@@ -8,7 +8,6 @@
 
 #include "cocos2d.h"
 #include "Character.h"
-#include "Scene/HelloWorldScene.h"
 
 /**
 *@brief 怪物类
@@ -35,6 +34,9 @@ public:
 	void Monster::move();
 
 
+	virtual void die();
+
+
 	/**
 * @brief 为Monster对象绑定物理躯干
 * @return 绑定是否成功
@@ -51,6 +53,7 @@ public:
 	cocos2d::Vec2 getRandomPosition();
 
 
+	virtual void receiveDamage(int damage);
 
 	virtual void updateFacingStatus();
 

@@ -29,14 +29,15 @@ public:
 
 	void SetTarget(cocos2d::Vec2 Target);
 
+	virtual void interact(){}
+
 	void RecoverRecoil(float RecoverSpeed);
 
 	float RecoilStatus = 0;
-
 protected:
 
 	cocos2d::Vec2 TargetPos = cocos2d::Vec2::ZERO;
+
 };
 
 #endif // !__PLAYERAIMPOINT_H__
- 

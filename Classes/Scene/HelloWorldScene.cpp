@@ -4,11 +4,14 @@
 
 #include "HelloWorldScene.h"
 #include "GameOverScene.h"
-#include "./Character/Player.h"
 #include "./Item/Bullet/Bullet.h"
-#include "./Character/Monster.h"
+#include "Item/Medkit/Medkit.h"
+#include "Const/Const.h"
+#include "Obstacle/Obstacle.h"
 
 USING_NS_CC;
+
+cocos2d::Node* HelloWorld::generateNode_ = nullptr;
 
 Scene* HelloWorld::createScene()
 {
@@ -33,15 +36,11 @@ bool HelloWorld::init()
         return false;
     }
 
+    Obstacle::getObstacles()->clear();
+
     //获取窗口大小和原点坐标
     auto winSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
-
-    //绘制灰色背景
-    auto background = DrawNode::create();
-    background->drawSolidRect(origin, winSize, cocos2d::Color4F(0.6, 0.6, 0.6, 1));
-    //将其改为-2层次，防止盖住下边的tmx地图文件
-    this->addChild(background, -2);
 
     //get tmx pic from files  从文件中搞到tmx地图文件
     _tileMap = TMXTiledMap::create("myfirst.tmx");
@@ -52,34 +51,33 @@ bool HelloWorld::init()
     player_ = Player::create("MIKU/idle_down/idle_down1.png");
     this->addChild(player_, 2);
 
-//    player_->loadAimPoint();
-
     healthBar_ = HealthBar::create(player_);
     healthBar_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
     healthBar_->setPosition(cocos2d::Point(10, winSize.height));
     addChild(healthBar_, 2);
 
-    //auto barrier = cocos2d::Sprite::create("stone.png");
-    //barrier->setScale(0.3);
-    //barrier->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
-    //auto physicsBody = cocos2d::PhysicsBody::createBox(barrier->getContentSize(), cocos2d::PhysicsMaterial(0, 1, 0));
-    //physicsBody->setDynamic(false);
-    //physicsBody->setGravityEnable(false);
-    //physicsBody->setRotationEnable(false);
-    //physicsBody->setContactTestBitmask(1);
-    //physicsBody->setCategoryBitmask(1);
-    //physicsBody->setCollisionBitmask(3);
-    //physicsBody->setMass(1e10);
-    //barrier->setPhysicsBody(physicsBody);
-    //addChild(barrier, 1);
-    //barrier->setPosition(300, 500);
+    weaponUI_ = WeaponUI::create(player_);
+    weaponUI_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
+    weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 40));
+    addChild(weaponUI_, 2);
+
+    mainCamera_ = CameraEffect::create();
+    addChild(mainCamera_);
+    mainCamera_->LockPlayer(player_);
+
+    auto obstacle = Obstacle::create("wall.png");
+    obstacle->setPosition(500, 300);
+    addChild(obstacle, 0);
+    auto obs2 = Obstacle::create("wall.png");
+    obs2->setPosition(300, 100);
+    addChild(obs2, 0);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
     this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::addMonster), 1.5);
 
     //生成屏幕触摸（即鼠标单击）事件的监听器
-    auto touchListener = cocos2d::EventListenerTouchOneByOne::create();
+   auto touchListener = cocos2d::EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, player_);
@@ -92,6 +90,7 @@ bool HelloWorld::init()
     //生成场景内物理碰撞事件的监听器
     auto contactListener = cocos2d::EventListenerPhysicsContact::create();
     contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegan, this);
+    contactListener->onContactSeparate = CC_CALLBACK_1(HelloWorld::onContactSeparated, this);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
     //生成键盘操作事件的监听器
@@ -100,8 +99,10 @@ bool HelloWorld::init()
     keyboardListener->onKeyReleased = CC_CALLBACK_2(Player::listenToKeyRelease, player_);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
+
     return true;
 }
+
 
 void HelloWorld::addMonster(float dt)
 {
@@ -120,14 +121,10 @@ void HelloWorld::addMonster(float dt)
 
 bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
 {
-    ////取得点击屏幕位置的坐标
-    //auto touchLocation = touch->getLocation();
-    //auto offset = touchLocation - player_->getPosition();
-    ////取得子弹发射方向的单位向量
-    //offset.normalize();
-    //在场景内创建子弹实例
     player_->isAttacking = true;
-    TouchHolding = true;      
+    TouchHolding = true;
+    return true;
+
     return true;
 }
 
@@ -150,43 +147,92 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
 
     if (nodeA && nodeB)
     {
-        auto tagA = nodeA->getTag();
-        auto tagB = nodeB->getTag();
-
-        //玩家击杀怪物或怪物的子弹
-        if (tagA == ME_BULLET)
+        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG)
         {
-            nodeB->removeFromParentAndCleanup(true);
-            cocos2d::log("player kill");
+            contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeA), dynamic_cast<Item*>(nodeB));
         }
-        else if (tagB == ME_BULLET)
+        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG)
         {
-            nodeA->removeFromParentAndCleanup(true);
-            cocos2d::log("player kill");
+            contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeB), dynamic_cast<Item*>(nodeA));
         }
-
-        //玩家被击杀
-        if (tagA == ME)
+        else if ((nodeA->getTag() == PLAYER_TAG || nodeA->getTag() == MONSTER_TAG)
+            && (nodeB->getTag() == PLAYER_BULLET_TAG || nodeB->getTag() == MONSTER_BULLET_TAG))
         {
-            auto tmp = dynamic_cast<Player*>(nodeA);
-            tmp->receiveDamage(10);
-            if (tmp->isAlive() == false)
-            {
-                //替换到Gameover场景
-                Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
-            }
+            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeA), dynamic_cast<Bullet*>(nodeB));
         }
-        if (tagB == ME)
+        else if ((nodeA->getTag() == PLAYER_BULLET_TAG || nodeA->getTag() == MONSTER_BULLET_TAG)
+            && (nodeB->getTag() == PLAYER_TAG || nodeB->getTag() == MONSTER_TAG))
         {
-            auto tmp = dynamic_cast<Player*>(nodeB);
-            tmp->receiveDamage(10);
-            if (tmp->isAlive() == false)
-            {
-                //替换到Gameover场景
-                Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
-            }
+            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeB), dynamic_cast<Bullet*>(nodeA));
         }
     }
 
     return true;
+}
+
+bool HelloWorld::onContactSeparated(cocos2d::PhysicsContact& physicsContact)
+{
+    auto nodeA = physicsContact.getShapeA()->getBody()->getNode();
+    auto nodeB = physicsContact.getShapeB()->getBody()->getNode();
+    if (nodeA && nodeB)
+    {
+        Player* playerNode = nullptr;
+        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG)
+        {
+            playerNode = dynamic_cast<Player*>(nodeA);
+        }
+        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG)
+        {
+            playerNode = dynamic_cast<Player*>(nodeB);
+        }
+
+        if (playerNode != nullptr && playerNode->getInteractItem() == nodeB)
+        {
+            cocos2d::log("item separate");
+            playerNode->setInteractItem(nullptr);
+            if (dynamic_cast<Item*>(nodeB)->getItemInfo() && dynamic_cast<Item*>(nodeB)->getItemInfo()->getParent() == nodeB)
+            {
+                dynamic_cast<Item*>(nodeB)->getItemInfo()->setVisible(false);
+            }
+        }
+    }
+    return true;
+}
+
+void HelloWorld::contactBetweenPlayerAndItem(Player* player, Item* item)
+{
+    if (player != nullptr && player->getInteractItem() == nullptr && item != nullptr)
+    {
+        player->setInteractItem(item);
+        if (item->getItemInfo() && item->getItemInfo()->getParent() == item)
+        {
+            item->getItemInfo()->setVisible(true);
+        }
+    }
+}
+
+void HelloWorld::contactBetweenCharacterAndBullet(Character* character, Bullet* bullet)
+{
+    if (character && bullet)
+    {
+        character->receiveDamage(bullet->getBulletAtk());
+        bullet->removeFromParentAndCleanup(true);
+    }
+}
+
+void HelloWorld::generateNode(float dt)
+{
+    if (generateNode_ != nullptr)
+    {
+        auto dropTo = generateNode_->getPosition();
+        generateNode_->setPosition(cocos2d::Point(dropTo.x, dropTo.y + 30));
+        auto dropAction = cocos2d::MoveTo::create(0.2f, dropTo);
+        generateNode_->runAction(dropAction);
+        addChild(generateNode_, 2);
+    }
+}
+
+cocos2d::Node*& HelloWorld::getGenerateNode()
+{
+    return generateNode_;
 }
