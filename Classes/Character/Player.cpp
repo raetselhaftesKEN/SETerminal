@@ -117,6 +117,8 @@ void Player::abandonPrimaryWeapon()
 {
 	if (primaryWeapon_ != nullptr)
 	{
+		isAttacking = false;
+
 		removeAimPoint(primaryWeapon_);						//解除当前主武器准星
 		auto offset = facingPoint_ - getPosition();
 		offset.normalize();
@@ -266,7 +268,7 @@ void Player::die()
 
 void Player::attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)
 {
-	if (primaryWeapon_ != nullptr)
+	if (primaryWeapon_ != nullptr && isAttacking)
 	{
 		primaryWeapon_->Attack(pos, dir);
 	}
@@ -388,6 +390,7 @@ void Player::switchWeapon()
 {
 	if (secondaryWeapon_ != nullptr)
 	{
+		isAttacking = false;
 		auto t = primaryWeapon_;
 		primaryWeapon_ = secondaryWeapon_;
 		secondaryWeapon_ = t;

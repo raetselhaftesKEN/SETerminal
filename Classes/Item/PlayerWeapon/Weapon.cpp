@@ -7,6 +7,8 @@
 #include "././Scene/HelloWorldScene.h"
 #include "../Bullet/Bullet.h"
 #include "Const/Const.h"
+#include <string>
+using namespace std::string_literals;
 
 Weapon* Weapon::create(const std::string& filename)
 {
@@ -22,6 +24,7 @@ Weapon* Weapon::create(const std::string& filename)
 		weapon->autorelease();
 		weapon->bindPhysicsBody();
 		weapon->setTag(ITEM_TAG);
+
 		weapon->bulletFilename_ = "DefaultBullet-2.png";
 		weapon->aimPointFilename_ = "DefaultAimPoint.png";
 
@@ -109,26 +112,32 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 
 void Weapon::PlayerReload()
 {
-	MyAimPoint->setVisible(false);
-	ReloadAimPoint->setVisible(true);
-	ActiveAimPoint = ReloadAimPoint;
-	Reload();
+	if (CurrentMagazine != MagazineSize)
+	{
+		MyAimPoint->setVisible(false);
+		ReloadAimPoint->setVisible(true);
+		ActiveAimPoint = ReloadAimPoint;
+		Reload();
+	}
 }
 
 void Weapon::Reload()
 {
-	CurrentMagazine = 0;
-	CanShoot = false;
-	auto reload = cocos2d::CallFunc::create([=]()
-		{
-			MyAimPoint->setVisible(true);
-			ReloadAimPoint->setVisible(false);
-			ActiveAimPoint = MyAimPoint;
-			CanShoot = true;
-			CurrentMagazine = MagazineSize;
-		});
-	auto delay = cocos2d::DelayTime::create(ReloadTime);
-	this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
+	if (CurrentMagazine != MagazineSize)
+	{
+		CurrentMagazine = 0;
+		CanShoot = false;
+		auto reload = cocos2d::CallFunc::create([=]()
+			{
+				MyAimPoint->setVisible(true);
+				ReloadAimPoint->setVisible(false);
+				ActiveAimPoint = MyAimPoint;
+				CanShoot = true;
+				CurrentMagazine = MagazineSize;
+			});
+		auto delay = cocos2d::DelayTime::create(ReloadTime);
+		this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
+	}
 }
 
 void Weapon::ReloadingStatusReset()
@@ -181,6 +190,7 @@ void Weapon::interact()
 	this->removeFromParent();
 	this->setPosition(cocos2d::Vec2::ZERO);
 	this->Item::pickUp();
+
 	player->addChild(this);
 	player->setInteractItem(nullptr);
 	player->getAimPointInstance();

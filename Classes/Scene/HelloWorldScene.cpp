@@ -68,6 +68,11 @@ bool HelloWorld::init()
     weapon->setPosition(500, 300);
     weapon->setScale(0.3);
 
+    auto weapon2 = Weapon::create("MP5.png");
+    addChild(weapon2, 2);
+    weapon2->setPosition(700, 500);
+    weapon2->setScale(0.3);
+
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
     this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::addMonster), 1.5);
