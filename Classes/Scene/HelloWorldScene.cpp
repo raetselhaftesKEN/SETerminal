@@ -60,17 +60,16 @@ bool HelloWorld::init()
     weaponUI_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
     weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 40));
     addChild(weaponUI_, 2);
-
-    mainCamera_ = CameraEffect::create();
-    addChild(mainCamera_);
-    mainCamera_->LockPlayer(player_);
-
+    
     auto obstacle = Obstacle::create("wall.png");
     obstacle->setPosition(500, 300);
     addChild(obstacle, 0);
     auto obs2 = Obstacle::create("wall.png");
     obs2->setPosition(300, 100);
     addChild(obs2, 0);
+
+    //初始化一个正交摄像机
+    this->setCamera(this);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
@@ -99,10 +98,14 @@ bool HelloWorld::init()
     keyboardListener->onKeyReleased = CC_CALLBACK_2(Player::listenToKeyRelease, player_);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
-
     return true;
 }
 
+void HelloWorld::setCamera(Scene* scene)
+{
+    mainCamera_ = CameraEffect::create(scene);
+    mainCamera_->LockPlayer(player_);
+}
 
 void HelloWorld::addMonster(float dt)
 {
@@ -137,7 +140,8 @@ bool HelloWorld::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent
 
 void HelloWorld::onMouseMove(cocos2d::EventMouse* mouse)
 {   
-    player_->listenToMouseEvent(convertToNodeSpace(mouse->getLocationInView()), false);
+    auto sizeOfWin = cocos2d::Director::getInstance()->getWinSize();
+    player_->listenToMouseEvent(convertToNodeSpace(mouse->getLocationInView() - sizeOfWin / 2), false);
 }
 
 bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)

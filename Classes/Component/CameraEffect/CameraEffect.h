@@ -10,7 +10,7 @@
 #include "Character/Player.h"
 
 /*
-摄像机效果
+摄像机及其效果
 	@杨孟臻
 	*/
 
@@ -18,8 +18,11 @@ class CameraEffect :public cocos2d::Camera
 {
 public:
 
-	//设置一个摄像机
-	static CameraEffect* create();
+	//设置或者绑定（如果有）一个正交摄像机
+	static CameraEffect* create(cocos2d::Scene* scene);
+
+	//摄像机抖动效果
+	void Shake(float Strength, int Count);
 
 	//
 	void update(float dt);
@@ -31,7 +34,7 @@ protected:
 
 	cocos2d::Camera* CameraInstance;
 
-	cocos2d::Vec2 Target;
+	cocos2d::Vec2 OgPos;
 
 	Player* TargetPlayer;
 };

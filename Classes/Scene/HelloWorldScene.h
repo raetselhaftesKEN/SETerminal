@@ -52,6 +52,10 @@ public:
 */
     virtual bool init();
 
+    /*
+初始化摄像机
+    */
+    void HelloWorld::setCamera(Scene* scene);
 
     /**
 * @brief 生成怪物

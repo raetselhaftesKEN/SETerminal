@@ -55,6 +55,8 @@ Player* Player::create(const std::string& filename)
 
 		player->autorelease();
 
+		player->setCameraMask(1, true);
+
 		return player;
 	}
 	return nullptr;
@@ -232,7 +234,7 @@ void Player::dodge()
 
 void Player::updateFacingStatus()
 {
-	auto direction = facingPoint_ - getPosition();
+	auto direction = facingPoint_;
 	preFacingStatus_ = curFacingStatus_;
 	
 	if (direction.x > 0 && abs(direction.y) <= direction.x)
@@ -362,7 +364,7 @@ void Player::update(float dt)
 
 	if (primaryWeapon_->ActiveAimPoint != nullptr)
 	{
-		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_ - this->getPosition());
+		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_);
 		primaryWeapon_->RecoverRecoil(recoilRecoverBoost_ / 100);
 	}
 
