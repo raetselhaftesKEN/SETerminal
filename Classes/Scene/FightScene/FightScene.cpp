@@ -5,6 +5,7 @@
 #include "cocos2d.h"
 #include "Const/Const.h"
 #include "FightScene.h"
+#include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
 
 static void problemLoading(const char* filename)
@@ -63,6 +64,7 @@ void FightScene::bindPlayer(Player* player)
 	}
 	this->setCamera();
 	this->setOperationListener();
+	this->setWeaponUI();
 }
 
 void FightScene::setCamera()
@@ -82,6 +84,15 @@ void FightScene::setObstacle()
 		{
 			this->addChild(i, 1);
 		}
+	}
+}
+
+void FightScene::setWeaponUI()
+{
+	if (player_ != nullptr)
+	{
+		auto weaponUI = WeaponUI::create(player_);
+		addChild(weaponUI);
 	}
 }
 

@@ -4,9 +4,6 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp">
       <Filter>Source Files\Classes</Filter>
     </ClCompile>
-    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.cpp">
-      <Filter>Source Files\Classes\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.cpp">
       <Filter>Source Files\Classes\Item\Bullet</Filter>
     </ClCompile>
@@ -46,6 +43,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\CameraEffect\CameraEffect.cpp">
       <Filter>Source Files\Classes\Component\CameraEffect</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\WeaponUI\WeaponUI.cpp">
+      <Filter>Source Files\Classes\Component\WeaponUI</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -56,9 +56,6 @@
   <ItemGroup>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.h">
       <Filter>Source Files\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.h">
-      <Filter>Source Files\Classes\Scene</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.h">
       <Filter>Source Files\Classes\Item\Bullet</Filter>
@@ -101,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\CameraEffect\CameraEffect.h">
       <Filter>Source Files\Classes\Component\CameraEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\WeaponUI\WeaponUI.h">
+      <Filter>Source Files\Classes\Component\WeaponUI</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
@@ -423,6 +423,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Component\HealthBar">
       <UniqueIdentifier>{AB0AE64D-1C33-30C7-99CF-0D59F076137C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Component\WeaponUI">
+      <UniqueIdentifier>{D9F80531-0108-3F51-8171-9B71EC3BF30F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Const">
       <UniqueIdentifier>{614668E2-CB5F-37F3-A5A9-DB7EB8004759}</UniqueIdentifier>

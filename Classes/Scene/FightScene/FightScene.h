@@ -33,6 +33,9 @@ public:
 	void setObstacle();
 
 
+	void setWeaponUI();
+
+
 	void setOperationListener();
 
 

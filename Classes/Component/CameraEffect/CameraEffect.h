@@ -34,6 +34,8 @@ protected:
 
 	cocos2d::Camera* CameraInstance;
 
+	cocos2d::Camera* UICameraInstance;
+
 	cocos2d::Vec2 OgPos;
 
 	Player* TargetPlayer;

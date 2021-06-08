@@ -111,6 +111,11 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔİÊ±ÏÈÍ¨¹ıÕâ¸ö·½Ê½À´É
 
 }
 
+int Weapon::getCurrentMagazine()
+{
+	return CurrentMagazine;
+}
+
 void Weapon::PlayerReload()
 {
 	if (CurrentMagazine != MagazineSize)

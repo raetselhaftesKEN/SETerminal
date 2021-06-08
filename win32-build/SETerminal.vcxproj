@@ -798,7 +798,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.h" />
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\GameOverScene.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Player.h" />
@@ -813,10 +812,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Const\Const.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Obstacle\Obstacle.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\CameraEffect\CameraEffect.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\WeaponUI\WeaponUI.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp" />
-    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\HelloWorldScene.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\GameOverScene.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Player.cpp" />
@@ -830,6 +829,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Obstacle\Obstacle.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\CameraEffect\CameraEffect.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\WeaponUI\WeaponUI.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp" />
     <ResourceCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\game.rc" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AK47.png" />

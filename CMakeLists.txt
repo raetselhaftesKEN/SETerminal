@@ -57,7 +57,6 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/Scene/HelloWorldScene.cpp
      Classes/Item/Bullet/Bullet.cpp
      Classes/Scene/GameOverScene.cpp
      Classes/Character/Player.cpp
@@ -71,10 +70,10 @@ list(APPEND GAME_SOURCE
      Classes/Scene/FightScene/FightScene.cpp
      Classes/Obstacle/Obstacle.cpp
      Classes/Component/CameraEffect/CameraEffect.cpp
+     Classes/Component/WeaponUI/WeaponUI.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
-     Classes/Scene/HelloWorldScene.h
      Classes/Item/Bullet/Bullet.h
      Classes/Scene/GameOverScene.h
      Classes/Character/Player.h
@@ -89,6 +88,7 @@ list(APPEND GAME_HEADER
      Classes/Const/Const.h
      Classes/Obstacle/Obstacle.h
      Classes/Component/CameraEffect/CameraEffect.h
+     Classes/Component/WeaponUI/WeaponUI.h
      )
 
 if(ANDROID)

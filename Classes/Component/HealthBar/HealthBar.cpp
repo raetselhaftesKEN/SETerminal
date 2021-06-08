@@ -17,6 +17,7 @@ HealthBar* HealthBar::create(Character* character)
 		healthBar->addChild(healthBar->sprite_, 1);
 		healthBar->character_ = character;
 		healthBar->curHealth_ = healthBar->character_->health_;
+		healthBar->setCameraMask(2, true);
 
 		healthBar->health_ = cocos2d::ProgressTimer::create(cocos2d::Sprite::create("health_max.png"));
 		healthBar->health_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
