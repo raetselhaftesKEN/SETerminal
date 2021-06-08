@@ -18,6 +18,8 @@ WeaponUI* WeaponUI::create(Player* player_)
 	weaponUI->autorelease();
 	weaponUI->schedule(CC_SCHEDULE_SELECTOR(WeaponUI::update), 0.1f);
 
+	weaponUI->setCameraMask(2, true);
+
 	return weaponUI;
 
 }

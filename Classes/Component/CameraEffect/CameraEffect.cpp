@@ -22,6 +22,15 @@ CameraEffect* CameraEffect::create(cocos2d::Scene* scene)
 	newCamera->setCameraFlag(cocos2d::CameraFlag::DEFAULT);
 	newCamera->setPosition3D(cocos2d::Vec3(-sizeOfWin.width / 2, -sizeOfWin.height / 2, 0));
 	newCamera->setDepth(1);
+
+	//创建UI专用的摄像机，通过CameraMask筛选渲染物体   如果要把某物体作为UI显示，在创建物体后加上  XXX->setCameraMask(2, true);   即可
+	cocos2d::Camera* newUICamera = Camera::createOrthographic(sizeOfWin.width, sizeOfWin.height, 0, 1);
+	newUICamera->setCameraFlag(cocos2d::CameraFlag::USER1);
+    newUICamera->setPosition3D(cocos2d::Vec3(0, 0, 0));
+	newUICamera->setDepth(2);
+	scene->addChild(newUICamera);
+	camera->UICameraInstance = newUICamera;
+
 	camera->addChild(newCamera);
 	camera->CameraInstance = newCamera;
 	camera->OgPos = camera->getPosition();
