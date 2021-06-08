@@ -41,7 +41,6 @@ bool HelloWorld::init()
 
     
 
-    Obstacle::getObstacles()->clear();
 
     //获取窗口大小和原点坐标
     auto winSize = Director::getInstance()->getVisibleSize();

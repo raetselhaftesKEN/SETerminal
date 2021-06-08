@@ -1,12 +1,10 @@
 /**
-* @file Player.cpp
+* @file Obstacle.cpp
 */
 
 #include "Obstacle.h"
 #include "Const/Const.h"
 #include <cmath>
-
-std::vector<Obstacle*> Obstacle::obstacles_{};
 
 Obstacle* Obstacle::create(const std::string& filename)
 {
@@ -21,7 +19,6 @@ Obstacle* Obstacle::create(const std::string& filename)
 	{
 		obstacle->autorelease();
 		obstacle->setTag(OBSTACLE_TAG);
-		obstacles_.push_back(obstacle);
 		return obstacle;
 	}
 
@@ -96,7 +93,3 @@ void Obstacle::collision(Character* targetSprite, bool flag)
 }
 
 
-std::vector<Obstacle*>* Obstacle::getObstacles()
-{
-	return &obstacles_;
-}

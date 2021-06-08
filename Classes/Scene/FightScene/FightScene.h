@@ -48,7 +48,7 @@ public:
 	void bindNextScene(cocos2d::Layer*);
 
 
-	
+	cocos2d::Vector<Obstacle*> getObstacles();
 
 
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);

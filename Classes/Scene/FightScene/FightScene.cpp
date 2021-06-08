@@ -129,14 +129,17 @@ bool FightScene::init()
 	return true;
 }
 
-
-
 void FightScene::bindNextScene(cocos2d::Layer* nextScene)
 {
 	if (nextScene != nullptr && nextScene_ == nullptr)
 	{
 		nextScene_ = nextScene;
 	}
+}
+
+cocos2d::Vector<Obstacle*> FightScene::getObstacles()
+{
+	return obstacle_;
 }
 
 void FightScene::generateMonster(float dt)
