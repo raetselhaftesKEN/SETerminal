@@ -70,6 +70,7 @@ list(APPEND GAME_SOURCE
      Classes/Item/Medkit/Medkit.cpp
      Classes/Scene/FightScene/FightScene.cpp
      Classes/Obstacle/Obstacle.cpp
+     Classes/Component/CameraEffect/CameraEffect.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -87,6 +88,7 @@ list(APPEND GAME_HEADER
      Classes/Scene/FightScene/FightScene.h
      Classes/Const/Const.h
      Classes/Obstacle/Obstacle.h
+     Classes/Component/CameraEffect/CameraEffect.h
      )
 
 if(ANDROID)

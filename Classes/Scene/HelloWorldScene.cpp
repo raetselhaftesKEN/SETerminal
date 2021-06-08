@@ -35,6 +35,11 @@ bool HelloWorld::init()
     {
         return false;
     }
+    
+    layerUI = cocos2d::LayerColor::create(cocos2d::Color4B(0, 0, 0, 0));
+    layerUI->retain();
+
+    
 
     Obstacle::getObstacles()->clear();
 
@@ -50,18 +55,21 @@ bool HelloWorld::init()
     //生成玩家角色实例
     player_ = Player::create("MIKU/idle_down/idle_down1.png");
     this->addChild(player_, 2);
+    player_->addChild(layerUI);
 
     healthBar_ = HealthBar::create(player_);
     healthBar_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
-    healthBar_->setPosition(cocos2d::Point(10, winSize.height));
-    addChild(healthBar_, 2);
+    healthBar_->setPosition(cocos2d::Point(10, winSize.height / 2));
+    layerUI->addChild(healthBar_, 2);
 
-    //auto obstacle = Obstacle::create("wall.png");
-    //obstacle->setPosition(500, 300);
-    //addChild(obstacle, 0);
-    //auto obs2 = Obstacle::create("wall.png");
-    //obs2->setPosition(300, 100);
-    //addChild(obs2, 0);
+    auto obstacle = Obstacle::create("wall.png");
+    obstacle->setPosition(500, 300);
+    addChild(obstacle, 0);
+    auto obs2 = Obstacle::create("wall.png");
+    obs2->setPosition(300, 100);
+    addChild(obs2, 0);
+
+    setCamera();
 
     auto weapon = Weapon::create("AK47.png");
     addChild(weapon, 2);
@@ -75,7 +83,7 @@ bool HelloWorld::init()
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
-    this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::addMonster), 1.5);
+    //this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::addMonster), 1.5);
 
     //生成屏幕触摸（即鼠标单击）事件的监听器
    auto touchListener = cocos2d::EventListenerTouchOneByOne::create();
@@ -87,6 +95,8 @@ bool HelloWorld::init()
     auto mouseListener = cocos2d::EventListenerMouse::create();
     mouseListener->onMouseMove = CC_CALLBACK_1(HelloWorld::onMouseMove, this);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, player_);
+
+
 
     //生成场景内物理碰撞事件的监听器
     auto contactListener = cocos2d::EventListenerPhysicsContact::create();
@@ -104,6 +114,14 @@ bool HelloWorld::init()
     return true;
 }
 
+void HelloWorld::setCamera()
+{
+    mainCamera_ = CameraEffect::create(this);
+    if (player_ != nullptr)
+    {
+        mainCamera_->LockPlayer(player_);
+    }
+}
 
 void HelloWorld::addMonster(float dt)
 {
@@ -125,8 +143,6 @@ bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
     player_->isAttacking = true;
     TouchHolding = true;
     return true;
-
-    return true;
 }
 
 bool HelloWorld::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
@@ -138,7 +154,8 @@ bool HelloWorld::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent
 
 void HelloWorld::onMouseMove(cocos2d::EventMouse* mouse)
 {   
-    player_->listenToMouseEvent(convertToNodeSpace(mouse->getLocationInView()), false);
+    auto sizeOfWin = cocos2d::Director::getInstance()->getWinSize();
+    player_->listenToMouseEvent(convertToNodeSpace(mouse->getLocationInView() - sizeOfWin / 2), false);
 }
 
 bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)

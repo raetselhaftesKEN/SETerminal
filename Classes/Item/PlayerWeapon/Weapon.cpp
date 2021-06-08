@@ -4,7 +4,8 @@
 
 #include "cocos2d.h"
 #include "Weapon.h"
-#include "././Scene/HelloWorldScene.h"
+//#include "././Scene/HelloWorldScene.h"
+#include "Character/Player.h"
 #include "../Bullet/Bullet.h"
 #include "Const/Const.h"
 #include <string>
@@ -165,7 +166,7 @@ void Weapon::RecoverRecoil()
 
 void Weapon::interact()
 {
-	auto player = dynamic_cast<Player*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(PLAYER_TAG));
+	auto player = dynamic_cast<Player*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG));
 	if (player && player->getInteractItem() == this)
 	{
 		if (player->getPrimaryWeaponInstance() && player->getSecondaryWeaponInstance())

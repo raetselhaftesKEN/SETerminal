@@ -4,7 +4,6 @@
 
 #include "cocos2d.h"
 #include "Bullet.h"
-#include "././Scene/HelloWorldScene.h"
 #include "Const/Const.h"
 
 Bullet* Bullet::create(const std::string& filename)

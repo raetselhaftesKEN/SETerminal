@@ -6,7 +6,8 @@
 #include "Item/Medkit/Medkit.h"
 #include "./Item/PlayerWeapon/Weapon.h"
 #include "Scene/GameOverScene.h"
-#include "Scene/HelloWorldScene.h"
+//#include "Scene/HelloWorldScene.h"
+#include "Scene/FightScene/FightScene.h"
 #include "Const/Const.h"
 
 Player* Player::create(const std::string& filename)
@@ -129,8 +130,9 @@ void Player::abandonPrimaryWeapon()
 		primaryWeapon_->retain();
 		primaryWeapon_->removeFromParent();				//解除与当前主武器父子关系
 
-		HelloWorld::getGenerateNode() = primaryWeapon_;
-		cocos2d::Director::getInstance()->getRunningScene()->scheduleOnce(CC_SCHEDULE_SELECTOR(HelloWorld::generateNode), 0);
+		auto runningScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+		runningScene->setDropNode(primaryWeapon_);
+		runningScene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0);
 
 		primaryWeapon_->Item::abandon();								//当前主武器设置为未被持有
 		primaryWeapon_ = nullptr;
@@ -316,7 +318,7 @@ void Player::dodge()
 
 void Player::updateFacingStatus()
 {
-	auto direction = facingPoint_ - getPosition();
+	auto direction = facingPoint_;
 	preFacingStatus_ = curFacingStatus_;
 	
 	if (direction.x > 0 && abs(direction.y) <= direction.x)
@@ -468,7 +470,7 @@ void Player::update(float dt)
 
 	if (primaryWeapon_ != nullptr && primaryWeapon_->ActiveAimPoint != nullptr)
 	{
-		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_ - this->getPosition());
+		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_);
 		primaryWeapon_->RecoverRecoil();
 	}
 

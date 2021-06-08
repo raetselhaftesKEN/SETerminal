@@ -43,6 +43,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Obstacle\Obstacle.cpp">
       <Filter>Source Files\Classes\Obstacle</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\CameraEffect\CameraEffect.cpp">
+      <Filter>Source Files\Classes\Component\CameraEffect</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Obstacle\Obstacle.h">
       <Filter>Source Files\Classes\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\CameraEffect\CameraEffect.h">
+      <Filter>Source Files\Classes\Component\CameraEffect</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
@@ -411,6 +417,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Component">
       <UniqueIdentifier>{5E2F7FA2-4EAC-396B-883A-B9D5619A2702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Component\CameraEffect">
+      <UniqueIdentifier>{F245063A-9D32-3160-A240-804B8900263E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Component\HealthBar">
       <UniqueIdentifier>{AB0AE64D-1C33-30C7-99CF-0D59F076137C}</UniqueIdentifier>
