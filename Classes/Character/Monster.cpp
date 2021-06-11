@@ -4,7 +4,9 @@
 
 #include "Monster.h"
 #include "Player.h"
+#include "Item/Medkit/Medkit.h"
 #include "Const/Const.h"
+#include "Scene/HelloWorldScene.h"
 
 static void problemLoading(const char* filename)
 {
@@ -37,6 +39,19 @@ cocos2d::Vec2 Monster::getRandomPosition()
 	return position;
 }
 
+void Monster::receiveDamage(int damage)
+{
+	int realDamage = static_cast<int>(damage * (1 - shield_));
+	if (realDamage >= health_)
+	{
+		die();
+	}
+	else
+	{
+		health_ -= realDamage;
+	}
+
+}
 
 void Monster::move() {
 	auto nextPosition = getRandomPosition();
@@ -47,15 +62,13 @@ void Monster::move() {
 	}
 	auto realDest = nextPosition - getPosition();
 	realDest.normalize();
-	auto moveOnce = cocos2d::MoveBy::create(2.0f, realDest * 50);
-
+	auto moveOnce = cocos2d::MoveBy::create(2.f, realDest * 50);
 	facingPoint_ = nextPosition;
-
 
 	//怪物在move1和move2中间的随机位置发射子弹的动作，使用lambda表达式实现
 	auto shootStar = cocos2d::CallFunc::create([=]() {
 		//生成敌人子弹
-		Sprite* enemyBullet = Sprite::create("dart_enemy.png");
+		Bullet* enemyBullet = Bullet::create("dart_enemy.png");
 		if (enemyBullet == nullptr)
 		{
 			problemLoading("dart_enemy.png");
@@ -67,8 +80,8 @@ void Monster::move() {
 			//设置敌方子弹的物理躯干
 			auto physicsBody = cocos2d::PhysicsBody::createBox(enemyBullet->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
 			physicsBody->setDynamic(false);
-			physicsBody->setCategoryBitmask(MONSTER_CATEGORY_MASK);
-			physicsBody->setContactTestBitmask(MONSTER_CONTACT_MASK);
+			physicsBody->setCategoryBitmask(MOSNTER_BULLET_CATEGORY_MASK);
+			physicsBody->setContactTestBitmask(MONSTER_BULLET_CONTACT_MASK);
 			enemyBullet->setPhysicsBody(physicsBody);
 			enemyBullet->setTag(MONSTER_BULLET_TAG);
 
@@ -103,6 +116,25 @@ void Monster::move() {
 	runAction(cocos2d::Sequence::create(moveOnce, shootStar, cocos2d::CallFunc::create([=] {move(); }), nullptr));
 }
 
+void Monster::die()
+{	
+	int dropItem = rand() % 10;
+	if (dropItem == 9)
+	{
+		auto scene = cocos2d::Director::getInstance()->getRunningScene();
+		auto medkitNode = dynamic_cast<cocos2d::Node*>(Medkit::create(getPosition()));
+
+		if (scene && medkitNode)
+		{
+			HelloWorld::getGenerateNode() = medkitNode;
+			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(HelloWorld::generateNode), 0.f);
+		}
+	}
+	isAlive_ = false;
+	health_ = 0;
+	removeFromParentAndCleanup(true);
+}
+
 Monster* Monster::create(const std::string& filename)
 {
 	auto monster = new(std::nothrow) Monster();
@@ -120,7 +152,7 @@ Monster* Monster::create(const std::string& filename)
 	if (monster && monster->sprite_)
 	{
 		auto monsterPosition = monster->getRandomPosition();
-		monster->bindAnimate("MONSTER2");
+		monster->bindCharacterAnimate("MONSTER2");
 
 		monster->health_ = MONSTER_MAX_HEALTH;
 		monster->maxHealth_ = MONSTER_MAX_HEALTH;
@@ -208,7 +240,5 @@ void Monster::update(float dt)
 	updateWalkingStatus();
 	updateMoveAnimate();
 	statusChanged_ = false;
-	//检测Monster与障碍物的碰撞
-	this->detectCollision();
-
+	detectCollision();
 }

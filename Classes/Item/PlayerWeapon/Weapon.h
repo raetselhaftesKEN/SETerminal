@@ -7,6 +7,7 @@
 
 #include "cocos2d.h"
 #include "../Item.h"
+#include "PlayerAimPoint.h"
 
 /**
 *@brief 武器类
@@ -19,9 +20,6 @@ public:
 	virtual ~Weapon() = default;
 
 
-	virtual void interact(){}
-
-
 	/**
 * @brief 生成一个Weapon实例
 * @param Weapon实例对应的素材文件名
@@ -30,6 +28,32 @@ public:
 */
 	static Weapon* create(const std::string& filename);
 
+	/*
+	设定武器是否装备为主武器
+	@杨孟臻
+	*/
+	void Active(bool ActivateStatus);
+
+	/*
+	武器发射
+	@杨孟臻
+	*/
+	void Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
+
+
+	/*
+	再装填
+	@杨孟臻
+	*/
+	void Reload();
+
+	void PlayerReload();
+
+	/*
+恢复武器后坐力
+@杨孟臻
+*/
+	void RecoverRecoil(float Boost = 1);
 
 	/**
 *@brief 绑定物理躯干
@@ -37,11 +61,40 @@ public:
 */
 	virtual bool bindPhysicsBody() { return true; }
 
-	
+	virtual void interact(){}
+
+	std::string bulletFilename_;	//武器所使用的子弹
+
+	std::string aimPointFilename_;  //准星名称
+
+	PlayerAimPoint* MyAimPoint;
+	PlayerAimPoint* ReloadAimPoint;
+
+	PlayerAimPoint* ActiveAimPoint;
+
+	int CurrentMagazine = 30;
+
 protected:
 
 
-	//待更新射速，攻击方式等
+
+	float ShootingSpeed = 10;//每秒能够attack的次数
+
+	bool CanShoot = true;
+
+	float BulletSpeed = 2000;
+
+	int Accuracy = 95;//1-Accuracy是扩散角度
+
+	float Recoil = 30;//准星上弹程度
+
+	float RecoilRecover = 60;//准星回复  
+
+	float MaxRecoil = 250;
+
+	int MagazineSize = 30;//弹夹容量
+
+	float ReloadTime = 2;//再装填时间
 
 };
 

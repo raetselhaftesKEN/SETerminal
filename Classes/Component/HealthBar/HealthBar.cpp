@@ -33,6 +33,8 @@ HealthBar* HealthBar::create(Character* character)
 		healthBar->addChild(healthBar->healthInfo_, 3);
 		healthBar->autorelease();
 
+		healthBar->setCameraMask(2, true);
+
 		healthBar->schedule(CC_SCHEDULE_SELECTOR(HealthBar::update), 0.1f);
 		return healthBar;
 	}

@@ -6,7 +6,6 @@
 #define __CHARACTER_H__
 
 #include "cocos2d.h"
-//#include "Obstacle/Obstacle.h"
 
 /**
 *@brief 角色类，预计包含玩家和怪物
@@ -37,7 +36,7 @@ public:
 *@brief 死亡
 * @author 孟宇
 */
-    void die();
+    virtual void die();
 
 
 	//获取角色是否生存
@@ -60,16 +59,17 @@ public:
     virtual bool bindPhysicsBody() = 0;
 
 
-    static cocos2d::Animate* createAnimate(const char* animateName, cocos2d::Size size, int frames = 4);
+    static cocos2d::Animate* createAnimate(const char* animateName, cocos2d::Size size, float interval = 0.2, int frames = 4);
 
 
-	void bindAnimate(const std::string& characterName);
+	void bindCharacterAnimate(const std::string& characterName, float interval = 0.2);
 
 
 	cocos2d::Sprite* getPictureSprite();
 
 
 	void detectCollision();
+	
 
 protected:
 

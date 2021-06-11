@@ -4,8 +4,8 @@
 
 #include "cocos2d.h"
 #include "Character.h"
-#include <string>
 #include "Obstacle/Obstacle.h"
+#include <string>
 using namespace std::string_literals;
 
 void Character::bindPictureSprite(cocos2d::Sprite* sprite)
@@ -36,6 +36,7 @@ void Character::receiveDamage(int damage)
 	{
 		health_ -= realDamage;
 	}
+
 }
 
 void Character::recoverHealth(int recovery)
@@ -72,7 +73,7 @@ void Character::updateMoveAnimate()
 	}
 }
 
-cocos2d::Animate* Character::createAnimate(const char* animateName, cocos2d::Size size, int frames)
+cocos2d::Animate* Character::createAnimate(const char* animateName, cocos2d::Size size, float interval, int frames)
 {
 	cocos2d::SpriteFrame* frame = nullptr;
 	cocos2d::Vector<cocos2d::SpriteFrame*> frameVector;
@@ -96,21 +97,22 @@ cocos2d::Animate* Character::createAnimate(const char* animateName, cocos2d::Siz
 	return action;
 }
 
-void Character::bindAnimate(const std::string& characterName)
+void Character::bindCharacterAnimate(const std::string& characterName, float interval)
 {
-	walkRight_ = createAnimate((characterName + "/"s +"walk_right/walk_right"s).c_str(), sprite_->getContentSize());
-	walkLeft_ = createAnimate((characterName + "/"s + "walk_left/walk_left"s).c_str(), sprite_->getContentSize());
-	walkUp_ = createAnimate((characterName + "/"s + "walk_up/walk_up"s).c_str(), sprite_->getContentSize());
-	walkDown_ = createAnimate((characterName + "/"s + "walk_down/walk_down"s).c_str(), sprite_->getContentSize());
-	idleUp_ = createAnimate((characterName + "/"s + "idle_up/idle_up"s).c_str(), sprite_->getContentSize(), 1);
-	idleDown_ = createAnimate((characterName + "/"s + "idle_down/idle_down"s).c_str(), sprite_->getContentSize(), 1);
-	idleLeft_ = createAnimate((characterName + "/"s + "idle_left/idle_left"s).c_str(), sprite_->getContentSize(), 1);
-	idleRight_ = createAnimate((characterName + "/"s + "idle_right/idle_right"s).c_str(), sprite_->getContentSize(), 1);
+	walkRight_ = createAnimate((characterName + "/"s +"walk_right/walk_right"s).c_str(), sprite_->getContentSize(), interval);
+	walkLeft_ = createAnimate((characterName + "/"s + "walk_left/walk_left"s).c_str(), sprite_->getContentSize(), interval);
+	walkUp_ = createAnimate((characterName + "/"s + "walk_up/walk_up"s).c_str(), sprite_->getContentSize(), interval);
+	walkDown_ = createAnimate((characterName + "/"s + "walk_down/walk_down"s).c_str(), sprite_->getContentSize(), interval);
+	idleUp_ = createAnimate((characterName + "/"s + "idle_up/idle_up"s).c_str(), sprite_->getContentSize(), interval, 1);
+	idleDown_ = createAnimate((characterName + "/"s + "idle_down/idle_down"s).c_str(), sprite_->getContentSize(), interval, 1);
+	idleLeft_ = createAnimate((characterName + "/"s + "idle_left/idle_left"s).c_str(), sprite_->getContentSize(), interval, 1);
+	idleRight_ = createAnimate((characterName + "/"s + "idle_right/idle_right"s).c_str(), sprite_->getContentSize(), interval, 1);
 }
+
 
 cocos2d::Sprite* Character::getPictureSprite()
 {
-	return this->sprite_;
+	return sprite_;
 }
 
 void Character::detectCollision()

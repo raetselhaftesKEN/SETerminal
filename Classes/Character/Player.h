@@ -8,10 +8,10 @@
 #include "cocos2d.h"
 #include "./Item/PlayerWeapon/Weapon.h"
 #include "Character.h"
+#include "Item/PlayerWeapon/PlayerAimPoint.h"
 #include <string>
 #include "Const/Const.h"
 #include "Item/Medkit/Medkit.h"
-#include "../Obstacle/Obstacle.h"
 
 
 /**
@@ -41,6 +41,7 @@ public:
 	//受伤
 	virtual void receiveDamage(int damage);
 
+	virtual void die();
 
 	virtual void updateFacingStatus();
 	virtual void updateWalkingStatus();
@@ -81,37 +82,47 @@ public:
 	void update(float dt);
 
 
+	/*
+攻击，会使用目前的主武器攻击
+杨孟臻
+*/
+	virtual void attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
+
+	void getAimPointInstance();
+
+	bool isAttacking = false;
+
+	//武器
+	Weapon* primaryWeapon_;											//使用中的武器
+	Weapon* secondaryWeapon_;										//副武器
+
+	bool superBody_ = false;
+
 protected:
 
-	
+	//移动
 	enum Key { W, A, S, D };
-
 	bool keyPressed_[4]{};	
-
 	float speedBoostFactor_ = 1;
-
 	bool allowMove_ = true;
 
+	//闪避数据
 	bool canDodge_ = true;
-
-	float dodgeRate_ = 100.0f;												//闪避倍率
-
+	float dodgeRate_ = 100.0f;												
 	float dodgeSpeedBoost_ = 3.0f;
-
 	float dodgeTime_ = 0.1f;
 
-	bool superBody_ = true;
 
+	//交互道具
 	Item* interactItem_ = nullptr;
 
-	Weapon* primaryWeapon_;											//使用中的武器
-
-	Weapon* secondaryWeapon_;										//副武器
+	float weaponRotation_ = 0.0f;
+	float recoilRecoverBoost_ = 100;
 
 	std::string bulletFilename_;												//当前装备的子弹
 
+	//医疗包
 	std::stack<Medkit*> medkit_;
-
 	int medkitMaxNum_ = MEDKIT_MAX_NUM;
 
 };

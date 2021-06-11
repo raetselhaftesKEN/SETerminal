@@ -7,12 +7,11 @@
 #include "./Item/Bullet/Bullet.h"
 #include "Item/Medkit/Medkit.h"
 #include "Const/Const.h"
-#include "../Obstacle/Obstacle.h"
-
-#include "AudioEngine.h"
-#include "ui/UIButton.h"
+#include "Obstacle/Obstacle.h"
 
 USING_NS_CC;
+
+cocos2d::Node* HelloWorld::generateNode_ = nullptr;
 
 Scene* HelloWorld::createScene()
 {
@@ -37,19 +36,15 @@ bool HelloWorld::init()
         return false;
     }
 
+    Obstacle::getObstacles()->clear();
+
     //获取窗口大小和原点坐标
     auto winSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
-    //绘制灰色背景
-    auto background = DrawNode::create();
-    background->drawSolidRect(origin, winSize, cocos2d::Color4F(0.6, 0.6, 0.6, 1));
-    //将其改为-2层次，防止盖住下边的tmx地图文件
-    this->addChild(background, -2);
-
     //get tmx pic from files  从文件中搞到tmx地图文件
     _tileMap = TMXTiledMap::create("myfirst.tmx");
-    _tileMap->setPosition(Vec2(0, 0));
+    _tileMap->setPosition(Vec2(-1000, -1000));
     this->addChild(_tileMap, -1);
 
     //生成玩家角色实例
@@ -61,19 +56,26 @@ bool HelloWorld::init()
     healthBar_->setPosition(cocos2d::Point(10, winSize.height));
     addChild(healthBar_, 2);
 
-    auto medkit = Medkit::create();
-    addChild(medkit, 2);
-    medkit->setPosition(500, 500);
+    weaponUI_ = WeaponUI::create(player_);
+    weaponUI_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
+    weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 40));
+    addChild(weaponUI_, 2);
+    
 
-    auto obstacle = Obstacle::create("health_max.png");
+    settingLayer_=SettingLayer::create();
+    //settingLayer_->initMusic();
+    this->addChild(settingLayer_, 5);
+
+
+    auto obstacle = Obstacle::create("wall.png");
     obstacle->setPosition(500, 300);
-    obstacle->setTag(133);
     addChild(obstacle, 0);
     auto obs2 = Obstacle::create("wall.png");
     obs2->setPosition(300, 100);
-    obs2->setTag(133);
     addChild(obs2, 0);
 
+    //初始化一个正交摄像机
+    this->setCamera(this);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
@@ -82,6 +84,7 @@ bool HelloWorld::init()
     //生成屏幕触摸（即鼠标单击）事件的监听器
    auto touchListener = cocos2d::EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
+    touchListener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, player_);
 
     //电脑专用的鼠标监听器
@@ -106,6 +109,11 @@ bool HelloWorld::init()
     return true;
 }
 
+void HelloWorld::setCamera(Scene* scene)
+{
+    mainCamera_ = CameraEffect::create(scene);
+    mainCamera_->LockPlayer(player_);
+}
 
 void HelloWorld::addMonster(float dt)
 {
@@ -124,24 +132,24 @@ void HelloWorld::addMonster(float dt)
 
 bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
 {
-    //取得点击屏幕位置的坐标
-    auto touchLocation = touch->getLocation();
-    auto offset = touchLocation - player_->getPosition();
-    //取得子弹发射方向的单位向量
-    offset.normalize();
-    //在场景内创建子弹实例
-    auto bullet = Bullet::create(player_->getBulletName());
-    bullet->setPosition(player_->getPosition());
-    this->addChild(bullet, 1);
-    //为子弹实例绑定播放发射的飞行动画
-    bullet->shoot(offset);
+    player_->isAttacking = true;
+    TouchHolding = true;
+    return true;
 
+    return true;
+}
+
+bool HelloWorld::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
+{
+    player_->isAttacking = false;
+    TouchHolding = false;
     return true;
 }
 
 void HelloWorld::onMouseMove(cocos2d::EventMouse* mouse)
 {   
-    player_->listenToMouseEvent(convertToNodeSpace(mouse->getLocationInView()), false);
+    auto sizeOfWin = cocos2d::Director::getInstance()->getWinSize();
+    player_->listenToMouseEvent(convertToNodeSpace(mouse->getLocationInView() - sizeOfWin / 2), false);
 }
 
 bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
@@ -159,21 +167,15 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
         {
             contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeB), dynamic_cast<Item*>(nodeA));
         }
-        else if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == MONSTER_BULLET_TAG)
+        else if ((nodeA->getTag() == PLAYER_TAG || nodeA->getTag() == MONSTER_TAG)
+            && (nodeB->getTag() == PLAYER_BULLET_TAG || nodeB->getTag() == MONSTER_BULLET_TAG))
         {
-            contactBetweenPlayerAndBullet(dynamic_cast<Player*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
+            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeA), dynamic_cast<Bullet*>(nodeB));
         }
-        else if (nodeA->getTag() == MONSTER_BULLET_TAG && nodeB->getTag() == PLAYER_TAG)
+        else if ((nodeA->getTag() == PLAYER_BULLET_TAG || nodeA->getTag() == MONSTER_BULLET_TAG)
+            && (nodeB->getTag() == PLAYER_TAG || nodeB->getTag() == MONSTER_TAG))
         {
-            contactBetweenPlayerAndBullet(dynamic_cast<Player*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
-        }
-        else if (nodeA->getTag() == MONSTER_TAG && nodeB->getTag() == PLAYER_BULLET_TAG)
-        {
-            contactBetweenMonsterAndBullet(dynamic_cast<Monster*>(nodeA), dynamic_cast<cocos2d::Sprite*>(nodeB));
-        }
-        else if (nodeA->getTag() == PLAYER_BULLET_TAG && nodeB->getTag() == MONSTER_TAG)
-        {
-            contactBetweenMonsterAndBullet(dynamic_cast<Monster*>(nodeB), dynamic_cast<cocos2d::Sprite*>(nodeA));
+            contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeB), dynamic_cast<Bullet*>(nodeA));
         }
     }
 
@@ -221,39 +223,38 @@ void HelloWorld::contactBetweenPlayerAndItem(Player* player, Item* item)
     }
 }
 
-void HelloWorld::contactBetweenPlayerAndBullet(Player* player, cocos2d::Sprite* bullet)
+void HelloWorld::contactBetweenCharacterAndBullet(Character* character, Bullet* bullet)
 {
-    if (player && bullet)
+    if (character && bullet)
     {
-        player->receiveDamage(10);
-        if (player->isAlive() == false)
-        {
-            Director::getInstance()->replaceScene(TransitionSlideInT::create(0.2f, GameOver::create()));
-        }
+        character->receiveDamage(bullet->getBulletAtk());
+        bullet->removeFromParentAndCleanup(true);
     }
 }
 
-void HelloWorld::contactBetweenMonsterAndBullet(Monster* monster, cocos2d::Sprite* bullet)
+void HelloWorld::generateNode(float dt)
 {
-    if (monster && bullet)
+    if (generateNode_ != nullptr)
     {
-        monster->receiveDamage(10);
-        if (monster->isAlive() == false)
-        {
-            monster->removeFromParentAndCleanup(true);
-        }
+        auto dropTo = generateNode_->getPosition();
+        generateNode_->setPosition(cocos2d::Point(dropTo.x, dropTo.y + 30));
+        auto dropAction = cocos2d::MoveTo::create(0.2f, dropTo);
+        generateNode_->runAction(dropAction);
+        addChild(generateNode_, 2);
     }
 }
 
-int  gBackgroundMusicID;
-bool isPlaying = true;
+cocos2d::Node*& HelloWorld::getGenerateNode()
+{
+    return generateNode_;
+}
+
 
 void HelloWorld::buildSettingBtn()
 {
-    gBackgroundMusicID = AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
-    auto btnSetting = cocos2d::ui::Button::create("btn_default.png",
-        "btn_default_pressed.png");
-    auto settingImg = Sprite::create("settings.png");
+    auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png",
+        "Setting/btn_default_pressed.png");
+    auto settingImg = Sprite::create("Setting/settings.png");
 
     if (btnSetting == nullptr || settingImg == nullptr)
     {
@@ -264,16 +265,19 @@ void HelloWorld::buildSettingBtn()
     {
         btnSetting->setScale9Enabled(true);
         // 设置素材内容部分贴图大小
-        btnSetting->setCapInsets(Rect(12, 12, 30, 18));
+        //btnSetting->setCapInsets(Rect(12, 12, 30, 18));
         btnSetting->setContentSize(Size(100, 80));
         btnSetting->setPosition(Vec2(60, 40));
         settingImg->setPosition(Vec2(60, 40));
         btnSetting->addClickEventListener([&](Ref*) {
             log("Setting Pressed!");
 
+            settingLayer_->open();
 
+            settingLayer_->setPosition(0, 0);
 
-            if (!isPlaying)
+           
+            /*if (!isPlaying)
             {
                 AudioEngine::resume(gBackgroundMusicID);
                 isPlaying = true;
@@ -282,7 +286,7 @@ void HelloWorld::buildSettingBtn()
             {
                 AudioEngine::pause(gBackgroundMusicID);
                 isPlaying = false;
-            }
+            }*/
             /*auto menu = PauseMenu::create(sk::kKnight);
             Director::getInstance()->pause();
             Director::getInstance()->pushScene(menu);*/

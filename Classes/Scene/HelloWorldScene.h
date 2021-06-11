@@ -14,7 +14,11 @@
 #include "Character/Player.h"
 #include "Character/Monster.h"
 #include "Component/HealthBar/HealthBar.h"
+#include "Component/WeaponUI/WeaponUI.h"
+#include "Component/CameraEffect/CameraEffect.h"
+#include "Item/Bullet/Bullet.h"
 #include "Const/Const.h"
+#include "Component/SettingLayer/SettingLayer.h"
 
 class HelloWorld : public cocos2d::Scene
 {
@@ -22,9 +26,21 @@ private:
     Player* player_;
     //地图类,对应相关的tmx文件
     HealthBar* healthBar_;
+
+    WeaponUI* weaponUI_;
+
+    CameraEffect* mainCamera_;
+
+    static cocos2d::Node* generateNode_;
+
     cocos2d::TMXTiledMap* _tileMap;
+
+    bool TouchHolding = false;
     //地图中的一个层
-    cocos2d::TMXLayer* _background;
+    //cocos2d::TMXLayer* _background;
+
+    SettingLayer* settingLayer_;
+
 public:
 
     /**
@@ -40,6 +56,10 @@ public:
 */
     virtual bool init();
 
+    /*
+初始化摄像机
+    */
+    void HelloWorld::setCamera(Scene* scene);
 
     /**
 * @brief 生成怪物
@@ -51,6 +71,11 @@ public:
 * @brief 响应场景内的屏幕触摸（即鼠标单击）
 */
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
+
+    /*
+触摸（鼠标单击）结束
+*/
+    bool onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
 
 
     void onMouseMove(cocos2d::EventMouse* mouse);
@@ -66,10 +91,13 @@ public:
 
 
     void contactBetweenPlayerAndItem(Player* player, Item* Item);
-    void contactBetweenPlayerAndBullet(Player* player, cocos2d::Sprite* bullet);
-    void contactBetweenMonsterAndBullet(Monster* monster, cocos2d::Sprite* bullet);
+    void contactBetweenCharacterAndBullet(Character* character, Bullet* bullet);
 
-    //设置按钮按键
+
+    void generateNode(float dt);
+
+    static cocos2d::Node*& getGenerateNode();
+    
     void buildSettingBtn();
 
 

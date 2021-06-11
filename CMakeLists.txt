@@ -64,10 +64,15 @@ list(APPEND GAME_SOURCE
      Classes/Character/Character.cpp
      Classes/Character/Monster.cpp
      Classes/Item/PlayerWeapon/Weapon.cpp
+     Classes/Item/PlayerWeapon/PlayerAimPoint.cpp
      Classes/Item/Item.cpp
      Classes/Component/HealthBar/HealthBar.cpp
+     Classes/Component/WeaponUI/WeaponUI.cpp
+     Classes/Component/CameraEffect/CameraEffect.cpp
      Classes/Item/Medkit/Medkit.cpp
+     Classes/Scene/FightScene/FightScene.cpp
      Classes/Obstacle/Obstacle.cpp
+     Classes/Component/SettingLayer/SettingLayer.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -78,11 +83,16 @@ list(APPEND GAME_HEADER
      Classes/Character/Character.h
      Classes/Character/Monster.h
      Classes/Item/PlayerWeapon/Weapon.h
+     Classes/Item/PlayerWeapon/PlayerAimPoint.h
      Classes/Item/Item.h
      Classes/Component/HealthBar/HealthBar.h
+     Classes/Component/WeaponUI/WeaponUI.h
+     Classes/Component/CameraEffect/CameraEffect.h
      Classes/Item/Medkit/Medkit.h
+     Classes/Scene/FightScene/FightScene.h
      Classes/Const/Const.h
      Classes/Obstacle/Obstacle.h
+     Classes/Component/SettingLayer/SettingLayer.h
      )
 
 if(ANDROID)
