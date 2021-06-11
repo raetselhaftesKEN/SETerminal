@@ -26,6 +26,7 @@ public:
     void bindPictureSprite(cocos2d::Sprite* sprite);
 
 
+	//接收伤害，部分的伤害将由护盾承担，同时减少护盾量
 	virtual void receiveDamage(int damage);
 
 
@@ -70,18 +71,22 @@ public:
 
 	void detectCollision();
 	
+	int health_;
+
+	int maxHealth_;
+
+	float shieldProtectionRate;
+
+	int shield_;
+
+	int maxShield_;
+
 
 protected:
 
 	friend class HealthBar;
 
-    cocos2d::Sprite* sprite_;
-
-    int health_;
-
-	int maxHealth_;
-
-    float shield_;
+    cocos2d::Sprite* sprite_;    
 
     bool isAlive_ = true;
 	

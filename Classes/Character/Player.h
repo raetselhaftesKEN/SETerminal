@@ -38,7 +38,7 @@ public:
 	void listenToMouseEvent(cocos2d::Vec2, bool isPressed);
 
 
-	//受伤
+	//接收伤害的算法与Character里面相同
 	virtual void receiveDamage(int damage);
 
 	virtual void die();

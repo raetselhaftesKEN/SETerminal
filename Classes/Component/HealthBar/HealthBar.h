@@ -27,8 +27,19 @@ protected:
 
 	int curHealth_;
 
+	int surShield_;
+
 	cocos2d::ProgressTimer* health_;
-	cocos2d::Label* healthInfo_;
+
+	cocos2d::ProgressTimer* shield_;
+
+	cocos2d::ProgressTimer* healthR_;
+
+	cocos2d::ProgressTimer* shieldR_;
+
+	float rBarShrinkRate = 50;
+
+//	cocos2d::Label* healthInfo_;
 
 
 };

@@ -52,13 +52,14 @@ bool HelloWorld::init()
     this->addChild(player_, 2);
 
     healthBar_ = HealthBar::create(player_);
-    healthBar_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
-    healthBar_->setPosition(cocos2d::Point(10, winSize.height));
+    healthBar_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+    healthBar_->setPosition(cocos2d::Point(winSize.width / 2, 30));
+    healthBar_->setScale(0.4f, 0.4f);
     addChild(healthBar_, 2);
 
     weaponUI_ = WeaponUI::create(player_);
-    weaponUI_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
-    weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 40));
+    weaponUI_->setAnchorPoint(cocos2d::Point(0.5f, 0.f));
+    weaponUI_->setPosition(cocos2d::Point(winSize.width/2, 50));
     addChild(weaponUI_, 2);
     
     auto obstacle = Obstacle::create("wall.png");

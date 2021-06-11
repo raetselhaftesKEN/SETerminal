@@ -11,7 +11,7 @@ WeaponUI* WeaponUI::create(Player* player_)
 
 	weaponUI->player = player_;
 	std::string bulletInfo = std::to_string(weaponUI->player->primaryWeapon_->CurrentMagazine);
-	weaponUI->bulletInfo_ = cocos2d::Label::createWithTTF(bulletInfo, "fonts/IRANYekanBold.ttf", 28);
+	weaponUI->bulletInfo_ = cocos2d::Label::createWithTTF(bulletInfo, "fonts/IRANYekanBold.ttf", 24);
 	weaponUI->bulletInfo_->setAnchorPoint(cocos2d::Point(0.5f, 0.f));
 	weaponUI->bulletInfo_->setPosition(cocos2d::Vec2(0, 0));
 	weaponUI->addChild(weaponUI->bulletInfo_, 3);

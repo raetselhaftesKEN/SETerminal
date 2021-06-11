@@ -45,6 +45,8 @@ Player* Player::create(const std::string& filename)
 		player->health_ = PLAYER_MAX_HEALTH;
 		player->maxHealth_ = PLAYER_MAX_HEALTH;
 		player->shield_ = PLAYER_DEFAULT_SHIELD;
+		player->maxShield_ = PLAYER_DEFAULT_MAX_SHIELD;
+		player->shieldProtectionRate = PLAYER_DEFAULT_SHIELD_PROTECTION;
 		player->medkitMaxNum_ = MEDKIT_MAX_NUM;
 
 
@@ -168,7 +170,17 @@ void Player::receiveDamage(int damage)
 {
 	if (!superBody_)
 	{
-		int realDamage = static_cast<int>(damage * (1 - shield_));
+		int realDamage;
+		if (shield_ > 0)
+		{
+			realDamage = static_cast<int>(damage * (1 - shieldProtectionRate));
+			shield_ -= static_cast<int>(damage * (shieldProtectionRate));
+			shield_ = shield_ < 0 ? 0 : shield_;
+		}
+		else
+		{
+			realDamage = damage;
+		}
 		if (realDamage >= health_)
 		{
 			die();
