@@ -49,6 +49,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.cpp">
       <Filter>Source Files\Classes\Scene\StartMenuScene</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.cpp">
+      <Filter>Source Files\Classes\Scene\EndMenuScene</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.h">
       <Filter>Source Files\Classes\Scene\StartMenuScene</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.h">
+      <Filter>Source Files\Classes\Scene\EndMenuScene</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
@@ -459,6 +465,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Scene">
       <UniqueIdentifier>{6D16BEF7-7EA4-3B86-8388-C3879B1B06DE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Scene\EndMenuScene">
+      <UniqueIdentifier>{5CD2ACB2-AB2D-3F42-94AA-3F1D1E76880E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Scene\FightScene">
       <UniqueIdentifier>{1C194A18-8C02-3381-95CC-FDAC73E3B29E}</UniqueIdentifier>

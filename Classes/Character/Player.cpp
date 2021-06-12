@@ -162,51 +162,54 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 {
 	using K = cocos2d::EventKeyboard::KeyCode;
 
-	//WASD按下时，数组的对应元素更新为true
-	if (keyCode == K::KEY_W)
+	if (this->isAlive_)
 	{
-		keyPressed_[W] = true;
-	}
-	if (keyCode == K::KEY_A)
-	{
-		keyPressed_[A] = true;
-	}
-	if (keyCode == K::KEY_S)
-	{
-		keyPressed_[S] = true;
-	}
-	if (keyCode == K::KEY_D)
-	{
-		keyPressed_[D] = true;
-	}
-	if (keyCode == K::KEY_Q)
-	{
-		switchWeapon();
-	}
-	if (keyCode == K::KEY_SPACE)
-	{
-		dodge();
-	}
-	if (keyCode == K::KEY_E)
-	{
-		useMedkit();
-	}
-	if (!isAttacking)
-	{
-		if (keyCode == K::KEY_F)
+		//WASD按下时，数组的对应元素更新为true
+		if (keyCode == K::KEY_W)
 		{
-			if (interactItem_ != nullptr)
+			keyPressed_[W] = true;
+		}
+		if (keyCode == K::KEY_A)
+		{
+			keyPressed_[A] = true;
+		}
+		if (keyCode == K::KEY_S)
+		{
+			keyPressed_[S] = true;
+		}
+		if (keyCode == K::KEY_D)
+		{
+			keyPressed_[D] = true;
+		}
+		if (keyCode == K::KEY_Q)
+		{
+			switchWeapon();
+		}
+		if (keyCode == K::KEY_SPACE)
+		{
+			dodge();
+		}
+		if (keyCode == K::KEY_E)
+		{
+			useMedkit();
+		}
+		if (!isAttacking)
+		{
+			if (keyCode == K::KEY_F)
 			{
-				interactItem_->interact();
+				if (interactItem_ != nullptr)
+				{
+					interactItem_->interact();
+				}
 			}
-		}
-		if (keyCode == K::KEY_R)
-		{
-			primaryWeapon_->PlayerReload();
-		}
-		if (keyCode == K::KEY_G)
-		{
-			abandonPrimaryWeapon();
+			if (keyCode == K::KEY_R)
+			{
+				primaryWeapon_->PlayerReload();
+			}
+			if (keyCode == K::KEY_G)
+			{
+				abandonPrimaryWeapon();
+			}
 		}
 	}
 }
@@ -214,35 +217,31 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* unusedEvent)
 {
 	using K = cocos2d::EventKeyboard::KeyCode;
-
-	//WASD按下时，数组的对应元素更新为false
-	if (keyCode == K::KEY_W)
+	if (this->isAlive_)
 	{
-		keyPressed_[W] = false;
-	}
-	if (keyCode == K::KEY_A)
-	{
-		keyPressed_[A] = false;
-	}
-	if (keyCode == K::KEY_S)
-	{
-		keyPressed_[S] = false;
-	}
-	if (keyCode == K::KEY_D)
-	{
-		keyPressed_[D] = false;
+		//WASD按下时，数组的对应元素更新为false
+		if (keyCode == K::KEY_W)
+		{
+			keyPressed_[W] = false;
+		}
+		if (keyCode == K::KEY_A)
+		{
+			keyPressed_[A] = false;
+		}
+		if (keyCode == K::KEY_S)
+		{
+			keyPressed_[S] = false;
+		}
+		if (keyCode == K::KEY_D)
+		{
+			keyPressed_[D] = false;
+		}
 	}
 }
 
 void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
 {
 	facingPoint_ = facingPoint;
-
-	if (isPressed)
-	{
-		//Attack
-	}
-
 }
 
 void Player::receiveDamage(int damage)
@@ -265,14 +264,17 @@ void Player::die()
 {
 	isAlive_ = false;
 	health_ = 0;
-	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(0.2f, GameOver::create()));
+	
 }
 
 void Player::attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)
 {
-	if (primaryWeapon_ != nullptr && isAttacking)
+	if (isAlive_)
 	{
-		primaryWeapon_->Attack(pos, dir);
+		if (primaryWeapon_ != nullptr && isAttacking)
+		{
+			primaryWeapon_->Attack(pos, dir);
+		}
 	}
 }
 
@@ -318,51 +320,57 @@ void Player::dodge()
 
 void Player::updateFacingStatus()
 {
-	auto direction = facingPoint_;
-	preFacingStatus_ = curFacingStatus_;
-	auto size = sprite_->getContentSize();
-	
-	if (direction.x > 0 && abs(direction.y) <= direction.x)
+	if (this->isAlive_)
 	{
-		curFacingStatus_ = FacingStatus::right;
-		primaryWeapon_->setLocalZOrder(1);
-	}
-	else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
-	{
-		curFacingStatus_ = FacingStatus::left;
-		primaryWeapon_->setLocalZOrder(1);
-		primaryWeapon_->setPosition(cocos2d::Vec2(-size.width / 8, -size.height / 10));
-		
-	}
-	else if (direction.y > 0 && abs(direction.x) <= direction.y)
-	{
-		curFacingStatus_ = FacingStatus::up;
-		primaryWeapon_->setLocalZOrder(-1);
-	}
-	else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
-	{
-		curFacingStatus_ = FacingStatus::down;
-		primaryWeapon_->setLocalZOrder(1);
-	}
+		auto direction = facingPoint_;
+		preFacingStatus_ = curFacingStatus_;
+		auto size = sprite_->getContentSize();
 
-	if (preFacingStatus_ != curFacingStatus_)
-	{
-		statusChanged_ = true;
+		if (direction.x > 0 && abs(direction.y) <= direction.x)
+		{
+			curFacingStatus_ = FacingStatus::right;
+			primaryWeapon_->setLocalZOrder(1);
+		}
+		else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
+		{
+			curFacingStatus_ = FacingStatus::left;
+			primaryWeapon_->setLocalZOrder(1);
+			primaryWeapon_->setPosition(cocos2d::Vec2(-size.width / 8, -size.height / 10));
+
+		}
+		else if (direction.y > 0 && abs(direction.x) <= direction.y)
+		{
+			curFacingStatus_ = FacingStatus::up;
+			primaryWeapon_->setLocalZOrder(-1);
+		}
+		else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
+		{
+			curFacingStatus_ = FacingStatus::down;
+			primaryWeapon_->setLocalZOrder(1);
+		}
+
+		if (preFacingStatus_ != curFacingStatus_)
+		{
+			statusChanged_ = true;
+		}
 	}
 }
 
 void Player::updateWalkingStatus()
 {
-	preWalkingStatus_ = curWalkingStatus_;
-	curWalkingStatus_ = WalkingStatus::idle;
-	for (auto i : keyPressed_)
+	if (isAlive_)
 	{
-		if (i)
-			curWalkingStatus_ = WalkingStatus::walk;
-	}
-	if (preWalkingStatus_ != curWalkingStatus_)
-	{
-		statusChanged_ = true;
+		preWalkingStatus_ = curWalkingStatus_;
+		curWalkingStatus_ = WalkingStatus::idle;
+		for (auto i : keyPressed_)
+		{
+			if (i)
+				curWalkingStatus_ = WalkingStatus::walk;
+		}
+		if (preWalkingStatus_ != curWalkingStatus_)
+		{
+			statusChanged_ = true;
+		}
 	}
 }
 

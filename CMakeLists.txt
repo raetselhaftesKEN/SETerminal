@@ -72,6 +72,7 @@ list(APPEND GAME_SOURCE
      Classes/Component/CameraEffect/CameraEffect.cpp
      Classes/Component/WeaponUI/WeaponUI.cpp
      Classes/Scene/StartMenuScene/StartMenuScene.cpp
+     Classes/Scene/EndMenuScene/EndMenuScene.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -91,6 +92,7 @@ list(APPEND GAME_HEADER
      Classes/Component/CameraEffect/CameraEffect.h
      Classes/Component/WeaponUI/WeaponUI.h
      Classes/Scene/StartMenuScene/StartMenuScene.h
+     Classes/Scene/EndMenuScene/EndMenuScene.h
      )
 
 if(ANDROID)
