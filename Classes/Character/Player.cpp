@@ -26,7 +26,7 @@ Player* Player::create(const std::string& filename)
 		//标记角色
 		player->setTag(PLAYER_TAG);
 
-		player->bindCharacterAnimate("MIKU");
+		player->bindCharacterAnimate("MIKU", 0.1f);
 
 		//初始化角色武器和弹药
 		player->primaryWeapon_ = Weapon::create("MP5.png");
@@ -320,22 +320,29 @@ void Player::updateFacingStatus()
 {
 	auto direction = facingPoint_;
 	preFacingStatus_ = curFacingStatus_;
+	auto size = sprite_->getContentSize();
 	
 	if (direction.x > 0 && abs(direction.y) <= direction.x)
 	{
 		curFacingStatus_ = FacingStatus::right;
+		primaryWeapon_->setLocalZOrder(1);
 	}
 	else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
 	{
 		curFacingStatus_ = FacingStatus::left;
+		primaryWeapon_->setLocalZOrder(1);
+		primaryWeapon_->setPosition(cocos2d::Vec2(-size.width / 8, -size.height / 10));
+		
 	}
 	else if (direction.y > 0 && abs(direction.x) <= direction.y)
 	{
 		curFacingStatus_ = FacingStatus::up;
+		primaryWeapon_->setLocalZOrder(-1);
 	}
 	else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
 	{
 		curFacingStatus_ = FacingStatus::down;
+		primaryWeapon_->setLocalZOrder(1);
 	}
 
 	if (preFacingStatus_ != curFacingStatus_)
@@ -461,6 +468,7 @@ void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
 	cocos2d::Vec2 TargetPos = facingPoint_;
+
 	if (primaryWeapon_ != nullptr)
 	{
 		TargetPos  = primaryWeapon_->ActiveAimPoint->getPosition();
@@ -532,5 +540,6 @@ void Player::update(float dt)
 		updateMoveAnimate();
 		statusChanged_ = false;
 		detectCollision();
+
 	}	
 }

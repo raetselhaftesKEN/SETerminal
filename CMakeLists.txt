@@ -71,6 +71,7 @@ list(APPEND GAME_SOURCE
      Classes/Obstacle/Obstacle.cpp
      Classes/Component/CameraEffect/CameraEffect.cpp
      Classes/Component/WeaponUI/WeaponUI.cpp
+     Classes/Scene/StartMenuScene/StartMenuScene.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -89,6 +90,7 @@ list(APPEND GAME_HEADER
      Classes/Obstacle/Obstacle.h
      Classes/Component/CameraEffect/CameraEffect.h
      Classes/Component/WeaponUI/WeaponUI.h
+     Classes/Scene/StartMenuScene/StartMenuScene.h
      )
 
 if(ANDROID)

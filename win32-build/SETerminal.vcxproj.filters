@@ -46,6 +46,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\WeaponUI\WeaponUI.cpp">
       <Filter>Source Files\Classes\Component\WeaponUI</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.cpp">
+      <Filter>Source Files\Classes\Scene\StartMenuScene</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -101,6 +104,9 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\WeaponUI\WeaponUI.h">
       <Filter>Source Files\Classes\Component\WeaponUI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.h">
+      <Filter>Source Files\Classes\Scene\StartMenuScene</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
@@ -279,6 +285,12 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast7.png">
       <Filter>Resources\blast</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\buttonb.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\buttony.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\dart.png">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -450,6 +462,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Scene\FightScene">
       <UniqueIdentifier>{1C194A18-8C02-3381-95CC-FDAC73E3B29E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Scene\StartMenuScene">
+      <UniqueIdentifier>{59B8E3C6-7D44-3D70-A889-5F625BC5DE2A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\proj.win32">
       <UniqueIdentifier>{1587A5D8-87E1-3FB2-9C4A-2763A805660F}</UniqueIdentifier>

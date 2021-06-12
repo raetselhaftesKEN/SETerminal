@@ -50,6 +50,7 @@ cocos2d::Scene* FightScene::createScene()
 		scene->addChild(this, 0);
 		scene->getPhysicsWorld()->setAutoStep(true);
 		scene->getPhysicsWorld()->setGravity(cocos2d::Vec2::ZERO);
+		scene->retain();
 		return scene;
 	}
 	return nullptr;

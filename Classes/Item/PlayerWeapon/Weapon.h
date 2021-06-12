@@ -65,6 +65,8 @@ public:
 
 	virtual void interact();
 
+	void flipY(float dt) { setFlippedY(true); }
+
 	std::string bulletFilename_;	//武器所使用的子弹
 
 	std::string aimPointFilename_;  //准星名称

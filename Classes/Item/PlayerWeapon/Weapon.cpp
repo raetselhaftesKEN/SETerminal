@@ -25,7 +25,6 @@ Weapon* Weapon::create(const std::string& filename)
 		weapon->autorelease();
 		weapon->bindPhysicsBody();
 		weapon->setTag(ITEM_TAG);
-
 		weapon->bulletFilename_ = "DefaultBullet-2.png";
 		weapon->aimPointFilename_ = "DefaultAimPoint.png";
 

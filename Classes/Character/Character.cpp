@@ -96,7 +96,7 @@ cocos2d::Animate* Character::createAnimate(const char* animateName, cocos2d::Siz
 			frameVector.pushBack(frame);
 		}
 	}
-	cocos2d::Animation* animation = cocos2d::Animation::createWithSpriteFrames(frameVector, 0.2f);
+	cocos2d::Animation* animation = cocos2d::Animation::createWithSpriteFrames(frameVector, interval);
 	animation->setLoops(-1);
 	cocos2d::Animate* action = cocos2d::Animate::create(animation);
 	action->retain();
@@ -126,14 +126,15 @@ void Character::detectCollision()
 {
 	auto runningScene = dynamic_cast<FightScene*> (cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
 	Obstacle* obstacles = nullptr;
-
-	for (auto i : runningScene->getObstacles())
+	if (runningScene != nullptr)
 	{
-		obstacles = i;
-		if (obstacles != nullptr)
+		for (auto i : runningScene->getObstacles())
 		{
-			obstacles->collision(this);
+			obstacles = i;
+			if (obstacles != nullptr)
+			{
+				obstacles->collision(this);
+			}
 		}
-
 	}
 }
