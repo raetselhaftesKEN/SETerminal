@@ -26,7 +26,6 @@ Obstacle* Obstacle::create(const std::string& filename)
 
 }
 
-
 void Obstacle::bindPictureSprite(cocos2d::Sprite* sprite)
 {
 	sprite_ = sprite;
