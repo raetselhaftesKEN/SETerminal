@@ -88,34 +88,34 @@ void Player::getAimPointInstance()
 {
 	if (primaryWeapon_ != nullptr)
 	{
-		if (primaryWeapon_->MyAimPoint->getParent() != this)
+		if (primaryWeapon_->getMyAimPoint()->getParent() != this)
 		{
-			if (primaryWeapon_->MyAimPoint->getParent() != nullptr)
+			if (primaryWeapon_->getMyAimPoint()->getParent() != nullptr)
 			{
-				primaryWeapon_->MyAimPoint->removeFromParent();
+				primaryWeapon_->getMyAimPoint()->removeFromParent();
 			}
-			this->addChild(primaryWeapon_->MyAimPoint);
+			this->addChild(primaryWeapon_->getMyAimPoint());
 		}
-		if (primaryWeapon_->ReloadAimPoint->getParent() != this)
+		if (primaryWeapon_->getReloadAimPoint()->getParent() != this)
 		{
-			if (primaryWeapon_->ReloadAimPoint->getParent() != nullptr)
+			if (primaryWeapon_->getReloadAimPoint()->getParent() != nullptr)
 			{
-				primaryWeapon_->ReloadAimPoint->removeFromParent();
+				primaryWeapon_->getReloadAimPoint()->removeFromParent();
 			}
-			this->addChild(primaryWeapon_->ReloadAimPoint);
+			this->addChild(primaryWeapon_->getReloadAimPoint());
 		}
 	}
 	if (secondaryWeapon_ != nullptr)	//不加载副武器准星
 	{
-		if (secondaryWeapon_->MyAimPoint->getParent() == this)
+		if (secondaryWeapon_->getMyAimPoint()->getParent() == this)
 		{
-			secondaryWeapon_->MyAimPoint->retain();
-			secondaryWeapon_->MyAimPoint->removeFromParent();
+			secondaryWeapon_->getMyAimPoint()->retain();
+			secondaryWeapon_->getMyAimPoint()->removeFromParent();
 		}
-		if (secondaryWeapon_->ReloadAimPoint->getParent() == this)
+		if (secondaryWeapon_->getReloadAimPoint()->getParent() == this)
 		{
-			secondaryWeapon_->ReloadAimPoint->retain();
-			secondaryWeapon_->ReloadAimPoint->removeFromParent();
+			secondaryWeapon_->getReloadAimPoint()->retain();
+			secondaryWeapon_->getReloadAimPoint()->removeFromParent();
 		}
 	}
 	primaryWeapon_->Active(true);
@@ -152,15 +152,15 @@ void Player::removeAimPoint(Weapon* weapon)
 {
 	if (weapon != nullptr)
 	{
-		if (weapon->MyAimPoint->getParent() == this)
+		if (weapon->getMyAimPoint()->getParent() == this)
 		{
-			weapon->MyAimPoint->retain();
-			weapon->MyAimPoint->removeFromParent();
+			weapon->getMyAimPoint()->retain();
+			weapon->getMyAimPoint()->removeFromParent();
 		}
-		if (weapon->ReloadAimPoint->getParent() == this)
+		if (weapon->getReloadAimPoint()->getParent() == this)
 		{
-			weapon->ReloadAimPoint->retain();
-			weapon->ReloadAimPoint->removeFromParent();
+			weapon->getReloadAimPoint()->retain();
+			weapon->getReloadAimPoint()->removeFromParent();
 		}
 	}
 }
@@ -484,6 +484,11 @@ void Player::useMedkit()
 	}
 }
 
+std::vector<int>& Player::getBulletStock()
+{
+	return bulletStock_;
+}
+
 void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
@@ -568,3 +573,4 @@ void Player::update(float dt)
 
 	}	
 }
+

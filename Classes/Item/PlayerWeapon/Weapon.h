@@ -67,14 +67,15 @@ public:
 
 	virtual void interact();
 
-	void flipY(float dt) { setFlippedY(true); }
+	PlayerAimPoint* getMyAimPoint();
+	void setMyAimPoint(PlayerAimPoint*);
+
+	PlayerAimPoint* getReloadAimPoint();
+	void setReloadAimPoint(PlayerAimPoint*);
 
 	std::string bulletFilename_;	//武器所使用的子弹
 
 	std::string aimPointFilename_;  //准星名称
-
-	PlayerAimPoint* MyAimPoint;
-	PlayerAimPoint* ReloadAimPoint;
 
 	PlayerAimPoint* ActiveAimPoint;
 
@@ -100,6 +101,9 @@ protected:
 	int CurrentMagazine = 30;
 
 	float ReloadTime = 2;//再装填时间
+
+	PlayerAimPoint* MyAimPoint;
+	PlayerAimPoint* ReloadAimPoint;
 
 };
 

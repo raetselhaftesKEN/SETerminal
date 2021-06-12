@@ -242,3 +242,22 @@ void Weapon::interact()
 	player->getAimPointInstance();
 	player->getPrimaryWeaponInstance()->ReloadingStatusReset();
 }
+
+PlayerAimPoint* Weapon::getMyAimPoint()
+{
+	return MyAimPoint;
+}
+void Weapon::setMyAimPoint(PlayerAimPoint* aimPoint)
+{
+	MyAimPoint = aimPoint;
+}
+
+PlayerAimPoint* Weapon::getReloadAimPoint()
+{
+	return ReloadAimPoint;
+}
+
+void Weapon::setReloadAimPoint(PlayerAimPoint* aimPoint)
+{
+	ReloadAimPoint = aimPoint;
+}

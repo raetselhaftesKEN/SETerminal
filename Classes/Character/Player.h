@@ -95,12 +95,16 @@ public:
 	void getAimPointInstance();
 	void removeAimPoint(Weapon* weapon);
 
+	std::vector<int>& getBulletStock();
+
 	bool isAttacking = false;
 
 
-	std::vector<int> bulletStock_;
+
 
 protected:
+
+	std::vector<int> bulletStock_;
 
 	//ÒÆ¶¯
 	enum Key { W, A, S, D };
