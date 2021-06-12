@@ -96,7 +96,7 @@ public:
 	Weapon* primaryWeapon_;											//使用中的武器
 	Weapon* secondaryWeapon_;										//副武器
 
-
+	std::vector<int> bulletStock_;
 protected:
 
 	//移动
@@ -125,6 +125,7 @@ protected:
 	std::stack<Medkit*> medkit_;
 	int medkitMaxNum_ = MEDKIT_MAX_NUM;
 
+	int bulletMaxNum_ = 180;
 };
 
 #endif // !__PLAYER_H__

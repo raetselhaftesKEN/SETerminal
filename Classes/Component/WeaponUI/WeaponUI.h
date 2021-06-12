@@ -30,8 +30,10 @@ protected:
 	Player* player;
 
 	int bulletInMagazine_ = 0;
+	int bulletInStock_ = 0;
 
 	cocos2d::Label* bulletInfo_;
+	cocos2d::Label* bulletStockInfo;
 };
 
 

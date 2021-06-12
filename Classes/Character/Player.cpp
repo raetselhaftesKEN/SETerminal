@@ -41,6 +41,7 @@ Player* Player::create(const std::string& filename)
 
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);
+		player->secondaryWeapon_->TypeOfBullet = bulletType_::type556;
 		player->moveSpeed_ = PLAYER_DEFAULT_MOVE_SPEED;
 		player->health_ = PLAYER_MAX_HEALTH;
 		player->maxHealth_ = PLAYER_MAX_HEALTH;
@@ -49,6 +50,9 @@ Player* Player::create(const std::string& filename)
 		player->shieldProtectionRate = PLAYER_DEFAULT_SHIELD_PROTECTION;
 		player->medkitMaxNum_ = MEDKIT_MAX_NUM;
 
+		player->bulletStock_.push_back(90);
+		player->bulletStock_.push_back(90);
+		player->bulletStock_.push_back(90);
 
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
@@ -127,7 +131,7 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 	}
 	if (keyCode == K::KEY_R)
 	{
-		primaryWeapon_->PlayerReload();
+		primaryWeapon_->PlayerReload(bulletStock_);
 	}
 		
 }

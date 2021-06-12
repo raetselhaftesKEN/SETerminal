@@ -94,18 +94,17 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 			ReloadAimPoint->setVisible(true);
 
 			ActiveAimPoint = ReloadAimPoint;
-						Reload();
 		}
 	}
 
 }
 
-void Weapon::PlayerReload()
+void Weapon::PlayerReload(std::vector<int>& BulletStock)
 {
 	MyAimPoint->setVisible(false);
 	ReloadAimPoint->setVisible(true);
 	ActiveAimPoint = ReloadAimPoint;
-	Reload();
+	Reload(BulletStock);
 }
 
 void Weapon::Reload()
@@ -122,6 +121,37 @@ void Weapon::Reload()
 		});
 	auto delay = cocos2d::DelayTime::create(ReloadTime);
 	this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
+}
+
+void Weapon::Reload(std::vector<int>& BulletStock)
+{
+	BulletStock[TypeOfBullet] += CurrentMagazine;
+	CurrentMagazine = 0;
+	CanShoot = false;
+	if (BulletStock[TypeOfBullet] > 0)
+	{
+		auto reload = cocos2d::CallFunc::create([&]()
+		{
+			MyAimPoint->setVisible(true);
+			ReloadAimPoint->setVisible(false);
+			ActiveAimPoint = MyAimPoint;
+			CanShoot = true;
+			if (BulletStock[TypeOfBullet] >= MagazineSize)
+			{
+				CurrentMagazine = MagazineSize;
+				BulletStock[TypeOfBullet] -= MagazineSize;
+			}
+			else
+			{
+				CurrentMagazine = BulletStock[TypeOfBullet];
+				BulletStock[TypeOfBullet] = 0;
+			}
+
+		});
+		auto delay = cocos2d::DelayTime::create(ReloadTime);
+		this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
+	}
+	
 }
 
 void Weapon::RecoverRecoil(float Boost)

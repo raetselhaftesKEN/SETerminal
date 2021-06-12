@@ -8,6 +8,7 @@
 #include "cocos2d.h"
 #include "../Item.h"
 #include "PlayerAimPoint.h"
+#include "Const/Const.h"
 
 /**
 *@brief Œ‰∆˜¿‡
@@ -46,8 +47,9 @@ public:
 	@—Ó√œ’È
 	*/
 	void Reload();
+	void Reload(std::vector<int>& BulletStock);
 
-	void PlayerReload();
+	void PlayerReload(std::vector<int>& BulletStock);
 
 	/*
 ª÷∏¥Œ‰∆˜∫Û◊¯¡¶
@@ -74,6 +76,7 @@ public:
 
 	int CurrentMagazine = 30;
 
+	bulletType_ TypeOfBullet = bulletType_::type762;
 protected:
 
 
