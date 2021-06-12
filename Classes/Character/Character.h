@@ -73,6 +73,15 @@ public:
 
 	void detectCollision();
 	
+	int health_;
+
+	int maxHealth_;
+
+	int shield_;
+
+	int maxShield_;
+
+	float shieldProtectionRate_;
 
 protected:
 
@@ -80,11 +89,7 @@ protected:
 
     cocos2d::Sprite* sprite_;
 
-    int health_;
 
-	int maxHealth_;
-
-    float shield_;
 
     bool isAlive_ = true;
 	

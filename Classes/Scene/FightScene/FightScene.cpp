@@ -90,11 +90,17 @@ void FightScene::setObstacle()
 
 void FightScene::setWeaponUI()
 {
-	if (player_ != nullptr)
-	{
-		auto weaponUI = WeaponUI::create(player_);
-		addChild(weaponUI);
-	}
+	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
+	healthBar_ = HealthBar::create(player_);
+	healthBar_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+	healthBar_->setPosition(cocos2d::Point(winSize.width / 2, 30));
+	healthBar_->setScale(0.4f, 0.4f);
+	addChild(healthBar_, 2);
+
+	weaponUI_ = WeaponUI::create(player_);
+	weaponUI_->setAnchorPoint(cocos2d::Point(0.5f, 0.f));
+	weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 50));
+	addChild(weaponUI_, 2);
 }
 
 void FightScene::setOperationListener()

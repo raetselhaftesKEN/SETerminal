@@ -1,9 +1,2 @@
-﻿  AppDelegate.cpp
-  Character.cpp
-  Monster.cpp
-  Player.cpp
-  Obstacle.cpp
-  FightScene.cpp
-  StartMenuScene.cpp
-D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.cpp(123,45): warning C4305: “参数”: 从“double”到“float”截断
+﻿  Player.cpp
   SETerminal.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\SETerminal.exe

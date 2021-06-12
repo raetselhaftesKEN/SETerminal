@@ -98,7 +98,7 @@ public:
 	bool isAttacking = false;
 
 
-
+	std::vector<int> bulletStock_;
 
 protected:
 
@@ -123,6 +123,7 @@ protected:
 	Weapon* primaryWeapon_;											//使用中的武器
 	Weapon* secondaryWeapon_;										//副武器
 	float weaponRotation_ = 0.0f;
+	float recoilRecoverBoost_ = 100;
 
 
 	std::string bulletFilename_;												//当前装备的子弹
@@ -131,6 +132,7 @@ protected:
 	std::stack<Medkit*> medkit_;
 	int medkitMaxNum_ = MEDKIT_MAX_NUM;
 
+	int bulletMaxNum_ = 180;
 };
 
 #endif // !__PLAYER_H__

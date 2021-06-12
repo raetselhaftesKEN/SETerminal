@@ -44,12 +44,18 @@ Player* Player::create(const std::string& filename)
 
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);
+		player->secondaryWeapon_->TypeOfBullet = bulletType_::type556;
 		player->moveSpeed_ = PLAYER_DEFAULT_MOVE_SPEED;
 		player->health_ = PLAYER_MAX_HEALTH;
 		player->maxHealth_ = PLAYER_MAX_HEALTH;
 		player->shield_ = PLAYER_DEFAULT_SHIELD;
+		player->maxShield_ = PLAYER_DEFAULT_MAX_SHIELD;
+		player->shieldProtectionRate_ = PLAYER_DEFAULT_SHIELD_PROTECTION;
 		player->medkitMaxNum_ = MEDKIT_MAX_NUM;
 
+		player->bulletStock_.push_back(90);
+		player->bulletStock_.push_back(90);
+		player->bulletStock_.push_back(90);
 
 		//为角色设置物理躯干
 		player->bindPhysicsBody();
@@ -57,6 +63,8 @@ Player* Player::create(const std::string& filename)
 		player->getAimPointInstance();
 
 		player->autorelease();
+
+		player->setCameraMask(1, true);
 
 		return player;
 	}
@@ -203,7 +211,7 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 			}
 			if (keyCode == K::KEY_R)
 			{
-				primaryWeapon_->PlayerReload();
+				primaryWeapon_->PlayerReload(bulletStock_);
 			}
 			if (keyCode == K::KEY_G)
 			{
@@ -247,7 +255,17 @@ void Player::receiveDamage(int damage)
 {
 	if (!superBody_)
 	{
-		int realDamage = static_cast<int>(damage * (1 - shield_));
+		int realDamage;
+		if (shield_ > 0)
+		{
+			realDamage = static_cast<int>(damage * (1 - shieldProtectionRate_));
+			shield_ -= static_cast<int>(damage * (shieldProtectionRate_));
+			shield_ = shield_ < 0 ? 0 : shield_;
+		}
+		else
+		{
+			realDamage = damage;
+		}
 		if (realDamage >= health_)
 		{
 			die();
@@ -328,24 +346,19 @@ void Player::updateFacingStatus()
 		if (direction.x > 0 && abs(direction.y) <= direction.x)
 		{
 			curFacingStatus_ = FacingStatus::right;
-			primaryWeapon_->setLocalZOrder(1);
 		}
 		else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
 		{
 			curFacingStatus_ = FacingStatus::left;
-			primaryWeapon_->setLocalZOrder(1);
-			primaryWeapon_->setPosition(cocos2d::Vec2(-size.width / 8, -size.height / 10));
 
 		}
 		else if (direction.y > 0 && abs(direction.x) <= direction.y)
 		{
 			curFacingStatus_ = FacingStatus::up;
-			primaryWeapon_->setLocalZOrder(-1);
 		}
 		else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
 		{
 			curFacingStatus_ = FacingStatus::down;
-			primaryWeapon_->setLocalZOrder(1);
 		}
 
 		if (preFacingStatus_ != curFacingStatus_)
@@ -416,7 +429,7 @@ void Player::switchWeapon()
 		{
 			secondaryWeapon_->Active(false);
 		}
-		primaryWeapon_->ReloadingStatusReset();
+		//primaryWeapon_->ReloadingStatusReset();
 		getAimPointInstance();
 	}
 }
@@ -491,7 +504,12 @@ void Player::update(float dt)
 
 	if (isAttacking)
 	{
+		recoilRecoverBoost_ = 100;
 		attack(this->getPosition(), TargetPos);
+	}
+	else
+	{
+		recoilRecoverBoost_ += 120;
 	}
 
 	weaponRotation_ = CC_RADIANS_TO_DEGREES(cocos2d::Vec2::angle(TargetPos, cocos2d::Vec2::ANCHOR_BOTTOM_RIGHT));

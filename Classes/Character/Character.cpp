@@ -34,7 +34,18 @@ bool Character::isAlive()
 
 void Character::receiveDamage(int damage)
 {
-	int realDamage = static_cast<int>(damage * (1 - shield_));
+	int realDamage;
+	if (shield_ > 0)
+	{
+		realDamage = static_cast<int>(damage * (1 - shieldProtectionRate_));
+		shield_ -= static_cast<int>(damage * (shieldProtectionRate_));
+		shield_ = shield_ < 0 ? 0 : shield_;
+	}
+	else
+	{
+		realDamage = damage;
+	}
+
 	if (realDamage >= health_)
 	{
 		die();
@@ -43,7 +54,6 @@ void Character::receiveDamage(int damage)
 	{
 		health_ -= realDamage;
 	}
-
 }
 
 void Character::recoverHealth(int recovery)
