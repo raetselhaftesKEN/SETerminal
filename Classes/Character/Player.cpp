@@ -504,7 +504,7 @@ void Player::update(float dt)
 	if (primaryWeapon_ != nullptr && primaryWeapon_->ActiveAimPoint != nullptr)
 	{
 		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_);
-		primaryWeapon_->RecoverRecoil();
+		primaryWeapon_->RecoverRecoil(recoilRecoverBoost_ / 100);
 	}
 
 	if (isAttacking)
