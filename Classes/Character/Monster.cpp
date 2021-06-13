@@ -56,7 +56,12 @@ void Monster::receiveDamage(int damage)
 
 void Monster::move() {
 	auto nextPosition = getRandomPosition();
-	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG);
+	Player* playerNode = nullptr;
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+	if (runningScene != nullptr)
+	{
+		auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG);
+	}
 	if (playerNode != nullptr)
 	{
 		nextPosition = playerNode->getPosition();
@@ -88,7 +93,11 @@ void Monster::move() {
 
 			//为了在Monster类内使用外部的东西，使用以下几句
 			auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
-			auto playerOfNode = runningScene->getChildByTag(PLAYER_TAG);
+			Player* playerOfNode = nullptr;
+			if (runningScene != nullptr)
+			{
+				playerOfNode = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
+			}
 			cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
 			//如果场景已经被释放，找不到我方player位置，直接退出
 			if (playerOfNode == nullptr)
@@ -194,7 +203,12 @@ bool Monster::bindPhysicsBody()
 void Monster::updateFacingStatus()
 {
 	facingPoint_ = getRandomPosition();
-	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG);
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+	Player* playerNode = nullptr;
+	if (runningScene != nullptr)
+	{
+		playerNode = dynamic_cast<Player*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG));
+	}
 	if (playerNode != nullptr)
 	{
 		facingPoint_ = playerNode->getPosition();

@@ -25,7 +25,6 @@ Weapon* Weapon::create(const std::string& filename)
 		weapon->autorelease();
 		weapon->bindPhysicsBody();
 		weapon->setTag(ITEM_TAG);
-
 		weapon->bulletFilename_ = "DefaultBullet-2.png";
 		weapon->aimPointFilename_ = "DefaultAimPoint.png";
 
@@ -78,7 +77,7 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());
 					bullet->setPosition(pos);
-					cocos2d::Director::getInstance()->getRunningScene()->addChild(bullet, 1);
+					cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->addChild(bullet, 1);
 					//Îª×Óµ¯ÊµÀý°ó¶¨²¥·Å·¢ÉäµÄ·ÉÐÐ¶¯»­
 					cocos2d::Vec2 Spread;
 					Spread.x = dir.y / dir.x;
@@ -97,6 +96,14 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 
 			ReloadAimPoint->RecoilStatus += Recoil;
 			MyAimPoint->RecoilStatus += Recoil;//ºó×øÁ¦µþ¼Ó
+			if (ReloadAimPoint->RecoilStatus > 250)
+			{
+				ReloadAimPoint->RecoilStatus = 250;
+			}
+			if (MyAimPoint->RecoilStatus > 250)
+			{
+				MyAimPoint->RecoilStatus = 250;
+			}
 		}
 		else
 		{
@@ -105,7 +112,7 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 			ReloadAimPoint->setVisible(true);
 
 			ActiveAimPoint = ReloadAimPoint;
-						Reload();
+			//Reload();
 		}
 	}
 
@@ -116,14 +123,14 @@ int Weapon::getCurrentMagazine()
 	return CurrentMagazine;
 }
 
-void Weapon::PlayerReload()
+void Weapon::PlayerReload(std::vector<int>& BulletStock)
 {
 	if (CurrentMagazine != MagazineSize)
 	{
 		MyAimPoint->setVisible(false);
 		ReloadAimPoint->setVisible(true);
 		ActiveAimPoint = ReloadAimPoint;
-		Reload();
+		Reload(BulletStock);
 	}
 }
 
@@ -146,6 +153,39 @@ void Weapon::Reload()
 	}
 }
 
+void Weapon::Reload(std::vector<int>& BulletStock)
+{
+	if (CurrentMagazine != MagazineSize)
+	{
+		BulletStock[TypeOfBullet] += CurrentMagazine;
+		CurrentMagazine = 0;
+		CanShoot = false;
+		if (BulletStock[TypeOfBullet] > 0)
+		{
+			auto reload = cocos2d::CallFunc::create([&]()
+				{
+					MyAimPoint->setVisible(true);
+					ReloadAimPoint->setVisible(false);
+					ActiveAimPoint = MyAimPoint;
+					CanShoot = true;
+					if (BulletStock[TypeOfBullet] >= MagazineSize)
+					{
+						CurrentMagazine = MagazineSize;
+						BulletStock[TypeOfBullet] -= MagazineSize;
+					}
+					else
+					{
+						CurrentMagazine = BulletStock[TypeOfBullet];
+						BulletStock[TypeOfBullet] = 0;
+					}
+
+				});
+			auto delay = cocos2d::DelayTime::create(ReloadTime);
+			this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
+		}
+	}
+}
+
 void Weapon::ReloadingStatusReset()
 {
 	if (CurrentMagazine > 0)
@@ -163,7 +203,7 @@ void Weapon::ReloadingStatusReset()
 	}
 }
 
-void Weapon::RecoverRecoil()
+void Weapon::RecoverRecoil(float Boost)
 {
 	MyAimPoint->RecoverRecoil(RecoilRecover / 60);
 	ReloadAimPoint->RecoverRecoil(RecoilRecover / 60);
@@ -201,4 +241,23 @@ void Weapon::interact()
 	player->setInteractItem(nullptr);
 	player->getAimPointInstance();
 	player->getPrimaryWeaponInstance()->ReloadingStatusReset();
+}
+
+PlayerAimPoint* Weapon::getMyAimPoint()
+{
+	return MyAimPoint;
+}
+void Weapon::setMyAimPoint(PlayerAimPoint* aimPoint)
+{
+	MyAimPoint = aimPoint;
+}
+
+PlayerAimPoint* Weapon::getReloadAimPoint()
+{
+	return ReloadAimPoint;
+}
+
+void Weapon::setReloadAimPoint(PlayerAimPoint* aimPoint)
+{
+	ReloadAimPoint = aimPoint;
 }

@@ -50,6 +50,7 @@ cocos2d::Scene* FightScene::createScene()
 		scene->addChild(this, 0);
 		scene->getPhysicsWorld()->setAutoStep(true);
 		scene->getPhysicsWorld()->setGravity(cocos2d::Vec2::ZERO);
+		scene->retain();
 		return scene;
 	}
 	return nullptr;
@@ -89,11 +90,17 @@ void FightScene::setObstacle()
 
 void FightScene::setWeaponUI()
 {
-	if (player_ != nullptr)
-	{
-		auto weaponUI = WeaponUI::create(player_);
-		addChild(weaponUI);
-	}
+	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
+	healthBar_ = HealthBar::create(player_);
+	healthBar_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+	healthBar_->setPosition(cocos2d::Point(winSize.width / 2, 30));
+	healthBar_->setScale(0.4f, 0.4f);
+	addChild(healthBar_, 2);
+
+	weaponUI_ = WeaponUI::create(player_);
+	weaponUI_->setAnchorPoint(cocos2d::Point(0.5f, 0.f));
+	weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 50));
+	addChild(weaponUI_, 2);
 }
 
 void FightScene::setOperationListener()
@@ -132,7 +139,7 @@ bool FightScene::init()
 	}
 	this->setTag(FIGHT_SCENE_TAG);
 	this->addChild(tileMap_, 0);
-	this->setObstacle();
+	this ->setObstacle();
 	this->setPhysicsListener();
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);

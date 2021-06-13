@@ -95,12 +95,16 @@ public:
 	void getAimPointInstance();
 	void removeAimPoint(Weapon* weapon);
 
-	bool isAttacking = false;
+	std::vector<int>& getBulletStock();
 
-	bool superBody_ = false;
+	bool isAttacking = false;
+	//是不是处于开挂锁血状态
+	bool settingSuperBody_ = false;
 
 
 protected:
+
+	std::vector<int> bulletStock_;
 
 	//移动
 	enum Key { W, A, S, D };
@@ -114,7 +118,7 @@ protected:
 	float dodgeSpeedBoost_ = 3.0f;
 	float dodgeTime_ = 0.1f;
 
-	
+	bool superBody_ = false;
 
 	//交互道具
 	Item* interactItem_ = nullptr;
@@ -123,6 +127,7 @@ protected:
 	Weapon* primaryWeapon_;											//使用中的武器
 	Weapon* secondaryWeapon_;										//副武器
 	float weaponRotation_ = 0.0f;
+	float recoilRecoverBoost_ = 100;
 
 
 	std::string bulletFilename_;												//当前装备的子弹
@@ -131,6 +136,7 @@ protected:
 	std::stack<Medkit*> medkit_;
 	int medkitMaxNum_ = MEDKIT_MAX_NUM;
 
+	int bulletMaxNum_ = 180;
 };
 
 #endif // !__PLAYER_H__

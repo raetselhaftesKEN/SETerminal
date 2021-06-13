@@ -10,6 +10,7 @@
 #include "Component/CameraEffect/CameraEffect.h"
 #include "Item/Bullet/Bullet.h"
 #include "Obstacle/Obstacle.h"
+#include "Component/HealthBar/HealthBar.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Component/SettingLayer/SettingLayer.h"
 
@@ -88,6 +89,10 @@ protected:
 	cocos2d::Layer* nextScene_;
 
 	CameraEffect* mainCamera_;
+
+	HealthBar* healthBar_ = nullptr;
+
+	WeaponUI* weaponUI_ = nullptr;
 
 	bool touchHolding_ = false;
 

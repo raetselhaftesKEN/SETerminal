@@ -71,6 +71,8 @@ list(APPEND GAME_SOURCE
      Classes/Obstacle/Obstacle.cpp
      Classes/Component/CameraEffect/CameraEffect.cpp
      Classes/Component/WeaponUI/WeaponUI.cpp
+     Classes/Scene/StartMenuScene/StartMenuScene.cpp
+     Classes/Scene/EndMenuScene/EndMenuScene.cpp
      Classes/Component/SettingLayer/SettingLayer.cpp
      )
 list(APPEND GAME_HEADER
@@ -90,6 +92,8 @@ list(APPEND GAME_HEADER
      Classes/Obstacle/Obstacle.h
      Classes/Component/CameraEffect/CameraEffect.h
      Classes/Component/WeaponUI/WeaponUI.h
+     Classes/Scene/StartMenuScene/StartMenuScene.h
+     Classes/Scene/EndMenuScene/EndMenuScene.h
      Classes/Component/SettingLayer/SettingLayer.h
      )
 

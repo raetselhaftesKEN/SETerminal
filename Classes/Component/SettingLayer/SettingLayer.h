@@ -18,6 +18,7 @@ public:
 
 	bool open();
 
+	cocos2d::ui::Button* settingSmallButton(float deviationX, float deviationY, std::string spriteText, std::string texts);
 
 
 protected:
@@ -32,7 +33,10 @@ protected:
 	cocos2d::Label* superBodyLabel_;
 	cocos2d::ui::Button* superAccuracyButton_;
 	cocos2d::Label* superAccuracyLabel_;
-
+	cocos2d::ui::Button* superBulletButton_;
+	cocos2d::Label* superBulletLabel_;
+	cocos2d::ui::Button* superDamageButton_;
+	cocos2d::Label* superDamageLabel_;
 };
 
 

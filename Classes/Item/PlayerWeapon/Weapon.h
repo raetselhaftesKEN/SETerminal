@@ -8,6 +8,7 @@
 #include "cocos2d.h"
 #include "../Item.h"
 #include "PlayerAimPoint.h"
+#include "Const/Const.h"
 
 /**
 *@brief 武器类
@@ -46,8 +47,9 @@ public:
 	@杨孟臻
 	*/
 	void Reload();
+	void Reload(std::vector<int>& BulletStock);
 
-	void PlayerReload();
+	void PlayerReload(std::vector<int>& BulletStock);
 
 	void ReloadingStatusReset();
 
@@ -55,7 +57,7 @@ public:
 恢复武器后坐力
 @杨孟臻
 */
-	void RecoverRecoil();
+	void RecoverRecoil(float Boost = 1);
 
 	/**
 *@brief 绑定物理躯干
@@ -65,15 +67,19 @@ public:
 
 	virtual void interact();
 
+	PlayerAimPoint* getMyAimPoint();
+	void setMyAimPoint(PlayerAimPoint*);
+
+	PlayerAimPoint* getReloadAimPoint();
+	void setReloadAimPoint(PlayerAimPoint*);
+
 	std::string bulletFilename_;	//武器所使用的子弹
 
 	std::string aimPointFilename_;  //准星名称
 
-	PlayerAimPoint* MyAimPoint;
-	PlayerAimPoint* ReloadAimPoint;
-
 	PlayerAimPoint* ActiveAimPoint;
 
+	bulletType_ TypeOfBullet = bulletType_::type762;
 protected:
 
 	float ShootingSpeed = 10;//每秒能够attack的次数
@@ -82,17 +88,22 @@ protected:
 
 	float BulletSpeed = 2000;
 
-	int Accuracy = 97;//1-Accuracy是扩散角度
+	int Accuracy = 95;//1-Accuracy是扩散角度
 
-	float Recoil = 10;//准星上弹程度
+	float Recoil = 30;//准星上弹程度
 
 	float RecoilRecover = 60;//准星回复  
+
+	float MaxRecoil = 250;
 
 	int MagazineSize = 30;//弹夹容量
 
 	int CurrentMagazine = 30;
 
 	float ReloadTime = 2;//再装填时间
+
+	PlayerAimPoint* MyAimPoint;
+	PlayerAimPoint* ReloadAimPoint;
 
 };
 

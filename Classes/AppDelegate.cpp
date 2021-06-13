@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "AppDelegate.h"
-//#include "./Scene/HelloWorldScene.h"
+#include "Scene/StartMenuScene/StartMenuScene.h"
 #include "Scene/FightScene/FightScene.h"
 
  // #define USE_AUDIO_ENGINE 1
@@ -120,9 +120,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     auto scene = FightScene::create(_tileMap, obs);
     scene->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
-    //AllocConsole();
-    // run
-    director->runWithScene(scene->createScene());
+    scene->retain();
+
+
+    auto startMenu = StartMenuScene::create();
+    startMenu->bindFirstFightScene(scene->createScene());
+
+    director->runWithScene(startMenu->createScene());
 
     return true;
 }
