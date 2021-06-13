@@ -32,10 +32,8 @@ public:
 
 protected:
 
-	//场景中正在渲染的正交摄像机
 	cocos2d::Camera* CameraInstance;
 
-	//UI专用的摄像机，仅渲染CameraMask为2的物体 如果要把某物体作为UI显示，在创建物体后加上  XXX->setCameraMask(2, true);   即可
 	cocos2d::Camera* UICameraInstance;
 
 	cocos2d::Vec2 OgPos;

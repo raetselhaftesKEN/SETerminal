@@ -22,7 +22,7 @@ public:
 protected:
 
 	cocos2d::Sprite* sprite_;
-	
+
 	Character* character_;
 
 	int curHealth_;
@@ -39,7 +39,7 @@ protected:
 
 	float rBarShrinkRate = 50;
 
-//	cocos2d::Label* healthInfo_;
+	//	cocos2d::Label* healthInfo_;
 
 
 };

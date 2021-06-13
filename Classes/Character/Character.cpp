@@ -3,8 +3,10 @@
 */
 
 #include "cocos2d.h"
+#include "Const/Const.h"
 #include "Character.h"
 #include "Obstacle/Obstacle.h"
+#include "Scene/FightScene/FightScene.h"
 #include <string>
 using namespace std::string_literals;
 
@@ -12,6 +14,11 @@ void Character::bindPictureSprite(cocos2d::Sprite* sprite)
 {
 	sprite_ = sprite;
 	addChild(sprite_);
+}
+
+cocos2d::Vec2 Character::getFacingPoint()
+{
+	return facingPoint_;
 }
 
 void Character::die()
@@ -30,15 +37,15 @@ void Character::receiveDamage(int damage)
 	int realDamage;
 	if (shield_ > 0)
 	{
-		realDamage = static_cast<int>(damage * (1 - shieldProtectionRate));
-		shield_ -= static_cast<int>(damage * (shieldProtectionRate));
+		realDamage = static_cast<int>(damage * (1 - shieldProtectionRate_));
+		shield_ -= static_cast<int>(damage * (shieldProtectionRate_));
 		shield_ = shield_ < 0 ? 0 : shield_;
 	}
 	else
 	{
 		realDamage = damage;
 	}
-	
+
 	if (realDamage >= health_)
 	{
 		die();
@@ -47,7 +54,6 @@ void Character::receiveDamage(int damage)
 	{
 		health_ -= realDamage;
 	}
-
 }
 
 void Character::recoverHealth(int recovery)
@@ -100,7 +106,7 @@ cocos2d::Animate* Character::createAnimate(const char* animateName, cocos2d::Siz
 			frameVector.pushBack(frame);
 		}
 	}
-	cocos2d::Animation* animation = cocos2d::Animation::createWithSpriteFrames(frameVector, 0.2f);
+	cocos2d::Animation* animation = cocos2d::Animation::createWithSpriteFrames(frameVector, interval);
 	animation->setLoops(-1);
 	cocos2d::Animate* action = cocos2d::Animate::create(animation);
 	action->retain();
@@ -128,16 +134,17 @@ cocos2d::Sprite* Character::getPictureSprite()
 
 void Character::detectCollision()
 {
+	auto runningScene = dynamic_cast<FightScene*> (cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
 	Obstacle* obstacles = nullptr;
-
-	for (auto i : *(Obstacle::getObstacles()))
+	if (runningScene != nullptr)
 	{
-		obstacles = i;
-		if (obstacles != nullptr)
+		for (auto i : runningScene->getObstacles())
 		{
-
-			obstacles->collision(this);
+			obstacles = i;
+			if (obstacles != nullptr)
+			{
+				obstacles->collision(this);
+			}
 		}
-
 	}
 }

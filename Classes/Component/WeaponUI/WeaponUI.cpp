@@ -10,19 +10,34 @@ WeaponUI* WeaponUI::create(Player* player_)
 	}
 
 	weaponUI->player = player_;
-	std::string bulletInfo = std::to_string(weaponUI->player->primaryWeapon_->CurrentMagazine);
-	weaponUI->bulletInfo_ = cocos2d::Label::createWithTTF(bulletInfo, "fonts/IRANYekanBold.ttf", 24);
-	weaponUI->bulletInfo_->setAnchorPoint(cocos2d::Point(0.5f, 0.5f));
-	weaponUI->bulletInfo_->setPosition(cocos2d::Vec2(0, 20));
-	weaponUI->addChild(weaponUI->bulletInfo_, 3);
+	if (weaponUI->player->getPrimaryWeaponInstance() != nullptr)
+	{
+		std::string bulletInfo = std::to_string(weaponUI->player->getPrimaryWeaponInstance()->getCurrentMagazine());
+		weaponUI->bulletInfo_ = cocos2d::Label::createWithTTF(bulletInfo, "fonts/IRANYekanBold.ttf", 24);
+		weaponUI->bulletInfo_->setAnchorPoint(cocos2d::Point(0.5f, 0.5f));
+		weaponUI->bulletInfo_->setPosition(cocos2d::Vec2(0, 20));
+		weaponUI->addChild(weaponUI->bulletInfo_, 3);
 
-	std::string bulletStockInfo = std::to_string(weaponUI->player->bulletStock_[weaponUI->player->primaryWeapon_->TypeOfBullet]);
-	weaponUI->bulletStockInfo = cocos2d::Label::createWithTTF(bulletStockInfo, "fonts/IRANYekanBold.ttf", 20);
-	weaponUI->bulletStockInfo->setAnchorPoint(cocos2d::Point(0.5f, 0.5f));
-	weaponUI->bulletStockInfo->setPosition(cocos2d::Vec2(40, 20));
-	weaponUI->bulletStockInfo->setColor(cocos2d::Color3B::GRAY);
-	weaponUI->addChild(weaponUI->bulletStockInfo, 3);
+		std::string bulletStockInfo = std::to_string(weaponUI->player->getBulletStock()[weaponUI->player->getPrimaryWeaponInstance()->TypeOfBullet]);
+		weaponUI->bulletStockInfo = cocos2d::Label::createWithTTF(bulletStockInfo, "fonts/IRANYekanBold.ttf", 20);
+		weaponUI->bulletStockInfo->setAnchorPoint(cocos2d::Point(0.5f, 0.5f));
+		weaponUI->bulletStockInfo->setPosition(cocos2d::Vec2(40, 20));
+		weaponUI->bulletStockInfo->setColor(cocos2d::Color3B::GRAY);
+		weaponUI->addChild(weaponUI->bulletStockInfo, 3);
+	}
+	else
+	{
+		weaponUI->bulletInfo_ = cocos2d::Label::createWithTTF("0", "fonts/IRANYekanBold.ttf", 24);
+		weaponUI->bulletInfo_->setAnchorPoint(cocos2d::Point(0.5f, 0.5f));
+		weaponUI->bulletInfo_->setPosition(cocos2d::Vec2(0, 20));
+		weaponUI->addChild(weaponUI->bulletInfo_, 3);
 
+		weaponUI->bulletStockInfo = cocos2d::Label::createWithTTF("0", "fonts/IRANYekanBold.ttf", 20);
+		weaponUI->bulletStockInfo->setAnchorPoint(cocos2d::Point(0.5f, 0.5f));
+		weaponUI->bulletStockInfo->setPosition(cocos2d::Vec2(40, 20));
+		weaponUI->bulletStockInfo->setColor(cocos2d::Color3B::GRAY);
+		weaponUI->addChild(weaponUI->bulletStockInfo, 3);
+	}
 	weaponUI->autorelease();
 	weaponUI->schedule(CC_SCHEDULE_SELECTOR(WeaponUI::update), 0.1f);
 
@@ -34,15 +49,23 @@ WeaponUI* WeaponUI::create(Player* player_)
 
 void WeaponUI::update(float dt)
 {
-	if (player->primaryWeapon_->CurrentMagazine != bulletInMagazine_)
+	if (player->getPrimaryWeaponInstance() != nullptr)
 	{
-		bulletInMagazine_ = player->primaryWeapon_->CurrentMagazine;
-		bulletInfo_->setString(std::to_string(bulletInMagazine_));
-	}
+		if (player->getPrimaryWeaponInstance()->getCurrentMagazine() != bulletInMagazine_)
+		{
+			bulletInMagazine_ = player->getPrimaryWeaponInstance()->getCurrentMagazine();
+		}
 
-	if (player->bulletStock_[player->primaryWeapon_->TypeOfBullet] != bulletInStock_)
-	{
-		bulletInStock_ = player->bulletStock_[player->primaryWeapon_->TypeOfBullet];
-		bulletStockInfo->setString(std::to_string(bulletInStock_));
+		if (player->getBulletStock()[player->getPrimaryWeaponInstance()->TypeOfBullet] != bulletInStock_)
+		{
+			bulletInStock_ = player->getBulletStock()[player->getPrimaryWeaponInstance()->TypeOfBullet];
+		}
 	}
+	else
+	{
+		bulletInMagazine_ = 0;
+		bulletInStock_ = 0;
+	}
+	bulletInfo_->setString(std::to_string(bulletInMagazine_));
+	bulletStockInfo->setString(std::to_string(bulletInStock_));
 }

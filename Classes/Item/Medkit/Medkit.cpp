@@ -52,7 +52,6 @@ bool Medkit::bindPhysicsBody()
 	physicsBody->setContactTestBitmask(ITEM_CONTACT_MASK);
 	physicsBody->setCategoryBitmask(ITEM_CATEGORY_MASK);
 	setPhysicsBody(physicsBody);
-
 	return true;
 }
 
@@ -63,7 +62,7 @@ int Medkit::getRecovery()
 
 void Medkit::interact()
 {
-	auto player = dynamic_cast<Player*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(PLAYER_TAG));
+	auto player = dynamic_cast<Player*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG));
 	if (player && player->getInteractItem() == this && player->isMedkitFull() == false)
 	{
 		player->getMedkitBagInstance()->push(this);

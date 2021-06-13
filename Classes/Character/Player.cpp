@@ -6,6 +6,7 @@
 #include "Item/Medkit/Medkit.h"
 #include "./Item/PlayerWeapon/Weapon.h"
 #include "Scene/GameOverScene.h"
+#include "Scene/FightScene/FightScene.h"
 #include "Const/Const.h"
 
 Player* Player::create(const std::string& filename)
@@ -24,11 +25,13 @@ Player* Player::create(const std::string& filename)
 		//标记角色
 		player->setTag(PLAYER_TAG);
 
-		player->bindCharacterAnimate("MIKU");
+		player->bindCharacterAnimate("MIKU", 0.1f);
 
 		//初始化角色武器和弹药
 		player->primaryWeapon_ = Weapon::create("MP5.png");
+		player->primaryWeapon_->Item::pickUp();
 		player->secondaryWeapon_ = Weapon::create("AK47.png");
+		player->secondaryWeapon_->Item::pickUp();
 		player->primaryWeapon_->setScale(0.3f, 0.3f);
 		player->secondaryWeapon_->setScale(0.3f, 0.3f);
 
@@ -47,7 +50,7 @@ Player* Player::create(const std::string& filename)
 		player->maxHealth_ = PLAYER_MAX_HEALTH;
 		player->shield_ = PLAYER_DEFAULT_SHIELD;
 		player->maxShield_ = PLAYER_DEFAULT_MAX_SHIELD;
-		player->shieldProtectionRate = PLAYER_DEFAULT_SHIELD_PROTECTION;
+		player->shieldProtectionRate_ = PLAYER_DEFAULT_SHIELD_PROTECTION;
 		player->medkitMaxNum_ = MEDKIT_MAX_NUM;
 
 		player->bulletStock_.push_back(90);
@@ -83,91 +86,169 @@ bool Player::bindPhysicsBody()
 
 void Player::getAimPointInstance()
 {
-	this->addChild(primaryWeapon_->MyAimPoint);
-	this->addChild(primaryWeapon_->ReloadAimPoint);
-	this->addChild(secondaryWeapon_->MyAimPoint);
-	this->addChild(secondaryWeapon_->ReloadAimPoint);
+	if (primaryWeapon_ != nullptr)
+	{
+		if (primaryWeapon_->getMyAimPoint()->getParent() != this)
+		{
+			if (primaryWeapon_->getMyAimPoint()->getParent() != nullptr)
+			{
+				primaryWeapon_->getMyAimPoint()->removeFromParent();
+			}
+			this->addChild(primaryWeapon_->getMyAimPoint());
+		}
+		if (primaryWeapon_->getReloadAimPoint()->getParent() != this)
+		{
+			if (primaryWeapon_->getReloadAimPoint()->getParent() != nullptr)
+			{
+				primaryWeapon_->getReloadAimPoint()->removeFromParent();
+			}
+			this->addChild(primaryWeapon_->getReloadAimPoint());
+		}
+	}
+	if (secondaryWeapon_ != nullptr)	//不加载副武器准星
+	{
+		if (secondaryWeapon_->getMyAimPoint()->getParent() == this)
+		{
+			secondaryWeapon_->getMyAimPoint()->retain();
+			secondaryWeapon_->getMyAimPoint()->removeFromParent();
+		}
+		if (secondaryWeapon_->getReloadAimPoint()->getParent() == this)
+		{
+			secondaryWeapon_->getReloadAimPoint()->retain();
+			secondaryWeapon_->getReloadAimPoint()->removeFromParent();
+		}
+	}
+	primaryWeapon_->Active(true);
+}
+
+void Player::abandonPrimaryWeapon()
+{
+	if (primaryWeapon_ != nullptr)
+	{
+		isAttacking = false;
+
+		removeAimPoint(primaryWeapon_);						//解除当前主武器准星
+		auto offset = facingPoint_ - getPosition();
+		offset.normalize();
+		auto dropPosition = getPosition() + DISCARD_ITEM_DISTANCE * offset;
+		primaryWeapon_->setPosition(dropPosition);		//主武器位置设为玩家位置
+		primaryWeapon_->Active(false);
+		primaryWeapon_->setVisible(true);
+		primaryWeapon_->retain();
+		primaryWeapon_->removeFromParent();				//解除与当前主武器父子关系
+
+		auto runningScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+		runningScene->setDropNode(primaryWeapon_);
+		runningScene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0);
+
+		primaryWeapon_->Item::abandon();								//当前主武器设置为未被持有
+		primaryWeapon_ = nullptr;
+		switchWeapon();														//交换武器
+		interactItem_ = nullptr;
+	}
+}
+
+void Player::removeAimPoint(Weapon* weapon)
+{
+	if (weapon != nullptr)
+	{
+		if (weapon->getMyAimPoint()->getParent() == this)
+		{
+			weapon->getMyAimPoint()->retain();
+			weapon->getMyAimPoint()->removeFromParent();
+		}
+		if (weapon->getReloadAimPoint()->getParent() == this)
+		{
+			weapon->getReloadAimPoint()->retain();
+			weapon->getReloadAimPoint()->removeFromParent();
+		}
+	}
 }
 
 void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* unusedEvent)
 {
 	using K = cocos2d::EventKeyboard::KeyCode;
 
-	//WASD按下时，数组的对应元素更新为true
-	if (keyCode == K::KEY_W)
+	if (this->isAlive_)
 	{
-		keyPressed_[W] = true;
-	}
-	if (keyCode == K::KEY_A)
-	{
-		keyPressed_[A] = true;
-	}
-	if (keyCode == K::KEY_S)
-	{
-		keyPressed_[S] = true;
-	}
-	if (keyCode == K::KEY_D)
-	{
-		keyPressed_[D] = true;
-	}
-	if (keyCode == K::KEY_Q)
-	{
-		switchWeapon();
-	}
-	if (keyCode == K::KEY_SPACE)
-	{
-		dodge();
-	}
-	if (keyCode == K::KEY_E)
-	{
-		useMedkit();
-	}
-	if (keyCode == K::KEY_F)
-	{
-		if (interactItem_ != nullptr)
+		//WASD按下时，数组的对应元素更新为true
+		if (keyCode == K::KEY_W)
 		{
-			interactItem_->interact();
+			keyPressed_[W] = true;
+		}
+		if (keyCode == K::KEY_A)
+		{
+			keyPressed_[A] = true;
+		}
+		if (keyCode == K::KEY_S)
+		{
+			keyPressed_[S] = true;
+		}
+		if (keyCode == K::KEY_D)
+		{
+			keyPressed_[D] = true;
+		}
+		if (keyCode == K::KEY_Q)
+		{
+			switchWeapon();
+		}
+		if (keyCode == K::KEY_SPACE)
+		{
+			dodge();
+		}
+		if (keyCode == K::KEY_E)
+		{
+			useMedkit();
+		}
+		if (!isAttacking)
+		{
+			if (keyCode == K::KEY_F)
+			{
+				if (interactItem_ != nullptr)
+				{
+					interactItem_->interact();
+				}
+			}
+			if (keyCode == K::KEY_R)
+			{
+				primaryWeapon_->PlayerReload(bulletStock_);
+			}
+			if (keyCode == K::KEY_G)
+			{
+				abandonPrimaryWeapon();
+			}
 		}
 	}
-	if (keyCode == K::KEY_R)
-	{
-		primaryWeapon_->PlayerReload(bulletStock_);
-	}
-		
 }
 
 void Player::listenToKeyRelease(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* unusedEvent)
 {
 	using K = cocos2d::EventKeyboard::KeyCode;
-
-	//WASD按下时，数组的对应元素更新为false
-	if (keyCode == K::KEY_W)
+	if (this->isAlive_)
 	{
-		keyPressed_[W] = false;
-	}
-	if (keyCode == K::KEY_A)
-	{
-		keyPressed_[A] = false;
-	}
-	if (keyCode == K::KEY_S)
-	{
-		keyPressed_[S] = false;
-	}
-	if (keyCode == K::KEY_D)
-	{
-		keyPressed_[D] = false;
+		//WASD按下时，数组的对应元素更新为false
+		if (keyCode == K::KEY_W)
+		{
+			keyPressed_[W] = false;
+		}
+		if (keyCode == K::KEY_A)
+		{
+			keyPressed_[A] = false;
+		}
+		if (keyCode == K::KEY_S)
+		{
+			keyPressed_[S] = false;
+		}
+		if (keyCode == K::KEY_D)
+		{
+			keyPressed_[D] = false;
+		}
 	}
 }
 
 void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
 {
 	facingPoint_ = facingPoint;
-
-	if (isPressed)
-	{
-		//Attack
-	}
-
 }
 
 void Player::receiveDamage(int damage)
@@ -177,8 +258,8 @@ void Player::receiveDamage(int damage)
 		int realDamage;
 		if (shield_ > 0)
 		{
-			realDamage = static_cast<int>(damage * (1 - shieldProtectionRate));
-			shield_ -= static_cast<int>(damage * (shieldProtectionRate));
+			realDamage = static_cast<int>(damage * (1 - shieldProtectionRate_));
+			shield_ -= static_cast<int>(damage * (shieldProtectionRate_));
 			shield_ = shield_ < 0 ? 0 : shield_;
 		}
 		else
@@ -200,12 +281,18 @@ void Player::die()
 {
 	isAlive_ = false;
 	health_ = 0;
-	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(0.2f, GameOver::create()));
+	
 }
 
 void Player::attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)
 {
-	primaryWeapon_->Attack(pos, dir);
+	if (isAlive_)
+	{
+		if (primaryWeapon_ != nullptr && isAttacking)
+		{
+			primaryWeapon_->Attack(pos, dir);
+		}
+	}
 }
 
 void Player::dodge()
@@ -250,44 +337,52 @@ void Player::dodge()
 
 void Player::updateFacingStatus()
 {
-	auto direction = facingPoint_;
-	preFacingStatus_ = curFacingStatus_;
-	
-	if (direction.x > 0 && abs(direction.y) <= direction.x)
+	if (this->isAlive_)
 	{
-		curFacingStatus_ = FacingStatus::right;
-	}
-	else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
-	{
-		curFacingStatus_ = FacingStatus::left;
-	}
-	else if (direction.y > 0 && abs(direction.x) <= direction.y)
-	{
-		curFacingStatus_ = FacingStatus::up;
-	}
-	else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
-	{
-		curFacingStatus_ = FacingStatus::down;
-	}
+		auto direction = facingPoint_;
+		preFacingStatus_ = curFacingStatus_;
+		auto size = sprite_->getContentSize();
 
-	if (preFacingStatus_ != curFacingStatus_)
-	{
-		statusChanged_ = true;
+		if (direction.x > 0 && abs(direction.y) <= direction.x)
+		{
+			curFacingStatus_ = FacingStatus::right;
+		}
+		else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
+		{
+			curFacingStatus_ = FacingStatus::left;
+
+		}
+		else if (direction.y > 0 && abs(direction.x) <= direction.y)
+		{
+			curFacingStatus_ = FacingStatus::up;
+		}
+		else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
+		{
+			curFacingStatus_ = FacingStatus::down;
+		}
+
+		if (preFacingStatus_ != curFacingStatus_)
+		{
+			statusChanged_ = true;
+		}
 	}
 }
 
 void Player::updateWalkingStatus()
 {
-	preWalkingStatus_ = curWalkingStatus_;
-	curWalkingStatus_ = WalkingStatus::idle;
-	for (auto i : keyPressed_)
+	if (isAlive_)
 	{
-		if (i)
-			curWalkingStatus_ = WalkingStatus::walk;
-	}
-	if (preWalkingStatus_ != curWalkingStatus_)
-	{
-		statusChanged_ = true;
+		preWalkingStatus_ = curWalkingStatus_;
+		curWalkingStatus_ = WalkingStatus::idle;
+		for (auto i : keyPressed_)
+		{
+			if (i)
+				curWalkingStatus_ = WalkingStatus::walk;
+		}
+		if (preWalkingStatus_ != curWalkingStatus_)
+		{
+			statusChanged_ = true;
+		}
 	}
 }
 
@@ -324,11 +419,18 @@ void Player::switchWeapon()
 {
 	if (secondaryWeapon_ != nullptr)
 	{
+		isAttacking = false;
 		auto t = primaryWeapon_;
 		primaryWeapon_ = secondaryWeapon_;
 		secondaryWeapon_ = t;
 		primaryWeapon_->Active(true);
-		secondaryWeapon_->Active(false);
+
+		if (secondaryWeapon_ != nullptr)
+		{
+			secondaryWeapon_->Active(false);
+		}
+		//primaryWeapon_->ReloadingStatusReset();
+		getAimPointInstance();
 	}
 }
 
@@ -337,9 +439,19 @@ Weapon* Player::getPrimaryWeaponInstance()
 	return primaryWeapon_;
 }
 
+void Player::setPrimaryWeaponInstance(Weapon* weapon)
+{
+	primaryWeapon_ = weapon;
+}
+
 Weapon* Player::getSecondaryWeaponInstance()
 {
 	return secondaryWeapon_;
+}
+
+void Player::setSecondaryWeaponInstance(Weapon* weapon)
+{
+	secondaryWeapon_ = weapon;
 }
 
 const std::string Player::getBulletName() const
@@ -372,16 +484,27 @@ void Player::useMedkit()
 	}
 }
 
+std::vector<int>& Player::getBulletStock()
+{
+	return bulletStock_;
+}
+
 void Player::update(float dt)
 {
 	auto velocity = cocos2d::Vec2::ZERO;
-	auto TargetPos = primaryWeapon_->ActiveAimPoint->getPosition();
+	cocos2d::Vec2 TargetPos = facingPoint_;
+
+	if (primaryWeapon_ != nullptr)
+	{
+		TargetPos  = primaryWeapon_->ActiveAimPoint->getPosition();
+	}
 	TargetPos.normalize();
 
-	if (primaryWeapon_->ActiveAimPoint != nullptr)
+
+	if (primaryWeapon_ != nullptr && primaryWeapon_->ActiveAimPoint != nullptr)
 	{
 		primaryWeapon_->ActiveAimPoint->SetTarget(facingPoint_);
-		primaryWeapon_->RecoverRecoil(recoilRecoverBoost_ / 100);
+		primaryWeapon_->RecoverRecoil();
 	}
 
 	if (isAttacking)
@@ -391,7 +514,7 @@ void Player::update(float dt)
 	}
 	else
 	{
-		recoilRecoverBoost_ += 120;		
+		recoilRecoverBoost_ += 120;
 	}
 
 	weaponRotation_ = CC_RADIANS_TO_DEGREES(cocos2d::Vec2::angle(TargetPos, cocos2d::Vec2::ANCHOR_BOTTOM_RIGHT));
@@ -409,8 +532,14 @@ void Player::update(float dt)
 		primaryWeapon_->setFlippedX(false);
 		secondaryWeapon_->setFlippedX(false);
 	}*/
-	primaryWeapon_->setRotation(weaponRotation_);
-	secondaryWeapon_->setRotation(weaponRotation_);
+	if (primaryWeapon_ != nullptr)
+	{
+		primaryWeapon_->setRotation(weaponRotation_);
+	}
+	if (secondaryWeapon_ != nullptr)
+	{
+		secondaryWeapon_->setRotation(weaponRotation_);
+	}
 
 	if (allowMove_)
 	{
@@ -441,5 +570,7 @@ void Player::update(float dt)
 		updateMoveAnimate();
 		statusChanged_ = false;
 		detectCollision();
+
 	}	
 }
+

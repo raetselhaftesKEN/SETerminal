@@ -14,7 +14,6 @@
 #include "Character/Player.h"
 #include "Character/Monster.h"
 #include "Component/HealthBar/HealthBar.h"
-#include "Component/WeaponUI/WeaponUI.h"
 #include "Component/CameraEffect/CameraEffect.h"
 #include "Item/Bullet/Bullet.h"
 #include "Const/Const.h"
@@ -26,9 +25,9 @@ private:
     //地图类,对应相关的tmx文件
     HealthBar* healthBar_;
 
-    WeaponUI* weaponUI_;
-
     CameraEffect* mainCamera_;
+
+    cocos2d::Layer* layerUI;
 
     static cocos2d::Node* generateNode_;
 
@@ -52,10 +51,9 @@ public:
 */
     virtual bool init();
 
-    /*
-初始化摄像机
-    */
-    void HelloWorld::setCamera(Scene* scene);
+
+    void setCamera();
+
 
     /**
 * @brief 生成怪物
@@ -91,6 +89,7 @@ public:
 
 
     void generateNode(float dt);
+
 
     static cocos2d::Node*& getGenerateNode();
     

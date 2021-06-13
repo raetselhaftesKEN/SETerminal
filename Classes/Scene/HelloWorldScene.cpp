@@ -35,8 +35,12 @@ bool HelloWorld::init()
     {
         return false;
     }
+    
+    layerUI = cocos2d::LayerColor::create(cocos2d::Color4B(0, 0, 0, 0));
+    layerUI->retain();
 
-    Obstacle::getObstacles()->clear();
+    
+
 
     //获取窗口大小和原点坐标
     auto winSize = Director::getInstance()->getVisibleSize();
@@ -50,18 +54,13 @@ bool HelloWorld::init()
     //生成玩家角色实例
     player_ = Player::create("MIKU/idle_down/idle_down1.png");
     this->addChild(player_, 2);
+    player_->addChild(layerUI);
 
     healthBar_ = HealthBar::create(player_);
-    healthBar_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
-    healthBar_->setPosition(cocos2d::Point(winSize.width / 2, 30));
-    healthBar_->setScale(0.4f, 0.4f);
-    addChild(healthBar_, 2);
+    healthBar_->setAnchorPoint(cocos2d::Point(0.f, 1.f));
+    healthBar_->setPosition(cocos2d::Point(10, winSize.height / 2));
+    layerUI->addChild(healthBar_, 2);
 
-    weaponUI_ = WeaponUI::create(player_);
-    weaponUI_->setAnchorPoint(cocos2d::Point(0.5f, 0.f));
-    weaponUI_->setPosition(cocos2d::Point(winSize.width/2, 50));
-    addChild(weaponUI_, 2);
-    
     auto obstacle = Obstacle::create("wall.png");
     obstacle->setPosition(500, 300);
     addChild(obstacle, 0);
@@ -69,12 +68,21 @@ bool HelloWorld::init()
     obs2->setPosition(300, 100);
     addChild(obs2, 0);
 
-    //初始化一个正交摄像机
-    this->setCamera(this);
+    setCamera();
+
+    auto weapon = Weapon::create("AK47.png");
+    addChild(weapon, 2);
+    weapon->setPosition(500, 300);
+    weapon->setScale(0.3);
+
+    auto weapon2 = Weapon::create("MP5.png");
+    addChild(weapon2, 2);
+    weapon2->setPosition(700, 500);
+    weapon2->setScale(0.3);
 
     //调用addMonster方法在随机位置生成怪物
     srand((unsigned int)time(nullptr));
-    this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::addMonster), 1.5);
+    //this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::addMonster), 1.5);
 
     //生成屏幕触摸（即鼠标单击）事件的监听器
    auto touchListener = cocos2d::EventListenerTouchOneByOne::create();
@@ -86,6 +94,8 @@ bool HelloWorld::init()
     auto mouseListener = cocos2d::EventListenerMouse::create();
     mouseListener->onMouseMove = CC_CALLBACK_1(HelloWorld::onMouseMove, this);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, player_);
+
+
 
     //生成场景内物理碰撞事件的监听器
     auto contactListener = cocos2d::EventListenerPhysicsContact::create();
@@ -99,13 +109,17 @@ bool HelloWorld::init()
     keyboardListener->onKeyReleased = CC_CALLBACK_2(Player::listenToKeyRelease, player_);
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
+
     return true;
 }
 
-void HelloWorld::setCamera(Scene* scene)
+void HelloWorld::setCamera()
 {
-    mainCamera_ = CameraEffect::create(scene);
-    mainCamera_->LockPlayer(player_);
+    mainCamera_ = CameraEffect::create(this);
+    if (player_ != nullptr)
+    {
+        mainCamera_->LockPlayer(player_);
+    }
 }
 
 void HelloWorld::addMonster(float dt)
@@ -127,8 +141,6 @@ bool HelloWorld::onTouchBegan(Touch* touch, Event* unusedEvent)
 {
     player_->isAttacking = true;
     TouchHolding = true;
-    return true;
-
     return true;
 }
 
@@ -152,11 +164,11 @@ bool HelloWorld::onContactBegan(cocos2d::PhysicsContact& physicsContact)
 
     if (nodeA && nodeB)
     {
-        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG)
+        if (nodeA->getTag() == PLAYER_TAG && nodeB->getTag() == ITEM_TAG && !dynamic_cast<Item*>(nodeB)->isHeld())
         {
             contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeA), dynamic_cast<Item*>(nodeB));
         }
-        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG)
+        else if (nodeA->getTag() == ITEM_TAG && nodeB->getTag() == PLAYER_TAG && !dynamic_cast<Item*>(nodeA)->isHeld())
         {
             contactBetweenPlayerAndItem(dynamic_cast<Player*>(nodeB), dynamic_cast<Item*>(nodeA));
         }
@@ -229,6 +241,7 @@ void HelloWorld::generateNode(float dt)
 {
     if (generateNode_ != nullptr)
     {
+        auto node = generateNode_;
         auto dropTo = generateNode_->getPosition();
         generateNode_->setPosition(cocos2d::Point(dropTo.x, dropTo.y + 30));
         auto dropAction = cocos2d::MoveTo::create(0.2f, dropTo);

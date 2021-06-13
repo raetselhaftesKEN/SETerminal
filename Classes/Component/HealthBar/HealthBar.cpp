@@ -11,7 +11,7 @@ HealthBar* HealthBar::create(Character* character)
 
 	healthBar->sprite_ = cocos2d::Sprite::create("UI/UI-BG.png");
 	healthBar->sprite_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
-	
+
 	if (healthBar && healthBar->sprite_)
 	{
 		healthBar->addChild(healthBar->sprite_, 1);

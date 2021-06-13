@@ -41,7 +41,7 @@ public:
 	*/
 	void Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
 
-
+	int getCurrentMagazine();
 	/*
 	再装填
 	@杨孟臻
@@ -50,6 +50,8 @@ public:
 	void Reload(std::vector<int>& BulletStock);
 
 	void PlayerReload(std::vector<int>& BulletStock);
+
+	void ReloadingStatusReset();
 
 	/*
 恢复武器后坐力
@@ -61,25 +63,24 @@ public:
 *@brief 绑定物理躯干
 * @author 孟宇
 */
-	virtual bool bindPhysicsBody() { return true; }
+	virtual bool bindPhysicsBody();
 
-	virtual void interact(){}
+	virtual void interact();
+
+	PlayerAimPoint* getMyAimPoint();
+	void setMyAimPoint(PlayerAimPoint*);
+
+	PlayerAimPoint* getReloadAimPoint();
+	void setReloadAimPoint(PlayerAimPoint*);
 
 	std::string bulletFilename_;	//武器所使用的子弹
 
 	std::string aimPointFilename_;  //准星名称
 
-	PlayerAimPoint* MyAimPoint;
-	PlayerAimPoint* ReloadAimPoint;
-
 	PlayerAimPoint* ActiveAimPoint;
-
-	int CurrentMagazine = 30;
 
 	bulletType_ TypeOfBullet = bulletType_::type762;
 protected:
-
-
 
 	float ShootingSpeed = 10;//每秒能够attack的次数
 
@@ -97,7 +98,12 @@ protected:
 
 	int MagazineSize = 30;//弹夹容量
 
+	int CurrentMagazine = 30;
+
 	float ReloadTime = 2;//再装填时间
+
+	PlayerAimPoint* MyAimPoint;
+	PlayerAimPoint* ReloadAimPoint;
 
 };
 
