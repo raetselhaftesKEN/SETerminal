@@ -4,8 +4,12 @@
 
 #include "cocos2d.h"
 #include "Weapon.h"
-#include "././Scene/HelloWorldScene.h"
+//#include "././Scene/HelloWorldScene.h"
+#include "Character/Player.h"
 #include "../Bullet/Bullet.h"
+#include "Const/Const.h"
+#include <string>
+using namespace std::string_literals;
 
 Weapon* Weapon::create(const std::string& filename)
 {
@@ -19,6 +23,9 @@ Weapon* Weapon::create(const std::string& filename)
 	if (weapon && weapon->sprite_)
 	{
 		weapon->autorelease();
+		weapon->bindPhysicsBody();
+		weapon->setTag(ITEM_TAG);
+
 		weapon->bulletFilename_ = "DefaultBullet-2.png";
 		weapon->aimPointFilename_ = "DefaultAimPoint.png";
 
@@ -40,10 +47,22 @@ Weapon* Weapon::create(const std::string& filename)
 	return nullptr;
 }
 
+bool Weapon::bindPhysicsBody()
+{
+	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 1.0f, 0.0f));
+	physicsBody->setDynamic(false);
+	physicsBody->setGravityEnable(false);
+	physicsBody->setRotationEnable(false);
+	physicsBody->setContactTestBitmask(ITEM_CONTACT_MASK);
+	physicsBody->setCategoryBitmask(ITEM_CATEGORY_MASK);
+	setPhysicsBody(physicsBody);
+
+	return true;
+}
+
 void Weapon::Active(bool ActivateStatus)
 {
 	setVisible(ActivateStatus);
-	MyAimPoint->setVisible(ActivateStatus);
 }
 
 void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´Éú³É×Óµ¯  Èç¹ûÓÐÌØÊâ×Óµ¯µÄÎäÆ÷£¬ÐèÒªÖØÔØAttack
@@ -78,14 +97,6 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 
 			ReloadAimPoint->RecoilStatus += Recoil;
 			MyAimPoint->RecoilStatus += Recoil;//ºó×øÁ¦µþ¼Ó
-			if (ReloadAimPoint->RecoilStatus > 250)
-			{
-				ReloadAimPoint->RecoilStatus = 250;
-			}
-			if (MyAimPoint->RecoilStatus > 250)
-			{
-				MyAimPoint->RecoilStatus = 250;
-			}
 		}
 		else
 		{
@@ -100,32 +111,94 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 
 }
 
+int Weapon::getCurrentMagazine()
+{
+	return CurrentMagazine;
+}
+
 void Weapon::PlayerReload()
 {
-	MyAimPoint->setVisible(false);
-	ReloadAimPoint->setVisible(true);
-	ActiveAimPoint = ReloadAimPoint;
-	Reload();
+	if (CurrentMagazine != MagazineSize)
+	{
+		MyAimPoint->setVisible(false);
+		ReloadAimPoint->setVisible(true);
+		ActiveAimPoint = ReloadAimPoint;
+		Reload();
+	}
 }
 
 void Weapon::Reload()
 {
-	CurrentMagazine = 0;
-	CanShoot = false;
-	auto reload = cocos2d::CallFunc::create([=]()
-		{
-			MyAimPoint->setVisible(true);
-			ReloadAimPoint->setVisible(false);
-			ActiveAimPoint = MyAimPoint;
-			CanShoot = true;
-			CurrentMagazine = MagazineSize;
-		});
-	auto delay = cocos2d::DelayTime::create(ReloadTime);
-	this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
+	if (CurrentMagazine != MagazineSize)
+	{
+		CurrentMagazine = 0;
+		CanShoot = false;
+		auto reload = cocos2d::CallFunc::create([=]()
+			{
+				MyAimPoint->setVisible(true);
+				ReloadAimPoint->setVisible(false);
+				ActiveAimPoint = MyAimPoint;
+				CanShoot = true;
+				CurrentMagazine = MagazineSize;
+			});
+		auto delay = cocos2d::DelayTime::create(ReloadTime);
+		this->runAction(cocos2d::Sequence::create(delay, reload, nullptr));
+	}
 }
 
-void Weapon::RecoverRecoil(float Boost)
+void Weapon::ReloadingStatusReset()
 {
-	MyAimPoint->RecoverRecoil(Boost * RecoilRecover / 60);
-	ReloadAimPoint->RecoverRecoil(Boost * RecoilRecover / 60);
+	if (CurrentMagazine > 0)
+	{
+		MyAimPoint->setVisible(true);
+		ReloadAimPoint->setVisible(false);
+		CanShoot = true;
+	}
+	else
+	{
+		MyAimPoint->setVisible(false);
+		ReloadAimPoint->setVisible(true);
+		CanShoot = false;
+		Reload();
+	}
+}
+
+void Weapon::RecoverRecoil()
+{
+	MyAimPoint->RecoverRecoil(RecoilRecover / 60);
+	ReloadAimPoint->RecoverRecoil(RecoilRecover / 60);
+}
+
+void Weapon::interact()
+{
+	auto player = dynamic_cast<Player*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG));
+	if (player && player->getInteractItem() == this)
+	{
+		if (player->getPrimaryWeaponInstance() && player->getSecondaryWeaponInstance())
+		{
+			player->abandonPrimaryWeapon();
+			player->setSecondaryWeaponInstance(this);
+			this->Active(false);
+		}
+		else if (player->getPrimaryWeaponInstance() != nullptr && player->getSecondaryWeaponInstance() == nullptr)
+		{
+			player->setSecondaryWeaponInstance(this);
+			this->Active(false);
+		}
+		else
+		{
+			player->setPrimaryWeaponInstance(this);
+			this->Active(true);
+		}
+	}
+
+	this->retain();
+	this->removeFromParent();
+	this->setPosition(cocos2d::Vec2::ZERO);
+	this->Item::pickUp();
+
+	player->addChild(this);
+	player->setInteractItem(nullptr);
+	player->getAimPointInstance();
+	player->getPrimaryWeaponInstance()->ReloadingStatusReset();
 }

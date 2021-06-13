@@ -68,6 +68,9 @@ public:
 	cocos2d::Sprite* getPictureSprite();
 
 
+	cocos2d::Vec2 getFacingPoint();
+
+
 	void detectCollision();
 	
 

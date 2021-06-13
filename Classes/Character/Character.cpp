@@ -3,8 +3,10 @@
 */
 
 #include "cocos2d.h"
+#include "Const/Const.h"
 #include "Character.h"
 #include "Obstacle/Obstacle.h"
+#include "Scene/FightScene/FightScene.h"
 #include <string>
 using namespace std::string_literals;
 
@@ -12,6 +14,11 @@ void Character::bindPictureSprite(cocos2d::Sprite* sprite)
 {
 	sprite_ = sprite;
 	addChild(sprite_);
+}
+
+cocos2d::Vec2 Character::getFacingPoint()
+{
+	return facingPoint_;
 }
 
 void Character::die()
@@ -117,14 +124,14 @@ cocos2d::Sprite* Character::getPictureSprite()
 
 void Character::detectCollision()
 {
+	auto runningScene = dynamic_cast<FightScene*> (cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
 	Obstacle* obstacles = nullptr;
 
-	for (auto i : *(Obstacle::getObstacles()))
+	for (auto i : runningScene->getObstacles())
 	{
 		obstacles = i;
 		if (obstacles != nullptr)
 		{
-
 			obstacles->collision(this);
 		}
 

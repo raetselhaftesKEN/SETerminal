@@ -24,7 +24,14 @@ protected:
 	int backgroundMusicID_;
 	bool isBackgroundMusicPlaying_ = true;
 	cocos2d::ui::Scale9Sprite* pauseBoardImg_;
+	
+	cocos2d::ui::Button* closeButton_;
+	cocos2d::ui::Button* musicButton_;
+	cocos2d::Label* musicLabel_;
 	cocos2d::ui::Button* superBodyButton_;
+	cocos2d::Label* superBodyLabel_;
+	cocos2d::ui::Button* superAccuracyButton_;
+	cocos2d::Label* superAccuracyLabel_;
 
 };
 

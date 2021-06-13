@@ -6,7 +6,7 @@
 
 #define BOARD_IMAGE_WIDTH 700
 #define BOARD_IMAGE_HEIGHT 500
-#define STANDARD_LEFT 100
+#define STANDARD_LEFT 125
 #define CLOSE_X 10000
 #define CLOSE_Y 10000
 
@@ -59,7 +59,7 @@ bool SettingLayer::init()
 
 	// 设置背景框
 	pauseBoardImg_ = cocos2d::ui::Scale9Sprite::create("Setting/pause_board.png");
-	pauseBoardImg_->setOpacity(64);
+	pauseBoardImg_->setOpacity(96);
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	if (pauseBoardImg_ == nullptr)
 	{
@@ -76,33 +76,72 @@ bool SettingLayer::init()
 	}
 
 	//设置关闭按钮
-	auto closeButton = cocos2d::ui::Button::create("close.png", "close_pressed.png");
-	auto closeButtonSize = closeButton->getContentSize();
-	closeButton->setPosition(cocos2d::Vec2((BOARD_IMAGE_WIDTH - closeButtonSize.width / 2), (BOARD_IMAGE_HEIGHT - closeButtonSize.height / 2)));
-	pauseBoardImg_->addChild(closeButton);
+	closeButton_ = cocos2d::ui::Button::create("close.png", "close_pressed.png");
+	auto closeButtonSize = closeButton_->getContentSize();
+	closeButton_->setPosition(cocos2d::Vec2((BOARD_IMAGE_WIDTH - closeButtonSize.width / 2), (BOARD_IMAGE_HEIGHT - closeButtonSize.height / 2)));
+	pauseBoardImg_->addChild(closeButton_);
 
 	//设置背景音乐部分
-	auto musicButton = cocos2d::ui::Button::create("btn_default.png", "btn_default_pressed.png");
+	musicButton_ = cocos2d::ui::Button::create("btn_default.png", "btn_default_pressed.png");
 	auto musicImage = cocos2d::Sprite::create("music.png");
-	musicButton->setPosition(cocos2d::Vec2(STANDARD_LEFT + 5, BOARD_IMAGE_HEIGHT - 100));
-	musicImage->setPosition(cocos2d::Vec2(STANDARD_LEFT, BOARD_IMAGE_HEIGHT - 100));
-	musicButton->setScale9Enabled(true);
-	musicButton->setContentSize(cocos2d::Size(110, 100));
-	pauseBoardImg_->addChild(musicButton, 3);
-	pauseBoardImg_->addChild(musicImage, 4);
+	musicButton_->setPosition(cocos2d::Vec2(STANDARD_LEFT + 5, BOARD_IMAGE_HEIGHT - 100));
+	musicImage->setPosition(cocos2d::Vec2(55, 50));
+	musicButton_->setScale9Enabled(true);
+	musicButton_->setContentSize(cocos2d::Size(110, 100));
+	pauseBoardImg_->addChild(musicButton_, 3);
+	musicButton_->addChild(musicImage, 2);
+	musicLabel_ = cocos2d::Label::createWithTTF("Music", "fonts/Marker Felt.ttf", 36);
+	musicLabel_->setPosition(cocos2d::Vec2(55,-40));
+	musicButton_->addChild(musicLabel_, 2);
 
 	//设置锁血功能
 	superBodyButton_ = cocos2d::ui::Button::create("btn_default.png", "btn_default_pressed.png");
-	superBodyButton_->setPosition(cocos2d::Vec2(STANDARD_LEFT + 175, BOARD_IMAGE_HEIGHT - 100));
+	superBodyButton_->setPosition(cocos2d::Vec2(STANDARD_LEFT + 205, BOARD_IMAGE_HEIGHT - 100));
 	superBodyButton_->setScale9Enabled(true);
 	superBodyButton_->setContentSize(cocos2d::Size(110, 100));
 	pauseBoardImg_->addChild(superBodyButton_);
+	superBodyLabel_ = cocos2d::Label::createWithTTF("Super body", "fonts/Marker Felt.ttf", 36);
+	superBodyLabel_->setPosition(cocos2d::Vec2(55, -40));
+	superBodyButton_->addChild(superBodyLabel_, 2);
 
-	closeButton->addClickEventListener([=](Ref*) {
+	//设置无后坐力功能
+	superAccuracyButton_ = cocos2d::ui::Button::create("btn_default.png", "btn_default_pressed.png");
+	superAccuracyButton_->setPosition(cocos2d::Vec2(STANDARD_LEFT + 405, BOARD_IMAGE_HEIGHT - 100));
+	superAccuracyButton_->setScale9Enabled(true);
+	superAccuracyButton_->setContentSize(cocos2d::Size(110, 100));
+	pauseBoardImg_->addChild(superAccuracyButton_);
+	superAccuracyLabel_ = cocos2d::Label::createWithTTF("No accuracy", "fonts/Marker Felt.ttf", 36);
+	superAccuracyLabel_->setPosition(cocos2d::Vec2(55, -40));
+	superAccuracyButton_->addChild(superAccuracyLabel_, 2);
+	
+
+	return true;
+}
+
+bool SettingLayer::open()
+{
+	//为了在Monster类内使用外部的东西，使用以下几句
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+	auto contenteSize = runningScene->getContentSize();
+	auto playerOfNode = runningScene->getChildByTag(PLAYER_TAG);
+	cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
+	//如果场景已经被释放，找不到我方player位置，直接退出
+	if (playerOfNode == nullptr)
+	{
+		return false;
+	}
+	//获得当前我方player位置
+	auto playerOfPlayer = dynamic_cast<Player*>(playerOfNode);
+	playerPositionInScene = playerOfPlayer->getPosition();
+	pauseBoardImg_->setPosition(contenteSize.width / 2, contenteSize.height / 2);
+	pauseBoardImg_->setCameraMask(2, true);
+
+	closeButton_->addClickEventListener([=](Ref*) {
 		this->setPosition(cocos2d::Vec2(10000, 10000));
+		this->setCameraMask(2, true);
 	});
 
-	musicButton->addClickEventListener([&](Ref*) {
+	musicButton_->addClickEventListener([&](Ref*) {
 		if (!isBackgroundMusicPlaying_)
 		{
 			cocos2d::AudioEngine::resume(backgroundMusicID_);
@@ -115,24 +154,6 @@ bool SettingLayer::init()
 		}
 	});
 
-	return true;
-}
-
-bool SettingLayer::open()
-{
-	//为了在Monster类内使用外部的东西，使用以下几句
-	auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
-	auto playerOfNode = runningScene->getChildByTag(PLAYER_TAG);
-	cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
-	//如果场景已经被释放，找不到我方player位置，直接退出
-	if (playerOfNode == nullptr)
-	{
-		return false;
-	}
-	//获得当前我方player位置
-	auto playerOfPlayer = dynamic_cast<Player*>(playerOfNode);
-	playerPositionInScene = playerOfPlayer->getPosition();
-	pauseBoardImg_->setPosition(playerPositionInScene);
 
 	superBodyButton_->addClickEventListener([=](Ref*) {
 		if (!playerOfPlayer->superBody_)

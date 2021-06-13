@@ -6,7 +6,8 @@
 #include "Player.h"
 #include "Item/Medkit/Medkit.h"
 #include "Const/Const.h"
-#include "Scene/HelloWorldScene.h"
+//#include "Scene/HelloWorldScene.h"
+#include "Scene/FightScene/FightScene.h"
 
 static void problemLoading(const char* filename)
 {
@@ -55,7 +56,7 @@ void Monster::receiveDamage(int damage)
 
 void Monster::move() {
 	auto nextPosition = getRandomPosition();
-	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(PLAYER_TAG);
+	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG);
 	if (playerNode != nullptr)
 	{
 		nextPosition = playerNode->getPosition();
@@ -86,7 +87,7 @@ void Monster::move() {
 			enemyBullet->setTag(MONSTER_BULLET_TAG);
 
 			//为了在Monster类内使用外部的东西，使用以下几句
-			auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
+			auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
 			auto playerOfNode = runningScene->getChildByTag(PLAYER_TAG);
 			cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
 			//如果场景已经被释放，找不到我方player位置，直接退出
@@ -121,13 +122,13 @@ void Monster::die()
 	int dropItem = rand() % 10;
 	if (dropItem == 9)
 	{
-		auto scene = cocos2d::Director::getInstance()->getRunningScene();
+		auto scene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
 		auto medkitNode = dynamic_cast<cocos2d::Node*>(Medkit::create(getPosition()));
 
 		if (scene && medkitNode)
 		{
-			HelloWorld::getGenerateNode() = medkitNode;
-			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(HelloWorld::generateNode), 0.f);
+			scene->setDropNode(medkitNode);
+			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
 		}
 	}
 	isAlive_ = false;
@@ -146,7 +147,7 @@ Monster* Monster::create(const std::string& filename)
 	monster->statusChanged_ = true;
 
 	//为了在Monster类内使用外部的东西，使用以下语句获得当前进行的场景
-	auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
 	auto runningSceneSize = runningScene->getContentSize();
 
 	if (monster && monster->sprite_)
@@ -193,7 +194,7 @@ bool Monster::bindPhysicsBody()
 void Monster::updateFacingStatus()
 {
 	facingPoint_ = getRandomPosition();
-	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(PLAYER_TAG);
+	auto playerNode = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG);
 	if (playerNode != nullptr)
 	{
 		facingPoint_ = playerNode->getPosition();

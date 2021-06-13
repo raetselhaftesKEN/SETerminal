@@ -31,11 +31,9 @@ public:
 */
 	void bindPictureSprite(cocos2d::Sprite* sprite);
 
-	static std::vector<Obstacle*>* getObstacles();
-
 protected:
+
 	cocos2d::Sprite* sprite_;
-	static std::vector<Obstacle*>obstacles_;
 };
 
 #endif // !__OBSTACLE_H__

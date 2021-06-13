@@ -38,6 +38,11 @@ public:
 
 	cocos2d::Label* getItemInfo();
 
+	
+	void pickUp();
+	void abandon();
+	bool isHeld();
+
 
 protected:
 

@@ -27,7 +27,7 @@ public:
 
 protected:
 
-	Player* player;
+	Player* player_;
 
 	int bulletInMagazine_ = 0;
 

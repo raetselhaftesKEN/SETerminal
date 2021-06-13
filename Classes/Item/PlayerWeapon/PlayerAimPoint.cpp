@@ -28,8 +28,6 @@ void PlayerAimPoint::SetTarget(cocos2d::Vec2 Target)
 {
 	TargetPos = Target;
 	setPosition(TargetPos + RecoilStatus * cocos2d::Vec2::ANCHOR_TOP_LEFT);
-//	float TargetSize = RecoilStatus / 100 + 1;
-//	setScale(TargetSize, TargetSize);
 }
 
 void PlayerAimPoint::RecoverRecoil(float RecoverSpeed)

@@ -23,7 +23,8 @@
  ****************************************************************************/
 
 #include "AppDelegate.h"
-#include "./Scene/HelloWorldScene.h"
+//#include "./Scene/HelloWorldScene.h"
+#include "Scene/FightScene/FightScene.h"
 
  // #define USE_AUDIO_ENGINE 1
 
@@ -79,7 +80,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #endif
         director->setOpenGLView(glview);
     }
-    glview->setCursorVisible(false);
+    //glview->setCursorVisible(false);
     // turn on display FPS
     director->setDisplayStats(true);
 
@@ -108,11 +109,20 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
-    
+    auto _tileMap = TMXTiledMap::create("myfirst.tmx");
+    _tileMap->setPosition(Vec2(0, 0));
+    cocos2d::Vector<Obstacle*> obs;
+    auto obstacle = Obstacle::create("wall.png");
+    obstacle->setPosition(500, 300);
+    auto obs2 = Obstacle::create("wall.png");
+    obs2->setPosition(300, 100);
+    obs.pushBack(obstacle), obs.pushBack(obs2);
+
+    auto scene = FightScene::create(_tileMap, obs);
+    scene->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
     //AllocConsole();
     // run
-    director->runWithScene(scene);
+    director->runWithScene(scene->createScene());
 
     return true;
 }

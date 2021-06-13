@@ -45,6 +45,7 @@ public:
 
 	virtual void updateFacingStatus();
 	virtual void updateWalkingStatus();
+
 	
 
 	void dodge();
@@ -63,9 +64,12 @@ public:
 
 	// 获取角色当前装备的武器对象
 	Weapon* getPrimaryWeaponInstance();
+	void setPrimaryWeaponInstance(Weapon* weapon);
 	//获取角色当前未装备的副武器对象
 	Weapon* getSecondaryWeaponInstance();
+	void setSecondaryWeaponInstance(Weapon* weapon);
 
+	void abandonPrimaryWeapon();
 
 	//获取角色当前装备的子弹种类对应的素材文件名
 	const std::string getBulletName() const;
@@ -89,14 +93,12 @@ public:
 	virtual void attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
 
 	void getAimPointInstance();
+	void removeAimPoint(Weapon* weapon);
 
 	bool isAttacking = false;
 
-	//武器
-	Weapon* primaryWeapon_;											//使用中的武器
-	Weapon* secondaryWeapon_;										//副武器
-
 	bool superBody_ = false;
+
 
 protected:
 
@@ -112,12 +114,16 @@ protected:
 	float dodgeSpeedBoost_ = 3.0f;
 	float dodgeTime_ = 0.1f;
 
+	
 
 	//交互道具
 	Item* interactItem_ = nullptr;
 
+	//武器
+	Weapon* primaryWeapon_;											//使用中的武器
+	Weapon* secondaryWeapon_;										//副武器
 	float weaponRotation_ = 0.0f;
-	float recoilRecoverBoost_ = 100;
+
 
 	std::string bulletFilename_;												//当前装备的子弹
 
