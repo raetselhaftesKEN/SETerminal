@@ -205,8 +205,8 @@ void Weapon::ReloadingStatusReset()
 
 void Weapon::RecoverRecoil(float Boost)
 {
-	MyAimPoint->RecoverRecoil(RecoilRecover / 60);
-	ReloadAimPoint->RecoverRecoil(RecoilRecover / 60);
+	MyAimPoint->RecoverRecoil(Boost * RecoilRecover / 60);
+	ReloadAimPoint->RecoverRecoil(Boost * RecoilRecover / 60);
 }
 
 void Weapon::interact()
