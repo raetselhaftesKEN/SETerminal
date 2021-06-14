@@ -22,6 +22,9 @@ CameraEffect* CameraEffect::create(cocos2d::Scene* scene)
 	newCamera->setCameraFlag(cocos2d::CameraFlag::DEFAULT);
 	newCamera->setPosition3D(cocos2d::Vec3(-sizeOfWin.width / 2, -sizeOfWin.height / 2, 0));
 	newCamera->setDepth(1);
+	camera->addChild(newCamera);
+	camera->CameraInstance = newCamera;
+	camera->OgPos = camera->getPosition();
 
 	//创建UI专用的摄像机，通过CameraMask筛选渲染物体   如果要把某物体作为UI显示，在创建物体后加上  XXX->setCameraMask(2, true);   即可
 	cocos2d::Camera* newUICamera = Camera::createOrthographic(sizeOfWin.width, sizeOfWin.height, 0, 1);
@@ -31,12 +34,19 @@ CameraEffect* CameraEffect::create(cocos2d::Scene* scene)
 	scene->addChild(newUICamera);
 	camera->UICameraInstance = newUICamera;
 
-	camera->addChild(newCamera);
-	camera->CameraInstance = newCamera;
-	camera->OgPos = camera->getPosition();
+	/*cocos2d::Camera* newMiniMapCamera = Camera::createOrthographic(sizeOfWin.width, sizeOfWin.height, 0, 1);
+	cocos2d::Viewport Vp;
+	Vp.h = 0;
+	Vp.w = 0;
+	Vp.x = 0;
+	Vp.y = 0;
+	newMiniMapCamera->setDefaultViewport(Vp);
+	newMiniMapCamera->setCameraFlag(cocos2d::CameraFlag::DEFAULT);
+	newMiniMapCamera->setPosition3D(cocos2d::Vec3(0, 0, 0));
+	newMiniMapCamera->setDepth(3);
+	scene->addChild(newMiniMapCamera);
+	camera->MiniMapCameraInstance = newMiniMapCamera;	*/
 	
-	
-
 	camera->retain();
 	camera->autorelease();
 	camera->schedule(CC_SCHEDULE_SELECTOR(CameraEffect::update), 0.1f);

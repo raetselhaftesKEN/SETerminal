@@ -77,6 +77,7 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());
 					bullet->setPosition(pos);
+					bullet->bulletAtk_ = BulletDamage;
 					cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->addChild(bullet, 1);
 					//Îª×Óµ¯ÊµÀý°ó¶¨²¥·Å·¢ÉäµÄ·ÉÐÐ¶¯»­
 					cocos2d::Vec2 Spread;
@@ -201,6 +202,11 @@ void Weapon::ReloadingStatusReset()
 		CanShoot = false;
 		Reload();
 	}
+}
+
+void Weapon::Reset()
+{
+	CurrentMagazine = MagazineSize;
 }
 
 void Weapon::RecoverRecoil(float Boost)

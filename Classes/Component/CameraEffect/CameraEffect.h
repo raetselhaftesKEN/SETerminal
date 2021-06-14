@@ -36,6 +36,8 @@ protected:
 
 	cocos2d::Camera* UICameraInstance;
 
+//	cocos2d::Camera* MiniMapCameraInstance;
+
 	cocos2d::Vec2 OgPos;
 
 	Player* TargetPlayer;

@@ -37,8 +37,7 @@ public:
 
 	virtual void interact(){}
 
-	
-
+	float bulletAtk_ = 10.f;
 
 protected:
 
@@ -46,7 +45,7 @@ protected:
 
 	float bulletRange_;									//子弹最大飞行距离
 
-	float bulletAtk_ = 10.f;
+	
 
 	//待更新子弹攻击力等
 };

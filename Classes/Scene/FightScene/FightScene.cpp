@@ -211,7 +211,7 @@ bool FightScene::onContactBegan(cocos2d::PhysicsContact& physicsContact)
 		}
 		else if ((nodeA->getTag() == PLAYER_TAG || nodeA->getTag() == MONSTER_TAG)
 			&& (nodeB->getTag() == PLAYER_BULLET_TAG || nodeB->getTag() == MONSTER_BULLET_TAG))
-		{
+		{			
 			contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeA), dynamic_cast<Bullet*>(nodeB));
 		}
 		else if ((nodeA->getTag() == PLAYER_BULLET_TAG || nodeA->getTag() == MONSTER_BULLET_TAG)
@@ -269,6 +269,21 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 {
 	if (character && bullet)
 	{
+		////////////////////////////////
+		auto particleSystem = cocos2d::ParticleExplosion::create();
+		particleSystem->setDuration(0.05f);
+		particleSystem->setLife(0.1);
+		particleSystem->setLifeVar(0.05);
+		particleSystem->setScale(0.5f);
+		particleSystem->setSpeed(500);
+		particleSystem->setStartColor(cocos2d::Color4F::RED);
+		particleSystem->setEndColor(cocos2d::Color4F::RED);
+		particleSystem->setStartColorVar(cocos2d::Color4F::BLACK);
+		particleSystem->setEndColorVar(cocos2d::Color4F::BLACK);
+		this->addChild(particleSystem, 10);
+		particleSystem->setPosition(character->getPosition());
+		///////////////////////////////
+
 		character->receiveDamage(bullet->getBulletAtk());
 		bullet->removeFromParentAndCleanup(true);
 	}
