@@ -52,6 +52,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.cpp">
       <Filter>Source Files\Classes\Scene\EndMenuScene</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.cpp">
+      <Filter>Source Files\Classes\Item\Clip</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -113,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.h">
       <Filter>Source Files\Classes\Scene\EndMenuScene</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.h">
+      <Filter>Source Files\Classes\Item\Clip</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
@@ -267,8 +273,29 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MP5.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Particle1.plist">
+      <Filter>Resources</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Reloading.png">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Health-R.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Health.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Shield-R.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Shield.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\UI-BG.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\UI.png">
+      <Filter>Resources\UI</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast1.png">
       <Filter>Resources\blast</Filter>
@@ -415,6 +442,9 @@
     <Filter Include="Resources\MONSTER2\walk_up">
       <UniqueIdentifier>{0CA13DF4-22FC-362D-9608-3DDB735A0B32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\UI">
+      <UniqueIdentifier>{A32255AB-CBC4-31D4-AAF3-E8A53E3D33EC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Resources\blast">
       <UniqueIdentifier>{19307408-D6EF-3872-95E5-FDAC53DBA158}</UniqueIdentifier>
     </Filter>
@@ -453,6 +483,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Item\Bullet">
       <UniqueIdentifier>{9CCFDC9E-7B05-3307-81C6-C8796D4E9769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Item\Clip">
+      <UniqueIdentifier>{E2AF8350-7566-38DF-8CD5-9D404752B067}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Item\Medkit">
       <UniqueIdentifier>{17EE8043-2927-38F8-80D4-9685A654C024}</UniqueIdentifier>

@@ -7,6 +7,7 @@
 #include "FightScene.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
+#include "Item/Clip/Clip.h"
 
 static void problemLoading(const char* filename)
 {
@@ -143,6 +144,18 @@ bool FightScene::init()
 	this->setPhysicsListener();
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);
+
+	auto clipTest1 = Clip::create(bulletType_::type556);
+	clipTest1->setPosition(400, 200);
+	addChild(clipTest1, 1);
+
+	auto clipTest2 = Clip::create(bulletType_::type762);
+	clipTest2->setPosition(700, 600);
+	addChild(clipTest2, 1);
+
+	auto clipTest3 = Clip::create(bulletType_::type9mm);
+	clipTest3->setPosition(100, 600);
+	addChild(clipTest3, 1);
 
 	return true;
 }

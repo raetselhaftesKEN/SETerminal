@@ -73,6 +73,7 @@ list(APPEND GAME_SOURCE
      Classes/Component/WeaponUI/WeaponUI.cpp
      Classes/Scene/StartMenuScene/StartMenuScene.cpp
      Classes/Scene/EndMenuScene/EndMenuScene.cpp
+     Classes/Item/Clip/Clip.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -93,6 +94,7 @@ list(APPEND GAME_HEADER
      Classes/Component/WeaponUI/WeaponUI.h
      Classes/Scene/StartMenuScene/StartMenuScene.h
      Classes/Scene/EndMenuScene/EndMenuScene.h
+     Classes/Item/Clip/Clip.h
      )
 
 if(ANDROID)

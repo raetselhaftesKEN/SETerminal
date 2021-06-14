@@ -815,6 +815,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\WeaponUI\WeaponUI.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp" />
@@ -834,6 +835,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\WeaponUI\WeaponUI.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp" />
     <ResourceCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\game.rc" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AK47.png" />
@@ -885,7 +887,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER2\walk_up\walk_up3.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER2\walk_up\walk_up4.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MP5.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Particle1.plist" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Reloading.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Health-R.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Health.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Shield-R.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Shield.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\UI-BG.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\UI.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast1.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast2.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast3.png" />
