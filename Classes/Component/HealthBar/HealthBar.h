@@ -39,6 +39,9 @@ protected:
 
 	float rBarShrinkRate = 50;
 
+	float rBarShrinkBoost1 = 1;
+	float rBarShrinkBoost2 = 1;
+
 	//	cocos2d::Label* healthInfo_;
 
 

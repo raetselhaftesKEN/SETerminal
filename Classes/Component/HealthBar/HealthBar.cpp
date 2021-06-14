@@ -9,12 +9,16 @@ HealthBar* HealthBar::create(Character* character)
 		return nullptr;
 	}
 
+	auto sizeOfWin = cocos2d::Director::getInstance()->getWinSize();
+
 	healthBar->sprite_ = cocos2d::Sprite::create("UI/UI-BG.png");
 	healthBar->sprite_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+	
 
 	if (healthBar && healthBar->sprite_)
 	{
 		healthBar->addChild(healthBar->sprite_, 1);
+
 		healthBar->character_ = character;
 		healthBar->curHealth_ = healthBar->character_->health_;
 
@@ -54,7 +58,7 @@ HealthBar* HealthBar::create(Character* character)
 
 		healthBar->setCameraMask(2, true);
 
-		healthBar->schedule(CC_SCHEDULE_SELECTOR(HealthBar::update), 0.1f);
+		healthBar->schedule(CC_SCHEDULE_SELECTOR(HealthBar::update), (1/60));
 		return healthBar;
 	}
 
@@ -77,19 +81,23 @@ void HealthBar::update(float dt)
 
 	if (healthR_->getPercentage() > health_->getPercentage())
 	{
-		healthR_->setPercentage(healthR_->getPercentage() - rBarShrinkRate / 60);
+		healthR_->setPercentage(healthR_->getPercentage() - rBarShrinkRate / 60 * rBarShrinkBoost1);
+		rBarShrinkBoost1 *= 1.1;
 	}
 	else
 	{
 		healthR_->setPercentage(health_->getPercentage());
+		rBarShrinkBoost1 = 1;
 	}
 
 	if (shieldR_->getPercentage() > shield_->getPercentage())
 	{
-		shieldR_->setPercentage(shieldR_->getPercentage() - rBarShrinkRate / 60);
+		shieldR_->setPercentage(shieldR_->getPercentage() - rBarShrinkRate / 60 * rBarShrinkBoost2);
+		rBarShrinkBoost2 *= 1.1;
 	}
 	else
 	{
 		shieldR_->setPercentage(shield_->getPercentage());
+		rBarShrinkBoost2 = 1;
 	}
 }

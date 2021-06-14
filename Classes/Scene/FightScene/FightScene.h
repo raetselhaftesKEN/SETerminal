@@ -12,6 +12,8 @@
 #include "Obstacle/Obstacle.h"
 #include "Component/HealthBar/HealthBar.h"
 #include "Component/WeaponUI/WeaponUI.h"
+#include "Component/Functional/Timer.h"
+#include "Component/Functional/SurvivorCounter.h"
 
 class FightScene : public cocos2d::Scene
 {
@@ -92,6 +94,10 @@ protected:
 	HealthBar* healthBar_ = nullptr;
 
 	WeaponUI* weaponUI_ = nullptr;
+
+	Timer* timer_ = nullptr;
+
+	SurvivorCounter* survivorCounter_ = nullptr;
 
 	bool touchHolding_ = false;
 

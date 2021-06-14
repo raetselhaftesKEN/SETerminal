@@ -34,6 +34,7 @@ protected:
 
 	cocos2d::Label* bulletInfo_;
 	cocos2d::Label* bulletStockInfo;
+	
 };
 
 

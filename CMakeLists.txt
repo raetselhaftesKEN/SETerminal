@@ -71,6 +71,8 @@ list(APPEND GAME_SOURCE
      Classes/Obstacle/Obstacle.cpp
      Classes/Component/CameraEffect/CameraEffect.cpp
      Classes/Component/WeaponUI/WeaponUI.cpp
+     Classes/Component/Functional/Timer.cpp
+     Classes/Component/Functional/SurvivorCounter.cpp
      Classes/Scene/StartMenuScene/StartMenuScene.cpp
      Classes/Scene/EndMenuScene/EndMenuScene.cpp
      )
@@ -91,6 +93,8 @@ list(APPEND GAME_HEADER
      Classes/Obstacle/Obstacle.h
      Classes/Component/CameraEffect/CameraEffect.h
      Classes/Component/WeaponUI/WeaponUI.h
+     Classes/Component/Functional/Timer.h
+     Classes/Component/Functional/SurvivorCounter.h
      Classes/Scene/StartMenuScene/StartMenuScene.h
      Classes/Scene/EndMenuScene/EndMenuScene.h
      )
