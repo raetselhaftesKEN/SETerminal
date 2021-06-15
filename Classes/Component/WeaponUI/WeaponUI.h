@@ -10,11 +10,6 @@
 #include "Character/Player.h"
 
 
-/*
-???б┬????UI
-	@?????иж
-	*/
-
 
 class WeaponUI : public cocos2d::Node
 {
@@ -38,4 +33,3 @@ protected:
 
 
 #endif 
-#pragma once

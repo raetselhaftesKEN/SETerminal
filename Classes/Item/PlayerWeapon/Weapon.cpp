@@ -11,6 +11,58 @@
 #include <string>
 using namespace std::string_literals;
 
+int Weapon::getAccuracy()
+{
+	return Accuracy;
+}
+
+void Weapon::setAccuracy(int accuracy)
+{
+	if (accuracy > 0)
+		Accuracy = accuracy;
+}
+
+float Weapon::getRecoil()
+{
+	return Recoil;
+}
+
+void Weapon::setRecoil(float recoil)
+{
+	if (recoil >= 0)
+		Recoil = recoil;
+}
+
+float Weapon::getRecoiRecoverl()
+{
+	return RecoilRecover;
+}
+void Weapon::setRecoilRecover(float recoilRecover)
+{
+	if(recoilRecover >= 0)
+		RecoilRecover = recoilRecover;
+}
+
+float Weapon::getReloadTime()
+{
+	return ReloadTime;
+}
+void Weapon::setReloadTime(float reloadTime)
+{
+	if (reloadTime >= 0)
+		ReloadTime = reloadTime;
+}
+
+int Weapon::getMagazineSize()
+{
+	return MagazineSize;
+}
+void Weapon::setMagazineSize(int magSize)
+{
+	if (magSize > 0)
+		MagazineSize = magSize;
+}
+
 Weapon* Weapon::create(const std::string& filename)
 {
 	auto weapon = new(std::nothrow) Weapon();
@@ -77,6 +129,7 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());
 					bullet->setPosition(pos);
+					bullet->setBulletAtk(BulletDamage);
 					cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->addChild(bullet, 1);
 					//Îª×Óµ¯ÊµÀý°ó¶¨²¥·Å·¢ÉäµÄ·ÉÐÐ¶¯»­
 					cocos2d::Vec2 Spread;
@@ -201,6 +254,11 @@ void Weapon::ReloadingStatusReset()
 		CanShoot = false;
 		Reload();
 	}
+}
+
+void Weapon::Reset()
+{
+	CurrentMagazine = MagazineSize;
 }
 
 void Weapon::RecoverRecoil(float Boost)

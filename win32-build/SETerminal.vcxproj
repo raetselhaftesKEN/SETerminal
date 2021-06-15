@@ -816,6 +816,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SurvivorCounter.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\Timer.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp" />
@@ -836,9 +838,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SurvivorCounter.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\Timer.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp" />
     <ResourceCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\game.rc" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AK47.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-556.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-762.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-9mm.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseNormal.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseSelected.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultAimPoint.png" />

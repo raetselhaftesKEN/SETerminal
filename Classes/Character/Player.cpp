@@ -38,13 +38,35 @@ Player* Player::create(const std::string& filename)
 		player->bulletFilename_ = "dart.png";
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);
+		player->primaryWeapon_->setPosition(cocos2d::Vec2(10, 0));
+		player->secondaryWeapon_->setPosition(cocos2d::Vec2(10, 0));
 
 		player->primaryWeapon_->Active(true);
 		player->secondaryWeapon_->Active(false);
 
+		//////////////////////////////////////////
+		player->primaryWeapon_->TypeOfBullet = bulletType_::type9mm;
+		player->secondaryWeapon_->BulletDamage = 7;
+		player->secondaryWeapon_->setAccuracy(97);
+		player->secondaryWeapon_->setRecoil(5);
+		player->secondaryWeapon_->setRecoilRecover(100);
+		player->secondaryWeapon_->setMagazineSize(45);
+		player->secondaryWeapon_->setReloadTime(2.5f);
+		player->secondaryWeapon_->Reset();
+
+		player->secondaryWeapon_->TypeOfBullet = bulletType_::type9mm;
+		player->secondaryWeapon_->BulletDamage = 7;
+		player->secondaryWeapon_->setAccuracy(97);
+		player->secondaryWeapon_->setRecoil (5);
+		player->secondaryWeapon_->setRecoilRecover(100);
+		player->secondaryWeapon_->setMagazineSize(45);
+		player->secondaryWeapon_->setReloadTime(2.5f);
+		player->secondaryWeapon_->Reset();
+		//////////////////////////////////////////
+
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);
-		player->secondaryWeapon_->TypeOfBullet = bulletType_::type556;
+
 		player->moveSpeed_ = PLAYER_DEFAULT_MOVE_SPEED;
 		player->health_ = PLAYER_MAX_HEALTH;
 		player->maxHealth_ = PLAYER_MAX_HEALTH;
@@ -377,7 +399,10 @@ void Player::updateWalkingStatus()
 		for (auto i : keyPressed_)
 		{
 			if (i)
+			{
 				curWalkingStatus_ = WalkingStatus::walk;
+				break;
+			}
 		}
 		if (preWalkingStatus_ != curWalkingStatus_)
 		{

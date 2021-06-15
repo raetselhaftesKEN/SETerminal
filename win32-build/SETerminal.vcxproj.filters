@@ -55,6 +55,12 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.cpp">
       <Filter>Source Files\Classes\Item\Clip</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SurvivorCounter.cpp">
+      <Filter>Source Files\Classes\Component\Functional</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\Timer.cpp">
+      <Filter>Source Files\Classes\Component\Functional</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -120,6 +126,12 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.h">
       <Filter>Source Files\Classes\Item\Clip</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SurvivorCounter.h">
+      <Filter>Source Files\Classes\Component\Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\Timer.h">
+      <Filter>Source Files\Classes\Component\Functional</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
     </ClInclude>
@@ -127,6 +139,15 @@
       <Filter>Source Files\proj.win32</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AK47.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-556.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-762.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-9mm.png">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseNormal.png">
@@ -468,6 +489,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Component\CameraEffect">
       <UniqueIdentifier>{F245063A-9D32-3160-A240-804B8900263E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Component\Functional">
+      <UniqueIdentifier>{4B311A76-F9C2-3012-84CB-C211B5525E7D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Component\HealthBar">
       <UniqueIdentifier>{AB0AE64D-1C33-30C7-99CF-0D59F076137C}</UniqueIdentifier>

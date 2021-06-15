@@ -65,7 +65,7 @@ void FightScene::bindPlayer(Player* player)
 	}
 	this->setCamera();
 	this->setOperationListener();
-	this->setWeaponUI();
+	this->setUI();
 }
 
 void FightScene::setCamera()
@@ -88,7 +88,7 @@ void FightScene::setObstacle()
 	}
 }
 
-void FightScene::setWeaponUI()
+void FightScene::setUI()
 {
 	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
 	healthBar_ = HealthBar::create(player_);
@@ -101,6 +101,18 @@ void FightScene::setWeaponUI()
 	weaponUI_->setAnchorPoint(cocos2d::Point(0.5f, 0.f));
 	weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 50));
 	addChild(weaponUI_, 2);
+
+	timer_ = Timer::create();
+	timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
+	timer_->setPosition(cocos2d::Point(0, winSize.height));
+	timer_->setScale(0.3f, 0.3f);
+	addChild(timer_, 2);
+
+	survivorCounter_ = SurvivorCounter::create();
+	survivorCounter_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
+	survivorCounter_->setPosition(cocos2d::Point(200, winSize.height));
+	survivorCounter_->setScale(0.3f, 0.3f);
+	addChild(survivorCounter_, 2);
 }
 
 void FightScene::setOperationListener()

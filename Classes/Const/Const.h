@@ -45,6 +45,7 @@ using namespace std::string_literals;
 #define MONSTER_DEFAULT_MOVE_SPEED 2.f
 #define MEDKIT_DEFAULT_RECOVERABILITY 30
 #define MEDKIT_MAX_NUM 3
+#define BULLET_MAX_NUM 180
 #define DISCARD_ITEM_DISTANCE 60
 #define CLIP_BULLET_NUM 90
 #define GATE_POSITION_XMIN 1440
