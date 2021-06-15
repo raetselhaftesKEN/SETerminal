@@ -1,7 +1,7 @@
 #include "cocos2d.h"
 #include "HealthBar.h"
 
-HealthBar* HealthBar::create(Character* character)
+HealthBar* HealthBar::create(Player* character)
 {
 	auto healthBar = new(std::nothrow) HealthBar();
 	if (healthBar == nullptr)
@@ -14,10 +14,22 @@ HealthBar* HealthBar::create(Character* character)
 	healthBar->sprite_ = cocos2d::Sprite::create("UI/UI-BG.png");
 	healthBar->sprite_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
 	
+	healthBar->medKit1_ = cocos2d::Sprite::create("UI/MedKit1.png");
+	healthBar->medKit1_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+	healthBar->medKit2_ = cocos2d::Sprite::create("UI/MedKit2.png");
+	healthBar->medKit2_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+	healthBar->medKit3_ = cocos2d::Sprite::create("UI/MedKit3.png");
+	healthBar->medKit3_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
 
-	if (healthBar && healthBar->sprite_)
+	if (healthBar && healthBar->sprite_ && healthBar->medKit1_ && healthBar->medKit2_ && healthBar->medKit3_)
 	{
 		healthBar->addChild(healthBar->sprite_, 1);
+		healthBar->addChild(healthBar->medKit1_, 2);
+		healthBar->addChild(healthBar->medKit2_, 2);
+		healthBar->addChild(healthBar->medKit3_, 2);
+		healthBar->medKit1_->setVisible(false);
+		healthBar->medKit2_->setVisible(false);
+		healthBar->medKit3_->setVisible(false);
 
 		healthBar->character_ = character;
 		healthBar->curHealth_ = healthBar->character_->health_;
@@ -99,5 +111,35 @@ void HealthBar::update(float dt)
 	{
 		shieldR_->setPercentage(shield_->getPercentage());
 		rBarShrinkBoost2 = 1;
+	}
+
+	if (medKitCount_ != character_->getMedkitNum())
+	{
+		medKitCount_ = character_->getMedkitNum();
+		switch (medKitCount_)
+		{
+			case 0:
+				medKit1_->setVisible(false);
+				medKit2_->setVisible(false);
+				medKit3_->setVisible(false);
+				break;
+			case 1:
+				medKit1_->setVisible(true);
+				medKit2_->setVisible(false);
+				medKit3_->setVisible(false);
+				break;
+			case 2:
+				medKit1_->setVisible(true);
+				medKit2_->setVisible(true);
+				medKit3_->setVisible(false);
+				break;
+			case 3:
+				medKit1_->setVisible(true);
+				medKit2_->setVisible(true);
+				medKit3_->setVisible(true);
+				break;
+			default:
+				break;
+		}
 	}
 }
