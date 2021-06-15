@@ -17,10 +17,10 @@ class FightScene : public cocos2d::Scene
 {
 public:
 
-	FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle);
+	FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
 
 
-	static FightScene* create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle);
+	static FightScene* create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
 
 
 	cocos2d::Scene* createScene();
@@ -50,7 +50,7 @@ public:
 	void generateMonster(float dt);
 
 
-	void bindNextScene(cocos2d::Layer*);
+	void goToNextScene();
 
 
 	cocos2d::Vector<Obstacle*> getObstacles();
@@ -71,7 +71,7 @@ public:
 	void setDropNode(cocos2d::Node* node);
 	void updateDropNode(float dt);
 
-
+	void update(float dt) override;
 
 
 
@@ -85,8 +85,6 @@ protected:
 
 	cocos2d::Node* dropNode_;
 
-	cocos2d::Layer* nextScene_;
-
 	CameraEffect* mainCamera_;
 
 	HealthBar* healthBar_ = nullptr;
@@ -95,6 +93,9 @@ protected:
 
 	bool touchHolding_ = false;
 
+	int sceneSerial_ = 1;
+
+	bool clear_ = false;
 };
 
 #endif // !__FIGHT_SCENE_H__

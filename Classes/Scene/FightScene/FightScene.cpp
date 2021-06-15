@@ -17,18 +17,17 @@ static void problemLoading(const char* filename)
 
 //cocos2d::Node* FightScene::dropNode_ = nullptr;
 
-FightScene::FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle) : tileMap_(map), obstacle_(obstacle)
+FightScene::FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial) : tileMap_(map), obstacle_(obstacle), sceneSerial_(serial)
 {
 	player_ = nullptr;
 	dropNode_ = nullptr;
-	nextScene_ = nullptr;
 	mainCamera_ = nullptr;
 	touchHolding_ = false;
 };
 
-FightScene* FightScene::create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle)
+FightScene* FightScene::create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial)
 {
-	auto pRet = new(std::nothrow) FightScene(map, obstacle);
+	auto pRet = new(std::nothrow) FightScene(map, obstacle, serial);
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -160,12 +159,20 @@ bool FightScene::init()
 	return true;
 }
 
-void FightScene::bindNextScene(cocos2d::Layer* nextScene)
+void FightScene::goToNextScene()
 {
-	if (nextScene != nullptr && nextScene_ == nullptr)
-	{
-		nextScene_ = nextScene;
-	}
+	auto map = cocos2d::TMXTiledMap::create(std::string("tilemap") + std::to_string(sceneSerial_ + 1) + ".png");
+	map->setPosition(cocos2d::Vec2::ZERO);
+	cocos2d::Vector<Obstacle*> obstacles;
+	FightScene* nextScene = FightScene::create(map, obstacles, sceneSerial_ + 1);
+
+	//TODO: Add obstacles
+
+	player_->retain();
+	player_->removeFromParent();
+	nextScene->bindPlayer(player_);
+	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(2.0f, nextScene->createScene()));
+	
 }
 
 cocos2d::Vector<Obstacle*> FightScene::getObstacles()
@@ -305,5 +312,17 @@ void FightScene::updateDropNode(float dt)
 		auto dropAction = cocos2d::MoveTo::create(0.2f, dropTo);
 		dropNode_->runAction(dropAction);
 		addChild(dropNode_, 2);
+	}
+}
+
+void FightScene::update(float dt)
+{
+	if (player_ != nullptr)
+	{
+		auto pos = player_->getPosition();
+		if (clear_ && pos.x >= GATE_POSITION_XMIN && pos.x <= GATE_POSITION_XMAX && pos.y >= GATE_POSITION_YMIN)
+		{
+			goToNextScene();
+		}
 	}
 }

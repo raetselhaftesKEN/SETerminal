@@ -22,8 +22,10 @@ Clip* Clip::create(bulletType_ typeTag)
 		clip->type_ = typeTag;
 		clip->bulletNum_ = CLIP_BULLET_NUM;
 		clip->Item::isHeld_ = false;
+		clip->sprite_->setScale(0.2f);
 		clip->addChild(clip->Item::sprite_);
-		clip->Item::itemInfo_ = cocos2d::Label::createWithTTF(bulletName[typeTag], "fonts/IRANYekanBold.ttf", 36);
+		clip->Item::itemInfo_ = cocos2d::Label::createWithTTF(bulletName[typeTag], "fonts/IRANYekanBold.ttf", 18);
+		clip->Item::itemInfo_->setPosition(cocos2d::Vec2(0, 18));
 		clip->addChild(clip->Item::itemInfo_, 2);
 		clip->Item::itemInfo_->setTextColor(cocos2d::Color4B(0, 0, 0, 255));
 		clip->Item::itemInfo_->setVisible(false);

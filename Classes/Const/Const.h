@@ -47,6 +47,9 @@ using namespace std::string_literals;
 #define MEDKIT_MAX_NUM 3
 #define DISCARD_ITEM_DISTANCE 60
 #define CLIP_BULLET_NUM 90
+#define GATE_POSITION_XMIN 1440
+#define GATE_POSITION_XMAX 1568
+#define GATE_POSITION_YMIN 3840
 
 enum bulletType_ { type556, type762, type9mm };
 const std::vector<std::string> bulletName{ "Bullet-556", "Bullet-762", "Bullet-9mm" };
