@@ -13,6 +13,8 @@ HealthBar* HealthBar::create(Player* character)
 
 	healthBar->sprite_ = cocos2d::Sprite::create("UI/UI-BG.png");
 	healthBar->sprite_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+	healthBar->bulletBG_ = cocos2d::Sprite::create("UI/BulletBG.png");
+	healthBar->bulletBG_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
 	
 	healthBar->medKit1_ = cocos2d::Sprite::create("UI/MedKit1.png");
 	healthBar->medKit1_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
@@ -24,9 +26,10 @@ HealthBar* HealthBar::create(Player* character)
 	if (healthBar && healthBar->sprite_ && healthBar->medKit1_ && healthBar->medKit2_ && healthBar->medKit3_)
 	{
 		healthBar->addChild(healthBar->sprite_, 1);
+		healthBar->addChild(healthBar->bulletBG_, 2);
 		healthBar->addChild(healthBar->medKit1_, 2);
 		healthBar->addChild(healthBar->medKit2_, 2);
-		healthBar->addChild(healthBar->medKit3_, 2);
+		healthBar->addChild(healthBar->medKit3_, 2);		
 		healthBar->medKit1_->setVisible(false);
 		healthBar->medKit2_->setVisible(false);
 		healthBar->medKit3_->setVisible(false);
@@ -62,10 +65,46 @@ HealthBar* HealthBar::create(Player* character)
 		healthBar->shieldR_->setBarChangeRate(cocos2d::Point(1.f, 0));
 		healthBar->shieldR_->setPercentage(static_cast<float>(healthBar->character_->Character::shield_) / 100 * 100);
 
+		for (int i = 0; i < healthBar->character_->getBulletStock().size(); i++)
+		{
+			healthBar->curBulletStock_.push_back(healthBar->character_->getBulletStock()[i]);
+		}
+
+		healthBar->bullet556_ = cocos2d::ProgressTimer::create(cocos2d::Sprite::create("UI/Bullet556.png"));
+		healthBar->bullet556_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+		healthBar->bullet556_->setType(cocos2d::ProgressTimer::Type::BAR);
+		healthBar->bullet556_->setMidpoint(cocos2d::Point(0.5f, 0));
+		healthBar->bullet556_->setBarChangeRate(cocos2d::Point(0, 1.f));
+		healthBar->bullet556_->setPercentage(static_cast<float>(healthBar->curBulletStock_[bulletType_::type556]) / BULLET_MAX_NUM * 100);
+
+		healthBar->bullet762_ = cocos2d::ProgressTimer::create(cocos2d::Sprite::create("UI/Bullet762.png"));
+		healthBar->bullet762_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+		healthBar->bullet762_->setType(cocos2d::ProgressTimer::Type::BAR);
+		healthBar->bullet762_->setMidpoint(cocos2d::Point(0.5f, 0));
+		healthBar->bullet762_->setBarChangeRate(cocos2d::Point(0, 1.f));
+		healthBar->bullet762_->setPercentage(static_cast<float>(healthBar->curBulletStock_[bulletType_::type762]) / BULLET_MAX_NUM * 100);
+
+		healthBar->bullet9mm_ = cocos2d::ProgressTimer::create(cocos2d::Sprite::create("UI/Bullet9mm.png"));
+		healthBar->bullet9mm_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+		healthBar->bullet9mm_->setType(cocos2d::ProgressTimer::Type::BAR);
+		healthBar->bullet9mm_->setMidpoint(cocos2d::Point(0.5f, 0));
+		healthBar->bullet9mm_->setBarChangeRate(cocos2d::Point(0, 1.f));
+		healthBar->bullet9mm_->setPercentage(static_cast<float>(healthBar->curBulletStock_[bulletType_::type9mm]) / BULLET_MAX_NUM * 100);
+		
+
 		healthBar->addChild(healthBar->health_, 3);
 		healthBar->addChild(healthBar->shield_, 3);
 		healthBar->addChild(healthBar->healthR_, 2);
 		healthBar->addChild(healthBar->shieldR_, 2);
+		healthBar->addChild(healthBar->bullet556_, 3);
+		healthBar->addChild(healthBar->bullet762_, 3);
+		healthBar->addChild(healthBar->bullet9mm_, 3);
+
+		healthBar->bulletBG_->setPosition(cocos2d::Vec2(350, 85));
+		healthBar->bullet556_->setPosition(cocos2d::Vec2(350, 85));
+		healthBar->bullet762_->setPosition(cocos2d::Vec2(350, 85));
+		healthBar->bullet9mm_->setPosition(cocos2d::Vec2(350, 85));
+
 		healthBar->autorelease();
 
 		healthBar->setCameraMask(2, true);
@@ -141,5 +180,21 @@ void HealthBar::update(float dt)
 			default:
 				break;
 		}
+	}
+
+	if (curBulletStock_[bulletType_::type556] != character_->getBulletStock()[bulletType_::type556])
+	{
+		curBulletStock_[bulletType_::type556] = character_->getBulletStock()[bulletType_::type556];
+		bullet556_->setPercentage(static_cast<float>(curBulletStock_[bulletType_::type556]) / BULLET_MAX_NUM * 100);
+	}
+	if (curBulletStock_[bulletType_::type762] != character_->getBulletStock()[bulletType_::type762])
+	{
+		curBulletStock_[bulletType_::type762] = character_->getBulletStock()[bulletType_::type762];
+		bullet762_->setPercentage(static_cast<float>(curBulletStock_[bulletType_::type762]) / BULLET_MAX_NUM * 100);
+	}
+	if (curBulletStock_[bulletType_::type9mm] != character_->getBulletStock()[bulletType_::type9mm])
+	{
+		curBulletStock_[bulletType_::type9mm] = character_->getBulletStock()[bulletType_::type9mm];
+		bullet9mm_->setPercentage(static_cast<float>(curBulletStock_[bulletType_::type9mm]) / BULLET_MAX_NUM * 100);
 	}
 }

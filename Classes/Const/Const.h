@@ -43,6 +43,7 @@
 #define MONSTER_DEFAULT_MOVE_SPEED 2.f
 #define MEDKIT_DEFAULT_RECOVERABILITY 30
 #define MEDKIT_MAX_NUM 3
+#define BULLET_MAX_NUM 180
 #define DISCARD_ITEM_DISTANCE 60
 
 enum bulletType_ { type556, type762, type9mm };

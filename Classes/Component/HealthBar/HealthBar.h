@@ -7,6 +7,7 @@
 
 #include "cocos2d.h"
 #include "Character/Player.h"
+#include "Const/Const.h"
 
 class HealthBar : public cocos2d::Node
 {
@@ -29,11 +30,15 @@ protected:
 
 	int medKitCount_ = 0;
 
+	std::vector<int> curBulletStock_;
+
 	cocos2d::Sprite* medKit1_;
 
 	cocos2d::Sprite* medKit2_;
 
 	cocos2d::Sprite* medKit3_;
+
+	cocos2d::Sprite* bulletBG_;
 
 	cocos2d::ProgressTimer* health_;
 
@@ -42,6 +47,12 @@ protected:
 	cocos2d::ProgressTimer* healthR_;
 
 	cocos2d::ProgressTimer* shieldR_;
+
+	cocos2d::ProgressTimer* bullet556_;
+
+	cocos2d::ProgressTimer* bullet762_;
+
+	cocos2d::ProgressTimer* bullet9mm_;
 
 	float rBarShrinkRate = 50;
 
