@@ -118,7 +118,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     obs2->setPosition(300, 100);
     obs.pushBack(obstacle), obs.pushBack(obs2);
 
-    auto scene = FightScene::create(_tileMap, obs);
+    auto scene = FightScene::create(_tileMap, obs, 1);
     scene->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
     scene->retain();
 

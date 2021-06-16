@@ -98,7 +98,7 @@ public:
 	std::vector<int>& getBulletStock();
 
 	bool isAttacking = false;
-	//是不是处于开挂锁血状态
+
 	bool settingSuperBody_ = false;
 
 

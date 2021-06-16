@@ -20,6 +20,20 @@ public:
 
 	virtual ~Weapon() = default;
 
+	int getAccuracy();
+	void setAccuracy(int accuracy);
+
+	float getRecoil();
+	void setRecoil(float recoil);
+
+	float getRecoiRecoverl();
+	void setRecoilRecover(float recoilRecover);
+
+	float getReloadTime();
+	void setReloadTime(float reloadTime);
+
+	int getMagazineSize();
+	void setMagazineSize(int magSize);
 
 	/**
 * @brief 生成一个Weapon实例
@@ -53,6 +67,7 @@ public:
 
 	void ReloadingStatusReset();
 
+	void Reset();
 	/*
 恢复武器后坐力
 @杨孟臻
@@ -80,27 +95,32 @@ public:
 	PlayerAimPoint* ActiveAimPoint;
 
 	bulletType_ TypeOfBullet = bulletType_::type762;
+
+	float BulletDamage = 12;
+
+	float BulletSpeed = 2000;
+
+
+
 protected:
+
+	int Accuracy = 95;//1-Accuracy是扩散角度
+
+	float Recoil = 15;//准星上弹程度
+
+	float RecoilRecover = 60;//准星回复  
+
+	int MagazineSize = 30;//弹夹容量
+
+	float ReloadTime = 2;//再装填时间
 
 	float ShootingSpeed = 10;//每秒能够attack的次数
 
 	bool CanShoot = true;
 
-	float BulletSpeed = 2000;
-
-	int Accuracy = 95;//1-Accuracy是扩散角度
-
-	float Recoil = 30;//准星上弹程度
-
-	float RecoilRecover = 60;//准星回复  
-
 	float MaxRecoil = 250;
 
-	int MagazineSize = 30;//弹夹容量
-
 	int CurrentMagazine = 30;
-
-	float ReloadTime = 2;//再装填时间
 
 	PlayerAimPoint* MyAimPoint;
 	PlayerAimPoint* ReloadAimPoint;

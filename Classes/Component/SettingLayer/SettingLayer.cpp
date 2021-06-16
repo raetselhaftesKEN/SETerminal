@@ -125,10 +125,11 @@ bool SettingLayer::init()
 	//superBulletButton_->addChild(superBulletLabel_, 2);
 
 	musicButton_ = settingSmallButton(5, 100, "Music.png", "Music");
-	superBodyButton_ = settingSmallButton(205, 100, "Music.png", "Super body");
-	superAccuracyButton_ = settingSmallButton(405, 100, "Music.png", "Accuracy");
-	superBulletButton_ = settingSmallButton(5, 350, "Music.png", "Damage");
-	superDamageButton_ = settingSmallButton(205, 350, "Music.png", "Damage");
+	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "Shoot Music");
+	superBodyButton_ = settingSmallButton(405, 100, "Music.png", "Super body");
+	superAccuracyButton_ = settingSmallButton(5, 350, "Music.png", "Accuracy");
+	superBulletButton_ = settingSmallButton(205, 350, "Music.png", "Bullet");
+	superDamageButton_ = settingSmallButton(405, 350, "Music.png", "Damage");
 
 	return true;
 }
@@ -152,8 +153,7 @@ bool SettingLayer::open()
 	pauseBoardImg_->setCameraMask(2, true);
 
 	closeButton_->addClickEventListener([=](Ref*) {
-		this->setPosition(cocos2d::Vec2(10000, 10000));
-		this->setCameraMask(2, true);
+		this->close();
 	});
 
 	musicButton_->addClickEventListener([&](Ref*) {
@@ -167,6 +167,10 @@ bool SettingLayer::open()
 			cocos2d::AudioEngine::pause(backgroundMusicID_);
 			isBackgroundMusicPlaying_ = false;
 		}
+	});
+
+	shortMusicButton_->addClickEventListener([&](Ref*) {
+		
 	});
 
 	superBodyButton_->addClickEventListener([=](Ref*) {
@@ -184,7 +188,15 @@ bool SettingLayer::open()
 		
 	});
 
+	isOpen = true;
+	return true;
+}
 
+bool SettingLayer::close()
+{
+	pauseBoardImg_->setPosition(10000, 10000);
+	pauseBoardImg_->setCameraMask(2, true);
+	isOpen = false;
 	return true;
 }
 
@@ -199,7 +211,7 @@ cocos2d::ui::Button* SettingLayer::settingSmallButton(float deviationX, float de
 	smallButton->setContentSize(cocos2d::Size(110, 100));
 	pauseBoardImg_->addChild(smallButton, 3);
 	smallButton->addChild(Image, 2);
-	auto label = cocos2d::Label::createWithTTF(texts, "fonts/Marker Felt.ttf", 36);
+	auto label = cocos2d::Label::createWithTTF(texts, "fonts/Marker Felt.ttf", 30);
 	label->setPosition(cocos2d::Vec2(55, -40));
 	smallButton->addChild(label, 2);
 

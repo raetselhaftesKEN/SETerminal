@@ -4,6 +4,8 @@
 
 #ifndef __CONST_H__
 #define __CONST_H__
+#include <vector>
+using namespace std::string_literals;
 
 //masks
 #define MONSTER_CONTACT_MASK 0x03					//0100
@@ -20,6 +22,9 @@
 
 #define ITEM_CONTACT_MASK 0x01							//0001
 #define ITEM_CATEGORY_MASK 0x05						//0101
+
+#define OBSTACLE_CONTACT_MASK 0x0f					//1111
+#define OBSTACLE_CATEGORY_MASK 0x0f				//1111
 
 //tags
 #define PLAYER_TAG 100
@@ -43,9 +48,16 @@
 #define MONSTER_DEFAULT_MOVE_SPEED 2.f
 #define MEDKIT_DEFAULT_RECOVERABILITY 30
 #define MEDKIT_MAX_NUM 3
+#define BULLET_MAX_NUM 180
 #define DISCARD_ITEM_DISTANCE 60
+#define CLIP_BULLET_NUM 90
+#define GATE_POSITION_XMIN 1440
+#define GATE_POSITION_XMAX 1568
+#define GATE_POSITION_YMIN 3840
 
 enum bulletType_ { type556, type762, type9mm };
+const std::vector<std::string> bulletName{ "Bullet-556", "Bullet-762", "Bullet-9mm" };
+
 
 
 #endif  //!__CONST_H__

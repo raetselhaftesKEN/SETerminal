@@ -6,7 +6,6 @@
 #include "Player.h"
 #include "Item/Medkit/Medkit.h"
 #include "Const/Const.h"
-//#include "Scene/HelloWorldScene.h"
 #include "Scene/FightScene/FightScene.h"
 
 static void problemLoading(const char* filename)

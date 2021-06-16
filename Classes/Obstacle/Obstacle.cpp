@@ -19,6 +19,7 @@ Obstacle* Obstacle::create(const std::string& filename)
 	{
 		obstacle->autorelease();
 		obstacle->setTag(OBSTACLE_TAG);
+		obstacle->bindPhysicsBody();
 		return obstacle;
 	}
 
@@ -82,13 +83,20 @@ void Obstacle::collision(Character* targetSprite, bool flag)
 			break;
 		default:
 			break;
-
 		}
-		
-
 	}
-	
-
 }
 
+bool Obstacle::bindPhysicsBody()
+{
+	auto physicsBody = cocos2d::PhysicsBody::createBox(sprite_->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 1.0f, 0.0f));
+	physicsBody->setDynamic(false);
+	physicsBody->setGravityEnable(false);
+	physicsBody->setRotationEnable(false);
+	physicsBody->setContactTestBitmask(OBSTACLE_CONTACT_MASK);
+	physicsBody->setCategoryBitmask(OBSTACLE_CATEGORY_MASK);
+	setPhysicsBody(physicsBody);
+
+	return true;
+}
 

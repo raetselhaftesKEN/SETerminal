@@ -7,6 +7,7 @@
 #include "FightScene.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
+#include "Item/Clip/Clip.h"
 
 static void problemLoading(const char* filename)
 {
@@ -14,20 +15,17 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-//cocos2d::Node* FightScene::dropNode_ = nullptr;
-
-FightScene::FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle) : tileMap_(map), obstacle_(obstacle)
+FightScene::FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial) : tileMap_(map), obstacle_(obstacle), sceneSerial_(serial)
 {
 	player_ = nullptr;
 	dropNode_ = nullptr;
-	nextScene_ = nullptr;
 	mainCamera_ = nullptr;
 	touchHolding_ = false;
 };
 
-FightScene* FightScene::create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle)
+FightScene* FightScene::create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial)
 {
-	auto pRet = new(std::nothrow) FightScene(map, obstacle);
+	auto pRet = new(std::nothrow) FightScene(map, obstacle, serial);
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -65,7 +63,7 @@ void FightScene::bindPlayer(Player* player)
 	}
 	this->setCamera();
 	this->setOperationListener();
-	this->setWeaponUI();
+	this->setUI();
 }
 
 void FightScene::setCamera()
@@ -88,7 +86,7 @@ void FightScene::setObstacle()
 	}
 }
 
-void FightScene::setWeaponUI()
+void FightScene::setUI()
 {
 	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
 	healthBar_ = HealthBar::create(player_);
@@ -101,6 +99,18 @@ void FightScene::setWeaponUI()
 	weaponUI_->setAnchorPoint(cocos2d::Point(0.5f, 0.f));
 	weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 50));
 	addChild(weaponUI_, 2);
+
+	timer_ = Timer::create();
+	timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
+	timer_->setPosition(cocos2d::Point(0, winSize.height));
+	timer_->setScale(0.3f, 0.3f);
+	addChild(timer_, 2);
+
+	survivorCounter_ = SurvivorCounter::create();
+	survivorCounter_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
+	survivorCounter_->setPosition(cocos2d::Point(200, winSize.height));
+	survivorCounter_->setScale(0.3f, 0.3f);
+	addChild(survivorCounter_, 2);
 }
 
 void FightScene::setOperationListener()
@@ -144,6 +154,18 @@ bool FightScene::init()
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);
 
+	auto clipTest1 = Clip::create(bulletType_::type556);
+	clipTest1->setPosition(400, 200);
+	addChild(clipTest1, 1);
+
+	auto clipTest2 = Clip::create(bulletType_::type762);
+	clipTest2->setPosition(700, 600);
+	addChild(clipTest2, 1);
+
+	auto clipTest3 = Clip::create(bulletType_::type9mm);
+	clipTest3->setPosition(100, 600);
+	addChild(clipTest3, 1);
+
 	settingLayer_ = SettingLayer::create();
 	this->addChild(settingLayer_, 5);
 	buildSettingBtn();
@@ -151,12 +173,20 @@ bool FightScene::init()
 	return true;
 }
 
-void FightScene::bindNextScene(cocos2d::Layer* nextScene)
+void FightScene::goToNextScene()
 {
-	if (nextScene != nullptr && nextScene_ == nullptr)
-	{
-		nextScene_ = nextScene;
-	}
+	auto map = cocos2d::TMXTiledMap::create(std::string("tilemap") + std::to_string(sceneSerial_ + 1) + ".png");
+	map->setPosition(cocos2d::Vec2::ZERO);
+	cocos2d::Vector<Obstacle*> obstacles;
+	FightScene* nextScene = FightScene::create(map, obstacles, sceneSerial_ + 1);
+
+	//TODO: Add obstacles
+
+	player_->retain();
+	player_->removeFromParent();
+	nextScene->bindPlayer(player_);
+	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(2.0f, nextScene->createScene()));
+	
 }
 
 cocos2d::Vector<Obstacle*> FightScene::getObstacles()
@@ -223,6 +253,14 @@ bool FightScene::onContactBegan(cocos2d::PhysicsContact& physicsContact)
 		{
 			contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeB), dynamic_cast<Bullet*>(nodeA));
 		}
+		else if ((nodeA->getTag() == PLAYER_BULLET_TAG || nodeA->getTag() == MONSTER_BULLET_TAG) && nodeB->getTag() == OBSTACLE_TAG)
+		{
+			contactBetweenObstacleAndBullet(dynamic_cast<Obstacle*>(nodeB), dynamic_cast<Bullet*> (nodeA));
+		}
+		else if ((nodeB->getTag() == PLAYER_BULLET_TAG || nodeB->getTag() == MONSTER_BULLET_TAG) && nodeA->getTag() == OBSTACLE_TAG)
+		{
+			contactBetweenObstacleAndBullet(dynamic_cast<Obstacle*>(nodeA), dynamic_cast<Bullet*> (nodeB));
+		}
 	}
 
 	return true;
@@ -278,6 +316,14 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 	}
 }
 
+void FightScene::contactBetweenObstacleAndBullet(Obstacle* obstacle, Bullet* bullet)
+{
+	if (obstacle && bullet)
+	{
+		bullet->removeFromParentAndCleanup(true);
+	}
+}
+
 cocos2d::Node* FightScene::getDropNode()
 {
 	return dropNode_;
@@ -299,16 +345,28 @@ void FightScene::updateDropNode(float dt)
 	}
 }
 
+void FightScene::update(float dt)
+{
+	if (player_ != nullptr)
+	{
+		auto pos = player_->getPosition();
+		if (clear_ && pos.x >= GATE_POSITION_XMIN && pos.x <= GATE_POSITION_XMAX && pos.y >= GATE_POSITION_YMIN)
+		{
+			goToNextScene();
+		}
+	}
+}
+
 void FightScene::buildSettingBtn()
 {
-	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png",
-		"Setting/btn_default_pressed.png");
+	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
 	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
 
-	if (btnSetting == nullptr || settingImg == nullptr)
+	auto closeButton = cocos2d::ui::Button::create("close.png", "close_pressed.png");
+
+	if (btnSetting == nullptr || settingImg == nullptr || closeButton == nullptr)
 	{
-		problemLoading("'btn_default.png'");
-		problemLoading("'settings.png'");
+		problemLoading("Button picture");
 	}
 	else
 	{
@@ -320,19 +378,36 @@ void FightScene::buildSettingBtn()
 		settingImg->setPosition(cocos2d::Vec2(60, 40));
 		btnSetting->addClickEventListener([&](Ref*) {
 			cocos2d::log("Setting Pressed!");
+			if (!settingLayer_->isOpen)
+			{
+				settingLayer_->setPosition(0, 0);
+				settingLayer_->open();
+			}
+			else
+			{
+				settingLayer_->close();
+			}
+		}
+		);
 
-			settingLayer_->open();
-
-			settingLayer_->setPosition(0, 0);
-
+		auto closeButtonSize = closeButton->getContentSize();
+		auto runningSceneSize = this->getContentSize();
+		closeButton->setPosition(cocos2d::Vec2(runningSceneSize.width - closeButtonSize.width / 2, runningSceneSize.height - closeButtonSize.height / 2));
+		closeButton->addClickEventListener([&](Ref*) {
+			cocos2d::log("Close Button Pressed!");
+			//cocos2d::Director::getInstance()->end();
+			//cocos2d::Director::getInstance()->replaceScene(startMenu_);
 			}
 		);
+
+
 		//设置始终在镜头左下角
 		btnSetting->setCameraMask(2, true);
 		settingImg->setCameraMask(2, true);
+		closeButton->setCameraMask(2, true);
 	}
 
 	this->addChild(btnSetting, 3);
 	this->addChild(settingImg, 4);
-
+	this->addChild(closeButton, 3);
 }

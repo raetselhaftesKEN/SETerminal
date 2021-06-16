@@ -47,6 +47,12 @@ int Bullet::getBulletAtk()
     return bulletAtk_;
 }
 
+void Bullet::setBulletAtk(int atk)
+{
+    if (atk >= 0)
+        bulletAtk_ = atk;
+}
+
 void Bullet::dieEffect()
 {
 }
