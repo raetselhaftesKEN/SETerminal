@@ -7,6 +7,7 @@
 #define MONSTER_H
 
 #include "cocos2d.h"
+#include "Const/Const.h"
 #include "Character.h"
 
 /**
@@ -24,7 +25,7 @@ public:
 * @author 戴仁杰
 */
 	static Monster* create(const std::string& filename);
-
+	static Monster* create(enemyType_ type);
 
 	/**
 * @brief Monster的移动以及发射子弹函数，未来可以将怪物发射子弹单独独立
@@ -66,7 +67,11 @@ public:
 
 protected:
 
+	float MoveTime;
 
+	int Health;
+
+	int ShootFreq;
 
 };
 

@@ -1,5 +1,4 @@
 ﻿  AppDelegate.cpp
-  Obstacle.cpp
 libchipmunk.lib(chipmunk.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(chipmunk.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(cpBody.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpBody.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样
 libchipmunk.lib(cpSpaceComponent.obj) : warning LNK4099: 未找到 PDB“chipmunk_static.pdb”(使用“libchipmunk.lib(cpSpaceComponent.obj)”或在“D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\chipmunk_static.pdb”中寻找)；正在链接对象，如同没有调试信息一样

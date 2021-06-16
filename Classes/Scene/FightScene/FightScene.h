@@ -12,7 +12,6 @@
 #include "Obstacle/Obstacle.h"
 #include "Component/HealthBar/HealthBar.h"
 #include "Component/WeaponUI/WeaponUI.h"
-#include "Component/Functional/Timer.h"
 #include "Component/Functional/SurvivorCounter.h"
 
 using namespace cocos2d;
@@ -77,7 +76,9 @@ public:
 
 	void update(float dt) override;
 
+	void monsterDestroyed();
 
+	int RemainingSurvivor = 20;
 
 protected:
 
@@ -106,6 +107,9 @@ protected:
 	int sceneSerial_ = 1;
 
 	bool clear_ = false;
+
+	int MonsterToSpawn = 20;
+	int SpawnedMonster = 0;
 };
 
 #endif // !__FIGHT_SCENE_H__

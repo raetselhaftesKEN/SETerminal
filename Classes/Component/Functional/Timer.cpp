@@ -23,7 +23,7 @@ Timer* Timer::create()
 		timer->timeInfo_->setPosition(cocos2d::Vec2(380, -50));
 		timer->addChild(timer->timeInfo_, 2);
 		timer->addChild(timer->timeInfoBG_, 1);
-		
+
 		timer->autorelease();
 
 		timer->setCameraMask(2, true);

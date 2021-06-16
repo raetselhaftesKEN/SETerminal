@@ -7,6 +7,7 @@
 #include "FightScene.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
+#include "Component/Functional/Timer.h"
 #include "Item/Clip/Clip.h"
 
 using namespace cocos2d;
@@ -159,18 +160,6 @@ bool FightScene::init()
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);
 
-	auto clipTest1 = Clip::create(bulletType_::type556);
-	clipTest1->setPosition(400, 200);
-	addChild(clipTest1, 1);
-
-	auto clipTest2 = Clip::create(bulletType_::type762);
-	clipTest2->setPosition(700, 600);
-	addChild(clipTest2, 1);
-
-	auto clipTest3 = Clip::create(bulletType_::type9mm);
-	clipTest3->setPosition(100, 600);
-	addChild(clipTest3, 1);
-
 	return true;
 }
 
@@ -197,15 +186,47 @@ cocos2d::Vector<Obstacle*> FightScene::getObstacles()
 
 void FightScene::generateMonster(float dt)
 {
-	auto monster = Monster::create("MONSTER2/idle_down/idle_down1.png");
-	if (monster == nullptr)
+	if (SpawnedMonster < MonsterToSpawn)
 	{
-		problemLoading("monster.png");
+		int monsterType = rand() % 3;
+		Monster* monster;
+		switch (monsterType)
+		{
+			case 0:
+				monster = Monster::create(enemyType_::Default_Shoot);
+				break;
+			case 1:
+				monster = Monster::create(enemyType_::Default_Shoot_Fast);
+				break;
+			case 2:
+				monster = Monster::create(enemyType_::Default_Shoot_Elite);
+				break;
+			default:
+				break;
+		}
+
+		if (monster == nullptr)
+		{
+			problemLoading("monster.png");
+		}
+		else
+		{
+			addChild(monster, 1);
+			monster->move();
+			SpawnedMonster++;
+		}
+	}
+}
+
+void FightScene::monsterDestroyed()
+{
+	if (RemainingSurvivor > 1)
+	{
+		RemainingSurvivor--;
 	}
 	else
 	{
-		addChild(monster, 1);
-		monster->move();
+		//最后一个怪被消灭，显示结算界面
 	}
 }
 
@@ -312,6 +333,21 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 {
 	if (character && bullet)
 	{
+		////////////////////////////////
+		auto particleSystem = cocos2d::ParticleExplosion::create();
+		particleSystem->setDuration(0.05f);
+		particleSystem->setLife(0.1);
+		particleSystem->setLifeVar(0.05);
+		particleSystem->setScale(0.5f);
+		particleSystem->setSpeed(500);
+		particleSystem->setStartColor(cocos2d::Color4F::RED);
+		particleSystem->setEndColor(cocos2d::Color4F::RED);
+		particleSystem->setStartColorVar(cocos2d::Color4F::BLACK);
+		particleSystem->setEndColorVar(cocos2d::Color4F::BLACK);
+		this->addChild(particleSystem, 10);
+		particleSystem->setPosition(bullet->getPosition());
+		///////////////////////////////
+
 		character->receiveDamage(bullet->getBulletAtk());
 		bullet->removeFromParentAndCleanup(true);
 	}
@@ -321,6 +357,21 @@ void FightScene::contactBetweenObstacleAndBullet(Obstacle* obstacle, Bullet* bul
 {
 	if (obstacle && bullet)
 	{
+		////////////////////////////////
+		auto particleSystem = cocos2d::ParticleExplosion::create();
+		particleSystem->setDuration(0.05f);
+		particleSystem->setLife(0.1);
+		particleSystem->setLifeVar(0.05);
+		particleSystem->setScale(0.5f);
+		particleSystem->setSpeed(500);
+		particleSystem->setStartColor(cocos2d::Color4F::RED);
+		particleSystem->setEndColor(cocos2d::Color4F::RED);
+		particleSystem->setStartColorVar(cocos2d::Color4F::BLACK);
+		particleSystem->setEndColorVar(cocos2d::Color4F::BLACK);
+		this->addChild(particleSystem, 10);
+		particleSystem->setPosition(bullet->getPosition());
+		///////////////////////////////
+
 		bullet->removeFromParentAndCleanup(true);
 	}
 }

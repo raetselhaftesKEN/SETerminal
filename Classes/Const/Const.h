@@ -58,6 +58,8 @@ using namespace std::string_literals;
 enum bulletType_ { type556, type762, type9mm };
 const std::vector<std::string> bulletName{ "Bullet-556", "Bullet-762", "Bullet-9mm" };
 
+enum weaponType_ { AK47, AKM, FAL, M4, MP5, SVD };
 
+enum enemyType_ { Default_Shoot, Default_Shoot_Fast, Default_Shoot_Elite };
 
 #endif  //!__CONST_H__
