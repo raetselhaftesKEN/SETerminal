@@ -205,6 +205,21 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 		{
 			useMedkit();
 		}
+		if (keyCode == K::KEY_ESCAPE)
+		{
+			auto runningScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+			{
+				if (!(runningScene->settingLayer_->isOpen))
+				{
+					runningScene->settingLayer_->setPosition(0, 0);
+					runningScene->settingLayer_->open();
+				}
+				else
+				{
+					runningScene->settingLayer_->close();
+				}
+			}
+		}
 		if (!isAttacking)
 		{
 			if (keyCode == K::KEY_F)
