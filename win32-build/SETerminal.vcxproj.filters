@@ -58,7 +58,7 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SurvivorCounter.cpp">
       <Filter>Source Files\Classes\Component\Functional</Filter>
     </ClCompile>
-    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\Timer.cpp">
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SETimer.cpp">
       <Filter>Source Files\Classes\Component\Functional</Filter>
     </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.cpp">
@@ -132,7 +132,7 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SurvivorCounter.h">
       <Filter>Source Files\Classes\Component\Functional</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\Timer.h">
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SETimer.h">
       <Filter>Source Files\Classes\Component\Functional</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.h">
@@ -155,6 +155,69 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AimPoint\AimPoint3.png">
       <Filter>Resources\AimPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bgm_1Low.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bgm_room.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bulletshells01.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_btn1.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_buy.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_coin.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_ero_hurt.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_fire.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_health_potion.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_hurt.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_ice.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_mon_atk1.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_normal_gun.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_pickup.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_shock.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_shotgun.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_switch.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_sword.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\impacter.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\nihao.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\shoot.mp3">
+      <Filter>Resources\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-556.png">
       <Filter>Resources</Filter>
@@ -196,9 +259,6 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\HelloWorld.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MIKU.zip">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MIKU\idle_down\idle_down1.png">
@@ -329,6 +389,33 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Reloading.png">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\btn_default.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\btn_default_pressed.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\close.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\close_pressed.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\garnish.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\music.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\pause_board.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\settings.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\short_music.png">
+      <Filter>Resources\Setting</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Bullet556.png">
       <Filter>Resources\UI</Filter>
@@ -553,6 +640,9 @@
     <Filter Include="Resources\AimPoint">
       <UniqueIdentifier>{BFBE0452-5961-3462-82EF-59B658F438F1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Audio">
+      <UniqueIdentifier>{7D947B3B-2A9B-3451-872B-C2D7475F05A2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Resources\Bullet">
       <UniqueIdentifier>{C2BE08D4-4F02-3881-B980-A0F14F251FF6}</UniqueIdentifier>
     </Filter>
@@ -609,6 +699,9 @@
     </Filter>
     <Filter Include="Resources\MONSTER2\walk_up">
       <UniqueIdentifier>{0CA13DF4-22FC-362D-9608-3DDB735A0B32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Setting">
+      <UniqueIdentifier>{0A77E131-176E-32FD-9229-D5AAB5295F7D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\UI">
       <UniqueIdentifier>{A32255AB-CBC4-31D4-AAF3-E8A53E3D33EC}</UniqueIdentifier>

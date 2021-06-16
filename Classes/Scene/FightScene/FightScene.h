@@ -13,6 +13,7 @@
 #include "Component/HealthBar/HealthBar.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Component/Functional/SurvivorCounter.h"
+#include "Component/Functional/SETimer.h"
 #include "Component/SettingLayer/SettingLayer.h"
 
 using namespace cocos2d;
@@ -54,11 +55,11 @@ public:
 	void generateMonster(float dt);
 
 
-	void goToNextScene();
-
-
 	cocos2d::Vector<Obstacle*> getObstacles();
 
+
+	static bool isInBound(cocos2d::Vec2);
+	static bool ifCollision(cocos2d::Vec2);
 
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
 	bool onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
@@ -103,15 +104,13 @@ protected:
 
 	WeaponUI* weaponUI_ = nullptr;
 
-	//Timer* timer_ = nullptr;
+	SETimer* timer_ = nullptr;
 
 	SurvivorCounter* survivorCounter_ = nullptr;
 
 	bool touchHolding_ = false;
 
 	int sceneSerial_ = 1;
-
-	bool clear_ = false;
 
 	int MonsterToSpawn = 20;
 	int SpawnedMonster = 0;

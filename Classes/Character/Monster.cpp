@@ -22,20 +22,33 @@ cocos2d::Vec2 Monster::getRandomPosition()
 		return cocos2d::Vec2::ZERO;
 	}
 
-	//为了在Monster类内使用外部的东西，使用以下语句获得当前进行的场景
-	auto runningScene = cocos2d::Director::getInstance()->getRunningScene();
-	auto runningSceneSize = runningScene->getContentSize();
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+	Player* playerNode = nullptr;
+	cocos2d::Vec2 playerPos = cocos2d::Vec2(BOUND_XMID, BOUND_YMID);
+	if (runningScene != nullptr)
+	{
+		playerNode = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
+		playerPos = playerNode->getPosition();
+	}
+
+	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
+	auto orgin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
 	//怪物在屏幕中随机位置出现，计算怪物生成和发射子弹的合法坐标范围
-	auto monsterHeight = sprite_->getContentSize().height;
-	auto monsterWidth = sprite_->getContentSize().width;
-	auto minY = monsterHeight / 2;
-	auto maxY = runningSceneSize.height - monsterHeight / 2;
-	auto minX = monsterWidth / 2;
-	auto maxX = runningSceneSize.width - monsterWidth / 2;
+	
+	auto minY = playerPos.y - winSize.height;
+	auto maxY = playerPos.y + winSize.height;
+	auto minX = playerPos.x - winSize.width;
+	auto maxX = playerPos.x + winSize.width;
 	auto rangeY = maxY - minY;
 	auto rangeX = maxX - minX;
-	position.y = (rand() % static_cast<int>(rangeY)) + minY;
-	position.x = (rand() % static_cast<int>(rangeX)) + minX;
+
+	do
+	{
+		position.y = (rand() % static_cast<int>(rangeY)) + minY;
+		position.x = (rand() % static_cast<int>(rangeX)) + minX;
+	} while (!(FightScene::isInBound(position) && (FightScene::ifCollision(position))));
+
 	return position;
 }
 

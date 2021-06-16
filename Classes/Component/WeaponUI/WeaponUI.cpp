@@ -24,6 +24,10 @@ WeaponUI* WeaponUI::create(Player* player_)
 		weaponUI->bulletStockInfo->setPosition(cocos2d::Vec2(40, 20));
 		weaponUI->bulletStockInfo->setColor(cocos2d::Color3B::GRAY);
 		weaponUI->addChild(weaponUI->bulletStockInfo, 3);
+
+		weaponUI->weaponIcon_ = cocos2d::Sprite::create(weaponUI->player->getPrimaryWeaponInstance()->weaponFilename_);
+		weaponUI->weaponIcon_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+		weaponUI->addChild(weaponUI->weaponIcon_, 3);
 	}
 	else
 	{
@@ -37,7 +41,14 @@ WeaponUI* WeaponUI::create(Player* player_)
 		weaponUI->bulletStockInfo->setPosition(cocos2d::Vec2(40, 20));
 		weaponUI->bulletStockInfo->setColor(cocos2d::Color3B::GRAY);
 		weaponUI->addChild(weaponUI->bulletStockInfo, 3);
+
+		weaponUI->weaponIcon_ = cocos2d::Sprite::create("EmptyHanded.png");
+		weaponUI->weaponIcon_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+		weaponUI->addChild(weaponUI->weaponIcon_, 3);
 	}
+
+	weaponUI->weaponIcon_->setPosition(cocos2d::Vec2(0, 50));
+
 	weaponUI->autorelease();
 	weaponUI->schedule(CC_SCHEDULE_SELECTOR(WeaponUI::update), 0.1f);
 
@@ -66,6 +77,16 @@ void WeaponUI::update(float dt)
 		bulletInMagazine_ = 0;
 		bulletInStock_ = 0;
 	}
+
+	if (player->getPrimaryWeaponInstance() != nullptr)
+	{
+		weaponIcon_->setTexture(player->getPrimaryWeaponInstance()->weaponFilename_);
+	}
+	else
+	{
+		weaponIcon_->setTexture("EmptyHanded.png");
+	}
+
 	bulletInfo_->setString(std::to_string(bulletInMagazine_));
 	bulletStockInfo->setString(std::to_string(bulletInStock_));
 }

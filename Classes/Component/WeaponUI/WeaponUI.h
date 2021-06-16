@@ -27,6 +27,8 @@ protected:
 	int bulletInMagazine_ = 0;
 	int bulletInStock_ = 0;
 
+	cocos2d::Sprite* weaponIcon_;
+
 	cocos2d::Label* bulletInfo_;
 	cocos2d::Label* bulletStockInfo;
 };

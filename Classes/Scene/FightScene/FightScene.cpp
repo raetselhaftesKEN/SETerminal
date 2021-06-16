@@ -7,7 +7,6 @@
 #include "FightScene.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
-#include "Component/Functional/Timer.h"
 #include "Item/Clip/Clip.h"
 
 using namespace cocos2d;
@@ -104,11 +103,11 @@ void FightScene::setUI()
 	weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 50));
 	addChild(weaponUI_, 2);
 
-	//timer_ = Timer::create();
-	//timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
-	//timer_->setPosition(cocos2d::Point(0, winSize.height));
-	//timer_->setScale(0.3f, 0.3f);
-	//addChild(timer_, 2);
+	timer_ = SETimer::create();
+	timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
+	timer_->setPosition(cocos2d::Point(0, winSize.height));
+	timer_->setScale(0.3f, 0.3f);
+	addChild(timer_, 2);
 
 	survivorCounter_ = SurvivorCounter::create();
 	survivorCounter_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
@@ -167,25 +166,29 @@ bool FightScene::init()
 	return true;
 }
 
-void FightScene::goToNextScene()
-{
-	//auto map = cocos2d::TMXTiledMap::create(std::string("tilemap") + std::to_string(sceneSerial_ + 1) + ".png");
-	//map->setPosition(cocos2d::Vec2::ZERO);
-	//cocos2d::Vector<Obstacle*> obstacles;
-	//FightScene* nextScene = FightScene::create(map, obstacles, sceneSerial_ + 1);
-
-	//TODO: Add obstacles
-
-	//player_->retain();
-	//player_->removeFromParent();
-	//nextScene->bindPlayer(player_);
-	//cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(2.0f, nextScene->createScene()));
-	
-}
-
 cocos2d::Vector<Obstacle*> FightScene::getObstacles()
 {
 	return obstacle_;
+}
+
+bool FightScene::isInBound(cocos2d::Vec2 pos)
+{
+	return ((pos.x >= BOUND_XMIN && pos.x <= BOUND_XMAX) && (pos.y >= BOUND_YMIN && pos.y <= BOUND_YMAX));
+}
+
+bool FightScene::ifCollision(cocos2d::Vec2 pos)
+{
+	auto runningScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+	for (auto i : runningScene->getObstacles())
+	{
+		auto obsPos = i->getPosition();
+		auto obsSize = i->getSize();
+		if (fabs(obsPos.x - pos.x) < (obsSize.width / 2) && fabs(obsPos.y - pos.y) < (obsSize.height / 2))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void FightScene::generateMonster(float dt)
@@ -193,7 +196,7 @@ void FightScene::generateMonster(float dt)
 	if (SpawnedMonster < MonsterToSpawn)
 	{
 		int monsterType = rand() % 3;
-		Monster* monster;
+		Monster* monster = nullptr;
 		switch (monsterType)
 		{
 			case 0:
@@ -403,14 +406,7 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
-	if (player_ != nullptr)
-	{
-		auto pos = player_->getPosition();
-		if (clear_ && pos.x >= GATE_POSITION_XMIN && pos.x <= GATE_POSITION_XMAX && pos.y >= GATE_POSITION_YMIN)
-		{
-			goToNextScene();
-		}
-	}
+
 }
 
 void FightScene::buildSettingBtn()
