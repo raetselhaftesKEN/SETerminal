@@ -7,7 +7,6 @@
 #include "FightScene.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
-#include "Component/Functional/Timer.h"
 #include "Item/Clip/Clip.h"
 
 using namespace cocos2d;
@@ -104,11 +103,11 @@ void FightScene::setUI()
 	weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 50));
 	addChild(weaponUI_, 2);
 
-	//timer_ = Timer::create();
-	//timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
-	//timer_->setPosition(cocos2d::Point(0, winSize.height));
-	//timer_->setScale(0.3f, 0.3f);
-	//addChild(timer_, 2);
+	timer_ = SETimer::create();
+	timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
+	timer_->setPosition(cocos2d::Point(0, winSize.height));
+	timer_->setScale(0.3f, 0.3f);
+	addChild(timer_, 2);
 
 	survivorCounter_ = SurvivorCounter::create();
 	survivorCounter_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);

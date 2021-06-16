@@ -13,6 +13,7 @@
 #include "Component/HealthBar/HealthBar.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Component/Functional/SurvivorCounter.h"
+#include "Component/Functional/SETimer.h"
 
 using namespace cocos2d;
 
@@ -98,7 +99,7 @@ protected:
 
 	WeaponUI* weaponUI_ = nullptr;
 
-	//Timer* timer_ = nullptr;
+	SETimer* timer_ = nullptr;
 
 	SurvivorCounter* survivorCounter_ = nullptr;
 

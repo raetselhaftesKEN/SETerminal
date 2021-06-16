@@ -1,18 +1,18 @@
 /**
-* @file Timer.h
+* @file SETimer.h
 */
 
-#ifndef __TIMER_H__
-#define __TIMER_H__
+#ifndef __SETIMER_H__
+#define __SETIMER_H__
 
 #include "cocos2d.h"
 
-class Timer : public cocos2d::Node
+class SETimer : public cocos2d::Node
 {
 public:
 
 
-	static Timer* create();
+	static SETimer* create();
 
 
 	void update(float dt);
@@ -27,4 +27,4 @@ protected:
 
 };
 
-#endif // !__TIMER_H__
+#endif // !__SETIMER_H__
