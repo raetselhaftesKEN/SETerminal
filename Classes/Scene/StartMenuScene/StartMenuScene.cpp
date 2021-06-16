@@ -82,7 +82,7 @@ bool StartMenuScene::init()
 
 void StartMenuScene::startCallback(cocos2d::Ref* pSender)
 {
-	cocos2d::Director::getInstance()->replaceScene(/*cocos2d::TransitionSlideInT::create(0.2f, firstFightScene_)*/firstFightScene_);
+	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(0.2f, firstFightScene_));
 }
 
 void StartMenuScene::exitCallback(cocos2d::Ref* pSender)

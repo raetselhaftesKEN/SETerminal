@@ -12,17 +12,18 @@
 #include "Obstacle/Obstacle.h"
 #include "Component/HealthBar/HealthBar.h"
 #include "Component/WeaponUI/WeaponUI.h"
-#include "Component/Functional/Timer.h"
 #include "Component/Functional/SurvivorCounter.h"
+
+using namespace cocos2d;
 
 class FightScene : public cocos2d::Scene
 {
 public:
 
-	FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle);
+	FightScene(TMXTiledMap*, TMXTiledMap*, TMXTiledMap*, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
 
 
-	static FightScene* create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle);
+	static FightScene* create(TMXTiledMap*, TMXTiledMap*, TMXTiledMap*, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
 
 
 	cocos2d::Scene* createScene();
@@ -37,7 +38,7 @@ public:
 	void setObstacle();
 
 
-	void setWeaponUI();
+	void setUI();
 
 
 	void setOperationListener();
@@ -52,7 +53,7 @@ public:
 	void generateMonster(float dt);
 
 
-	void bindNextScene(cocos2d::Layer*);
+	void goToNextScene();
 
 
 	cocos2d::Vector<Obstacle*> getObstacles();
@@ -73,16 +74,17 @@ public:
 	void setDropNode(cocos2d::Node* node);
 	void updateDropNode(float dt);
 
+	void update(float dt) override;
+
 	void monsterDestroyed();
 
 	int RemainingSurvivor = 20;
 
 protected:
 
-	int MonsterToSpawn = 20;
-	int SpawnedMonster = 0;
-
-	cocos2d::TMXTiledMap* tileMap_;
+	cocos2d::TMXTiledMap* tileMap1_;
+	cocos2d::TMXTiledMap* tileMap2_;
+	cocos2d::TMXTiledMap* tileMap3_;
 
 	cocos2d::Vector<Obstacle*> obstacle_;
 
@@ -90,20 +92,24 @@ protected:
 
 	cocos2d::Node* dropNode_;
 
-	cocos2d::Layer* nextScene_;
-
 	CameraEffect* mainCamera_;
 
 	HealthBar* healthBar_ = nullptr;
 
 	WeaponUI* weaponUI_ = nullptr;
 
-	Timer* timer_ = nullptr;
+	//Timer* timer_ = nullptr;
 
 	SurvivorCounter* survivorCounter_ = nullptr;
 
 	bool touchHolding_ = false;
 
+	int sceneSerial_ = 1;
+
+	bool clear_ = false;
+
+	int MonsterToSpawn = 20;
+	int SpawnedMonster = 0;
 };
 
 #endif // !__FIGHT_SCENE_H__

@@ -20,18 +20,29 @@ public:
 
 	virtual ~Weapon() = default;
 
+	int getAccuracy();
+	void setAccuracy(int accuracy);
+
+	float getRecoil();
+	void setRecoil(float recoil);
+
+	float getRecoiRecoverl();
+	void setRecoilRecover(float recoilRecover);
+
+	float getReloadTime();
+	void setReloadTime(float reloadTime);
+
+	int getMagazineSize();
+	void setMagazineSize(int magSize);
 
 	/**
 * @brief 生成一个Weapon实例
 * @param Weapon实例对应的素材文件名
 * @return 指向该Weapon实例的指针
-* @孟宇
+* @孟宇、杨孟臻
 */
 	static Weapon* create(const std::string& filename);
-
-
-	static Weapon* Weapon::create(weaponType_ type);
-
+	static Weapon* create(weaponType_ type);
 	/*
 	设定武器是否装备为主武器
 	@杨孟臻
@@ -77,6 +88,8 @@ public:
 	PlayerAimPoint* getReloadAimPoint();
 	void setReloadAimPoint(PlayerAimPoint*);
 
+	std::string weaponFilename_;
+
 	std::string bulletFilename_;	//武器所使用的子弹
 
 	std::string aimPointFilename_;  //准星名称
@@ -89,6 +102,10 @@ public:
 
 	float BulletSpeed = 2000;
 
+
+
+protected:
+
 	int Accuracy = 95;//1-Accuracy是扩散角度
 
 	float Recoil = 15;//准星上弹程度
@@ -98,16 +115,14 @@ public:
 	int MagazineSize = 30;//弹夹容量
 
 	float ReloadTime = 2;//再装填时间
-protected:
 
 	float ShootingSpeed = 10;//每秒能够attack的次数
 
-	bool CanShoot = true;	
-	
-	float MaxRecoil = 250;	
+	bool CanShoot = true;
+
+	float MaxRecoil = 250;
 
 	int CurrentMagazine = 30;
-	
 
 	PlayerAimPoint* MyAimPoint;
 	PlayerAimPoint* ReloadAimPoint;

@@ -44,7 +44,7 @@ void Monster::receiveDamage(int damage)
 	int realDamage = static_cast<int>(damage * (1 - shield_));
 	if (realDamage >= health_)
 	{
-		
+
 		dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG))->monsterDestroyed();
 
 		die();
@@ -122,7 +122,7 @@ void Monster::move() {
 				auto eDartRemove = cocos2d::RemoveSelf::create();
 				enemyBullet->runAction(cocos2d::Sequence::create(eDartMove, eDartRemove, nullptr));
 			}
-		}		
+		}
 		});
 	//¹ÖÎï·¢Éä×Óµ¯Ê±ÂÔÎ¢Í£¶Ù
 	auto delay = cocos2d::DelayTime::create(0.1);
@@ -132,7 +132,7 @@ void Monster::move() {
 }
 
 void Monster::die()
-{	
+{
 	int dropItem = rand() % 10;
 	if (dropItem == 9)
 	{
@@ -247,7 +247,7 @@ Monster* Monster::create(enemyType_ type)
 				return nullptr;
 				break;
 		}
-		
+
 		monster->health_ = monster->Health;
 		monster->maxHealth_ = monster->Health;
 		monster->shield_ = MONSTER_DEFAULT_SHIELD;

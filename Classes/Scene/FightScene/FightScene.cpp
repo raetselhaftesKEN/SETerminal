@@ -7,6 +7,10 @@
 #include "FightScene.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
+#include "Component/Functional/Timer.h"
+#include "Item/Clip/Clip.h"
+
+using namespace cocos2d;
 
 static void problemLoading(const char* filename)
 {
@@ -14,20 +18,18 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-//cocos2d::Node* FightScene::dropNode_ = nullptr;
-
-FightScene::FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle) : tileMap_(map), obstacle_(obstacle)
+FightScene::FightScene(TMXTiledMap* map1, TMXTiledMap* map2, TMXTiledMap* map3, const Vector<Obstacle*>& obstacle, const int& serial)
+	: tileMap1_(map1), tileMap2_(map2), tileMap3_(map3), obstacle_(obstacle), sceneSerial_(serial)
 {
 	player_ = nullptr;
 	dropNode_ = nullptr;
-	nextScene_ = nullptr;
 	mainCamera_ = nullptr;
 	touchHolding_ = false;
 };
 
-FightScene* FightScene::create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle)
+FightScene* FightScene::create(TMXTiledMap* map1, TMXTiledMap* map2, TMXTiledMap* map3, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial)
 {
-	auto pRet = new(std::nothrow) FightScene(map, obstacle);
+	auto pRet = new(std::nothrow) FightScene(map1, map2, map3, obstacle, serial);
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -65,7 +67,7 @@ void FightScene::bindPlayer(Player* player)
 	}
 	this->setCamera();
 	this->setOperationListener();
-	this->setWeaponUI();
+	this->setUI();
 }
 
 void FightScene::setCamera()
@@ -88,7 +90,7 @@ void FightScene::setObstacle()
 	}
 }
 
-void FightScene::setWeaponUI()
+void FightScene::setUI()
 {
 	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
 	healthBar_ = HealthBar::create(player_);
@@ -102,18 +104,17 @@ void FightScene::setWeaponUI()
 	weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 50));
 	addChild(weaponUI_, 2);
 
-	timer_ = Timer::create();
-	timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
-	timer_->setPosition(cocos2d::Point(0, winSize.height));
-	timer_->setScale(0.3f, 0.3f);
-	addChild(timer_, 2);
+	//timer_ = Timer::create();
+	//timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
+	//timer_->setPosition(cocos2d::Point(0, winSize.height));
+	//timer_->setScale(0.3f, 0.3f);
+	//addChild(timer_, 2);
 
 	survivorCounter_ = SurvivorCounter::create();
 	survivorCounter_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
 	survivorCounter_->setPosition(cocos2d::Point(200, winSize.height));
 	survivorCounter_->setScale(0.3f, 0.3f);
 	addChild(survivorCounter_, 2);
-	
 }
 
 void FightScene::setOperationListener()
@@ -151,7 +152,9 @@ bool FightScene::init()
 		return false;
 	}
 	this->setTag(FIGHT_SCENE_TAG);
-	this->addChild(tileMap_, 0);
+	this->addChild(tileMap1_, 0);
+	this->addChild(tileMap2_, 0);
+	this->addChild(tileMap3_, 0);
 	this ->setObstacle();
 	this->setPhysicsListener();
 
@@ -160,12 +163,20 @@ bool FightScene::init()
 	return true;
 }
 
-void FightScene::bindNextScene(cocos2d::Layer* nextScene)
+void FightScene::goToNextScene()
 {
-	if (nextScene != nullptr && nextScene_ == nullptr)
-	{
-		nextScene_ = nextScene;
-	}
+	//auto map = cocos2d::TMXTiledMap::create(std::string("tilemap") + std::to_string(sceneSerial_ + 1) + ".png");
+	//map->setPosition(cocos2d::Vec2::ZERO);
+	//cocos2d::Vector<Obstacle*> obstacles;
+	//FightScene* nextScene = FightScene::create(map, obstacles, sceneSerial_ + 1);
+
+	//TODO: Add obstacles
+
+	//player_->retain();
+	//player_->removeFromParent();
+	//nextScene->bindPlayer(player_);
+	//cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(2.0f, nextScene->createScene()));
+	
 }
 
 cocos2d::Vector<Obstacle*> FightScene::getObstacles()
@@ -193,7 +204,7 @@ void FightScene::generateMonster(float dt)
 			default:
 				break;
 		}
-		
+
 		if (monster == nullptr)
 		{
 			problemLoading("monster.png");
@@ -256,13 +267,21 @@ bool FightScene::onContactBegan(cocos2d::PhysicsContact& physicsContact)
 		}
 		else if ((nodeA->getTag() == PLAYER_TAG || nodeA->getTag() == MONSTER_TAG)
 			&& (nodeB->getTag() == PLAYER_BULLET_TAG || nodeB->getTag() == MONSTER_BULLET_TAG))
-		{			
+		{
 			contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeA), dynamic_cast<Bullet*>(nodeB));
 		}
 		else if ((nodeA->getTag() == PLAYER_BULLET_TAG || nodeA->getTag() == MONSTER_BULLET_TAG)
 			&& (nodeB->getTag() == PLAYER_TAG || nodeB->getTag() == MONSTER_TAG))
 		{
 			contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeB), dynamic_cast<Bullet*>(nodeA));
+		}
+		else if ((nodeA->getTag() == PLAYER_BULLET_TAG || nodeA->getTag() == MONSTER_BULLET_TAG) && nodeB->getTag() == OBSTACLE_TAG)
+		{
+			contactBetweenObstacleAndBullet(dynamic_cast<Obstacle*>(nodeB), dynamic_cast<Bullet*> (nodeA));
+		}
+		else if ((nodeB->getTag() == PLAYER_BULLET_TAG || nodeB->getTag() == MONSTER_BULLET_TAG) && nodeA->getTag() == OBSTACLE_TAG)
+		{
+			contactBetweenObstacleAndBullet(dynamic_cast<Obstacle*>(nodeA), dynamic_cast<Bullet*> (nodeB));
 		}
 	}
 
@@ -326,10 +345,33 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		particleSystem->setStartColorVar(cocos2d::Color4F::BLACK);
 		particleSystem->setEndColorVar(cocos2d::Color4F::BLACK);
 		this->addChild(particleSystem, 10);
-		particleSystem->setPosition(character->getPosition());
+		particleSystem->setPosition(bullet->getPosition());
 		///////////////////////////////
 
 		character->receiveDamage(bullet->getBulletAtk());
+		bullet->removeFromParentAndCleanup(true);
+	}
+}
+
+void FightScene::contactBetweenObstacleAndBullet(Obstacle* obstacle, Bullet* bullet)
+{
+	if (obstacle && bullet)
+	{
+		////////////////////////////////
+		auto particleSystem = cocos2d::ParticleExplosion::create();
+		particleSystem->setDuration(0.05f);
+		particleSystem->setLife(0.1);
+		particleSystem->setLifeVar(0.05);
+		particleSystem->setScale(0.5f);
+		particleSystem->setSpeed(500);
+		particleSystem->setStartColor(cocos2d::Color4F::RED);
+		particleSystem->setEndColor(cocos2d::Color4F::RED);
+		particleSystem->setStartColorVar(cocos2d::Color4F::BLACK);
+		particleSystem->setEndColorVar(cocos2d::Color4F::BLACK);
+		this->addChild(particleSystem, 10);
+		particleSystem->setPosition(bullet->getPosition());
+		///////////////////////////////
+
 		bullet->removeFromParentAndCleanup(true);
 	}
 }
@@ -352,5 +394,17 @@ void FightScene::updateDropNode(float dt)
 		auto dropAction = cocos2d::MoveTo::create(0.2f, dropTo);
 		dropNode_->runAction(dropAction);
 		addChild(dropNode_, 2);
+	}
+}
+
+void FightScene::update(float dt)
+{
+	if (player_ != nullptr)
+	{
+		auto pos = player_->getPosition();
+		if (clear_ && pos.x >= GATE_POSITION_XMIN && pos.x <= GATE_POSITION_XMAX && pos.y >= GATE_POSITION_YMIN)
+		{
+			goToNextScene();
+		}
 	}
 }

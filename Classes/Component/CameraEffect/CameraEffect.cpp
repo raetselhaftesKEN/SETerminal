@@ -33,20 +33,9 @@ CameraEffect* CameraEffect::create(cocos2d::Scene* scene)
 	newUICamera->setDepth(2);
 	scene->addChild(newUICamera);
 	camera->UICameraInstance = newUICamera;
-
-	/*cocos2d::Camera* newMiniMapCamera = Camera::createOrthographic(sizeOfWin.width, sizeOfWin.height, 0, 1);
-	cocos2d::Viewport Vp;
-	Vp.h = 0;
-	Vp.w = 0;
-	Vp.x = 0;
-	Vp.y = 0;
-	newMiniMapCamera->setDefaultViewport(Vp);
-	newMiniMapCamera->setCameraFlag(cocos2d::CameraFlag::DEFAULT);
-	newMiniMapCamera->setPosition3D(cocos2d::Vec3(0, 0, 0));
-	newMiniMapCamera->setDepth(3);
-	scene->addChild(newMiniMapCamera);
-	camera->MiniMapCameraInstance = newMiniMapCamera;	*/
 	
+	
+
 	camera->retain();
 	camera->autorelease();
 	camera->schedule(CC_SCHEDULE_SELECTOR(CameraEffect::update), 0.1f);

@@ -11,6 +11,58 @@
 #include <string>
 using namespace std::string_literals;
 
+int Weapon::getAccuracy()
+{
+	return Accuracy;
+}
+
+void Weapon::setAccuracy(int accuracy)
+{
+	if (accuracy > 0)
+		Accuracy = accuracy;
+}
+
+float Weapon::getRecoil()
+{
+	return Recoil;
+}
+
+void Weapon::setRecoil(float recoil)
+{
+	if (recoil >= 0)
+		Recoil = recoil;
+}
+
+float Weapon::getRecoiRecoverl()
+{
+	return RecoilRecover;
+}
+void Weapon::setRecoilRecover(float recoilRecover)
+{
+	if(recoilRecover >= 0)
+		RecoilRecover = recoilRecover;
+}
+
+float Weapon::getReloadTime()
+{
+	return ReloadTime;
+}
+void Weapon::setReloadTime(float reloadTime)
+{
+	if (reloadTime >= 0)
+		ReloadTime = reloadTime;
+}
+
+int Weapon::getMagazineSize()
+{
+	return MagazineSize;
+}
+void Weapon::setMagazineSize(int magSize)
+{
+	if (magSize > 0)
+		MagazineSize = magSize;
+}
+
 Weapon* Weapon::create(const std::string& filename)
 {
 	auto weapon = new(std::nothrow) Weapon();
@@ -19,6 +71,7 @@ Weapon* Weapon::create(const std::string& filename)
 		return nullptr;
 	}
 	weapon->bindPictureSprite(cocos2d::Sprite::create(filename));
+	weapon->weaponFilename_ = filename;
 
 	if (weapon && weapon->sprite_)
 	{
@@ -33,8 +86,7 @@ Weapon* Weapon::create(const std::string& filename)
 		weapon->MyAimPoint->retain();
 		weapon->ReloadAimPoint->retain();
 
-//		weapon->MyAimPoint->setScale(3, 3);
-//		weapon->ReloadAimPoint->setScale(3, 3);
+
 
 		weapon->MyAimPoint->setVisible(true);
 		weapon->ReloadAimPoint->setVisible(false);
@@ -79,7 +131,7 @@ Weapon* Weapon::create(weaponType_ type)
 			return nullptr;
 			break;
 	}
-
+	weapon->weaponFilename_ = filename;
 	weapon->bindPictureSprite(cocos2d::Sprite::create(filename));
 
 	if (weapon && weapon->sprite_)
@@ -177,7 +229,7 @@ Weapon* Weapon::create(weaponType_ type)
 				return nullptr;
 				break;
 		}
-		
+
 
 		weapon->MyAimPoint = PlayerAimPoint::create(weapon->aimPointFilename_);
 		weapon->ReloadAimPoint = PlayerAimPoint::create("Reloading.png");
@@ -228,7 +280,7 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());
 					bullet->setPosition(pos);
-					bullet->bulletAtk_ = BulletDamage;
+					bullet->setBulletAtk(BulletDamage);
 					cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->addChild(bullet, 1);
 					//Îª×Óµ¯ÊµÀý°ó¶¨²¥·Å·¢ÉäµÄ·ÉÐÐ¶¯»­
 					cocos2d::Vec2 Spread;
@@ -245,6 +297,7 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 				});
 			auto delay = cocos2d::DelayTime::create(1 / ShootingSpeed);
 			this->runAction(cocos2d::Sequence::create(shoot, delay, recover, nullptr));
+
 			ReloadAimPoint->RecoilStatus += Recoil;
 			MyAimPoint->RecoilStatus += Recoil;//ºó×øÁ¦µþ¼Ó
 			if (ReloadAimPoint->RecoilStatus > 250)

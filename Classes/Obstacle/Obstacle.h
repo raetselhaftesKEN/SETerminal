@@ -18,7 +18,6 @@ public:
 */
 	static Obstacle* create(const std::string& filename);
 
-	static Obstacle* create(cocos2d::Rect rect);
 	/**
 * @brief 设置该物体不能被走上去
 *@param 发生碰撞的物体指针，是否让该函数生效(默认生效)
@@ -30,6 +29,13 @@ public:
 * @param 指向被绑定给物品对象的精灵
 */
 	void bindPictureSprite(cocos2d::Sprite* sprite);
+
+
+	bool bindPhysicsBody();
+
+
+	static cocos2d::Vector<Obstacle*> createObsSet(const int& serial);
+
 
 protected:
 

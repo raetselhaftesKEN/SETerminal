@@ -13,7 +13,7 @@ class HealthBar : public cocos2d::Node
 {
 public:
 
- 	static HealthBar* create(Player* character);
+	static HealthBar* create(Player* character);
 
 	void update(float dt);
 

@@ -7,8 +7,8 @@
 #define MONSTER_H
 
 #include "cocos2d.h"
-#include "Character.h"
 #include "Const/Const.h"
+#include "Character.h"
 
 /**
 *@brief 怪物类
@@ -22,7 +22,7 @@ public:
 * @brief 生成一个Monster实例
 * @param Monster实例对应的素材文件名
 * @return 指向该Monster实例的指针
-* @author 戴仁杰
+* @author 戴仁杰、杨孟臻
 */
 	static Monster* create(const std::string& filename);
 	static Monster* create(enemyType_ type);
@@ -30,7 +30,7 @@ public:
 	/**
 * @brief Monster的移动以及发射子弹函数，未来可以将怪物发射子弹单独独立
 * @return 无
-* @author 戴仁杰
+* @author 戴仁杰、杨孟臻
 */
 	void Monster::move();
 
@@ -72,6 +72,7 @@ protected:
 	int Health;
 
 	int ShootFreq;
+
 };
 
 

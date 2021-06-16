@@ -19,6 +19,7 @@ public:
 	virtual ~Bullet() = default;
 
 	int getBulletAtk();
+	void setBulletAtk(int atk);
 
 	//生成一个Bullet实例
 	static Bullet* create(const std::string& filename);
@@ -37,7 +38,8 @@ public:
 
 	virtual void interact(){}
 
-	float bulletAtk_ = 10.f;
+
+
 
 protected:
 
@@ -45,9 +47,7 @@ protected:
 
 	float bulletRange_;									//子弹最大飞行距离
 
-	
-
-	//待更新子弹攻击力等
+	float bulletAtk_ = 10.f;
 };
 
 #endif // !__BULLET_H__

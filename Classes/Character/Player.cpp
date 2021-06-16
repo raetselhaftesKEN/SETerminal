@@ -21,19 +21,19 @@ Player* Player::create(const std::string& filename)
 	if (player && player->sprite_)
 	{
 		//设置角色初始位置
-		player->setPosition(cocos2d::Vec2(50, 50));
+		player->setPosition(cocos2d::Vec2(2048, 960));
 		//标记角色
 		player->setTag(PLAYER_TAG);
 
 		player->bindCharacterAnimate("MIKU", 0.1f);
 
 		//初始化角色武器和弹药
-		player->primaryWeapon_ = Weapon::create(weaponType_::FAL);
+		player->primaryWeapon_ = Weapon::create(weaponType_::AKM);
 		player->primaryWeapon_->Item::pickUp();
 		player->secondaryWeapon_ = Weapon::create(weaponType_::MP5);
 		player->secondaryWeapon_->Item::pickUp();
 		player->primaryWeapon_->setScale(0.3f, 0.3f);
-		player->secondaryWeapon_->setScale(0.3f, 0.3f);		
+		player->secondaryWeapon_->setScale(0.3f, 0.3f);
 
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);
@@ -43,8 +43,13 @@ Player* Player::create(const std::string& filename)
 		player->primaryWeapon_->Active(true);
 		player->secondaryWeapon_->Active(false);
 
+		//////////////////////////////////////////
+
+		//////////////////////////////////////////
+
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
-		player->secondaryWeapon_->setVisible(false);		
+		player->secondaryWeapon_->setVisible(false);
+
 		player->moveSpeed_ = PLAYER_DEFAULT_MOVE_SPEED;
 		player->health_ = PLAYER_MAX_HEALTH;
 		player->maxHealth_ = PLAYER_MAX_HEALTH;
@@ -377,7 +382,10 @@ void Player::updateWalkingStatus()
 		for (auto i : keyPressed_)
 		{
 			if (i)
+			{
 				curWalkingStatus_ = WalkingStatus::walk;
+				break;
+			}
 		}
 		if (preWalkingStatus_ != curWalkingStatus_)
 		{

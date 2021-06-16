@@ -5,6 +5,7 @@
 #include "cocos2d.h"
 #include "Medkit.h"
 #include "Character/Player.h"
+#include "Scene/FightScene/FightScene.h"
 #include "Const/Const.h"
 
 Medkit* Medkit::create()
@@ -62,7 +63,12 @@ int Medkit::getRecovery()
 
 void Medkit::interact()
 {
-	auto player = dynamic_cast<Player*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG)->getChildByTag(PLAYER_TAG));
+	auto runningScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+	Player* player = nullptr;
+	if (runningScene != nullptr)
+	{
+		player = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
+	}
 	if (player && player->getInteractItem() == this && player->isMedkitFull() == false)
 	{
 		player->getMedkitBagInstance()->push(this);

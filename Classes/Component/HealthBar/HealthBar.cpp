@@ -15,7 +15,7 @@ HealthBar* HealthBar::create(Player* character)
 	healthBar->sprite_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
 	healthBar->bulletBG_ = cocos2d::Sprite::create("UI/BulletBG.png");
 	healthBar->bulletBG_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
-	
+
 	healthBar->medKit1_ = cocos2d::Sprite::create("UI/MedKit1.png");
 	healthBar->medKit1_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
 	healthBar->medKit2_ = cocos2d::Sprite::create("UI/MedKit2.png");
@@ -29,7 +29,7 @@ HealthBar* HealthBar::create(Player* character)
 		healthBar->addChild(healthBar->bulletBG_, 2);
 		healthBar->addChild(healthBar->medKit1_, 2);
 		healthBar->addChild(healthBar->medKit2_, 2);
-		healthBar->addChild(healthBar->medKit3_, 2);		
+		healthBar->addChild(healthBar->medKit3_, 2);
 		healthBar->medKit1_->setVisible(false);
 		healthBar->medKit2_->setVisible(false);
 		healthBar->medKit3_->setVisible(false);
@@ -90,7 +90,7 @@ HealthBar* HealthBar::create(Player* character)
 		healthBar->bullet9mm_->setMidpoint(cocos2d::Point(0.5f, 0));
 		healthBar->bullet9mm_->setBarChangeRate(cocos2d::Point(0, 1.f));
 		healthBar->bullet9mm_->setPercentage(static_cast<float>(healthBar->curBulletStock_[bulletType_::type9mm]) / BULLET_MAX_NUM * 100);
-		
+
 
 		healthBar->addChild(healthBar->health_, 3);
 		healthBar->addChild(healthBar->shield_, 3);
@@ -109,7 +109,7 @@ HealthBar* HealthBar::create(Player* character)
 
 		healthBar->setCameraMask(2, true);
 
-		healthBar->schedule(CC_SCHEDULE_SELECTOR(HealthBar::update), (1/60));
+		healthBar->schedule(CC_SCHEDULE_SELECTOR(HealthBar::update), (1 / 60));
 		return healthBar;
 	}
 
