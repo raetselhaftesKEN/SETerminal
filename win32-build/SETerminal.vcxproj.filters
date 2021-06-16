@@ -61,6 +61,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\Timer.cpp">
       <Filter>Source Files\Classes\Component\Functional</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.cpp">
+      <Filter>Source Files\Classes\Component\SettingLayer</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -132,6 +135,9 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\Timer.h">
       <Filter>Source Files\Classes\Component\Functional</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.h">
+      <Filter>Source Files\Classes\Component\SettingLayer</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
     </ClInclude>
@@ -141,6 +147,15 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AK47.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AimPoint\AimPoint1.png">
+      <Filter>Resources\AimPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AimPoint\AimPoint2.png">
+      <Filter>Resources\AimPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AimPoint\AimPoint3.png">
+      <Filter>Resources\AimPoint</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-556.png">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -149,6 +164,21 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-9mm.png">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet\Bullet1.png">
+      <Filter>Resources\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet\Bullet2.png">
+      <Filter>Resources\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet\Bullet3.png">
+      <Filter>Resources\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet\Bullet4.png">
+      <Filter>Resources\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet\Bullet5.png">
+      <Filter>Resources\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseNormal.png">
       <Filter>Resources</Filter>
@@ -300,10 +330,37 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Reloading.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Bullet556.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Bullet762.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Bullet9mm.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\BulletBG.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Health-R.png">
       <Filter>Resources\UI</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Health.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\MedKit1.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\MedKit2.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\MedKit3.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\SEUISur.png">
+      <Filter>Resources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\SEUITime.png">
       <Filter>Resources\UI</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Shield-R.png">
@@ -315,8 +372,23 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\UI-BG.png">
       <Filter>Resources\UI</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\UI.png">
-      <Filter>Resources\UI</Filter>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Weapon\AK47.png">
+      <Filter>Resources\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Weapon\AKM.png">
+      <Filter>Resources\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Weapon\FAL.png">
+      <Filter>Resources\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Weapon\M4.png">
+      <Filter>Resources\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Weapon\MP5.png">
+      <Filter>Resources\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Weapon\SVD.png">
+      <Filter>Resources\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast1.png">
       <Filter>Resources\blast</Filter>
@@ -375,6 +447,75 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\health_max.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map6_15.rar">
+      <Filter>Resources\map</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\1104_2400.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\1408_3920.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\1536_2384.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\1792_1536.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2336_3584.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2560_1856.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_4336.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_464.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2816_2480.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2912_1680.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3040_2608.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3168_1600.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3584_2688.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3584_3808.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3680_2384.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3936_1392.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\4112_2400.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\background.png">
+      <Filter>Resources\map\map_1\map</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\background.tsx">
+      <Filter>Resources\map\map_1\map</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\bottomMap.tmx">
+      <Filter>Resources\map\map_1\map</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\middleMap.tmx">
+      <Filter>Resources\map\map_1\map</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\topMap.tmx">
+      <Filter>Resources\map\map_1\map</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\medkit.png">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -408,6 +549,12 @@
   <ItemGroup>
     <Filter Include="Resources">
       <UniqueIdentifier>{FB07A800-3385-3433-924C-213D644B587F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\AimPoint">
+      <UniqueIdentifier>{BFBE0452-5961-3462-82EF-59B658F438F1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Bullet">
+      <UniqueIdentifier>{C2BE08D4-4F02-3881-B980-A0F14F251FF6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\MIKU">
       <UniqueIdentifier>{E7947071-1B57-3039-8ED2-2E91EF6E8325}</UniqueIdentifier>
@@ -466,11 +613,26 @@
     <Filter Include="Resources\UI">
       <UniqueIdentifier>{A32255AB-CBC4-31D4-AAF3-E8A53E3D33EC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Weapon">
+      <UniqueIdentifier>{850AD014-7ED3-33A5-9FB6-49848B21FB77}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Resources\blast">
       <UniqueIdentifier>{19307408-D6EF-3872-95E5-FDAC53DBA158}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\fonts">
       <UniqueIdentifier>{61BF2F31-0B69-3806-B8B1-2CA4E603B4E0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\map">
+      <UniqueIdentifier>{3D210C63-6A22-3FF5-BDD0-801F65A62ECB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\map\map_1">
+      <UniqueIdentifier>{541425C5-0F5B-3504-B1BC-F472C6B7B91C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\map\map_1\Obstacles">
+      <UniqueIdentifier>{D25F71D5-AD7D-3DCC-B2E4-E4FEA5ABA9F9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\map\map_1\map">
+      <UniqueIdentifier>{12E950B8-9FE0-366A-8F99-E86F85D2C658}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\res">
       <UniqueIdentifier>{153A4AA6-51EE-3EDC-93FC-AA4E4269061F}</UniqueIdentifier>
@@ -495,6 +657,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Component\HealthBar">
       <UniqueIdentifier>{AB0AE64D-1C33-30C7-99CF-0D59F076137C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Component\SettingLayer">
+      <UniqueIdentifier>{CE867A95-5346-3A36-A07B-3BA14967AEB8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Component\WeaponUI">
       <UniqueIdentifier>{D9F80531-0108-3F51-8171-9B71EC3BF30F}</UniqueIdentifier>

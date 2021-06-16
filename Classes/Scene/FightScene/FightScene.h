@@ -13,6 +13,7 @@
 #include "Component/HealthBar/HealthBar.h"
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Component/Functional/SurvivorCounter.h"
+#include "Component/SettingLayer/SettingLayer.h"
 
 using namespace cocos2d;
 
@@ -79,6 +80,10 @@ public:
 	void monsterDestroyed();
 
 	int RemainingSurvivor = 20;
+
+	void buildSettingBtn();
+
+	SettingLayer* settingLayer_;
 
 protected:
 

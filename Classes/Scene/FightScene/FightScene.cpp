@@ -160,6 +160,10 @@ bool FightScene::init()
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);
 
+	settingLayer_ = SettingLayer::create();
+	this->addChild(settingLayer_, 5);
+	buildSettingBtn();
+
 	return true;
 }
 
@@ -407,4 +411,59 @@ void FightScene::update(float dt)
 			goToNextScene();
 		}
 	}
+}
+
+void FightScene::buildSettingBtn()
+{
+	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
+	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
+
+	auto closeButton = cocos2d::ui::Button::create("close.png", "close_pressed.png");
+
+	if (btnSetting == nullptr || settingImg == nullptr || closeButton == nullptr)
+	{
+		problemLoading("Button picture");
+	}
+	else
+	{
+		btnSetting->setScale9Enabled(true);
+		// 设置素材内容部分贴图大小
+		//btnSetting->setCapInsets(Rect(12, 12, 30, 18));
+		btnSetting->setContentSize(cocos2d::Size(100, 80));
+		btnSetting->setPosition(cocos2d::Vec2(60, 40));
+		settingImg->setPosition(cocos2d::Vec2(60, 40));
+		btnSetting->addClickEventListener([&](Ref*) {
+			cocos2d::log("Setting Pressed!");
+			if (!settingLayer_->isOpen)
+			{
+				settingLayer_->setPosition(0, 0);
+				settingLayer_->open();
+			}
+			else
+			{
+				settingLayer_->close();
+			}
+			}
+		);
+
+		auto closeButtonSize = closeButton->getContentSize();
+		auto runningSceneSize = this->getContentSize();
+		closeButton->setPosition(cocos2d::Vec2(runningSceneSize.width - closeButtonSize.width / 2, runningSceneSize.height - closeButtonSize.height / 2));
+		closeButton->addClickEventListener([&](Ref*) {
+			cocos2d::log("Close Button Pressed!");
+			//cocos2d::Director::getInstance()->end();
+			//cocos2d::Director::getInstance()->replaceScene(startMenu_);
+			}
+		);
+
+
+		//设置始终在镜头左下角
+		btnSetting->setCameraMask(2, true);
+		settingImg->setCameraMask(2, true);
+		closeButton->setCameraMask(2, true);
+	}
+
+	this->addChild(btnSetting, 3);
+	this->addChild(settingImg, 4);
+	this->addChild(closeButton, 3);
 }
