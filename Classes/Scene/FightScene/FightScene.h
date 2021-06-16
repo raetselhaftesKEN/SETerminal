@@ -73,11 +73,14 @@ public:
 	void setDropNode(cocos2d::Node* node);
 	void updateDropNode(float dt);
 
+	void monsterDestroyed();
 
-
-
+	int RemainingSurvivor = 20;
 
 protected:
+
+	int MonsterToSpawn = 20;
+	int SpawnedMonster = 0;
 
 	cocos2d::TMXTiledMap* tileMap_;
 

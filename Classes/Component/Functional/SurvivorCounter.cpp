@@ -1,5 +1,6 @@
 #include "cocos2d.h"
 #include "SurvivorCounter.h"
+#include "Scene/FightScene/FightScene.h"
 
 SurvivorCounter* SurvivorCounter::create()
 {
@@ -37,5 +38,10 @@ SurvivorCounter* SurvivorCounter::create()
 
 void SurvivorCounter::update(float dt)
 {
-
+	auto CurScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+	if (RemainingSurvivorCount != CurScene->RemainingSurvivor)
+	{
+		RemainingSurvivorCount = CurScene->RemainingSurvivor;
+		surviverInfo_->setString(std::to_string(RemainingSurvivorCount));
+	}
 }

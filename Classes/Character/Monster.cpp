@@ -45,6 +45,9 @@ void Monster::receiveDamage(int damage)
 	int realDamage = static_cast<int>(damage * (1 - shield_));
 	if (realDamage >= health_)
 	{
+		
+		dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG))->monsterDestroyed();
+
 		die();
 	}
 	else

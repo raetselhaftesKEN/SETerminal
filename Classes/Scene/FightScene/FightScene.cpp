@@ -175,15 +175,31 @@ cocos2d::Vector<Obstacle*> FightScene::getObstacles()
 
 void FightScene::generateMonster(float dt)
 {
-	auto monster = Monster::create("MONSTER2/idle_down/idle_down1.png");
-	if (monster == nullptr)
+	if (SpawnedMonster < MonsterToSpawn)
 	{
-		problemLoading("monster.png");
+		auto monster = Monster::create("MONSTER2/idle_down/idle_down1.png");
+		if (monster == nullptr)
+		{
+			problemLoading("monster.png");
+		}
+		else
+		{
+			addChild(monster, 1);
+			monster->move();
+			SpawnedMonster++;
+		}
+	}
+}
+
+void FightScene::monsterDestroyed()
+{
+	if (RemainingSurvivor > 1)
+	{
+		RemainingSurvivor--;
 	}
 	else
 	{
-		addChild(monster, 1);
-		monster->move();
+		//最后一个怪被消灭，显示结算界面
 	}
 }
 
