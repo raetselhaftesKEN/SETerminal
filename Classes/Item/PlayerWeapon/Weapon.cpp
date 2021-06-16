@@ -85,8 +85,7 @@ Weapon* Weapon::create(const std::string& filename)
 		weapon->MyAimPoint->retain();
 		weapon->ReloadAimPoint->retain();
 
-//		weapon->MyAimPoint->setScale(3, 3);
-//		weapon->ReloadAimPoint->setScale(3, 3);
+
 
 		weapon->MyAimPoint->setVisible(true);
 		weapon->ReloadAimPoint->setVisible(false);

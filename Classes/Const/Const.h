@@ -23,6 +23,9 @@ using namespace std::string_literals;
 #define ITEM_CONTACT_MASK 0x01							//0001
 #define ITEM_CATEGORY_MASK 0x05						//0101
 
+#define OBSTACLE_CONTACT_MASK 0x0f					//1111
+#define OBSTACLE_CATEGORY_MASK 0x0f				//1111
+
 //tags
 #define PLAYER_TAG 100
 #define PLAYER_BULLET_TAG 10

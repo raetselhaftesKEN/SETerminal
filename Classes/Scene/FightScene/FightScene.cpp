@@ -15,8 +15,6 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-//cocos2d::Node* FightScene::dropNode_ = nullptr;
-
 FightScene::FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial) : tileMap_(map), obstacle_(obstacle), sceneSerial_(serial)
 {
 	player_ = nullptr;
@@ -251,6 +249,14 @@ bool FightScene::onContactBegan(cocos2d::PhysicsContact& physicsContact)
 		{
 			contactBetweenCharacterAndBullet(dynamic_cast<Character*>(nodeB), dynamic_cast<Bullet*>(nodeA));
 		}
+		else if ((nodeA->getTag() == PLAYER_BULLET_TAG || nodeA->getTag() == MONSTER_BULLET_TAG) && nodeB->getTag() == OBSTACLE_TAG)
+		{
+			contactBetweenObstacleAndBullet(dynamic_cast<Obstacle*>(nodeB), dynamic_cast<Bullet*> (nodeA));
+		}
+		else if ((nodeB->getTag() == PLAYER_BULLET_TAG || nodeB->getTag() == MONSTER_BULLET_TAG) && nodeA->getTag() == OBSTACLE_TAG)
+		{
+			contactBetweenObstacleAndBullet(dynamic_cast<Obstacle*>(nodeA), dynamic_cast<Bullet*> (nodeB));
+		}
 	}
 
 	return true;
@@ -302,6 +308,14 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 	if (character && bullet)
 	{
 		character->receiveDamage(bullet->getBulletAtk());
+		bullet->removeFromParentAndCleanup(true);
+	}
+}
+
+void FightScene::contactBetweenObstacleAndBullet(Obstacle* obstacle, Bullet* bullet)
+{
+	if (obstacle && bullet)
+	{
 		bullet->removeFromParentAndCleanup(true);
 	}
 }
