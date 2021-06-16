@@ -71,7 +71,7 @@ void Monster::move() {
 	}
 	auto realDest = nextPosition - getPosition();
 	realDest.normalize();
-	auto moveOnce = cocos2d::MoveBy::create(2.f, realDest * 50);
+	auto moveOnce = cocos2d::MoveBy::create(MoveTime, realDest * 50);
 	facingPoint_ = nextPosition;
 
 	//怪物在move1和move2中间的随机位置发射子弹的动作，使用lambda表达式实现
@@ -167,8 +167,84 @@ Monster* Monster::create(const std::string& filename)
 		auto monsterPosition = monster->getRandomPosition();
 		monster->bindCharacterAnimate("MONSTER2");
 
+		monster->MoveTime = 2.f;
 		monster->health_ = MONSTER_MAX_HEALTH;
 		monster->maxHealth_ = MONSTER_MAX_HEALTH;
+		monster->shield_ = MONSTER_DEFAULT_SHIELD;
+
+		//设置怪物生成坐标
+		monster->setPosition(monsterPosition);
+
+		//为角色设置物理躯干
+		monster->bindPhysicsBody();
+
+		//标记角色
+		monster->setTag(MONSTER_TAG);
+
+
+		monster->autorelease();
+		return monster;
+	}
+	return nullptr;
+}
+
+Monster* Monster::create(enemyType_ type)
+{
+	auto monster = new(std::nothrow) Monster();
+	if (!monster)
+	{
+		return nullptr;
+	}
+
+	std::string filename;
+	switch (type)
+	{
+		case enemyType_::Default_Shoot:
+			filename = "MONSTER2 / idle_down / idle_down1.png";
+			break;
+		case enemyType_::Default_Shoot_Fast:
+			filename = "MONSTER2 / idle_down / idle_down1.png";
+			break;
+		case enemyType_::Default_Shoot_Elite:
+			filename = "MONSTER2 / idle_down / idle_down1.png";
+			break;
+		default:
+			return nullptr;
+			break;
+	}
+	monster->bindPictureSprite(cocos2d::Sprite::create(filename));
+	monster->statusChanged_ = true;
+
+	//为了在Monster类内使用外部的东西，使用以下语句获得当前进行的场景
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+	auto runningSceneSize = runningScene->getContentSize();
+
+	if (monster && monster->sprite_)
+	{
+		auto monsterPosition = monster->getRandomPosition();
+		monster->bindCharacterAnimate("MONSTER2");
+
+		switch (type)
+		{
+			case enemyType_::Default_Shoot:
+				monster->MoveTime = 2.f;
+				monster->Health = 30;
+				break;
+			case enemyType_::Default_Shoot_Fast:
+				monster->MoveTime = 1.f;
+				monster->Health = 30;
+				break;
+			case enemyType_::Default_Shoot_Elite:
+				monster->MoveTime = 1.f;
+				monster->Health = 60;
+				break;
+			default:
+				return nullptr;
+				break;
+		}
+		
+		monster->health_ = monster->Health;
+		monster->maxHealth_ = monster->Health;
 		monster->shield_ = MONSTER_DEFAULT_SHIELD;
 
 		//设置怪物生成坐标
