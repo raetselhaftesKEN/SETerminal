@@ -5,7 +5,6 @@
 #include "Monster.h"
 #include "Player.h"
 #include "Item/Medkit/Medkit.h"
-#include "Const/Const.h"
 //#include "Scene/HelloWorldScene.h"
 #include "Scene/FightScene/FightScene.h"
 
@@ -77,50 +76,53 @@ void Monster::move() {
 	//怪物在move1和move2中间的随机位置发射子弹的动作，使用lambda表达式实现
 	auto shootStar = cocos2d::CallFunc::create([=]() {
 		//生成敌人子弹
-		Bullet* enemyBullet = Bullet::create("dart_enemy.png");
-		if (enemyBullet == nullptr)
+		for (int i = 0; i < ShootFreq; i++)
 		{
-			problemLoading("dart_enemy.png");
-		}
-		else
-		{
-			//setPosition是指的自己和他父节点的相对位置，子弹的父节点设为场景Helloworld
-			enemyBullet->setPosition(getPosition());
-			//设置敌方子弹的物理躯干
-			auto physicsBody = cocos2d::PhysicsBody::createBox(enemyBullet->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
-			physicsBody->setDynamic(false);
-			physicsBody->setCategoryBitmask(MOSNTER_BULLET_CATEGORY_MASK);
-			physicsBody->setContactTestBitmask(MONSTER_BULLET_CONTACT_MASK);
-			enemyBullet->setPhysicsBody(physicsBody);
-			enemyBullet->setTag(MONSTER_BULLET_TAG);
-
-			//为了在Monster类内使用外部的东西，使用以下几句
-			auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
-			Player* playerOfNode = nullptr;
-			if (runningScene != nullptr)
+			Bullet* enemyBullet = Bullet::create("dart_enemy.png");
+			if (enemyBullet == nullptr)
 			{
-				playerOfNode = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
+				problemLoading("dart_enemy.png");
 			}
-			cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
-			//如果场景已经被释放，找不到我方player位置，直接退出
-			if (playerOfNode == nullptr)
+			else
 			{
-				return;
+				//setPosition是指的自己和他父节点的相对位置，子弹的父节点设为场景Helloworld
+				enemyBullet->setPosition(getPosition());
+				//设置敌方子弹的物理躯干
+				auto physicsBody = cocos2d::PhysicsBody::createBox(enemyBullet->getContentSize(), cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+				physicsBody->setDynamic(false);
+				physicsBody->setCategoryBitmask(MOSNTER_BULLET_CATEGORY_MASK);
+				physicsBody->setContactTestBitmask(MONSTER_BULLET_CONTACT_MASK);
+				enemyBullet->setPhysicsBody(physicsBody);
+				enemyBullet->setTag(MONSTER_BULLET_TAG);
+
+				//为了在Monster类内使用外部的东西，使用以下几句
+				auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+				Player* playerOfNode = nullptr;
+				if (runningScene != nullptr)
+				{
+					playerOfNode = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
+				}
+				cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
+				//如果场景已经被释放，找不到我方player位置，直接退出
+				if (playerOfNode == nullptr)
+				{
+					return;
+				}
+				//获得当前我方player位置
+				auto playerOfPlayer = dynamic_cast<Player*>(playerOfNode);
+				playerPositionInScene = playerOfPlayer->getPosition();
+
+
+				runningScene->addChild(enemyBullet);
+				//为敌方子弹绑定发射动画，速度暂时用不到，先用1s时间模拟
+				float starSpeed = 1200;
+
+				//在Monster视角下的player的坐标（Monster坐标为0,0）
+				auto eDartMove = cocos2d::MoveTo::create(1.0f, playerPositionInScene);
+				auto eDartRemove = cocos2d::RemoveSelf::create();
+				enemyBullet->runAction(cocos2d::Sequence::create(eDartMove, eDartRemove, nullptr));
 			}
-			//获得当前我方player位置
-			auto playerOfPlayer = dynamic_cast<Player*>(playerOfNode);
-			playerPositionInScene = playerOfPlayer->getPosition();
-
-
-			runningScene->addChild(enemyBullet);
-			//为敌方子弹绑定发射动画，速度暂时用不到，先用1s时间模拟
-			float starSpeed = 1200;
-
-			//在Monster视角下的player的坐标（Monster坐标为0,0）
-			auto eDartMove = cocos2d::MoveTo::create(1.0f, playerPositionInScene);
-			auto eDartRemove = cocos2d::RemoveSelf::create();
-			enemyBullet->runAction(cocos2d::Sequence::create(eDartMove, eDartRemove, nullptr));
-		}
+		}		
 		});
 	//怪物发射子弹时略微停顿
 	auto delay = cocos2d::DelayTime::create(0.1);
@@ -200,13 +202,13 @@ Monster* Monster::create(enemyType_ type)
 	switch (type)
 	{
 		case enemyType_::Default_Shoot:
-			filename = "MONSTER2 / idle_down / idle_down1.png";
+			filename = "MONSTER2/idle_down/idle_down1.png";
 			break;
 		case enemyType_::Default_Shoot_Fast:
-			filename = "MONSTER2 / idle_down / idle_down1.png";
+			filename = "MONSTER2/idle_down/idle_down1.png";
 			break;
 		case enemyType_::Default_Shoot_Elite:
-			filename = "MONSTER2 / idle_down / idle_down1.png";
+			filename = "MONSTER2/idle_down/idle_down1.png";
 			break;
 		default:
 			return nullptr;
@@ -227,14 +229,17 @@ Monster* Monster::create(enemyType_ type)
 		switch (type)
 		{
 			case enemyType_::Default_Shoot:
+				monster->ShootFreq = 1;
 				monster->MoveTime = 2.f;
 				monster->Health = 30;
 				break;
 			case enemyType_::Default_Shoot_Fast:
+				monster->ShootFreq = 1;
 				monster->MoveTime = 1.f;
 				monster->Health = 30;
 				break;
 			case enemyType_::Default_Shoot_Elite:
+				monster->ShootFreq = 3;
 				monster->MoveTime = 1.f;
 				monster->Health = 60;
 				break;

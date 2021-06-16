@@ -8,6 +8,7 @@
 
 #include "cocos2d.h"
 #include "Character.h"
+#include "Const/Const.h"
 
 /**
 *@brief π÷ŒÔ¿‡
@@ -70,6 +71,7 @@ protected:
 
 	int Health;
 
+	int ShootFreq;
 };
 
 

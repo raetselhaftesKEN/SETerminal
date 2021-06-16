@@ -177,7 +177,23 @@ void FightScene::generateMonster(float dt)
 {
 	if (SpawnedMonster < MonsterToSpawn)
 	{
-		auto monster = Monster::create("MONSTER2/idle_down/idle_down1.png");
+		int monsterType = rand() % 3;
+		Monster* monster;
+		switch (monsterType)
+		{
+			case 0:
+				monster = Monster::create(enemyType_::Default_Shoot);
+				break;
+			case 1:
+				monster = Monster::create(enemyType_::Default_Shoot_Fast);
+				break;
+			case 2:
+				monster = Monster::create(enemyType_::Default_Shoot_Elite);
+				break;
+			default:
+				break;
+		}
+		
 		if (monster == nullptr)
 		{
 			problemLoading("monster.png");
