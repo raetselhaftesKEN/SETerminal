@@ -9,13 +9,16 @@
 #include "Character/Monster.h"
 #include "Item/Clip/Clip.h"
 
+using namespace cocos2d;
+
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-FightScene::FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial) : tileMap_(map), obstacle_(obstacle), sceneSerial_(serial)
+FightScene::FightScene(TMXTiledMap* map1, TMXTiledMap* map2, TMXTiledMap* map3, const Vector<Obstacle*>& obstacle, const int& serial)
+	: tileMap1_(map1), tileMap2_(map2), tileMap3_(map3), obstacle_(obstacle), sceneSerial_(serial)
 {
 	player_ = nullptr;
 	dropNode_ = nullptr;
@@ -23,9 +26,9 @@ FightScene::FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle
 	touchHolding_ = false;
 };
 
-FightScene* FightScene::create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial)
+FightScene* FightScene::create(TMXTiledMap* map1, TMXTiledMap* map2, TMXTiledMap* map3, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial)
 {
-	auto pRet = new(std::nothrow) FightScene(map, obstacle, serial);
+	auto pRet = new(std::nothrow) FightScene(map1, map2, map3, obstacle, serial);
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -100,11 +103,11 @@ void FightScene::setUI()
 	weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 50));
 	addChild(weaponUI_, 2);
 
-	timer_ = Timer::create();
-	timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
-	timer_->setPosition(cocos2d::Point(0, winSize.height));
-	timer_->setScale(0.3f, 0.3f);
-	addChild(timer_, 2);
+	//timer_ = Timer::create();
+	//timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
+	//timer_->setPosition(cocos2d::Point(0, winSize.height));
+	//timer_->setScale(0.3f, 0.3f);
+	//addChild(timer_, 2);
 
 	survivorCounter_ = SurvivorCounter::create();
 	survivorCounter_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
@@ -148,7 +151,9 @@ bool FightScene::init()
 		return false;
 	}
 	this->setTag(FIGHT_SCENE_TAG);
-	this->addChild(tileMap_, 0);
+	this->addChild(tileMap1_, 0);
+	this->addChild(tileMap2_, 0);
+	this->addChild(tileMap3_, 0);
 	this ->setObstacle();
 	this->setPhysicsListener();
 
@@ -171,17 +176,17 @@ bool FightScene::init()
 
 void FightScene::goToNextScene()
 {
-	auto map = cocos2d::TMXTiledMap::create(std::string("tilemap") + std::to_string(sceneSerial_ + 1) + ".png");
-	map->setPosition(cocos2d::Vec2::ZERO);
-	cocos2d::Vector<Obstacle*> obstacles;
-	FightScene* nextScene = FightScene::create(map, obstacles, sceneSerial_ + 1);
+	//auto map = cocos2d::TMXTiledMap::create(std::string("tilemap") + std::to_string(sceneSerial_ + 1) + ".png");
+	//map->setPosition(cocos2d::Vec2::ZERO);
+	//cocos2d::Vector<Obstacle*> obstacles;
+	//FightScene* nextScene = FightScene::create(map, obstacles, sceneSerial_ + 1);
 
 	//TODO: Add obstacles
 
-	player_->retain();
-	player_->removeFromParent();
-	nextScene->bindPlayer(player_);
-	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(2.0f, nextScene->createScene()));
+	//player_->retain();
+	//player_->removeFromParent();
+	//nextScene->bindPlayer(player_);
+	//cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(2.0f, nextScene->createScene()));
 	
 }
 

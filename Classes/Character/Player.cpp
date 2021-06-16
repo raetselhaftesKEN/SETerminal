@@ -21,7 +21,7 @@ Player* Player::create(const std::string& filename)
 	if (player && player->sprite_)
 	{
 		//设置角色初始位置
-		player->setPosition(cocos2d::Vec2(50, 50));
+		player->setPosition(cocos2d::Vec2(2048, 960));
 		//标记角色
 		player->setTag(PLAYER_TAG);
 

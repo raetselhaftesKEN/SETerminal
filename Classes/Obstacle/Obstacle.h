@@ -33,6 +33,10 @@ public:
 
 	bool bindPhysicsBody();
 
+
+	static cocos2d::Vector<Obstacle*> createObsSet(const int& serial);
+
+
 protected:
 
 	cocos2d::Sprite* sprite_;

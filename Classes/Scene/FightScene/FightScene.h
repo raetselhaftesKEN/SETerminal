@@ -15,14 +15,16 @@
 #include "Component/Functional/Timer.h"
 #include "Component/Functional/SurvivorCounter.h"
 
+using namespace cocos2d;
+
 class FightScene : public cocos2d::Scene
 {
 public:
 
-	FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
+	FightScene(TMXTiledMap*, TMXTiledMap*, TMXTiledMap*, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
 
 
-	static FightScene* create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
+	static FightScene* create(TMXTiledMap*, TMXTiledMap*, TMXTiledMap*, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
 
 
 	cocos2d::Scene* createScene();
@@ -79,7 +81,9 @@ public:
 
 protected:
 
-	cocos2d::TMXTiledMap* tileMap_;
+	cocos2d::TMXTiledMap* tileMap1_;
+	cocos2d::TMXTiledMap* tileMap2_;
+	cocos2d::TMXTiledMap* tileMap3_;
 
 	cocos2d::Vector<Obstacle*> obstacle_;
 
@@ -93,7 +97,7 @@ protected:
 
 	WeaponUI* weaponUI_ = nullptr;
 
-	Timer* timer_ = nullptr;
+	//Timer* timer_ = nullptr;
 
 	SurvivorCounter* survivorCounter_ = nullptr;
 
