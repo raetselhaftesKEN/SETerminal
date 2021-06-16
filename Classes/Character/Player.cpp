@@ -28,14 +28,13 @@ Player* Player::create(const std::string& filename)
 		player->bindCharacterAnimate("MIKU", 0.1f);
 
 		//初始化角色武器和弹药
-		player->primaryWeapon_ = Weapon::create("MP5.png");
+		player->primaryWeapon_ = Weapon::create(weaponType_::FAL);
 		player->primaryWeapon_->Item::pickUp();
-		player->secondaryWeapon_ = Weapon::create("AK47.png");
+		player->secondaryWeapon_ = Weapon::create(weaponType_::MP5);
 		player->secondaryWeapon_->Item::pickUp();
 		player->primaryWeapon_->setScale(0.3f, 0.3f);
 		player->secondaryWeapon_->setScale(0.3f, 0.3f);		
 
-		player->bulletFilename_ = "dart.png";
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);
 		player->primaryWeapon_->setPosition(cocos2d::Vec2(10, 0));
@@ -43,17 +42,6 @@ Player* Player::create(const std::string& filename)
 
 		player->primaryWeapon_->Active(true);
 		player->secondaryWeapon_->Active(false);
-
-		//////////////////////////////////////////
-		player->primaryWeapon_->TypeOfBullet = bulletType_::type9mm;
-		player->primaryWeapon_->BulletDamage = 7;
-		player->primaryWeapon_->Accuracy = 97;
-		player->primaryWeapon_->Recoil = 5;
-		player->primaryWeapon_->RecoilRecover = 100;
-		player->primaryWeapon_->MagazineSize = 45;
-		player->primaryWeapon_->ReloadTime = 2.5f;
-		player->primaryWeapon_->Reset();
-		//////////////////////////////////////////
 
 		player->primaryWeapon_->setVisible(true);			//默认显示主武器，不显示副武器
 		player->secondaryWeapon_->setVisible(false);		

@@ -29,6 +29,9 @@ public:
 */
 	static Weapon* create(const std::string& filename);
 
+
+	static Weapon* Weapon::create(weaponType_ type);
+
 	/*
 	设定武器是否装备为主武器
 	@杨孟臻

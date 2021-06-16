@@ -48,5 +48,6 @@
 
 enum bulletType_ { type556, type762, type9mm };
 
+enum weaponType_ { AK47, AKM, FAL, M4, MP5, SVD };
 
 #endif  //!__CONST_H__
