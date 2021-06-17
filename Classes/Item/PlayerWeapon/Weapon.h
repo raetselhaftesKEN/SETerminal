@@ -39,10 +39,10 @@ public:
 * @brief 生成一个Weapon实例
 * @param Weapon实例对应的素材文件名
 * @return 指向该Weapon实例的指针
-* @孟宇
+* @孟宇、杨孟臻
 */
 	static Weapon* create(const std::string& filename);
-
+	static Weapon* create(weaponType_ type);
 	/*
 	设定武器是否装备为主武器
 	@杨孟臻
@@ -88,6 +88,8 @@ public:
 	PlayerAimPoint* getReloadAimPoint();
 	void setReloadAimPoint(PlayerAimPoint*);
 
+	std::string weaponFilename_;
+
 	std::string bulletFilename_;	//武器所使用的子弹
 
 	std::string aimPointFilename_;  //准星名称
@@ -124,6 +126,8 @@ protected:
 
 	PlayerAimPoint* MyAimPoint;
 	PlayerAimPoint* ReloadAimPoint;
+
+	int shootMusicID_;
 
 };
 

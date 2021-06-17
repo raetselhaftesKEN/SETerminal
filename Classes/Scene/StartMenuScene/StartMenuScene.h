@@ -8,6 +8,8 @@
 #include "cocos2d.h"
 #include "Scene/FightScene/FightScene.h"
 
+class FightScene;
+
 class StartMenuScene : public cocos2d::Scene
 {
 public:
@@ -22,19 +24,21 @@ public:
 
 	void exitCallback(cocos2d::Ref* pSender);
 
-	void bindFirstFightScene(cocos2d::Scene* scene);
+	void goToFightScene();
 
 	void initStartButton();
 
 	void initExitButton();
 
-protected:
+	void loadingFightScene();
 
-	cocos2d::Scene* firstFightScene_;
+protected:
 
 	cocos2d::Menu* startButton_;
 
 	cocos2d::Menu* exitButton_;
+
+	FightScene* fightScene_;
 
 };
 

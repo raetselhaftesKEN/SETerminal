@@ -12,18 +12,24 @@
 #include "Obstacle/Obstacle.h"
 #include "Component/HealthBar/HealthBar.h"
 #include "Component/WeaponUI/WeaponUI.h"
-#include "Component/Functional/Timer.h"
 #include "Component/Functional/SurvivorCounter.h"
+#include "Component/Functional/SETimer.h"
 #include "Component/SettingLayer/SettingLayer.h"
+#include "Scene/StartMenuScene/StartMenuScene.h"
+
+using namespace cocos2d;
+
+class StartMenuScene;
+class SettingLayer;
 
 class FightScene : public cocos2d::Scene
 {
 public:
 
-	FightScene(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
+	FightScene(TMXTiledMap*, TMXTiledMap*, TMXTiledMap*, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
 
 
-	static FightScene* create(cocos2d::TMXTiledMap* map, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
+	static FightScene* create(TMXTiledMap*, TMXTiledMap*, TMXTiledMap*, const cocos2d::Vector<Obstacle*>& obstacle, const int& serial);
 
 
 	cocos2d::Scene* createScene();
@@ -53,11 +59,11 @@ public:
 	void generateMonster(float dt);
 
 
-	void goToNextScene();
-
-
 	cocos2d::Vector<Obstacle*> getObstacles();
 
+
+	static bool isInBound(cocos2d::Vec2);
+	static bool ifCollision(cocos2d::Vec2);
 
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
 	bool onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
@@ -76,19 +82,29 @@ public:
 
 	void update(float dt) override;
 
+	void monsterDestroyed();
+
+	int RemainingSurvivor = 20;
+
 	void buildSettingBtn();
 
 	SettingLayer* settingLayer_;
 
+	void airDrop();
+
+	static cocos2d::Vec2 getRandomPosition();
+
 protected:
 
-	cocos2d::TMXTiledMap* tileMap_;
+	cocos2d::TMXTiledMap* tileMap1_;
+	cocos2d::TMXTiledMap* tileMap2_;
+	cocos2d::TMXTiledMap* tileMap3_;
 
 	cocos2d::Vector<Obstacle*> obstacle_;
 
 	Player* player_;
 
-	cocos2d::Node* dropNode_;
+	cocos2d::Node* dropNode_ = nullptr;
 
 	CameraEffect* mainCamera_;
 
@@ -96,7 +112,7 @@ protected:
 
 	WeaponUI* weaponUI_ = nullptr;
 
-	Timer* timer_ = nullptr;
+	SETimer* timer_ = nullptr;
 
 	SurvivorCounter* survivorCounter_ = nullptr;
 
@@ -104,10 +120,8 @@ protected:
 
 	int sceneSerial_ = 1;
 
-	bool clear_ = false;
-
-	
-
+	int MonsterToSpawn = 20;
+	int SpawnedMonster = 0;
 };
 
 #endif // !__FIGHT_SCENE_H__

@@ -3,8 +3,8 @@
 */
 
 #include "cocos2d.h"
+#include "AudioEngine.h"
 #include "Weapon.h"
-//#include "././Scene/HelloWorldScene.h"
 #include "Character/Player.h"
 #include "../Bullet/Bullet.h"
 #include "Const/Const.h"
@@ -39,7 +39,7 @@ float Weapon::getRecoiRecoverl()
 }
 void Weapon::setRecoilRecover(float recoilRecover)
 {
-	if(recoilRecover >= 0)
+	if (recoilRecover >= 0)
 		RecoilRecover = recoilRecover;
 }
 
@@ -71,6 +71,7 @@ Weapon* Weapon::create(const std::string& filename)
 		return nullptr;
 	}
 	weapon->bindPictureSprite(cocos2d::Sprite::create(filename));
+	weapon->weaponFilename_ = filename;
 
 	if (weapon && weapon->sprite_)
 	{
@@ -90,6 +91,156 @@ Weapon* Weapon::create(const std::string& filename)
 		weapon->MyAimPoint->setVisible(true);
 		weapon->ReloadAimPoint->setVisible(false);
 		weapon->ActiveAimPoint = weapon->MyAimPoint;
+
+		return weapon;
+	}
+
+	return nullptr;
+}
+
+Weapon* Weapon::create(weaponType_ type)
+{
+	auto weapon = new(std::nothrow) Weapon();
+	if (weapon == nullptr)
+	{
+		return nullptr;
+	}
+
+	std::string filename;
+	switch (type)
+	{
+		case weaponType_::AK47:
+			filename = "Weapon/AK47.png";
+			break;
+		case weaponType_::AKM:
+			filename = "Weapon/AKM.png";
+			break;
+		case weaponType_::FAL:
+			filename = "Weapon/FAL.png";
+			break;
+		case weaponType_::M4:
+			filename = "Weapon/M4.png";
+			break;
+		case weaponType_::MP5:
+			filename = "Weapon/MP5.png";
+			break;
+		case weaponType_::SVD:
+			filename = "Weapon/SVD.png";
+			break;
+		default:
+			return nullptr;
+			break;
+	}
+	weapon->weaponFilename_ = filename;
+	weapon->bindPictureSprite(cocos2d::Sprite::create(filename));
+	weapon->sprite_->setScale(0.3f);
+
+	if (weapon && weapon->sprite_)
+	{
+		weapon->autorelease();
+		weapon->bindPhysicsBody();
+		weapon->setTag(ITEM_TAG);
+		switch (type)
+		{
+			case weaponType_::AK47:
+				weapon->bulletFilename_ = "Bullet/Bullet1.png";
+				weapon->aimPointFilename_ = "AimPoint/AimPoint1.png";
+				weapon->TypeOfBullet = bulletType_::type762;
+				weapon->BulletSpeed = 2000;
+				weapon->ShootingSpeed = 10;
+				weapon->BulletDamage = 12;
+				weapon->Accuracy = 95;
+				weapon->Recoil = 15;
+				weapon->RecoilRecover = 60;
+				weapon->MagazineSize = 30;
+				weapon->ReloadTime = 2.f;
+				weapon->Reset();
+				break;
+			case weaponType_::AKM:
+				weapon->bulletFilename_ = "Bullet/Bullet4.png";
+				weapon->aimPointFilename_ = "AimPoint/AimPoint1.png";
+				weapon->TypeOfBullet = bulletType_::type762;
+				weapon->BulletSpeed = 1800;
+				weapon->ShootingSpeed = 8;
+				weapon->BulletDamage = 15;
+				weapon->Accuracy = 92;
+				weapon->Recoil = 18;
+				weapon->RecoilRecover = 50;
+				weapon->MagazineSize = 35;
+				weapon->ReloadTime = 2.f;
+				weapon->Reset();
+				break;
+			case weaponType_::FAL:
+				weapon->bulletFilename_ = "Bullet/Bullet3.png";
+				weapon->aimPointFilename_ = "AimPoint/AimPoint3.png";
+				weapon->TypeOfBullet = bulletType_::type556;
+				weapon->BulletSpeed = 3000;
+				weapon->ShootingSpeed = 2;
+				weapon->BulletDamage = 20;
+				weapon->Accuracy = 98;
+				weapon->Recoil = 30;
+				weapon->RecoilRecover = 60;
+				weapon->MagazineSize = 20;
+				weapon->ReloadTime = 3.f;
+				weapon->Reset();
+				break;
+			case weaponType_::M4:
+				weapon->bulletFilename_ = "Bullet/Bullet2.png";
+				weapon->aimPointFilename_ = "AimPoint/AimPoint1.png";
+				weapon->TypeOfBullet = bulletType_::type556;
+				weapon->BulletSpeed = 2000;
+				weapon->ShootingSpeed = 15;
+				weapon->BulletDamage = 10;
+				weapon->Accuracy = 97;
+				weapon->Recoil = 8;
+				weapon->RecoilRecover = 80;
+				weapon->MagazineSize = 40;
+				weapon->ReloadTime = 3.f;
+				weapon->Reset();
+				break;
+			case weaponType_::MP5:
+				weapon->bulletFilename_ = "Bullet/Bullet5.png";
+				weapon->aimPointFilename_ = "AimPoint/AimPoint2.png";
+				weapon->TypeOfBullet = bulletType_::type9mm;
+				weapon->BulletSpeed = 1200;
+				weapon->ShootingSpeed = 15;
+				weapon->BulletDamage = 8;
+				weapon->Accuracy = 90;
+				weapon->Recoil = 5;
+				weapon->RecoilRecover = 100;
+				weapon->MagazineSize = 45;
+				weapon->ReloadTime = 2.5f;
+				weapon->Reset();
+				break;
+			case weaponType_::SVD:
+				weapon->bulletFilename_ = "Bullet/Bullet4.png";
+				weapon->aimPointFilename_ = "AimPoint/AimPoint3.png";
+				weapon->TypeOfBullet = bulletType_::type9mm;
+				weapon->BulletSpeed = 5000;
+				weapon->ShootingSpeed = 1;
+				weapon->BulletDamage = 40;
+				weapon->Accuracy = 99;
+				weapon->Recoil = 60;
+				weapon->RecoilRecover = 60;
+				weapon->MagazineSize = 5;
+				weapon->ReloadTime = 2.f;
+				weapon->Reset();
+				break;
+			default:
+				return nullptr;
+				break;
+		}
+
+
+		weapon->MyAimPoint = PlayerAimPoint::create(weapon->aimPointFilename_);
+		weapon->ReloadAimPoint = PlayerAimPoint::create("Reloading.png");
+		weapon->MyAimPoint->retain();
+		weapon->ReloadAimPoint->retain();
+
+		weapon->MyAimPoint->setVisible(true);
+		weapon->ReloadAimPoint->setVisible(false);
+		weapon->ActiveAimPoint = weapon->MyAimPoint;
+		weapon->retain();
 
 		return weapon;
 	}
@@ -124,6 +275,7 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 			CanShoot = false;
 			auto shoot = cocos2d::CallFunc::create([=]()
 				{
+					shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/impacter.mp3", false, .5f);
 					auto bullet = Bullet::create(bulletFilename_);
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());

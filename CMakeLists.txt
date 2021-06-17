@@ -73,6 +73,9 @@ list(APPEND GAME_SOURCE
      Classes/Component/WeaponUI/WeaponUI.cpp
      Classes/Scene/StartMenuScene/StartMenuScene.cpp
      Classes/Scene/EndMenuScene/EndMenuScene.cpp
+     Classes/Item/Clip/Clip.cpp
+     Classes/Component/Functional/SurvivorCounter.cpp
+     Classes/Component/Functional/SETimer.cpp
      Classes/Component/SettingLayer/SettingLayer.cpp
      )
 list(APPEND GAME_HEADER
@@ -94,6 +97,9 @@ list(APPEND GAME_HEADER
      Classes/Component/WeaponUI/WeaponUI.h
      Classes/Scene/StartMenuScene/StartMenuScene.h
      Classes/Scene/EndMenuScene/EndMenuScene.h
+     Classes/Item/Clip/Clip.h
+     Classes/Component/Functional/SurvivorCounter.h
+     Classes/Component/Functional/SETimer.h
      Classes/Component/SettingLayer/SettingLayer.h
      )
 

@@ -13,6 +13,7 @@ static void problemLoading(const char* filename)
 
 cocos2d::Scene* StartMenuScene::createScene()
 {
+
 	return this;
 }
 
@@ -21,7 +22,7 @@ void StartMenuScene::initStartButton()
 	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
 	auto origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	auto startBtnPic = cocos2d::MenuItemImage::create("buttony.png", "buttonb.png", CC_CALLBACK_1(StartMenuScene::startCallback, this));
+	auto startBtnPic = cocos2d::MenuItemImage::create("Menu/Start.png", "Menu/Start.png", CC_CALLBACK_1(StartMenuScene::startCallback, this));
 	if (startBtnPic == nullptr ||
 		startBtnPic->getContentSize().width <= 0 ||
 		startBtnPic->getContentSize().height <= 0)
@@ -30,8 +31,9 @@ void StartMenuScene::initStartButton()
 	}
 	else
 	{
-		float x = origin.x + winSize.width / 2 - startBtnPic->getContentSize().width / 2;
+		float x = origin.x + winSize.width / 16 - startBtnPic->getContentSize().width / 16;
 		float y = origin.y + winSize.height / 2 - startBtnPic->getContentSize().height / 2;
+		startBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
 		startBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}
 
@@ -45,7 +47,7 @@ void StartMenuScene::initExitButton()
 	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
 	auto origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	auto exitBtnPic = cocos2d::MenuItemImage::create("buttonb.png", "buttony.png", CC_CALLBACK_1(StartMenuScene::exitCallback, this));
+	auto exitBtnPic = cocos2d::MenuItemImage::create("Menu/Quit.png", "Menu/Quit.png", CC_CALLBACK_1(StartMenuScene::exitCallback, this));
 	if (exitBtnPic == nullptr ||
 		exitBtnPic->getContentSize().width <= 0 ||
 		exitBtnPic->getContentSize().height <= 0)
@@ -54,8 +56,9 @@ void StartMenuScene::initExitButton()
 	}
 	else
 	{
-		float x = origin.x + winSize.width / 2 - exitBtnPic->getContentSize().width / 2;
+		float x = origin.x + winSize.width / 16 - exitBtnPic->getContentSize().width / 16;
 		float y = origin.y + winSize.height / 4 - exitBtnPic->getContentSize().height / 2;
+		exitBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
 		exitBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}
 
@@ -73,16 +76,19 @@ bool StartMenuScene::init()
 
 	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
 	auto origin = cocos2d::Director::getInstance()->getVisibleOrigin();
-
+	auto bkg = cocos2d::Sprite::create("Menu/BG.png");
+	bkg->setAnchorPoint(cocos2d::Vec2::ZERO);
+	addChild(bkg, 0);
 	initStartButton();
 	initExitButton();
+	loadingFightScene();
 
 	return true;
 }
 
 void StartMenuScene::startCallback(cocos2d::Ref* pSender)
 {
-	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(0.2f, firstFightScene_));
+	goToFightScene();
 }
 
 void StartMenuScene::exitCallback(cocos2d::Ref* pSender)
@@ -90,7 +96,27 @@ void StartMenuScene::exitCallback(cocos2d::Ref* pSender)
 	cocos2d::Director::getInstance()->end();
 }
 
-void StartMenuScene::bindFirstFightScene(cocos2d::Scene* scene)
+void StartMenuScene::loadingFightScene()
 {
-		firstFightScene_ = scene;
+	auto _tileMap1 = TMXTiledMap::create("map/map_1/map/bottomMap.tmx");
+	_tileMap1->setPosition(Vec2(0, 0));
+
+	auto _tileMap2 = TMXTiledMap::create("map/map_1/map/middleMap.tmx");
+	_tileMap2->setPosition(Vec2(0, 50 * 32));
+
+	auto _tileMap3 = TMXTiledMap::create("map/map_1/map/topMap.tmx");
+	_tileMap3->setPosition(Vec2(0, 100 * 32));
+
+	fightScene_ = FightScene::create(_tileMap1, _tileMap2, _tileMap3, Obstacle::createObsSet(1), 1);
+	fightScene_->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
+	fightScene_->retain();
+
+}
+
+void StartMenuScene::goToFightScene()
+{
+	
+	
+	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, fightScene_->createScene()));
+
 }

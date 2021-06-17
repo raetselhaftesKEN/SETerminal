@@ -1,3 +1,4 @@
+#pragma once
 /**
 * @file SurvivorCounter.h
 */
@@ -6,7 +7,6 @@
 #define __SURVIVOR_COUNTER_H__
 
 #include "cocos2d.h"
-#include "Character/Character.h"
 
 class SurvivorCounter : public cocos2d::Node
 {
@@ -21,7 +21,7 @@ public:
 
 protected:
 
-	int RemainingSurvivorCount = 20;
+	int RemainingSurvivorCount = 0;
 
 	cocos2d::Sprite* surviverInfoBG_;
 	cocos2d::Label* surviverInfo_;

@@ -6,9 +6,9 @@
 #include "AudioEngine.h"
 #include "Character/Player.h"
 #include "Const/Const.h"
+#include "Scene/StartMenuScene/StartMenuScene.h"
 
-
-
+class StartMenuScene;
 
 class SettingLayer : public cocos2d::Layer 
 {

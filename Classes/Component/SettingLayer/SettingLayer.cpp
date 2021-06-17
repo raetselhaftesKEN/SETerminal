@@ -13,10 +13,6 @@
 SettingLayer* SettingLayer::create()
 {
 	auto settingLayer = new(std::nothrow) SettingLayer();
-	/*if (settingLayer == nullptr)
-	{
-		return nullptr;
-	}*/
 
 	if (settingLayer && settingLayer->init())
 	{
@@ -49,9 +45,6 @@ void SettingLayer::initMusic()
 
 bool SettingLayer::init()
 {
-	
-
-
 	this->setPosition(cocos2d::Vec2(CLOSE_X, CLOSE_Y));
 	
 	backgroundMusicID_ = cocos2d::AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
@@ -76,7 +69,7 @@ bool SettingLayer::init()
 	}
 
 	//设置关闭按钮
-	closeButton_ = cocos2d::ui::Button::create("close.png", "close_pressed.png");
+	closeButton_ = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 	auto closeButtonSize = closeButton_->getContentSize();
 	closeButton_->setPosition(cocos2d::Vec2((BOARD_IMAGE_WIDTH - closeButtonSize.width / 2), (BOARD_IMAGE_HEIGHT - closeButtonSize.height / 2)));
 	pauseBoardImg_->addChild(closeButton_);
@@ -124,20 +117,20 @@ bool SettingLayer::init()
 	//superBulletLabel_->setPosition(cocos2d::Vec2(55, -40));
 	//superBulletButton_->addChild(superBulletLabel_, 2);
 
-	musicButton_ = settingSmallButton(5, 100, "Music.png", "Music");
+	musicButton_ = settingSmallButton(5, 100, "Setting/Music.png", "Music");
 	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "Shoot Music");
-	superBodyButton_ = settingSmallButton(405, 100, "Music.png", "Super body");
-	superAccuracyButton_ = settingSmallButton(5, 350, "Music.png", "Accuracy");
-	superBulletButton_ = settingSmallButton(205, 350, "Music.png", "Bullet");
-	superDamageButton_ = settingSmallButton(405, 350, "Music.png", "Damage");
+	superBodyButton_ = settingSmallButton(405, 100, "Setting/Music.png", "Super body");
+	superAccuracyButton_ = settingSmallButton(5, 350, "Setting/Music.png", "Accuracy");
+	superBulletButton_ = settingSmallButton(205, 350, "Setting/Music.png", "Bullet");
+	superDamageButton_ = settingSmallButton(405, 350, "Setting/Music.png", "Damage");
 
 	return true;
 }
 
 bool SettingLayer::open()
 {
-	//为了在Monster类内使用外部的东西，使用以下几句
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+	auto runningFightScene = dynamic_cast<FightScene*>(runningScene);
 	auto contenteSize = runningScene->getContentSize();
 	auto playerOfNode = runningScene->getChildByTag(PLAYER_TAG);
 	cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
@@ -203,7 +196,7 @@ bool SettingLayer::close()
 cocos2d::ui::Button* SettingLayer::settingSmallButton(float deviationX, float deviationY, std::string spriteName, std::string texts)
 {
 	cocos2d::ui::Button* smallButton = new  cocos2d::ui::Button;
-	smallButton = cocos2d::ui::Button::create("btn_default.png", "btn_default_pressed.png");
+	smallButton = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
 	auto Image = cocos2d::Sprite::create(spriteName);
 	smallButton->setPosition(cocos2d::Vec2(STANDARD_LEFT + deviationX, BOARD_IMAGE_HEIGHT - deviationY));
 	Image->setPosition(cocos2d::Vec2(55, 50));

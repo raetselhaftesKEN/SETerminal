@@ -99,8 +99,8 @@ public:
 
 	bool isAttacking = false;
 
-	bool settingSuperBody_ = false;
 
+	bool settingSuperBody_ = false;
 
 protected:
 
@@ -137,6 +137,8 @@ protected:
 	int medkitMaxNum_ = MEDKIT_MAX_NUM;
 
 	int bulletMaxNum_ = 180;
+
+
 };
 
 #endif // !__PLAYER_H__
