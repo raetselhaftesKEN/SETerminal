@@ -275,7 +275,10 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 			CanShoot = false;
 			auto shoot = cocos2d::CallFunc::create([=]()
 				{
-					shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/impacter.mp3", false, .5f);
+					if (isShootMusicPlaying_)
+					{
+						shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/impacter.mp3", false, .5f);
+					}
 					auto bullet = Bullet::create(bulletFilename_);
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());

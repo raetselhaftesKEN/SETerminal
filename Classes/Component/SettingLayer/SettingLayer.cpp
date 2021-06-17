@@ -162,8 +162,17 @@ bool SettingLayer::open()
 		}
 	});
 
-	shortMusicButton_->addClickEventListener([&](Ref*) {
-		
+	shortMusicButton_->addClickEventListener([=](Ref*) {
+		if (playerOfPlayer->getPrimaryWeaponInstance()->isShootMusicPlaying_)
+		{
+			playerOfPlayer->getPrimaryWeaponInstance()->isShootMusicPlaying_ = false;
+			playerOfPlayer->getSecondaryWeaponInstance()->isShootMusicPlaying_ = false;
+		}
+		else 
+		{
+			playerOfPlayer->getPrimaryWeaponInstance()->isShootMusicPlaying_ = true;
+			playerOfPlayer->getSecondaryWeaponInstance()->isShootMusicPlaying_ = true;
+		}
 	});
 
 	superBodyButton_->addClickEventListener([=](Ref*) {

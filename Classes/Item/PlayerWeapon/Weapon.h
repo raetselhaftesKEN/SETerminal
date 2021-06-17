@@ -102,7 +102,8 @@ public:
 
 	float BulletSpeed = 2000;
 
-
+	int shootMusicID_;
+	bool isShootMusicPlaying_ = true;
 
 protected:
 
@@ -127,7 +128,7 @@ protected:
 	PlayerAimPoint* MyAimPoint;
 	PlayerAimPoint* ReloadAimPoint;
 
-	int shootMusicID_;
+	
 
 };
 
