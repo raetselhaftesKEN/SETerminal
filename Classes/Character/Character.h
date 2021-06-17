@@ -93,7 +93,7 @@ protected:
 
     bool isAlive_ = true;
 	
-    float moveSpeed_;
+    float moveSpeed_ = 100;
 
 	//角色朝向的点的坐标
 	cocos2d::Vec2 facingPoint_;

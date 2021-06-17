@@ -44,7 +44,7 @@ void Monster::move() {
 	}
 	auto realDest = nextPosition - getPosition();
 	realDest.normalize();
-	auto moveOnce = cocos2d::MoveBy::create(MoveTime, realDest * 50);
+	auto moveOnce = cocos2d::MoveBy::create((realDest * 50).length() / moveSpeed_, realDest * 50);
 	facingPoint_ = nextPosition;
 
 	//怪物在move1和move2中间的随机位置发射子弹的动作，使用lambda表达式实现
@@ -146,7 +146,7 @@ Monster* Monster::create(const std::string& filename)
 		auto monsterPosition = FightScene::getRandomPosition();
 		monster->bindCharacterAnimate("MONSTER2");
 
-		monster->MoveTime = 2.f;
+		monster->moveSpeed_ = 100.f;
 		monster->health_ = MONSTER_MAX_HEALTH;
 		monster->maxHealth_ = MONSTER_MAX_HEALTH;
 		monster->shield_ = MONSTER_DEFAULT_SHIELD;
@@ -182,10 +182,10 @@ Monster* Monster::create(enemyType_ type)
 			filename = "MONSTER2/idle_down/idle_down1.png";
 			break;
 		case enemyType_::Default_Shoot_Fast:
-			filename = "MONSTER2/idle_down/idle_down1.png";
+			filename = "MONSTER3/idle_down/idle_down1.png";
 			break;
 		case enemyType_::Default_Shoot_Elite:
-			filename = "MONSTER2/idle_down/idle_down1.png";
+			filename = "MONSTER1/idle_down/idle_down1.png";
 			break;
 		default:
 			return nullptr;
@@ -201,32 +201,33 @@ Monster* Monster::create(enemyType_ type)
 	if (monster && monster->sprite_)
 	{
 		auto monsterPosition = FightScene::getRandomPosition();
-		monster->bindCharacterAnimate("MONSTER2");
 
 		switch (type)
 		{
 			case enemyType_::Default_Shoot:
 				monster->ShootFreq = 1;
-				monster->MoveTime = 2.f;
-				monster->Health = 30;
+				monster->moveSpeed_ = 100.f;
+				monster->maxHealth_ = 30;
+				monster->bindCharacterAnimate("MONSTER2");
 				break;
 			case enemyType_::Default_Shoot_Fast:
 				monster->ShootFreq = 1;
-				monster->MoveTime = 1.f;
-				monster->Health = 30;
+				monster->moveSpeed_ = 50.f;
+				monster->maxHealth_ = 30;
+				monster->bindCharacterAnimate("MONSTER3");
 				break;
 			case enemyType_::Default_Shoot_Elite:
 				monster->ShootFreq = 3;
-				monster->MoveTime = 1.f;
-				monster->Health = 60;
+				monster->moveSpeed_ = 50.f;
+				monster->maxHealth_ = 60;
+				monster->bindCharacterAnimate("MONSTER1");
 				break;
 			default:
 				return nullptr;
 				break;
 		}
 
-		monster->health_ = monster->Health;
-		monster->maxHealth_ = monster->Health;
+		monster->health_ = monster->maxHealth_;
 		monster->shield_ = MONSTER_DEFAULT_SHIELD;
 
 		//设置怪物生成坐标

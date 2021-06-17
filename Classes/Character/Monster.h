@@ -59,10 +59,6 @@ public:
 
 protected:
 
-	float MoveTime;
-
-	int Health;
-
 	int ShootFreq;
 
 };
