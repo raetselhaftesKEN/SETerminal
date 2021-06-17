@@ -13,10 +13,6 @@
 SettingLayer* SettingLayer::create()
 {
 	auto settingLayer = new(std::nothrow) SettingLayer();
-	/*if (settingLayer == nullptr)
-	{
-		return nullptr;
-	}*/
 
 	if (settingLayer && settingLayer->init())
 	{
@@ -49,9 +45,6 @@ void SettingLayer::initMusic()
 
 bool SettingLayer::init()
 {
-	
-
-
 	this->setPosition(cocos2d::Vec2(CLOSE_X, CLOSE_Y));
 	
 	backgroundMusicID_ = cocos2d::AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);

@@ -28,12 +28,10 @@ Player* Player::create(const std::string& filename)
 		player->bindCharacterAnimate("MIKU", 0.1f);
 
 		//初始化角色武器和弹药
-		player->primaryWeapon_ = Weapon::create(weaponType_::AKM);
+		player->primaryWeapon_ = Weapon::create(weaponType_::SVD);
 		player->primaryWeapon_->Item::pickUp();
 		player->secondaryWeapon_ = Weapon::create(weaponType_::MP5);
 		player->secondaryWeapon_->Item::pickUp();
-		player->primaryWeapon_->setScale(0.3f, 0.3f);
-		player->secondaryWeapon_->setScale(0.3f, 0.3f);
 
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);

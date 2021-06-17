@@ -86,6 +86,10 @@ public:
 
 	SettingLayer* settingLayer_;
 
+	void airDrop();
+
+	static cocos2d::Vec2 getRandomPosition();
+
 protected:
 
 	cocos2d::TMXTiledMap* tileMap1_;
@@ -96,7 +100,7 @@ protected:
 
 	Player* player_;
 
-	cocos2d::Node* dropNode_;
+	cocos2d::Node* dropNode_ = nullptr;
 
 	CameraEffect* mainCamera_;
 

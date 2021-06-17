@@ -183,7 +183,7 @@ bool FightScene::ifCollision(cocos2d::Vec2 pos)
 	{
 		auto obsPos = i->getPosition();
 		auto obsSize = i->getSize();
-		if (fabs(obsPos.x - pos.x) < (obsSize.width / 2) && fabs(obsPos.y - pos.y) < (obsSize.height / 2))
+		if (fabs(obsPos.x - pos.x) < (obsSize.width) && fabs(obsPos.y - pos.y) < (obsSize.height))
 		{
 			return true;
 		}
@@ -193,7 +193,7 @@ bool FightScene::ifCollision(cocos2d::Vec2 pos)
 
 void FightScene::generateMonster(float dt)
 {
-	if (SpawnedMonster < MonsterToSpawn)
+	if (SpawnedMonster < MonsterToSpawn && player_->isAlive())
 	{
 		int monsterType = rand() % 3;
 		Monster* monster = nullptr;
@@ -387,6 +387,7 @@ cocos2d::Node* FightScene::getDropNode()
 {
 	return dropNode_;
 }
+
 void FightScene::setDropNode(cocos2d::Node* node)
 {
 	dropNode_ = node;
@@ -406,7 +407,6 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
-
 }
 
 void FightScene::buildSettingBtn()
@@ -462,4 +462,54 @@ void FightScene::buildSettingBtn()
 	this->addChild(btnSetting, 3);
 	this->addChild(settingImg, 4);
 	this->addChild(closeButton, 3);
+}
+
+void FightScene::airDrop()
+{
+	if (player_->isAlive() && SpawnedMonster != MonsterToSpawn)
+	{
+		auto dropPos = FightScene::getRandomPosition();
+		int drop = rand() % 4;
+		auto playerPos = player_->getPosition();
+		auto node = Weapon::create(static_cast<weaponType_>(rand() % 6));
+
+		node->retain();
+		node->setPosition(playerPos);
+		setDropNode(dynamic_cast<Node*>(node));
+		this->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
+		setDropNode(nullptr);
+	}
+}
+
+cocos2d::Vec2 FightScene::getRandomPosition()
+{
+	cocos2d::Vec2 position;
+
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+	Player* playerNode = nullptr;
+	cocos2d::Vec2 playerPos = cocos2d::Vec2(BOUND_XMID, BOUND_YMID);
+	if (runningScene != nullptr)
+	{
+		playerNode = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
+		playerPos = playerNode->getPosition();
+	}
+
+	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
+	auto orgin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+
+	auto minY = playerPos.y - winSize.height;
+	auto maxY = playerPos.y + winSize.height;
+	auto minX = playerPos.x - winSize.width;
+	auto maxX = playerPos.x + winSize.width;
+	auto rangeY = maxY - minY;
+	auto rangeX = maxX - minX;
+
+	do
+	{
+		position.y = (rand() % static_cast<int>(rangeY)) + minY;
+		position.x = (rand() % static_cast<int>(rangeX)) + minX;
+	} while (!FightScene::isInBound(position) || (FightScene::ifCollision(position)));
+
+	return position;
 }

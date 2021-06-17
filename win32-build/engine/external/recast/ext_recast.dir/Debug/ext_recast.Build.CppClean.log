@@ -1,4 +1,10 @@
 d:\cocos\finalprojectgit\seterminal\win32-build\lib\debug\ext_recast.pdb
+d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detournode.obj
+d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detournavmeshquery.obj
+d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detournavmeshbuilder.obj
+d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detournavmesh.obj
+d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detourcommon.obj
+d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detouralloc.obj
 d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detourtilecachebuilder.obj
 d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detourtilecache.obj
 d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detourproximitygrid.obj
@@ -7,12 +13,6 @@ d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recas
 d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detourobstacleavoidance.obj
 d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detourlocalboundary.obj
 d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detourcrowd.obj
-d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detournode.obj
-d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detournavmeshquery.obj
-d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detournavmeshbuilder.obj
-d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detournavmesh.obj
-d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detourcommon.obj
-d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detouralloc.obj
 d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\detourdebugdraw.obj
 d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\debugdraw.obj
 d:\cocos\finalprojectgit\seterminal\win32-build\engine\external\recast\ext_recast.dir\debug\fastlz.obj

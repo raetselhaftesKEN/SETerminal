@@ -5,51 +5,12 @@
 #include "Monster.h"
 #include "Player.h"
 #include "Item/Medkit/Medkit.h"
-//#include "Scene/HelloWorldScene.h"
 #include "Scene/FightScene/FightScene.h"
 
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
-}
-
-cocos2d::Vec2 Monster::getRandomPosition()
-{
-	cocos2d::Vec2 position;
-	if (sprite_ == nullptr)
-	{
-		return cocos2d::Vec2::ZERO;
-	}
-
-	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
-	Player* playerNode = nullptr;
-	cocos2d::Vec2 playerPos = cocos2d::Vec2(BOUND_XMID, BOUND_YMID);
-	if (runningScene != nullptr)
-	{
-		playerNode = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
-		playerPos = playerNode->getPosition();
-	}
-
-	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
-	auto orgin = cocos2d::Director::getInstance()->getVisibleOrigin();
-
-	//怪物在屏幕中随机位置出现，计算怪物生成和发射子弹的合法坐标范围
-	
-	auto minY = playerPos.y - winSize.height;
-	auto maxY = playerPos.y + winSize.height;
-	auto minX = playerPos.x - winSize.width;
-	auto maxX = playerPos.x + winSize.width;
-	auto rangeY = maxY - minY;
-	auto rangeX = maxX - minX;
-
-	do
-	{
-		position.y = (rand() % static_cast<int>(rangeY)) + minY;
-		position.x = (rand() % static_cast<int>(rangeX)) + minX;
-	} while (!(FightScene::isInBound(position) && (FightScene::ifCollision(position))));
-
-	return position;
 }
 
 void Monster::receiveDamage(int damage)
@@ -70,7 +31,7 @@ void Monster::receiveDamage(int damage)
 }
 
 void Monster::move() {
-	auto nextPosition = getRandomPosition();
+	auto nextPosition = FightScene::getRandomPosition();
 	Player* playerNode = nullptr;
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
 	if (runningScene != nullptr)
@@ -151,6 +112,9 @@ void Monster::die()
 	{
 		auto scene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
 		auto medkitNode = dynamic_cast<cocos2d::Node*>(Medkit::create(getPosition()));
+		//auto scene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+		//auto medkitNode = dynamic_cast<Node*>(Weapon::create(weaponType_::AK47));
+		/*medkitNode->setPosition(getPosition());*/
 
 		if (scene && medkitNode)
 		{
@@ -179,7 +143,7 @@ Monster* Monster::create(const std::string& filename)
 
 	if (monster && monster->sprite_)
 	{
-		auto monsterPosition = monster->getRandomPosition();
+		auto monsterPosition = FightScene::getRandomPosition();
 		monster->bindCharacterAnimate("MONSTER2");
 
 		monster->MoveTime = 2.f;
@@ -236,7 +200,7 @@ Monster* Monster::create(enemyType_ type)
 
 	if (monster && monster->sprite_)
 	{
-		auto monsterPosition = monster->getRandomPosition();
+		auto monsterPosition = FightScene::getRandomPosition();
 		monster->bindCharacterAnimate("MONSTER2");
 
 		switch (type)
@@ -299,7 +263,7 @@ bool Monster::bindPhysicsBody()
 
 void Monster::updateFacingStatus()
 {
-	facingPoint_ = getRandomPosition();
+	facingPoint_ = FightScene::getRandomPosition();
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
 	Player* playerNode = nullptr;
 	if (runningScene != nullptr)

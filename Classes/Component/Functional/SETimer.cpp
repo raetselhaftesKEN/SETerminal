@@ -1,5 +1,9 @@
 #include "cocos2d.h"
+#include "Const/Const.h"
+#include "Scene/FightScene/FightScene.h"
 #include "SETimer.h"
+
+SETimer* SETimer::timerInstance_ = nullptr;
 
 SETimer* SETimer::create()
 {
@@ -29,14 +33,21 @@ SETimer* SETimer::create()
 		timer->setCameraMask(2, true);
 
 		timer->schedule(CC_SCHEDULE_SELECTOR(SETimer::update), 1);
+		SETimer::timerInstance_ = timer;
 		return timer;
 	}
 
 	return nullptr;
 }
 
+float SETimer::getCurrentTime()
+{
+	return SETimer::timerInstance_->TimePassed;
+}
+
 void SETimer::update(float dt)
 {
 	TimePassed++;
-	timeInfo_->setString(std::to_string((int)TimePassed));
+	timeInfo_->setString(std::to_string(static_cast<int>(TimePassed)));
+
 }
