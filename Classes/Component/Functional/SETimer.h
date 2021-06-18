@@ -11,12 +11,13 @@ class SETimer : public cocos2d::Node
 {
 public:
 
-
 	static SETimer* create();
 
 
 	void update(float dt);
 
+
+	static float getCurrentTime();
 
 protected:
 
@@ -24,6 +25,7 @@ protected:
 
 	cocos2d::Sprite* timeInfoBG_;
 	cocos2d::Label* timeInfo_;
+	static SETimer* timerInstance_;
 
 };
 

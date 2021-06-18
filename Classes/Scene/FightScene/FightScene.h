@@ -14,6 +14,7 @@
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Component/Functional/SurvivorCounter.h"
 #include "Component/Functional/SETimer.h"
+#include "Component/SettingLayer/SettingLayer.h"
 
 using namespace cocos2d;
 
@@ -54,11 +55,11 @@ public:
 	void generateMonster(float dt);
 
 
-	void goToNextScene();
-
-
 	cocos2d::Vector<Obstacle*> getObstacles();
 
+
+	static bool isInBound(cocos2d::Vec2);
+	static bool ifCollision(cocos2d::Vec2);
 
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
 	bool onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
@@ -81,6 +82,14 @@ public:
 
 	int RemainingSurvivor = 20;
 
+	void buildSettingBtn();
+
+	SettingLayer* settingLayer_;
+
+	void airDrop();
+
+	static cocos2d::Vec2 getRandomPosition();
+
 protected:
 
 	cocos2d::TMXTiledMap* tileMap1_;
@@ -91,7 +100,7 @@ protected:
 
 	Player* player_;
 
-	cocos2d::Node* dropNode_;
+	cocos2d::Node* dropNode_ = nullptr;
 
 	CameraEffect* mainCamera_;
 
@@ -107,10 +116,10 @@ protected:
 
 	int sceneSerial_ = 1;
 
-	bool clear_ = false;
-
 	int MonsterToSpawn = 20;
 	int SpawnedMonster = 0;
+	int MaxMonsterInScene = 3;
+	int MonsterInScene = 0;
 };
 
 #endif // !__FIGHT_SCENE_H__

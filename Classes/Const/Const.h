@@ -51,6 +51,12 @@ using namespace std::string_literals;
 #define BULLET_MAX_NUM 180
 #define DISCARD_ITEM_DISTANCE 60
 #define CLIP_BULLET_NUM 90
+#define BOUND_XMIN 1104
+#define BOUND_XMAX 4112
+#define BOUND_YMIN 464
+#define BOUND_YMAX 4336
+#define BOUND_XMID 2608
+#define BOUND_YMID 2400
 #define GATE_POSITION_XMIN 1440
 #define GATE_POSITION_XMAX 1568
 #define GATE_POSITION_YMIN 3840

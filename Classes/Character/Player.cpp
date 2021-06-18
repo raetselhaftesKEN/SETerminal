@@ -28,12 +28,10 @@ Player* Player::create(const std::string& filename)
 		player->bindCharacterAnimate("MIKU", 0.1f);
 
 		//初始化角色武器和弹药
-		player->primaryWeapon_ = Weapon::create(weaponType_::AKM);
+		player->primaryWeapon_ = Weapon::create(weaponType_::SVD);
 		player->primaryWeapon_->Item::pickUp();
 		player->secondaryWeapon_ = Weapon::create(weaponType_::MP5);
 		player->secondaryWeapon_->Item::pickUp();
-		player->primaryWeapon_->setScale(0.3f, 0.3f);
-		player->secondaryWeapon_->setScale(0.3f, 0.3f);
 
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);
@@ -204,6 +202,21 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 		if (keyCode == K::KEY_E)
 		{
 			useMedkit();
+		}
+		if (keyCode == K::KEY_ESCAPE)
+		{
+			auto runningScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+			{
+				if (!(runningScene->settingLayer_->isOpen))
+				{
+					runningScene->settingLayer_->setPosition(0, 0);
+					runningScene->settingLayer_->open();
+				}
+				else
+				{
+					runningScene->settingLayer_->close();
+				}
+			}
 		}
 		if (!isAttacking)
 		{

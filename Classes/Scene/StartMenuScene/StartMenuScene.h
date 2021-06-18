@@ -22,15 +22,13 @@ public:
 
 	void exitCallback(cocos2d::Ref* pSender);
 
-	void bindFirstFightScene(cocos2d::Scene* scene);
+	void goToFightScene();
 
 	void initStartButton();
 
 	void initExitButton();
 
 protected:
-
-	cocos2d::Scene* firstFightScene_;
 
 	cocos2d::Menu* startButton_;
 

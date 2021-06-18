@@ -127,6 +127,8 @@ protected:
 	PlayerAimPoint* MyAimPoint;
 	PlayerAimPoint* ReloadAimPoint;
 
+	int shootMusicID_;
+
 };
 
 #endif // !__WEAPON_H__

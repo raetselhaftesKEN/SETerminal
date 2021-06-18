@@ -159,23 +159,11 @@ bool FightScene::init()
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);
 
+	settingLayer_ = SettingLayer::create();
+	this->addChild(settingLayer_, 5);
+	buildSettingBtn();
+
 	return true;
-}
-
-void FightScene::goToNextScene()
-{
-	//auto map = cocos2d::TMXTiledMap::create(std::string("tilemap") + std::to_string(sceneSerial_ + 1) + ".png");
-	//map->setPosition(cocos2d::Vec2::ZERO);
-	//cocos2d::Vector<Obstacle*> obstacles;
-	//FightScene* nextScene = FightScene::create(map, obstacles, sceneSerial_ + 1);
-
-	//TODO: Add obstacles
-
-	//player_->retain();
-	//player_->removeFromParent();
-	//nextScene->bindPlayer(player_);
-	//cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(2.0f, nextScene->createScene()));
-	
 }
 
 cocos2d::Vector<Obstacle*> FightScene::getObstacles()
@@ -183,12 +171,32 @@ cocos2d::Vector<Obstacle*> FightScene::getObstacles()
 	return obstacle_;
 }
 
+bool FightScene::isInBound(cocos2d::Vec2 pos)
+{
+	return ((pos.x >= BOUND_XMIN && pos.x <= BOUND_XMAX) && (pos.y >= BOUND_YMIN && pos.y <= BOUND_YMAX));
+}
+
+bool FightScene::ifCollision(cocos2d::Vec2 pos)
+{
+	auto runningScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+	for (auto i : runningScene->getObstacles())
+	{
+		auto obsPos = i->getPosition();
+		auto obsSize = i->getSize();
+		if (fabs(obsPos.x - pos.x) < (obsSize.width) && fabs(obsPos.y - pos.y) < (obsSize.height))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void FightScene::generateMonster(float dt)
 {
-	if (SpawnedMonster < MonsterToSpawn)
+	if (SpawnedMonster < MonsterToSpawn && player_->isAlive() && MonsterInScene < MaxMonsterInScene)
 	{
 		int monsterType = rand() % 3;
-		Monster* monster;
+		Monster* monster = nullptr;
 		switch (monsterType)
 		{
 			case 0:
@@ -213,6 +221,7 @@ void FightScene::generateMonster(float dt)
 			addChild(monster, 1);
 			monster->move();
 			SpawnedMonster++;
+			MonsterInScene++;
 		}
 	}
 }
@@ -222,6 +231,7 @@ void FightScene::monsterDestroyed()
 	if (RemainingSurvivor > 1)
 	{
 		RemainingSurvivor--;
+		MonsterInScene--;
 	}
 	else
 	{
@@ -379,6 +389,7 @@ cocos2d::Node* FightScene::getDropNode()
 {
 	return dropNode_;
 }
+
 void FightScene::setDropNode(cocos2d::Node* node)
 {
 	dropNode_ = node;
@@ -398,12 +409,109 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
-	if (player_ != nullptr)
+}
+
+void FightScene::buildSettingBtn()
+{
+	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
+	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
+
+	auto closeButton = cocos2d::ui::Button::create("close.png", "close_pressed.png");
+
+	if (btnSetting == nullptr || settingImg == nullptr || closeButton == nullptr)
 	{
-		auto pos = player_->getPosition();
-		if (clear_ && pos.x >= GATE_POSITION_XMIN && pos.x <= GATE_POSITION_XMAX && pos.y >= GATE_POSITION_YMIN)
-		{
-			goToNextScene();
-		}
+		problemLoading("Button picture");
 	}
+	else
+	{
+		btnSetting->setScale9Enabled(true);
+		// 设置素材内容部分贴图大小
+		//btnSetting->setCapInsets(Rect(12, 12, 30, 18));
+		btnSetting->setContentSize(cocos2d::Size(100, 80));
+		btnSetting->setPosition(cocos2d::Vec2(60, 40));
+		settingImg->setPosition(cocos2d::Vec2(60, 40));
+		btnSetting->addClickEventListener([&](Ref*) {
+			cocos2d::log("Setting Pressed!");
+			if (!settingLayer_->isOpen)
+			{
+				settingLayer_->setPosition(0, 0);
+				settingLayer_->open();
+			}
+			else
+			{
+				settingLayer_->close();
+			}
+			}
+		);
+
+		auto closeButtonSize = closeButton->getContentSize();
+		auto runningSceneSize = this->getContentSize();
+		closeButton->setPosition(cocos2d::Vec2(runningSceneSize.width - closeButtonSize.width / 2, runningSceneSize.height - closeButtonSize.height / 2));
+		closeButton->addClickEventListener([&](Ref*) {
+			cocos2d::log("Close Button Pressed!");
+			//cocos2d::Director::getInstance()->end();
+			//cocos2d::Director::getInstance()->replaceScene(startMenu_);
+			}
+		);
+
+
+		//设置始终在镜头左下角
+		btnSetting->setCameraMask(2, true);
+		settingImg->setCameraMask(2, true);
+		closeButton->setCameraMask(2, true);
+	}
+
+	this->addChild(btnSetting, 3);
+	this->addChild(settingImg, 4);
+	this->addChild(closeButton, 3);
+}
+
+void FightScene::airDrop()
+{
+	if (player_->isAlive() && SpawnedMonster != MonsterToSpawn)
+	{
+		auto dropPos = FightScene::getRandomPosition();
+		int drop = rand() % 4;
+		auto playerPos = player_->getPosition();
+		auto node = Weapon::create(static_cast<weaponType_>(rand() % 6));
+
+		node->retain();
+		node->setPosition(playerPos);
+		setDropNode(dynamic_cast<Node*>(node));
+		this->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
+		setDropNode(nullptr);
+	}
+}
+
+cocos2d::Vec2 FightScene::getRandomPosition()
+{
+	cocos2d::Vec2 position;
+
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+	Player* playerNode = nullptr;
+	cocos2d::Vec2 playerPos = cocos2d::Vec2(BOUND_XMID, BOUND_YMID);
+	if (runningScene != nullptr)
+	{
+		playerNode = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
+		playerPos = playerNode->getPosition();
+	}
+
+	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
+	auto orgin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+
+	auto minY = playerPos.y - winSize.height;
+	auto maxY = playerPos.y + winSize.height;
+	auto minX = playerPos.x - winSize.width;
+	auto maxX = playerPos.x + winSize.width;
+	auto rangeY = maxY - minY;
+	auto rangeX = maxX - minX;
+
+	do
+	{
+		position.y = (rand() % static_cast<int>(rangeY)) + minY;
+		position.x = (rand() % static_cast<int>(rangeX)) + minX;
+	} while (!FightScene::isInBound(position) || (FightScene::ifCollision(position)));
+
+	return position;
 }

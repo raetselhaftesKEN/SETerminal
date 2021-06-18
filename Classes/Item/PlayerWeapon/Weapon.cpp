@@ -3,8 +3,8 @@
 */
 
 #include "cocos2d.h"
+#include "AudioEngine.h"
 #include "Weapon.h"
-//#include "././Scene/HelloWorldScene.h"
 #include "Character/Player.h"
 #include "../Bullet/Bullet.h"
 #include "Const/Const.h"
@@ -39,7 +39,7 @@ float Weapon::getRecoiRecoverl()
 }
 void Weapon::setRecoilRecover(float recoilRecover)
 {
-	if(recoilRecover >= 0)
+	if (recoilRecover >= 0)
 		RecoilRecover = recoilRecover;
 }
 
@@ -133,6 +133,7 @@ Weapon* Weapon::create(weaponType_ type)
 	}
 	weapon->weaponFilename_ = filename;
 	weapon->bindPictureSprite(cocos2d::Sprite::create(filename));
+	weapon->sprite_->setScale(0.3f);
 
 	if (weapon && weapon->sprite_)
 	{
@@ -236,12 +237,10 @@ Weapon* Weapon::create(weaponType_ type)
 		weapon->MyAimPoint->retain();
 		weapon->ReloadAimPoint->retain();
 
-		//		weapon->MyAimPoint->setScale(3, 3);
-		//		weapon->ReloadAimPoint->setScale(3, 3);
-
 		weapon->MyAimPoint->setVisible(true);
 		weapon->ReloadAimPoint->setVisible(false);
 		weapon->ActiveAimPoint = weapon->MyAimPoint;
+		weapon->retain();
 
 		return weapon;
 	}
@@ -276,6 +275,7 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 			CanShoot = false;
 			auto shoot = cocos2d::CallFunc::create([=]()
 				{
+					shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/impacter.mp3", false, .5f);
 					auto bullet = Bullet::create(bulletFilename_);
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());

@@ -4,6 +4,7 @@
 
 #include "Obstacle.h"
 #include "Const/Const.h"
+#include "Scene/FightScene/FightScene.h"
 #include <cmath>
 
 Obstacle* Obstacle::create(const std::string& filename)
@@ -191,4 +192,9 @@ cocos2d::Vector<Obstacle*> Obstacle::createObsSet(const int& serial)
 	obs.pushBack(obs17);
 
 	return obs;
+}
+
+cocos2d::Size Obstacle::getSize()
+{
+	return this->sprite_->getContentSize();
 }

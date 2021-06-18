@@ -109,21 +109,20 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto _tileMap1 = TMXTiledMap::create("map/map_1/map/bottomMap.tmx");
-    _tileMap1->setPosition(Vec2(0, 0));
+    //auto _tileMap1 = TMXTiledMap::create("map/map_1/map/bottomMap.tmx");
+    //_tileMap1->setPosition(Vec2(0, 0));
 
-    auto _tileMap2 = TMXTiledMap::create("map/map_1/map/middleMap.tmx");
-    _tileMap2->setPosition(Vec2(0, 50 * 32));
+    //auto _tileMap2 = TMXTiledMap::create("map/map_1/map/middleMap.tmx");
+    //_tileMap2->setPosition(Vec2(0, 50 * 32));
 
-    auto _tileMap3 = TMXTiledMap::create("map/map_1/map/topMap.tmx");
-    _tileMap3->setPosition(Vec2(0, 100 * 32));
+    //auto _tileMap3 = TMXTiledMap::create("map/map_1/map/topMap.tmx");
+    //_tileMap3->setPosition(Vec2(0, 100 * 32));
 
-    auto scene = FightScene::create(_tileMap1, _tileMap2, _tileMap3, Obstacle::createObsSet(1), 1);
-    scene->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
-    scene->retain();
+    //auto scene = FightScene::create(_tileMap1, _tileMap2, _tileMap3, Obstacle::createObsSet(1), 1);
+    //scene->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
+    //scene->retain();
 
     auto startMenu = StartMenuScene::create();
-    startMenu->bindFirstFightScene(scene->createScene());
 
     director->runWithScene(startMenu->createScene());
 
