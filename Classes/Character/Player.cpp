@@ -35,8 +35,6 @@ Player* Player::create(const std::string& filename)
 
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);
-		player->primaryWeapon_->setPosition(cocos2d::Vec2(10, 0));
-		player->secondaryWeapon_->setPosition(cocos2d::Vec2(10, 0));
 
 		player->primaryWeapon_->Active(true);
 		player->secondaryWeapon_->Active(false);
@@ -273,6 +271,7 @@ void Player::receiveDamage(int damage)
 {
 	if (!superBody_)
 	{
+		receiveDamageMessage = true;
 		int realDamage;
 		if (shield_ > 0)
 		{
@@ -292,14 +291,14 @@ void Player::receiveDamage(int damage)
 		{
 			health_ -= realDamage;
 		}
-	}	
+	}
 }
 
 void Player::die()
 {
 	isAlive_ = false;
 	health_ = 0;
-	
+
 }
 
 void Player::attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)
@@ -364,19 +363,59 @@ void Player::updateFacingStatus()
 		if (direction.x > 0 && abs(direction.y) <= direction.x)
 		{
 			curFacingStatus_ = FacingStatus::right;
+			if (primaryWeapon_)
+			{
+				primaryWeapon_->setPosition(weaponPosRight);
+				primaryWeapon_->setLocalZOrder(1);
+			}
+			if (secondaryWeapon_)
+			{
+				secondaryWeapon_->setPosition(weaponPosRight);
+				secondaryWeapon_->setLocalZOrder(1);
+			}
 		}
 		else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
 		{
 			curFacingStatus_ = FacingStatus::left;
+			if (primaryWeapon_)
+			{
+				primaryWeapon_->setPosition(weaponPosLeft);
+				primaryWeapon_->setLocalZOrder(1);
+			}
+			if (secondaryWeapon_)
+			{
+				secondaryWeapon_->setPosition(weaponPosLeft);
+				secondaryWeapon_->setLocalZOrder(1);
+			}
 
 		}
 		else if (direction.y > 0 && abs(direction.x) <= direction.y)
 		{
 			curFacingStatus_ = FacingStatus::up;
+			if (primaryWeapon_)
+			{
+				primaryWeapon_->setPosition(weaponPosFront);
+				primaryWeapon_->setLocalZOrder(-1);
+			}
+			if (secondaryWeapon_)
+			{
+				secondaryWeapon_->setPosition(weaponPosFront);
+				secondaryWeapon_->setLocalZOrder(-1);
+			}
 		}
 		else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
 		{
 			curFacingStatus_ = FacingStatus::down;
+			if (primaryWeapon_)
+			{
+				primaryWeapon_->setPosition(weaponPosFront);
+				primaryWeapon_->setLocalZOrder(1);
+			}
+			if (secondaryWeapon_)
+			{
+				secondaryWeapon_->setPosition(weaponPosFront);
+				secondaryWeapon_->setLocalZOrder(1);
+			}
 		}
 
 		if (preFacingStatus_ != curFacingStatus_)
@@ -416,7 +455,7 @@ void Player::DodgeAnimeStart()
 
 void Player::DodgeAnime(cocos2d::Vec2 dir)
 {
-	getPhysicsBody()->setVelocity(moveSpeed_ * dodgeSpeedBoost_ * dir);	
+	getPhysicsBody()->setVelocity(moveSpeed_ * dodgeSpeedBoost_ * dir);
 }
 
 void Player::DodgeAnimeEnd()
@@ -517,7 +556,7 @@ void Player::update(float dt)
 
 	if (primaryWeapon_ != nullptr)
 	{
-		TargetPos  = primaryWeapon_->ActiveAimPoint->getPosition();
+		TargetPos = primaryWeapon_->ActiveAimPoint->getPosition();
 	}
 	TargetPos.normalize();
 
@@ -592,6 +631,6 @@ void Player::update(float dt)
 		statusChanged_ = false;
 		detectCollision();
 
-	}	
+	}
 }
 

@@ -83,6 +83,8 @@ public:
 
 	float shieldProtectionRate_;
 
+	bool receiveDamageMessage = false;
+
 protected:
 
 	friend class HealthBar;

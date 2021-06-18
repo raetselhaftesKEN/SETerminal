@@ -46,7 +46,7 @@ public:
 	virtual void updateFacingStatus();
 	virtual void updateWalkingStatus();
 
-	
+
 
 	void dodge();
 	void DodgeAnimeStart();
@@ -99,8 +99,6 @@ public:
 
 	bool isAttacking = false;
 
-	bool receiveDamageMessage = false;
-
 	bool settingSuperBody_ = false;
 
 protected:
@@ -109,13 +107,13 @@ protected:
 
 	//ÒÆ¶¯
 	enum Key { W, A, S, D };
-	bool keyPressed_[4]{};	
+	bool keyPressed_[4]{};
 	float speedBoostFactor_ = 1;
 	bool allowMove_ = true;
 
 	//ÉÁ±ÜÊý¾Ý
 	bool canDodge_ = true;
-	float dodgeRate_ = 100.0f;												
+	float dodgeRate_ = 100.0f;
 	float dodgeSpeedBoost_ = 3.0f;
 	float dodgeTime_ = 0.1f;
 
@@ -139,6 +137,9 @@ protected:
 
 	int bulletMaxNum_ = 180;
 
+	cocos2d::Vec2 weaponPosLeft = cocos2d::Vec2(-10, 0);
+	cocos2d::Vec2 weaponPosRight = cocos2d::Vec2(10, 0);
+	cocos2d::Vec2 weaponPosFront = cocos2d::Vec2(0, -10);
 
 };
 

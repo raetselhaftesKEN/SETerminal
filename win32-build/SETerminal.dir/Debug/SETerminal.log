@@ -1,6 +1,2 @@
-﻿  FightScene.cpp
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(349,30): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(350,34): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(373,30): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(374,34): warning C4305: “参数”: 从“double”到“float”截断
+﻿  main.cpp
   SETerminal.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\SETerminal.exe

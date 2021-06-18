@@ -219,6 +219,24 @@ void Monster::die()
 	}
 	isAlive_ = false;
 	health_ = 0;
+
+	auto deathParticle = cocos2d::ParticleExplosion::create();
+	deathParticle->setDuration(0.1f);
+	deathParticle->setLife(0.5f);
+	deathParticle->setLifeVar(0.1);
+	deathParticle->setScale(1.f);
+	deathParticle->setSpeed(150);
+	deathParticle->setStartColor(cocos2d::Color4F::BLACK);
+	deathParticle->setEndColor(cocos2d::Color4F::BLACK);
+	deathParticle->setStartColorVar(cocos2d::Color4F::BLACK);
+	deathParticle->setEndColorVar(cocos2d::Color4F::BLACK);
+	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
+	if (runningScene != nullptr)
+	{
+		runningScene->addChild(deathParticle, 10);
+	}
+	deathParticle->setPosition(getPosition());
+
 	removeFromParentAndCleanup(true);
 }
 

@@ -59,10 +59,10 @@ WeaponUI* WeaponUI::create(Player* player_)
 	weaponUI->reloadWarning2_->setVisible(false);
 
 	weaponUI->damageReact_ = cocos2d::Sprite::create("DamageReact.png");
-	weaponUI->damageReact_->setAnchorPoint(cocos2d::Vec2::ANCHOR_BOTTOM_LEFT);
+	weaponUI->damageReact_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
 	weaponUI->damageReact_->setOpacity(0);
-	weaponUI->damageReact_->setCameraMask(2);
-	weaponUI->addChild(weaponUI->damageReact_, 2);
+	weaponUI->damageReact_->setPosition(cocos2d::Vec2(0, -50));
+	weaponUI->addChild(weaponUI->damageReact_, 4);
 
 	weaponUI->weaponIcon_->setPosition(cocos2d::Vec2(0, 50));
 
@@ -136,11 +136,7 @@ void WeaponUI::update(float dt)
 	}
 	if (damageReact_->getOpacity() > 0)
 	{
-		int tempOpacity = (int)((float)damageReact_->getOpacity() - 255 / 60);
-		damageReact_->setOpacity(tempOpacity >= 0 ? 0 : tempOpacity);
-	}
-	else
-	{
-		damageReact_->setOpacity(0);
+		int tempOpacity = (int)((float)(damageReact_->getOpacity()) - (float)510 / 60);
+		damageReact_->setOpacity(tempOpacity <= 0 ? 0 : tempOpacity);
 	}
 }
