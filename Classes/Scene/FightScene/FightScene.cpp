@@ -232,6 +232,7 @@ void FightScene::monsterDestroyed()
 	if (RemainingSurvivor > 1)
 	{
 		RemainingSurvivor--;
+		MonsterInScene--;
 	}
 	else
 	{
