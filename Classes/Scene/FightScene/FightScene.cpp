@@ -373,8 +373,8 @@ void FightScene::contactBetweenObstacleAndBullet(Obstacle* obstacle, Bullet* bul
 		particleSystem->setLifeVar(0.05);
 		particleSystem->setScale(0.5f);
 		particleSystem->setSpeed(500);
-		particleSystem->setStartColor(cocos2d::Color4F::RED);
-		particleSystem->setEndColor(cocos2d::Color4F::RED);
+		particleSystem->setStartColor(cocos2d::Color4F::GRAY);
+		particleSystem->setEndColor(cocos2d::Color4F::GRAY);
 		particleSystem->setStartColorVar(cocos2d::Color4F::BLACK);
 		particleSystem->setEndColorVar(cocos2d::Color4F::BLACK);
 		this->addChild(particleSystem, 10);
