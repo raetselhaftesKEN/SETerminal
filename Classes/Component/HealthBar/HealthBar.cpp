@@ -91,6 +91,7 @@ HealthBar* HealthBar::create(Player* character)
 		healthBar->bullet9mm_->setBarChangeRate(cocos2d::Point(0, 1.f));
 		healthBar->bullet9mm_->setPercentage(static_cast<float>(healthBar->curBulletStock_[bulletType_::type9mm]) / BULLET_MAX_NUM * 100);
 
+
 		healthBar->addChild(healthBar->health_, 3);
 		healthBar->addChild(healthBar->shield_, 3);
 		healthBar->addChild(healthBar->healthR_, 2);
@@ -118,9 +119,9 @@ HealthBar* HealthBar::create(Player* character)
 void HealthBar::update(float dt)
 {
 	if (character_->health_ != curHealth_)
-	{		
+	{
 		curHealth_ = character_->health_;
-		health_->setPercentage(static_cast<float>(character_->Character::health_) / static_cast<float>(character_->Character::maxHealth_) * 100);		
+		health_->setPercentage(static_cast<float>(character_->Character::health_) / static_cast<float>(character_->Character::maxHealth_) * 100);
 	}
 
 	if (character_->shield_ != surShield_)

@@ -76,6 +76,7 @@ list(APPEND GAME_SOURCE
      Classes/Item/Clip/Clip.cpp
      Classes/Component/Functional/SurvivorCounter.cpp
      Classes/Component/Functional/SETimer.cpp
+     Classes/Component/SettingLayer/SettingLayer.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -99,6 +100,7 @@ list(APPEND GAME_HEADER
      Classes/Item/Clip/Clip.h
      Classes/Component/Functional/SurvivorCounter.h
      Classes/Component/Functional/SETimer.h
+     Classes/Component/SettingLayer/SettingLayer.h
      )
 
 if(ANDROID)

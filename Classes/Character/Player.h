@@ -99,8 +99,6 @@ public:
 
 	bool isAttacking = false;
 
-	bool receiveDamageMessage = false;
-
 	bool settingSuperBody_ = false;
 
 protected:
@@ -139,6 +137,9 @@ protected:
 
 	int bulletMaxNum_ = 180;
 
+	cocos2d::Vec2 weaponPosLeft = cocos2d::Vec2(-10, 0);
+	cocos2d::Vec2 weaponPosRight = cocos2d::Vec2(10, 0);
+	cocos2d::Vec2 weaponPosFront = cocos2d::Vec2(0, -10);
 
 };
 

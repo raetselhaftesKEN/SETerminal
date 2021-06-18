@@ -28,15 +28,13 @@ Player* Player::create(const std::string& filename)
 		player->bindCharacterAnimate("MIKU", 0.1f);
 
 		//初始化角色武器和弹药
-		player->primaryWeapon_ = Weapon::create(weaponType_::SVD);
+		player->primaryWeapon_ = Weapon::create(weaponType_::AK47);
 		player->primaryWeapon_->Item::pickUp();
 		player->secondaryWeapon_ = Weapon::create(weaponType_::MP5);
 		player->secondaryWeapon_->Item::pickUp();
 
 		player->addChild(player->primaryWeapon_);
 		player->addChild(player->secondaryWeapon_);
-		player->primaryWeapon_->setPosition(cocos2d::Vec2(10, 0));
-		player->secondaryWeapon_->setPosition(cocos2d::Vec2(10, 0));
 
 		player->primaryWeapon_->Active(true);
 		player->secondaryWeapon_->Active(false);
@@ -365,19 +363,59 @@ void Player::updateFacingStatus()
 		if (direction.x > 0 && abs(direction.y) <= direction.x)
 		{
 			curFacingStatus_ = FacingStatus::right;
+			if (primaryWeapon_)
+			{
+				primaryWeapon_->setPosition(weaponPosRight);
+				primaryWeapon_->setLocalZOrder(1);
+			}
+			if (secondaryWeapon_)
+			{
+				secondaryWeapon_->setPosition(weaponPosRight);
+				secondaryWeapon_->setLocalZOrder(1);
+			}
 		}
 		else if (direction.x < 0 && abs(direction.y) <= abs(direction.x))
 		{
 			curFacingStatus_ = FacingStatus::left;
+			if (primaryWeapon_)
+			{
+				primaryWeapon_->setPosition(weaponPosLeft);
+				primaryWeapon_->setLocalZOrder(1);
+			}
+			if (secondaryWeapon_)
+			{
+				secondaryWeapon_->setPosition(weaponPosLeft);
+				secondaryWeapon_->setLocalZOrder(1);
+			}
 
 		}
 		else if (direction.y > 0 && abs(direction.x) <= direction.y)
 		{
 			curFacingStatus_ = FacingStatus::up;
+			if (primaryWeapon_)
+			{
+				primaryWeapon_->setPosition(weaponPosFront);
+				primaryWeapon_->setLocalZOrder(-1);
+			}
+			if (secondaryWeapon_)
+			{
+				secondaryWeapon_->setPosition(weaponPosFront);
+				secondaryWeapon_->setLocalZOrder(-1);
+			}
 		}
 		else if (direction.y < 0 && abs(direction.x) <= abs(direction.y))
 		{
 			curFacingStatus_ = FacingStatus::down;
+			if (primaryWeapon_)
+			{
+				primaryWeapon_->setPosition(weaponPosFront);
+				primaryWeapon_->setLocalZOrder(1);
+			}
+			if (secondaryWeapon_)
+			{
+				secondaryWeapon_->setPosition(weaponPosFront);
+				secondaryWeapon_->setLocalZOrder(1);
+			}
 		}
 
 		if (preFacingStatus_ != curFacingStatus_)

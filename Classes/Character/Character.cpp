@@ -34,6 +34,7 @@ bool Character::isAlive()
 
 void Character::receiveDamage(int damage)
 {
+	receiveDamageMessage = true;
 	int realDamage;
 	if (shield_ > 0)
 	{

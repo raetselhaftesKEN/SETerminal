@@ -86,7 +86,7 @@ public:
 
 	SettingLayer* settingLayer_;
 
-	void airDrop();
+	void airDrop(float dt);
 
 	static cocos2d::Vec2 getRandomPosition();
 

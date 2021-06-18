@@ -30,9 +30,9 @@ public:
 	/**
 * @brief Monster的移动以及发射子弹函数，未来可以将怪物发射子弹单独独立
 * @return 无
-* @author 戴仁杰，杨孟臻
+* @author 戴仁杰
 */
-	void move();
+	void Monster::move();
 
 	void shoot();
 
@@ -67,6 +67,10 @@ protected:
 	bool autoShoot = false;
 
 	float shootGap = 2.f;
+
 };
+
+
+
 
 #endif // !MONSTER_H

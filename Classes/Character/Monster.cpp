@@ -30,7 +30,7 @@ void Monster::receiveDamage(int damage)
 
 }
 
-void Monster::move() 
+void Monster::move()
 {
 	switch (typeOfThisMonster)
 	{
@@ -103,7 +103,7 @@ void Monster::move()
 						enemyBullet->runAction(cocos2d::Sequence::create(eDartMove, eDartRemove, nullptr));
 					}
 				}
-			});
+				});
 			//¹ÖÎï·¢Éä×Óµ¯Ê±ÂÔÎ¢Í£¶Ù
 			auto delay = cocos2d::DelayTime::create(0.1);
 
@@ -111,7 +111,7 @@ void Monster::move()
 			runAction(cocos2d::Sequence::create(moveOnce, shootStar, cocos2d::CallFunc::create([=] {move(); }), nullptr));
 			break;
 		}
-			
+
 		case enemyType_::Default_Shoot_Elite:
 		{
 			if (autoShoot)
@@ -139,12 +139,12 @@ void Monster::move()
 
 			runAction(cocos2d::Sequence::create(moveOnce, cocos2d::CallFunc::create([=] {move(); }), nullptr));
 			break;
-		}			
+		}
 		default:
 			break;
 	}
 
-	
+
 }
 
 void Monster::shoot()
@@ -193,7 +193,7 @@ void Monster::shoot()
 				enemyBullet->runAction(cocos2d::Sequence::create(eDartMove, eDartRemove, nullptr));
 			}
 		}
-	});
+		});
 
 	auto delay = cocos2d::DelayTime::create(shootGap + (rand() % 3 - 1));
 
@@ -326,7 +326,7 @@ Monster* Monster::create(enemyType_ type)
 				monster->typeOfThisMonster = type;
 				break;
 			}
-				
+
 			case enemyType_::Default_Shoot_Fast:
 			{
 				monster->ShootFreq = 1;
@@ -336,7 +336,7 @@ Monster* Monster::create(enemyType_ type)
 				monster->typeOfThisMonster = type;
 				break;
 			}
-				
+
 			case enemyType_::Default_Shoot_Elite:
 			{
 				monster->ShootFreq = 3;
@@ -347,7 +347,7 @@ Monster* Monster::create(enemyType_ type)
 				monster->autoShoot = true;
 				break;
 			}
-				
+
 			default:
 				return nullptr;
 				break;
