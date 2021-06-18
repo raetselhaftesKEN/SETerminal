@@ -36,19 +36,18 @@ static void problemLoading(const char* filename)
 	printf("Error while loading: %s\n", filename);
 }
 
-void SettingLayer::initMusic()
-{
-	backgroundMusicID_ = cocos2d::AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
-	isBackgroundMusicPlaying_ = true;
-}
+//void SettingLayer::initMusic()
+//{
+//	backgroundMusicID_ = cocos2d::AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
+//	isBackgroundMusicPlaying_ = true;
+//}
 
 
 bool SettingLayer::init()
 {
 	this->setPosition(cocos2d::Vec2(CLOSE_X, CLOSE_Y));
-	
-	backgroundMusicID_ = cocos2d::AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
-	isBackgroundMusicPlaying_ = true;
+
+	//backgroundMusicID_ = cocos2d::AudioEngine::play2d("audio/bgm_1low.mp3", true, .5);
 
 	// ÉèÖÃ±³¾°¿ò
 	pauseBoardImg_ = cocos2d::ui::Scale9Sprite::create("Setting/pause_board.png");
@@ -163,15 +162,14 @@ bool SettingLayer::open()
 	});
 
 	shortMusicButton_->addClickEventListener([=](Ref*) {
-		if (playerOfPlayer->getPrimaryWeaponInstance()->isShootMusicPlaying_)
+		if (Weapon::isShootMusicPlaying_)
 		{
-			playerOfPlayer->getPrimaryWeaponInstance()->isShootMusicPlaying_ = false;
-			playerOfPlayer->getSecondaryWeaponInstance()->isShootMusicPlaying_ = false;
+			
+			Weapon::isShootMusicPlaying_ = false;
 		}
 		else 
 		{
-			playerOfPlayer->getPrimaryWeaponInstance()->isShootMusicPlaying_ = true;
-			playerOfPlayer->getSecondaryWeaponInstance()->isShootMusicPlaying_ = true;
+			Weapon::isShootMusicPlaying_ = true;
 		}
 	});
 

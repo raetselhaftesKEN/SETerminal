@@ -11,6 +11,8 @@
 #include <string>
 using namespace std::string_literals;
 
+bool Weapon::isShootMusicPlaying_ = true;
+
 int Weapon::getAccuracy()
 {
 	return Accuracy;

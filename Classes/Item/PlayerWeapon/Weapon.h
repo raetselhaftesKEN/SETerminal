@@ -103,7 +103,8 @@ public:
 	float BulletSpeed = 2000;
 
 	int shootMusicID_;
-	bool isShootMusicPlaying_ = true;
+
+	static bool isShootMusicPlaying_;
 
 protected:
 

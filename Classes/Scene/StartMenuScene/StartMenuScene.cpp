@@ -115,8 +115,9 @@ void StartMenuScene::loadingFightScene()
 
 void StartMenuScene::goToFightScene()
 {
-	
-	
+	//这个时候再加载音乐
+	AudioEngine::preload("audio/bgm_1low.mp3");
+	fightScene_->settingLayer_->backgroundMusicID_ = cocos2d::AudioEngine::play2d("audio/bgm_1low.mp3", true, .5);
 	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, fightScene_->createScene()));
 
 }

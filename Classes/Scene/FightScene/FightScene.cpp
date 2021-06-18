@@ -449,7 +449,9 @@ void FightScene::buildSettingBtn()
 			cocos2d::log("Close Button Pressed!");			
 			auto startMenuScene = StartMenuScene::create();
 			startMenuScene->retain();
-			//cocos2d::Director::getInstance()->end();
+			//¹Ø±ÕÒôÀÖ
+			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
+			settingLayer_->isBackgroundMusicPlaying_ = false;
 			removeFromParent();
 			cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
 			}
