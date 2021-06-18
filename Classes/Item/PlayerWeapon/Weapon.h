@@ -56,6 +56,7 @@ public:
 	void Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
 
 	int getCurrentMagazine();
+
 	/*
 	ÔÙ×°Ìî
 	@ÑîÃÏÕé

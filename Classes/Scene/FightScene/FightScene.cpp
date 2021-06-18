@@ -409,6 +409,7 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
+
 }
 
 void FightScene::buildSettingBtn()

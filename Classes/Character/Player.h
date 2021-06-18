@@ -99,6 +99,7 @@ public:
 
 	bool isAttacking = false;
 
+	bool receiveDamageMessage = false;
 
 	bool settingSuperBody_ = false;
 

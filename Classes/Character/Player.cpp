@@ -273,6 +273,7 @@ void Player::receiveDamage(int damage)
 {
 	if (!superBody_)
 	{
+		receiveDamageMessage = true;
 		int realDamage;
 		if (shield_ > 0)
 		{

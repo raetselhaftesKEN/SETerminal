@@ -47,6 +47,23 @@ WeaponUI* WeaponUI::create(Player* player_)
 		weaponUI->addChild(weaponUI->weaponIcon_, 3);
 	}
 
+	weaponUI->reloadWarning1_ = cocos2d::Sprite::create("ReloadWarning1.png");
+	weaponUI->reloadWarning2_ = cocos2d::Sprite::create("ReloadWarning2.png");
+	weaponUI->reloadWarning1_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+	weaponUI->reloadWarning2_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_BOTTOM);
+	weaponUI->addChild(weaponUI->reloadWarning1_, 3);
+	weaponUI->addChild(weaponUI->reloadWarning2_, 3);
+	weaponUI->reloadWarning1_->setPosition(cocos2d::Vec2(0, 150));
+	weaponUI->reloadWarning2_->setPosition(cocos2d::Vec2(0, 150));
+	weaponUI->reloadWarning1_->setVisible(false);
+	weaponUI->reloadWarning2_->setVisible(false);
+
+	weaponUI->damageReact_ = cocos2d::Sprite::create("DamageReact.png");
+	weaponUI->damageReact_->setAnchorPoint(cocos2d::Vec2::ANCHOR_BOTTOM_LEFT);
+	weaponUI->damageReact_->setOpacity(0);
+	weaponUI->damageReact_->setCameraMask(2);
+	weaponUI->addChild(weaponUI->damageReact_, 2);
+
 	weaponUI->weaponIcon_->setPosition(cocos2d::Vec2(0, 50));
 
 	weaponUI->autorelease();
@@ -58,6 +75,11 @@ WeaponUI* WeaponUI::create(Player* player_)
 
 }
 
+void WeaponUI::damageReactAnime()
+{
+	damageReact_->setOpacity(255);
+}
+
 void WeaponUI::update(float dt)
 {
 	if (player->getPrimaryWeaponInstance() != nullptr)
@@ -65,6 +87,21 @@ void WeaponUI::update(float dt)
 		if (player->getPrimaryWeaponInstance()->getCurrentMagazine() != bulletInMagazine_)
 		{
 			bulletInMagazine_ = player->getPrimaryWeaponInstance()->getCurrentMagazine();
+			if (bulletInMagazine_ <= (player->getPrimaryWeaponInstance()->getMagazineSize() / 5) && bulletInMagazine_ > 0)
+			{
+				reloadWarning1_->setVisible(true);
+				reloadWarning2_->setVisible(false);
+			}
+			else if (bulletInMagazine_ == 0)
+			{
+				reloadWarning1_->setVisible(false);
+				reloadWarning2_->setVisible(true);
+			}
+			else
+			{
+				reloadWarning1_->setVisible(false);
+				reloadWarning2_->setVisible(false);
+			}
 		}
 
 		if (player->getBulletStock()[player->getPrimaryWeaponInstance()->TypeOfBullet] != bulletInStock_)
@@ -76,6 +113,8 @@ void WeaponUI::update(float dt)
 	{
 		bulletInMagazine_ = 0;
 		bulletInStock_ = 0;
+		reloadWarning1_->setVisible(false);
+		reloadWarning2_->setVisible(false);
 	}
 
 	if (player->getPrimaryWeaponInstance() != nullptr)
@@ -89,4 +128,19 @@ void WeaponUI::update(float dt)
 
 	bulletInfo_->setString(std::to_string(bulletInMagazine_));
 	bulletStockInfo->setString(std::to_string(bulletInStock_));
+	
+	if (player->receiveDamageMessage)
+	{
+		player->receiveDamageMessage = false;
+		damageReactAnime();
+	}
+	if (damageReact_->getOpacity() > 0)
+	{
+		int tempOpacity = (int)((float)damageReact_->getOpacity() - 255 / 60);
+		damageReact_->setOpacity(tempOpacity >= 0 ? 0 : tempOpacity);
+	}
+	else
+	{
+		damageReact_->setOpacity(0);
+	}
 }
