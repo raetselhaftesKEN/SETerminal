@@ -193,7 +193,7 @@ bool FightScene::ifCollision(cocos2d::Vec2 pos)
 
 void FightScene::generateMonster(float dt)
 {
-	if (SpawnedMonster < MonsterToSpawn && player_->isAlive())
+	if (SpawnedMonster < MonsterToSpawn && player_->isAlive() && MonsterInScene < MaxMonsterInScene)
 	{
 		int monsterType = rand() % 3;
 		Monster* monster = nullptr;
@@ -221,6 +221,7 @@ void FightScene::generateMonster(float dt)
 			addChild(monster, 1);
 			monster->move();
 			SpawnedMonster++;
+			MonsterInScene++;
 		}
 	}
 }

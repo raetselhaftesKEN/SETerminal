@@ -118,6 +118,8 @@ protected:
 
 	int MonsterToSpawn = 20;
 	int SpawnedMonster = 0;
+	int MaxMonsterInScene = 3;
+	int MonsterInScene = 0;
 };
 
 #endif // !__FIGHT_SCENE_H__
