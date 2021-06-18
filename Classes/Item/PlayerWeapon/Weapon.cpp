@@ -72,6 +72,7 @@ Weapon* Weapon::create(const std::string& filename)
 	}
 	weapon->bindPictureSprite(cocos2d::Sprite::create(filename));
 	weapon->weaponFilename_ = filename;
+	weapon->setScale(0.3f);
 
 	if (weapon && weapon->sprite_)
 	{
@@ -133,7 +134,7 @@ Weapon* Weapon::create(weaponType_ type)
 	}
 	weapon->weaponFilename_ = filename;
 	weapon->bindPictureSprite(cocos2d::Sprite::create(filename));
-	weapon->sprite_->setScale(0.3f);
+	weapon->setScale(0.3f);
 
 	if (weapon && weapon->sprite_)
 	{
@@ -241,6 +242,7 @@ Weapon* Weapon::create(weaponType_ type)
 		weapon->ReloadAimPoint->setVisible(false);
 		weapon->ActiveAimPoint = weapon->MyAimPoint;
 		weapon->retain();
+		weapon->isHeld_ = false;
 
 		return weapon;
 	}
