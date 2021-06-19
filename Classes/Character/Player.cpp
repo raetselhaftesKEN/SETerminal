@@ -267,6 +267,59 @@ void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
 	facingPoint_ = facingPoint;
 }
 
+void Player::listenToTouchEventLeft(cocos2d::Vec2 touchPoint)
+{
+	if (this->isAlive_)
+	{
+		if (touchPoint.length() <= 20)
+		{
+			keyPressed_[W] = false;
+			keyPressed_[A] = false;
+			keyPressed_[S] = false;
+			keyPressed_[D] = false;
+		}
+		else
+		{
+			if (touchPoint.y > 0)
+			{
+				keyPressed_[W] = true;
+				keyPressed_[S] = false;
+			}
+			else if (touchPoint.y < 0)
+			{
+				keyPressed_[W] = false;
+				keyPressed_[S] = true;
+			}
+			if (touchPoint.x > 0)
+			{
+				keyPressed_[D] = true;
+				keyPressed_[A] = false;
+			}
+			else if (touchPoint.x < 0)
+			{
+				keyPressed_[D] = false;
+				keyPressed_[A] = true;
+			}
+		}		
+	}
+}
+
+void Player::listenToTouchEventRight(cocos2d::Vec2 facingPoint)
+{
+	if (facingPoint.getLength() > 10)
+	{
+		facingPoint_ = facingPoint;
+		if (facingPoint.getLength() > 100)
+		{
+			setAttackStatus(true);
+		}
+		else
+		{
+			setAttackStatus(false);
+		}
+	}
+}
+
 void Player::receiveDamage(int damage)
 {
 	if (!superBody_ && !settingSuperBody_)

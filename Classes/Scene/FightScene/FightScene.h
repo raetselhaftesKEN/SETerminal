@@ -62,6 +62,8 @@ public:
 	static bool ifCollision(cocos2d::Vec2);
 
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
+	bool onTouchMoved(const std::vector<cocos2d::Touch*> touch, cocos2d::Event* unusedEvent);
+//	bool onTouchesEnded(const std::vector<cocos2d::Touch*> touch, cocos2d::Event* unusedEvent);
 	bool onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
 	void onMouseMove(cocos2d::EventMouse* mouse);
 	bool onContactBegan(cocos2d::PhysicsContact& physicsContact);
@@ -90,6 +92,9 @@ public:
 
 	static cocos2d::Vec2 getRandomPosition();
 
+	int ScreenWidth = 2340;
+	int ScreenHeight = 1080;
+
 protected:
 
 	cocos2d::TMXTiledMap* tileMap1_;
@@ -99,6 +104,9 @@ protected:
 	cocos2d::Vector<Obstacle*> obstacle_;
 
 	Player* player_;
+
+	Sprite* joyStickLeft_ = nullptr;
+	Sprite* joyStickRight_ = nullptr;
 
 	cocos2d::Node* dropNode_ = nullptr;
 
@@ -120,6 +128,8 @@ protected:
 	int SpawnedMonster = 0;
 	int MaxMonsterInScene = 3;
 	int MonsterInScene = 0;
+
+	int TouchCount = 0;
 };
 
 #endif // !__FIGHT_SCENE_H__

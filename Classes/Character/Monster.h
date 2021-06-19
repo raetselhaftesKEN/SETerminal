@@ -32,7 +32,7 @@ public:
 * @return ÎÞ
 * @author ´÷ÈÊ½Ü
 */
-	void Monster::move();
+	void move();
 
 	void shoot();
 
