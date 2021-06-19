@@ -227,7 +227,10 @@ void Player::listenToKeyPress(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 			}
 			if (keyCode == K::KEY_R)
 			{
-				primaryWeapon_->PlayerReload(bulletStock_);
+				if (primaryWeapon_ != nullptr)
+				{
+					primaryWeapon_->PlayerReload(bulletStock_);
+				}
 			}
 			if (keyCode == K::KEY_G)
 			{

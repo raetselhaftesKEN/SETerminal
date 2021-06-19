@@ -820,6 +820,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SETimer.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Armor\Armor.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\JsonReader\JsonReader.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\AppDelegate.cpp" />
@@ -844,11 +846,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SETimer.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Armor\Armor.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\JsonReader\JsonReader.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp" />
     <ResourceCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\game.rc" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AimPoint\AimPoint1.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AimPoint\AimPoint2.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AimPoint\AimPoint3.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Armor.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bgm_1Low.mp3" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bgm_room.mp3" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bulletshells01.mp3" />
@@ -867,8 +872,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_shotgun.mp3" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_switch.mp3" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_sword.mp3" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\hit.mp3" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\hit2.mp3" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\impacter.mp3" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\nihao.mp3" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\reload.mp3" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\shoot em up.mp3" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\shoot.mp3" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-556.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-762.png" />
@@ -1021,7 +1030,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\1792_1536.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2336_3584.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2560_1856.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_304.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_4336.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_4496.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_464.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2816_2480.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2912_1680.png" />
@@ -1032,6 +1043,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3680_2384.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3936_1392.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\4112_2400.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\4272_2400.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\944_2400.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\background.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\background.tsx" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\bottomMap.tmx" />
@@ -1039,6 +1052,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\topMap.tmx" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\medkit.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\myfirst.tmx" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\network.json" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\tmw_desert_spacing.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\tmw_desert_spacing.tsx" />

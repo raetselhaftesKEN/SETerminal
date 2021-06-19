@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Item/Medkit/Medkit.h"
 #include "Item/Clip/Clip.h"
+#include "Item/Armor/Armor.h"
 #include "Scene/FightScene/FightScene.h"
 
 static void problemLoading(const char* filename)
@@ -221,6 +222,17 @@ void Monster::die()
 		if (scene && ClipNode)
 		{
 			scene->setDropNode(ClipNode);
+			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
+		}
+	}
+	else if (dropItem == 6)
+	{
+		auto ArmorNode = dynamic_cast<cocos2d::Node*>(Armor::create(rand() % 30 + 20));
+		ArmorNode->setPosition(getPosition());
+
+		if (scene && ArmorNode)
+		{
+			scene->setDropNode(ArmorNode);
 			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
 		}
 	}

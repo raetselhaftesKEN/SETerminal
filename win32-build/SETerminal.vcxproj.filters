@@ -67,6 +67,12 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.cpp">
       <Filter>Source Files\Classes\Client</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Armor\Armor.cpp">
+      <Filter>Source Files\Classes\Item\Armor</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\JsonReader\JsonReader.cpp">
+      <Filter>Source Files\Classes\JsonReader</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -144,6 +150,12 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.h">
       <Filter>Source Files\Classes\Client</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Armor\Armor.h">
+      <Filter>Source Files\Classes\Item\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\JsonReader\JsonReader.h">
+      <Filter>Source Files\Classes\JsonReader</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
     </ClInclude>
@@ -158,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AimPoint\AimPoint3.png">
       <Filter>Resources\AimPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Armor.png">
+      <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bgm_1Low.mp3">
       <Filter>Resources\Audio</Filter>
@@ -213,10 +228,22 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_sword.mp3">
       <Filter>Resources\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\hit.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\hit2.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\impacter.mp3">
       <Filter>Resources\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\nihao.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\reload.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\shoot em up.mp3">
       <Filter>Resources\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\shoot.mp3">
@@ -675,7 +702,13 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2560_1856.png">
       <Filter>Resources\map\map_1\Obstacles</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_304.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_4336.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_4496.png">
       <Filter>Resources\map\map_1\Obstacles</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\2608_464.png">
@@ -708,6 +741,12 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\4112_2400.png">
       <Filter>Resources\map\map_1\Obstacles</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\4272_2400.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\944_2400.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\background.png">
       <Filter>Resources\map\map_1\map</Filter>
     </ClInclude>
@@ -727,6 +766,9 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\myfirst.tmx">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\network.json">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep">
@@ -940,6 +982,9 @@
     <Filter Include="Source Files\Classes\Item">
       <UniqueIdentifier>{A50EFEC4-2926-372A-A79C-13FAF6785F09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Classes\Item\Armor">
+      <UniqueIdentifier>{BEF9CDF2-4CCD-3DE5-8FED-A4FE788D3986}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Classes\Item\Bullet">
       <UniqueIdentifier>{9CCFDC9E-7B05-3307-81C6-C8796D4E9769}</UniqueIdentifier>
     </Filter>
@@ -951,6 +996,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Item\PlayerWeapon">
       <UniqueIdentifier>{DDFAE087-D3A5-3F7A-922C-0B950936474B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\JsonReader">
+      <UniqueIdentifier>{13363078-45BC-3492-9175-E774751BA604}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Obstacle">
       <UniqueIdentifier>{D9911D92-3627-3691-8C3D-515D9ED49301}</UniqueIdentifier>
