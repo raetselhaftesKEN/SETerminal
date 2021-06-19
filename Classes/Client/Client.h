@@ -33,6 +33,7 @@ public:
 	static Client* getInstance(){ return client_;}
 	const char* getReceiveBuffer() { return recv_buf; }
 	bool isConnectionSuccessful();
+	static void clientRelease();
 };
 
 

@@ -98,3 +98,12 @@ bool Client::isConnectionSuccessful()
 {
 	return connectSuccess;
 }
+
+void Client::clientRelease()
+{
+	if (client_ != nullptr)
+	{
+		delete client_;
+		client_ = nullptr;
+	}
+}

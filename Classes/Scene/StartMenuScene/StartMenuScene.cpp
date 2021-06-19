@@ -145,6 +145,7 @@ void StartMenuScene::startOnlineCallback(cocos2d::Ref* pSender)
 
 void StartMenuScene::exitCallback(cocos2d::Ref* pSender)
 {
+	Client::clientRelease();
 	cocos2d::Director::getInstance()->end();
 }
 
