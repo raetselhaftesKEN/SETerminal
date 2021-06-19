@@ -74,6 +74,7 @@ list(APPEND GAME_SOURCE
      Classes/Scene/StartMenuScene/StartMenuScene.cpp
      Classes/Scene/EndMenuScene/EndMenuScene.cpp
      Classes/Item/Clip/Clip.cpp
+     Classes/Item/Armor/Armor.cpp
      Classes/Component/Functional/SurvivorCounter.cpp
      Classes/Component/Functional/SETimer.cpp
      Classes/Component/SettingLayer/SettingLayer.cpp
@@ -99,6 +100,7 @@ list(APPEND GAME_HEADER
      Classes/Scene/StartMenuScene/StartMenuScene.h
      Classes/Scene/EndMenuScene/EndMenuScene.h
      Classes/Item/Clip/Clip.h
+     Classes/Item/Armor/Armor.h
      Classes/Component/Functional/SurvivorCounter.h
      Classes/Component/Functional/SETimer.h
      Classes/Component/SettingLayer/SettingLayer.h
