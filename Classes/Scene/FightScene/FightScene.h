@@ -14,7 +14,7 @@
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Component/Functional/SurvivorCounter.h"
 #include "Component/Functional/SETimer.h"
-#include "Component/SettingLayer/SettingLayer.h"
+#include "Component/MenuLayer/SettingLayer/SettingLayer.h"
 
 using namespace cocos2d;
 
