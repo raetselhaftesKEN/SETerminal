@@ -15,7 +15,7 @@ class SettingLayer : public cocos2d::Layer
 public:
 	static SettingLayer* create();
 
-	void initMusic();
+	//void initMusic();
 
 	bool init();
 
@@ -28,10 +28,12 @@ public:
 	bool isOpen = false;
 
 	int backgroundMusicID_;
+	bool isBackgroundMusicPlaying_ = true;
+
 
 protected:
 	
-	bool isBackgroundMusicPlaying_ = true;
+
 	cocos2d::ui::Scale9Sprite* pauseBoardImg_;
 	
 	cocos2d::ui::Button* closeButton_;

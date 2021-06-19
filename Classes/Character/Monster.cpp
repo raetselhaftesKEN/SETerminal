@@ -5,6 +5,8 @@
 #include "Monster.h"
 #include "Player.h"
 #include "Item/Medkit/Medkit.h"
+#include "Item/Clip/Clip.h"
+#include "Item/Armor/Armor.h"
 #include "Scene/FightScene/FightScene.h"
 
 static void problemLoading(const char* filename)
@@ -98,9 +100,7 @@ void Monster::move()
 
 						float starSpeed = 800;
 
-						auto eDartMove = cocos2d::MoveTo::create(2000 / starSpeed, getPosition() + shootPos * 2000);
-						auto eDartRemove = cocos2d::RemoveSelf::create();
-						enemyBullet->runAction(cocos2d::Sequence::create(eDartMove, eDartRemove, nullptr));
+						enemyBullet->shoot(shootPos, starSpeed);
 					}
 				}
 				});
@@ -188,9 +188,7 @@ void Monster::shoot()
 
 				float starSpeed = 1200;
 
-				auto eDartMove = cocos2d::MoveTo::create(2000 / starSpeed, getPosition() + shootPos * 2000);
-				auto eDartRemove = cocos2d::RemoveSelf::create();
-				enemyBullet->runAction(cocos2d::Sequence::create(eDartMove, eDartRemove, nullptr));
+				enemyBullet->shoot(shootPos , starSpeed);
 			}
 		}
 		});
@@ -203,17 +201,38 @@ void Monster::shoot()
 void Monster::die()
 {
 	int dropItem = rand() % 10;
+	auto scene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
 	if (dropItem == 9)
 	{
-		auto scene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+
 		auto medkitNode = dynamic_cast<cocos2d::Node*>(Medkit::create(getPosition()));
-		//auto scene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
-		//auto medkitNode = dynamic_cast<Node*>(Weapon::create(weaponType_::AK47));
-		/*medkitNode->setPosition(getPosition());*/
+
 
 		if (scene && medkitNode)
 		{
 			scene->setDropNode(medkitNode);
+			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
+		}
+	}
+	else if (dropItem == 8 || dropItem == 7)
+	{
+		auto ClipNode = dynamic_cast<cocos2d::Node*>(Clip::create(static_cast<bulletType_>(rand() % 3), rand() % 30 + 30));
+		ClipNode->setPosition(getPosition());
+
+		if (scene && ClipNode)
+		{
+			scene->setDropNode(ClipNode);
+			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
+		}
+	}
+	else if (dropItem == 6)
+	{
+		auto ArmorNode = dynamic_cast<cocos2d::Node*>(Armor::create(rand() % 30 + 20));
+		ArmorNode->setPosition(getPosition());
+
+		if (scene && ArmorNode)
+		{
+			scene->setDropNode(ArmorNode);
 			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
 		}
 	}

@@ -61,7 +61,7 @@ void Character::recoverHealth(int recovery)
 {
 	if (isAlive())
 	{
-		health_ = (((health_ + recovery) > maxHealth_ ) ? maxHealth_ : (health_ + recovery));
+		health_ = (((health_ + recovery) > maxHealth_) ? maxHealth_ : (health_ + recovery));
 	}
 }
 

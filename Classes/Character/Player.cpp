@@ -28,9 +28,9 @@ Player* Player::create(const std::string& filename)
 		player->bindCharacterAnimate("MIKU", 0.1f);
 
 		//初始化角色武器和弹药
-		player->primaryWeapon_ = Weapon::create(weaponType_::AK47);
+		player->primaryWeapon_ = Weapon::create(weaponType_::M4);
 		player->primaryWeapon_->Item::pickUp();
-		player->secondaryWeapon_ = Weapon::create(weaponType_::MP5);
+		player->secondaryWeapon_ = Weapon::create(weaponType_::FAL);
 		player->secondaryWeapon_->Item::pickUp();
 
 		player->addChild(player->primaryWeapon_);
@@ -267,9 +267,62 @@ void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
 	facingPoint_ = facingPoint;
 }
 
+void Player::listenToTouchEventLeft(cocos2d::Vec2 touchPoint)
+{
+	if (this->isAlive_)
+	{
+		if (touchPoint.length() <= 20)
+		{
+			keyPressed_[W] = false;
+			keyPressed_[A] = false;
+			keyPressed_[S] = false;
+			keyPressed_[D] = false;
+		}
+		else
+		{
+			if (touchPoint.y > 0)
+			{
+				keyPressed_[W] = true;
+				keyPressed_[S] = false;
+			}
+			else if (touchPoint.y < 0)
+			{
+				keyPressed_[W] = false;
+				keyPressed_[S] = true;
+			}
+			if (touchPoint.x > 0)
+			{
+				keyPressed_[D] = true;
+				keyPressed_[A] = false;
+			}
+			else if (touchPoint.x < 0)
+			{
+				keyPressed_[D] = false;
+				keyPressed_[A] = true;
+			}
+		}		
+	}
+}
+
+void Player::listenToTouchEventRight(cocos2d::Vec2 facingPoint)
+{
+	if (facingPoint.getLength() > 10)
+	{
+		facingPoint_ = facingPoint;
+		if (facingPoint.getLength() > 100)
+		{
+			setAttackStatus(true);
+		}
+		else
+		{
+			setAttackStatus(false);
+		}
+	}
+}
+
 void Player::receiveDamage(int damage)
 {
-	if (!superBody_)
+	if (!superBody_ && !settingSuperBody_)
 	{
 		receiveDamageMessage = true;
 		int realDamage;
@@ -291,14 +344,14 @@ void Player::receiveDamage(int damage)
 		{
 			health_ -= realDamage;
 		}
-	}	
+	}
 }
 
 void Player::die()
 {
 	isAlive_ = false;
 	health_ = 0;
-	
+
 }
 
 void Player::attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)
@@ -308,6 +361,18 @@ void Player::attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)
 		if (primaryWeapon_ != nullptr && isAttacking)
 		{
 			primaryWeapon_->Attack(pos, dir);
+		}
+	}
+}
+
+void Player::setAttackStatus(bool status)
+{
+	isAttacking = status;
+	if (!isAttacking)
+	{
+		if (primaryWeapon_ != nullptr)
+		{
+			primaryWeapon_->UnAttack();
 		}
 	}
 }
@@ -455,7 +520,7 @@ void Player::DodgeAnimeStart()
 
 void Player::DodgeAnime(cocos2d::Vec2 dir)
 {
-	getPhysicsBody()->setVelocity(moveSpeed_ * dodgeSpeedBoost_ * dir);	
+	getPhysicsBody()->setVelocity(moveSpeed_ * dodgeSpeedBoost_ * dir);
 }
 
 void Player::DodgeAnimeEnd()
@@ -556,7 +621,7 @@ void Player::update(float dt)
 
 	if (primaryWeapon_ != nullptr)
 	{
-		TargetPos  = primaryWeapon_->ActiveAimPoint->getPosition();
+		TargetPos = primaryWeapon_->ActiveAimPoint->getPosition();
 	}
 	TargetPos.normalize();
 
@@ -582,16 +647,7 @@ void Player::update(float dt)
 	{
 		weaponRotation_ = 360 - weaponRotation_;
 	}
-	/*if (TargetPos.x <= 0)
-	{
-		primaryWeapon_->setFlippedX(true);
-		secondaryWeapon_->setFlippedX(true);
-	}
-	else
-	{
-		primaryWeapon_->setFlippedX(false);
-		secondaryWeapon_->setFlippedX(false);
-	}*/
+
 	if (primaryWeapon_ != nullptr)
 	{
 		primaryWeapon_->setRotation(weaponRotation_);
@@ -601,7 +657,7 @@ void Player::update(float dt)
 		secondaryWeapon_->setRotation(weaponRotation_);
 	}
 
-	if (allowMove_)
+	if (allowMove_ && isAlive_)
 	{
 		if (keyPressed_[W])
 		{
@@ -619,18 +675,21 @@ void Player::update(float dt)
 		{
 			velocity.x += moveSpeed_ * speedBoostFactor_;
 		}
-
-		//先进行标准化，再乘以模长
 		velocity.normalize();
-		velocity *= moveSpeed_;
+		velocity *= moveSpeed_;		
 		getPhysicsBody()->setVelocity(velocity);
-
 		updateFacingStatus();
 		updateWalkingStatus();
 		updateMoveAnimate();
 		statusChanged_ = false;
 		detectCollision();
+	}
+	else if(!isAlive_)
+	{
+		velocity = cocos2d::Vec2::ZERO;
+		getPhysicsBody()->setVelocity(velocity);
+	}
+	
 
-	}	
 }
 

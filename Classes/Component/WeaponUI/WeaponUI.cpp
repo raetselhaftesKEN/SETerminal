@@ -66,6 +66,21 @@ WeaponUI* WeaponUI::create(Player* player_)
 
 	weaponUI->weaponIcon_->setPosition(cocos2d::Vec2(0, 50));
 
+	/////////////////////
+	weaponUI->ReloadBut = cocos2d::ui::Button::create("Button/Reload.png", "Button/Reload.png");
+	weaponUI->SwitchBut = cocos2d::ui::Button::create("Button/SwitchWeapon.png", "Button/SwitchWeapon.png");
+	weaponUI->HealBut = cocos2d::ui::Button::create("Button/Heal.png", "Button/Heal.png");
+	weaponUI->InteractBut = cocos2d::ui::Button::create("Button/Interact.png", "Button/Interact.png");
+	weaponUI->ReloadBut->setPosition(cocos2d::Vec2(200, 350));
+	weaponUI->SwitchBut->setPosition(cocos2d::Vec2(-100, 100));
+	weaponUI->HealBut->setPosition(cocos2d::Vec2(-200, 350));
+	weaponUI->InteractBut->setPosition(cocos2d::Vec2(100, 100));
+	weaponUI->addChild(weaponUI->ReloadBut, 5);
+	weaponUI->addChild(weaponUI->SwitchBut, 5);
+	weaponUI->addChild(weaponUI->HealBut, 5);
+	weaponUI->addChild(weaponUI->InteractBut, 5);
+	weaponUI->addButtonFunc();
+
 	weaponUI->autorelease();
 	weaponUI->schedule(CC_SCHEDULE_SELECTOR(WeaponUI::update), 0.1f);
 
@@ -73,6 +88,32 @@ WeaponUI* WeaponUI::create(Player* player_)
 
 	return weaponUI;
 
+}
+
+void WeaponUI::addButtonFunc()
+{
+	ReloadBut->addClickEventListener([=](Ref*) {
+		if (player->getPrimaryWeaponInstance() && !(player->isAttacking))
+		{
+			player->getPrimaryWeaponInstance()->PlayerReload(player->getBulletStock());
+		}
+		
+	});
+	SwitchBut->addClickEventListener([=](Ref*) {
+		if (!(player->isAttacking))
+		{
+			player->switchWeapon();
+		}		
+	});
+	HealBut->addClickEventListener([=](Ref*) {
+		player->useMedkit();
+	});
+	InteractBut->addClickEventListener([=](Ref*) {
+		if (player->interactItem_ != nullptr)
+		{
+			player->interactItem_->interact();
+		}
+	});
 }
 
 void WeaponUI::damageReactAnime()
@@ -136,7 +177,7 @@ void WeaponUI::update(float dt)
 	}
 	if (damageReact_->getOpacity() > 0)
 	{
-		int tempOpacity = (int)((float)(damageReact_->getOpacity()) - (float)510 / 60);
+		int tempOpacity = (int)((float)(damageReact_->getOpacity()) - (float)510 / 30);
 		damageReact_->setOpacity(tempOpacity <= 0 ? 0 : tempOpacity);
 	}
 }

@@ -8,8 +8,13 @@
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
 #include "Item/Clip/Clip.h"
+#include "Scene/StartMenuScene/StartMenuScene.h"
 
 using namespace cocos2d;
+
+class StartMenuScene;
+class SettingLayer;
+class Client;
 
 static void problemLoading(const char* filename)
 {
@@ -101,7 +106,7 @@ void FightScene::setUI()
 	weaponUI_ = WeaponUI::create(player_);
 	weaponUI_->setAnchorPoint(cocos2d::Point(0.5f, 0.f));
 	weaponUI_->setPosition(cocos2d::Point(winSize.width / 2, 50));
-	addChild(weaponUI_, 2);
+	addChild(weaponUI_, 4);
 
 	timer_ = SETimer::create();
 	timer_->setAnchorPoint(cocos2d::Vec2::ANCHOR_TOP_LEFT);
@@ -114,6 +119,17 @@ void FightScene::setUI()
 	survivorCounter_->setPosition(cocos2d::Point(200, winSize.height));
 	survivorCounter_->setScale(0.3f, 0.3f);
 	addChild(survivorCounter_, 2);
+	
+	joyStickLeft_ = cocos2d::Sprite::create("JoyStick.png");
+	joyStickRight_ = cocos2d::Sprite::create("JoyStick.png");
+	joyStickLeft_->setScale(0.5f, 0.5f);
+	joyStickRight_->setScale(0.5f, 0.5f);
+	addChild(joyStickLeft_, 3);
+	addChild(joyStickRight_, 3);
+	joyStickLeft_->setPosition(cocos2d::Vec2(joyStickLeft_->getContentSize().width / 2, joyStickLeft_->getContentSize().height / 2));
+	joyStickRight_->setPosition(cocos2d::Vec2(winSize.width - joyStickRight_->getContentSize().width / 2, joyStickRight_->getContentSize().height / 2));
+	joyStickLeft_->setCameraMask(2);
+	joyStickRight_->setCameraMask(2);
 }
 
 void FightScene::setOperationListener()
@@ -124,6 +140,10 @@ void FightScene::setOperationListener()
 		touchListener->onTouchBegan = CC_CALLBACK_2(FightScene::onTouchBegan, this);
 		touchListener->onTouchEnded = CC_CALLBACK_2(FightScene::onTouchEnded, this);
 		this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, player_);
+
+		auto touchListenerMulty = cocos2d::EventListenerTouchAllAtOnce::create();
+		touchListenerMulty->onTouchesMoved = CC_CALLBACK_2(FightScene::onTouchMoved, this);
+		this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListenerMulty, this);
 
 		auto mouseListener = cocos2d::EventListenerMouse::create();
 		mouseListener->onMouseMove = CC_CALLBACK_1(FightScene::onMouseMove, this);
@@ -242,14 +262,52 @@ void FightScene::monsterDestroyed()
 
 bool FightScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-	player_->isAttacking = true;
+//	player_->setAttackStatus(true);
 	touchHolding_ = true;
+	TouchCount++;
+	return true;
+}
+
+bool FightScene::onTouchMoved(const std::vector<cocos2d::Touch*> touch, cocos2d::Event* unusedEvent)
+{
+	auto frameSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
+	bool LeftTouched = false;
+	bool RightTouched = false;
+	cocos2d::Vec2 TouchLeft = cocos2d::Vec2::ZERO;
+	cocos2d::Vec2 TouchRight = cocos2d::Vec2::ZERO;
+	if (touch.size() > 0)
+	{
+		TouchCount = touch.size();
+		for (int i = 0; i < touch.size() && !(LeftTouched && RightTouched); i++)
+		{
+			if (touch[i]->getLocation().x < (frameSize.width / 2) && !LeftTouched)
+			{
+				LeftTouched = true;
+				TouchLeft = touch[i]->getLocation();
+				TouchLeft -= joyStickLeft_->getPosition();
+			}
+			if(touch[i]->getLocation().x > (frameSize.width / 2) && !RightTouched)
+			{
+				RightTouched = true;
+				TouchRight = touch[i]->getLocation();
+				TouchRight -= joyStickRight_->getPosition();
+			}			
+		}						
+	}
+	player_->listenToTouchEventLeft(TouchLeft);
+	player_->listenToTouchEventRight(TouchRight);
 	return true;
 }
 
 bool FightScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-	player_->isAttacking = false;
+	TouchCount--;
+	if (TouchCount == 0)
+	{
+		player_->listenToTouchEventLeft(cocos2d::Vec2::ZERO);
+		player_->listenToTouchEventRight(cocos2d::Vec2::ZERO);
+	}
+	player_->setAttackStatus(false);
 	touchHolding_ = false;
 	return true;
 }
@@ -358,6 +416,10 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		particleSystem->setPosition(bullet->getPosition());
 		///////////////////////////////
 
+
+		cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
+		
+
 		character->receiveDamage(bullet->getBulletAtk());
 		bullet->removeFromParentAndCleanup(true);
 	}
@@ -417,7 +479,7 @@ void FightScene::buildSettingBtn()
 	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
 	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
 
-	auto closeButton = cocos2d::ui::Button::create("close.png", "close_pressed.png");
+	auto closeButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 
 	if (btnSetting == nullptr || settingImg == nullptr || closeButton == nullptr)
 	{
@@ -450,8 +512,13 @@ void FightScene::buildSettingBtn()
 		closeButton->setPosition(cocos2d::Vec2(runningSceneSize.width - closeButtonSize.width / 2, runningSceneSize.height - closeButtonSize.height / 2));
 		closeButton->addClickEventListener([&](Ref*) {
 			cocos2d::log("Close Button Pressed!");
-			//cocos2d::Director::getInstance()->end();
-			//cocos2d::Director::getInstance()->replaceScene(startMenu_);
+			auto startMenuScene = StartMenuScene::create();
+			startMenuScene->retain();
+			//¹Ø±ÕÒôÀÖ
+			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
+			settingLayer_->isBackgroundMusicPlaying_ = false;
+			removeFromParent();
+			cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
 			}
 		);
 

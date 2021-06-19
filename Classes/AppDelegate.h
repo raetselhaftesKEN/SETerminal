@@ -57,7 +57,7 @@ public:
     @brief  Called when the application reenters the foreground
     @param  the pointer of the application
     */
-    virtual void applicationWillEnterForeground();
+    virtual void applicationWillEnterForeground();   
 };
 
 #endif // _APP_DELEGATE_H_

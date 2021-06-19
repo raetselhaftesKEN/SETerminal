@@ -37,6 +37,8 @@ public:
 	//接收鼠标事件
 	void listenToMouseEvent(cocos2d::Vec2, bool isPressed);
 
+	void listenToTouchEventLeft(cocos2d::Vec2 touchPoint);
+	void listenToTouchEventRight(cocos2d::Vec2 facingPoint);
 
 	//受伤
 	virtual void receiveDamage(int damage);
@@ -46,7 +48,7 @@ public:
 	virtual void updateFacingStatus();
 	virtual void updateWalkingStatus();
 
-	
+
 
 	void dodge();
 	void DodgeAnimeStart();
@@ -92,6 +94,8 @@ public:
 */
 	virtual void attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
 
+	void setAttackStatus(bool status);
+
 	void getAimPointInstance();
 	void removeAimPoint(Weapon* weapon);
 
@@ -101,26 +105,28 @@ public:
 
 	bool settingSuperBody_ = false;
 
+	//交互道具
+	Item* interactItem_ = nullptr;
+
 protected:
 
 	std::vector<int> bulletStock_;
 
 	//移动
 	enum Key { W, A, S, D };
-	bool keyPressed_[4]{};	
+	bool keyPressed_[4]{};
 	float speedBoostFactor_ = 1;
 	bool allowMove_ = true;
 
 	//闪避数据
 	bool canDodge_ = true;
-	float dodgeRate_ = 100.0f;												
+	float dodgeRate_ = 100.0f;
 	float dodgeSpeedBoost_ = 3.0f;
 	float dodgeTime_ = 0.1f;
 
 	bool superBody_ = false;
 
-	//交互道具
-	Item* interactItem_ = nullptr;
+	
 
 	//武器
 	Weapon* primaryWeapon_;											//使用中的武器
