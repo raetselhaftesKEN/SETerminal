@@ -117,12 +117,12 @@ bool SettingLayer::init()
 	//superBulletLabel_->setPosition(cocos2d::Vec2(55, -40));
 	//superBulletButton_->addChild(superBulletLabel_, 2);
 
-	musicButton_ = settingSmallButton(5, 100, "Setting/Music.png", "Music");
+	musicButton_ = settingSmallButton(5, 100, "Setting/music.png", "Music");
 	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "Shoot Music");
-	superBodyButton_ = settingSmallButton(405, 100, "Setting/Music.png", "Super body");
-	superAccuracyButton_ = settingSmallButton(5, 350, "Setting/Music.png", "Accuracy");
-	superBulletButton_ = settingSmallButton(205, 350, "Setting/Music.png", "Bullet");
-	superDamageButton_ = settingSmallButton(405, 350, "Setting/Music.png", "Damage");
+	superBodyButton_ = settingSmallButton(405, 100, "Setting/music.png", "Super body");
+	superAccuracyButton_ = settingSmallButton(5, 350, "Setting/music.png", "Accuracy");
+	superBulletButton_ = settingSmallButton(205, 350, "Setting/music.png", "Bullet");
+	superDamageButton_ = settingSmallButton(405, 350, "Setting/music.png", "Damage");
 
 	return true;
 }
