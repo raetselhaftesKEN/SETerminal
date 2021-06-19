@@ -8,7 +8,7 @@
 #include "Obstacle/Obstacle.h"
 #include "Scene/FightScene/FightScene.h"
 #include <string>
-using namespace std::string_literals;
+//using namespace std::string_literals;
 
 void Character::bindPictureSprite(cocos2d::Sprite* sprite)
 {
@@ -117,14 +117,14 @@ cocos2d::Animate* Character::createAnimate(const char* animateName, cocos2d::Siz
 
 void Character::bindCharacterAnimate(const std::string& characterName, float interval)
 {
-	walkRight_ = createAnimate((characterName + "/"s +"walk_right/walk_right"s).c_str(), sprite_->getContentSize(), interval);
-	walkLeft_ = createAnimate((characterName + "/"s + "walk_left/walk_left"s).c_str(), sprite_->getContentSize(), interval);
-	walkUp_ = createAnimate((characterName + "/"s + "walk_up/walk_up"s).c_str(), sprite_->getContentSize(), interval);
-	walkDown_ = createAnimate((characterName + "/"s + "walk_down/walk_down"s).c_str(), sprite_->getContentSize(), interval);
-	idleUp_ = createAnimate((characterName + "/"s + "idle_up/idle_up"s).c_str(), sprite_->getContentSize(), interval, 1);
-	idleDown_ = createAnimate((characterName + "/"s + "idle_down/idle_down"s).c_str(), sprite_->getContentSize(), interval, 1);
-	idleLeft_ = createAnimate((characterName + "/"s + "idle_left/idle_left"s).c_str(), sprite_->getContentSize(), interval, 1);
-	idleRight_ = createAnimate((characterName + "/"s + "idle_right/idle_right"s).c_str(), sprite_->getContentSize(), interval, 1);
+	walkRight_ = createAnimate((characterName + std::string("/") + std::string("walk_right/walk_right")).c_str(), sprite_->getContentSize(), interval);
+	walkLeft_ = createAnimate((characterName + std::string("/") + std::string("walk_left/walk_left")).c_str(), sprite_->getContentSize(), interval);
+	walkUp_ = createAnimate((characterName + std::string("/") + std::string("walk_up/walk_up")).c_str(), sprite_->getContentSize(), interval);
+	walkDown_ = createAnimate((characterName + std::string("/") + std::string("walk_down/walk_down")).c_str(), sprite_->getContentSize(), interval);
+	idleUp_ = createAnimate((characterName + std::string("/") + std::string("idle_up/idle_up")).c_str(), sprite_->getContentSize(), interval, 1);
+	idleDown_ = createAnimate((characterName + std::string("/") + std::string("idle_down/idle_down")).c_str(), sprite_->getContentSize(), interval, 1);
+	idleLeft_ = createAnimate((characterName + std::string("/") + std::string("idle_left/idle_left")).c_str(), sprite_->getContentSize(), interval, 1);
+	idleRight_ = createAnimate((characterName + std::string("/") + std::string("idle_right/idle_right")).c_str(), sprite_->getContentSize(), interval, 1);
 }
 
 
