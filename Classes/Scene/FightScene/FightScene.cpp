@@ -394,7 +394,31 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		{
 			cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
 		}
-		
+		if (!player_->isAlive())
+		{
+			//playerËÀÍö
+			endLayer_->setPosition(0, 0);
+			endLayer_->open();
+			auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
+			//auto closeButtonSize = changeSceneButton->getContentSize();
+			auto runningSceneSize = this->getContentSize();
+			changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 150));
+			this->addChild(changeSceneButton, 20);
+			changeSceneButton->addClickEventListener([&](Ref*) {
+				cocos2d::log("Close Button Pressed!");
+				Client::getInstance()->Send("Quit");
+				auto startMenuScene = StartMenuScene::create();
+				startMenuScene->retain();
+				//¹Ø±ÕÒôÀÖ
+				cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
+				settingLayer_->isBackgroundMusicPlaying_ = false;
+				removeFromParent();
+				cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
+				}
+			);
+			changeSceneButton->setCameraMask(2, true);
+
+		}
 
 		character->receiveDamage(bullet->getBulletAtk());
 		bullet->removeFromParentAndCleanup(true);
