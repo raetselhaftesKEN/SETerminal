@@ -64,6 +64,9 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.cpp">
       <Filter>Source Files\Classes\Component\SettingLayer</Filter>
     </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.cpp">
+      <Filter>Source Files\Classes\Client</Filter>
+    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -138,14 +141,14 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.h">
       <Filter>Source Files\Classes\Component\SettingLayer</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.h">
+      <Filter>Source Files\Classes\Client</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\resource.h">
       <Filter>Source Files\proj.win32</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AK47.png">
-      <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\AimPoint\AimPoint1.png">
       <Filter>Resources\AimPoint</Filter>
@@ -243,19 +246,22 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet\Bullet5.png">
       <Filter>Resources\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\BulletEnemy.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\BulletEnemy2.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseNormal.png">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\CloseSelected.png">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultAimPoint.png">
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DamageReact.png">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultBullet-2.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\DefaultBullet.png">
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\EmptyHanded.png">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\HelloWorld.png">
@@ -321,6 +327,66 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MIKU\walk_up\walk_up4.png">
       <Filter>Resources\MIKU\walk_up</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\idle_down\idle_down1.png">
+      <Filter>Resources\MONSTER1\idle_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\idle_left\idle_left1.png">
+      <Filter>Resources\MONSTER1\idle_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\idle_right\idle_right1.png">
+      <Filter>Resources\MONSTER1\idle_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\idle_up\idle_up1.png">
+      <Filter>Resources\MONSTER1\idle_up</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_down\walk_down1.png">
+      <Filter>Resources\MONSTER1\walk_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_down\walk_down2.png">
+      <Filter>Resources\MONSTER1\walk_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_down\walk_down3.png">
+      <Filter>Resources\MONSTER1\walk_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_down\walk_down4.png">
+      <Filter>Resources\MONSTER1\walk_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_left\walk_left1.png">
+      <Filter>Resources\MONSTER1\walk_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_left\walk_left2.png">
+      <Filter>Resources\MONSTER1\walk_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_left\walk_left3.png">
+      <Filter>Resources\MONSTER1\walk_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_left\walk_left4.png">
+      <Filter>Resources\MONSTER1\walk_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_right\walk_right1.png">
+      <Filter>Resources\MONSTER1\walk_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_right\walk_right2.png">
+      <Filter>Resources\MONSTER1\walk_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_right\walk_right3.png">
+      <Filter>Resources\MONSTER1\walk_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_right\walk_right4.png">
+      <Filter>Resources\MONSTER1\walk_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_up\walk_up1.png">
+      <Filter>Resources\MONSTER1\walk_up</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_up\walk_up2.png">
+      <Filter>Resources\MONSTER1\walk_up</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_up\walk_up3.png">
+      <Filter>Resources\MONSTER1\walk_up</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER1\walk_up\walk_up4.png">
+      <Filter>Resources\MONSTER1\walk_up</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER2\idle_down\idle_down1.png">
       <Filter>Resources\MONSTER2\idle_down</Filter>
     </ClInclude>
@@ -381,10 +447,88 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER2\walk_up\walk_up4.png">
       <Filter>Resources\MONSTER2\walk_up</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MP5.png">
-      <Filter>Resources</Filter>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\idle_down\idle_down1.png">
+      <Filter>Resources\MONSTER3\idle_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\idle_left\idle_left1.png">
+      <Filter>Resources\MONSTER3\idle_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\idle_right\idle_right1.png">
+      <Filter>Resources\MONSTER3\idle_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\idle_up\idle_up1.png">
+      <Filter>Resources\MONSTER3\idle_up</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_down\walk_down1.png">
+      <Filter>Resources\MONSTER3\walk_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_down\walk_down2.png">
+      <Filter>Resources\MONSTER3\walk_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_down\walk_down3.png">
+      <Filter>Resources\MONSTER3\walk_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_down\walk_down4.png">
+      <Filter>Resources\MONSTER3\walk_down</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_left\walk_left1.png">
+      <Filter>Resources\MONSTER3\walk_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_left\walk_left2.png">
+      <Filter>Resources\MONSTER3\walk_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_left\walk_left3.png">
+      <Filter>Resources\MONSTER3\walk_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_left\walk_left4.png">
+      <Filter>Resources\MONSTER3\walk_left</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_right\walk_right1.png">
+      <Filter>Resources\MONSTER3\walk_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_right\walk_right2.png">
+      <Filter>Resources\MONSTER3\walk_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_right\walk_right3.png">
+      <Filter>Resources\MONSTER3\walk_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_right\walk_right4.png">
+      <Filter>Resources\MONSTER3\walk_right</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_up\walk_up1.png">
+      <Filter>Resources\MONSTER3\walk_up</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_up\walk_up2.png">
+      <Filter>Resources\MONSTER3\walk_up</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_up\walk_up3.png">
+      <Filter>Resources\MONSTER3\walk_up</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\MONSTER3\walk_up\walk_up4.png">
+      <Filter>Resources\MONSTER3\walk_up</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Menu\BG.png">
+      <Filter>Resources\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Menu\Quit.png">
+      <Filter>Resources\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Menu\Sample.png">
+      <Filter>Resources\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Menu\Start.png">
+      <Filter>Resources\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Menu\StartOnLine.png">
+      <Filter>Resources\Menu</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Particle1.plist">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\ReloadWarning1.png">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\ReloadWarning2.png">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Reloading.png">
@@ -498,24 +642,6 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\blast\blast7.png">
       <Filter>Resources\blast</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\buttonb.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\buttony.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\dart.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\dart_enemy.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\default_sec_weapon.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\default_weapon.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\fonts\IRANYekanBold.ttf">
       <Filter>Resources\fonts</Filter>
     </ClInclude>
@@ -526,12 +652,6 @@
       <Filter>Resources\fonts</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\gameover.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\health_bar.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\health_max.png">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map6_15.rar">
@@ -606,9 +726,6 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\medkit.png">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\monster.png">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\myfirst.tmx">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -673,6 +790,33 @@
     <Filter Include="Resources\MIKU\walk_up">
       <UniqueIdentifier>{5462FC93-33A5-3086-9C3B-31C26FC5F271}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\MONSTER1">
+      <UniqueIdentifier>{06F95DA7-457C-3EA6-AE2A-F5B72EB13CAC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER1\idle_down">
+      <UniqueIdentifier>{27A55A08-7D17-3D75-89B2-ED8377133A27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER1\idle_left">
+      <UniqueIdentifier>{8190FE02-2994-3B77-AB14-D6BD6B57D0C7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER1\idle_right">
+      <UniqueIdentifier>{78420AD2-F7D9-3382-81A4-160FB0AD878A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER1\idle_up">
+      <UniqueIdentifier>{C033FE3D-A44E-3576-98F7-8EDBB7C47BA3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER1\walk_down">
+      <UniqueIdentifier>{7B644D63-4A89-38E3-AA02-FCAF418BEC84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER1\walk_left">
+      <UniqueIdentifier>{DC598014-A46A-3990-A489-F516BDBDDD59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER1\walk_right">
+      <UniqueIdentifier>{82403C95-E1A3-304D-8F68-C6CF1A6A8466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER1\walk_up">
+      <UniqueIdentifier>{6829F3C3-62F8-3F9F-A695-C5FA74952676}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Resources\MONSTER2">
       <UniqueIdentifier>{768B59CC-3C32-3DDA-93E3-9051D799E0BB}</UniqueIdentifier>
     </Filter>
@@ -699,6 +843,36 @@
     </Filter>
     <Filter Include="Resources\MONSTER2\walk_up">
       <UniqueIdentifier>{0CA13DF4-22FC-362D-9608-3DDB735A0B32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER3">
+      <UniqueIdentifier>{5167CFAF-6BD0-3737-9681-89AC97871A6F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER3\idle_down">
+      <UniqueIdentifier>{D02271BD-D8A7-3F97-A701-0C962F3D3579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER3\idle_left">
+      <UniqueIdentifier>{91CD237C-D3F9-3669-B791-9C32CBDED22A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER3\idle_right">
+      <UniqueIdentifier>{FAA962E1-595E-3E88-9654-A5AC851B55D3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER3\idle_up">
+      <UniqueIdentifier>{049231BF-75D5-316E-938C-9CFF96E3694B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER3\walk_down">
+      <UniqueIdentifier>{C72ACD40-F79A-3D47-8213-1290DFDD3CB1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER3\walk_left">
+      <UniqueIdentifier>{2699C63D-59D1-3C89-939C-7FA44DBE241F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER3\walk_right">
+      <UniqueIdentifier>{3761D304-823C-35CA-92B0-72E161C1C643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\MONSTER3\walk_up">
+      <UniqueIdentifier>{6EB4A88E-AAC4-3C86-AEB4-79A8387904F0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Menu">
+      <UniqueIdentifier>{158FE3CC-12B3-3918-925B-92018143C37D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\Setting">
       <UniqueIdentifier>{0A77E131-176E-32FD-9229-D5AAB5295F7D}</UniqueIdentifier>
@@ -738,6 +912,9 @@
     </Filter>
     <Filter Include="Source Files\Classes\Character">
       <UniqueIdentifier>{115E1831-493C-32CD-88DC-46AE19DC1CE8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Client">
+      <UniqueIdentifier>{A14299CA-93D0-394E-A58B-784D2ECB6E57}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Component">
       <UniqueIdentifier>{5E2F7FA2-4EAC-396B-883A-B9D5619A2702}</UniqueIdentifier>

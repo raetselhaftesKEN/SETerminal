@@ -88,6 +88,8 @@ public:
 	PlayerAimPoint* getReloadAimPoint();
 	void setReloadAimPoint(PlayerAimPoint*);
 
+	static bool& getShootMusicStatus();
+
 	std::string weaponFilename_;
 
 	std::string bulletFilename_;	//武器所使用的子弹
@@ -105,6 +107,8 @@ public:
 
 
 protected:
+
+	static bool isShootMusicPlaying_;
 
 	int Accuracy = 95;//1-Accuracy是扩散角度
 

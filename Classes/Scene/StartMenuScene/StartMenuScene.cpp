@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 #include "StartMenuScene.h"
+#include "Client/Client.h"
 
 static void problemLoading(const char* filename)
 {
@@ -80,12 +81,15 @@ bool StartMenuScene::init()
 	addChild(bkg, 0);
 	initStartButton();
 	initExitButton();
+	loadingFightScene();
 
 	return true;
 }
 
 void StartMenuScene::startCallback(cocos2d::Ref* pSender)
 {
+	//Client::getInstance()->initialization();
+	//Client::getInstance()->SendAndRecv(std::string("test"));
 	goToFightScene();
 }
 
@@ -96,6 +100,13 @@ void StartMenuScene::exitCallback(cocos2d::Ref* pSender)
 
 void StartMenuScene::goToFightScene()
 {
+	//AudioEngine::preload("audio/bgm_1low.mp3");
+	fightScene_->settingLayer_->backgroundMusicID_ = cocos2d::AudioEngine::play2d("audio/bgm_1low.mp3", true, .5);
+	cocos2d::Director::getInstance()->replaceScene(fightScene_->createScene());
+}
+
+void StartMenuScene::loadingFightScene()
+{
 	auto _tileMap1 = TMXTiledMap::create("map/map_1/map/bottomMap.tmx");
 	_tileMap1->setPosition(Vec2(0, 0));
 
@@ -105,10 +116,9 @@ void StartMenuScene::goToFightScene()
 	auto _tileMap3 = TMXTiledMap::create("map/map_1/map/topMap.tmx");
 	_tileMap3->setPosition(Vec2(0, 100 * 32));
 
-	auto scene = FightScene::create(_tileMap1, _tileMap2, _tileMap3, Obstacle::createObsSet(1), 1);
-	scene->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
-	scene->retain();
-
-	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, scene->createScene()));
-
+	fightScene_ = FightScene::create(_tileMap1, _tileMap2, _tileMap3, Obstacle::createObsSet(1), 1);
+	fightScene_->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
+	fightScene_->retain();
+	//≥ı º ±∫Úº”‘ÿ“Ù¿÷
+	AudioEngine::preload("audio/bgm_1low.mp3");
 }

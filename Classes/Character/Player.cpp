@@ -269,7 +269,7 @@ void Player::listenToMouseEvent(cocos2d::Vec2 facingPoint, bool isPressed)
 
 void Player::receiveDamage(int damage)
 {
-	if (!superBody_)
+	if (!superBody_ && !settingSuperBody_)
 	{
 		receiveDamageMessage = true;
 		int realDamage;
