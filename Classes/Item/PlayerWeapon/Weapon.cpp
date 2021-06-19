@@ -12,7 +12,6 @@
 using namespace std::string_literals;
 
 bool Weapon::isShootMusicPlaying_ = true;
-bool Weapon::isSettingSuperAccuracy = false;
 
 int Weapon::getAccuracy()
 {

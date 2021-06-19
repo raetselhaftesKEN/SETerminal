@@ -55,6 +55,9 @@ public:
 	void generateMonster(float dt);
 
 
+	void globalPromptDisplay(const std::string&);
+
+
 	cocos2d::Vector<Obstacle*> getObstacles();
 
 
@@ -76,7 +79,7 @@ public:
 	void setDropNode(cocos2d::Node* node);
 	void updateDropNode(float dt);
 
-	void update(float dt) override;
+	void update(float) override;
 
 	void monsterDestroyed();
 

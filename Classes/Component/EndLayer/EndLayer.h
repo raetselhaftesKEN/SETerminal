@@ -1,5 +1,5 @@
-#ifndef  _SETTING_LAYER_H_
-#define  _SETTING_LAYER_H_
+#ifndef  _END_LAYER_H_
+#define  _END_LAYER_H_
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
@@ -10,10 +10,10 @@
 
 
 
-class SettingLayer : public cocos2d::Layer 
+class EndLayer : public cocos2d::Layer 
 {
 public:
-	static SettingLayer* create();
+	static EndLayer* create();
 
 	//void initMusic();
 

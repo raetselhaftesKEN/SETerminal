@@ -105,7 +105,7 @@ public:
 
 	float BulletSpeed = 2000;
 
-	static bool isSettingSuperAccuracy;
+
 
 protected:
 

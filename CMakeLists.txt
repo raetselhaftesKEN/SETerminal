@@ -78,6 +78,7 @@ list(APPEND GAME_SOURCE
      Classes/Component/Functional/SETimer.cpp
      Classes/Component/SettingLayer/SettingLayer.cpp
      Classes/Client/Client.cpp
+     Classes/Component/EndLayer/EndLayer.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -103,6 +104,7 @@ list(APPEND GAME_HEADER
      Classes/Component/Functional/SETimer.h
      Classes/Component/SettingLayer/SettingLayer.h
      Classes/Client/Client.h
+     Classes/Component/EndLayer/EndLayer.h
      )
 
 if(ANDROID)

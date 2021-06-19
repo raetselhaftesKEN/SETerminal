@@ -1,7 +1,7 @@
 /**
 * @file SettingLayer.cpp
 */
-#include "SettingLayer.h"
+#include "EndLayer.h"
 #include "ui/UIButton.h"
 
 #define BOARD_IMAGE_WIDTH 700
@@ -10,19 +10,19 @@
 #define CLOSE_X 10000
 #define CLOSE_Y 10000
 
-SettingLayer* SettingLayer::create()
+EndLayer* EndLayer::create()
 {
-	auto settingLayer = new(std::nothrow) SettingLayer();
+	auto endLayer = new(std::nothrow) EndLayer();
 
-	if (settingLayer && settingLayer->init())
+	if (endLayer && endLayer->init())
 	{
 		
-		settingLayer->autorelease();
+		endLayer->autorelease();
 
-		return settingLayer;
+		return endLayer;
 	}
-	delete settingLayer;
-	settingLayer = nullptr;
+	delete endLayer;
+	endLayer = nullptr;
 	return nullptr;
 
 }
@@ -36,14 +36,8 @@ static void problemLoading(const char* filename)
 	printf("Error while loading: %s\n", filename);
 }
 
-//void SettingLayer::initMusic()
-//{
-//	backgroundMusicID_ = cocos2d::AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
-//	isBackgroundMusicPlaying_ = true;
-//}
 
-
-bool SettingLayer::init()
+bool EndLayer::init()
 {
 	this->setPosition(cocos2d::Vec2(CLOSE_X, CLOSE_Y));
 	
@@ -74,32 +68,32 @@ bool SettingLayer::init()
 	closeButton_->setPosition(cocos2d::Vec2((BOARD_IMAGE_WIDTH - closeButtonSize.width / 2), (BOARD_IMAGE_HEIGHT - closeButtonSize.height / 2)));
 	pauseBoardImg_->addChild(closeButton_);
 
-	musicButton_ = settingSmallButton(5, 100, "Setting/Music.png", "Music");
+	/*musicButton_ = settingSmallButton(5, 100, "Setting/Music.png", "Music");
 	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "Shoot Music");
 	superBodyButton_ = settingSmallButton(405, 100, "Setting/Music.png", "Super body");
 	superAccuracyButton_ = settingSmallButton(5, 350, "Setting/Music.png", "Accuracy");
 	superBulletButton_ = settingSmallButton(205, 350, "Setting/Music.png", "Bullet");
-	superDamageButton_ = settingSmallButton(405, 350, "Setting/Music.png", "Damage");
+	superDamageButton_ = settingSmallButton(405, 350, "Setting/Music.png", "Damage");*/
 
 	return true;
 }
 
-bool SettingLayer::open()
+bool EndLayer::open()
 {
 	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(true);
 	//为了在Monster类内使用外部的东西，使用以下几句
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
 	auto contenteSize = runningScene->getContentSize();
-	auto playerOfNode = runningScene->getChildByTag(PLAYER_TAG);
-	cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
-	//如果场景已经被释放，找不到我方player位置，直接退出
-	if (playerOfNode == nullptr)
-	{
-		return false;
-	}
-	//获得当前我方player位置
-	auto playerOfPlayer = dynamic_cast<Player*>(playerOfNode);
-	playerPositionInScene = playerOfPlayer->getPosition();
+	//auto playerOfNode = runningScene->getChildByTag(PLAYER_TAG);
+	//cocos2d::Vec2 playerPositionInScene = cocos2d::Vec2::ZERO;
+	////如果场景已经被释放，找不到我方player位置，直接退出
+	//if (playerOfNode == nullptr)
+	//{
+	//	return false;
+	//}
+	////获得当前我方player位置
+	//auto playerOfPlayer = dynamic_cast<Player*>(playerOfNode);
+	//playerPositionInScene = playerOfPlayer->getPosition();
 	pauseBoardImg_->setPosition(contenteSize.width / 2, contenteSize.height / 2);
 	pauseBoardImg_->setCameraMask(2, true);
 
@@ -107,7 +101,7 @@ bool SettingLayer::open()
 		this->close();
 	});
 
-	musicButton_->addClickEventListener([&](Ref*) {
+	/*musicButton_->addClickEventListener([&](Ref*) {
 		if (!isBackgroundMusicPlaying_)
 		{
 			cocos2d::AudioEngine::resume(backgroundMusicID_);
@@ -145,13 +139,13 @@ bool SettingLayer::open()
 
 	superAccuracyButton_->addClickEventListener([=](Ref*) {
 		
-	});
+	});*/
 
 	isOpen = true;
 	return true;
 }
 
-bool SettingLayer::close()
+bool EndLayer::close()
 {
 	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(false);
 	pauseBoardImg_->setPosition(10000, 10000);
@@ -160,7 +154,7 @@ bool SettingLayer::close()
 	return true;
 }
 
-cocos2d::ui::Button* SettingLayer::settingSmallButton(float deviationX, float deviationY, std::string spriteName, std::string texts)
+cocos2d::ui::Button* EndLayer::settingSmallButton(float deviationX, float deviationY, std::string spriteName, std::string texts)
 {
 	cocos2d::ui::Button* smallButton = new  cocos2d::ui::Button;
 	smallButton = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");

@@ -9,6 +9,7 @@
 #include "Character/Monster.h"
 #include "Item/Clip/Clip.h"
 #include "Scene/StartMenuScene/StartMenuScene.h"
+#include "Client/Client.h"
 
 using namespace cocos2d;
 
@@ -165,6 +166,7 @@ bool FightScene::init()
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::airDrop), 60.f);
+	this->scheduleUpdate();
 
 	settingLayer_ = SettingLayer::create();
 	this->addChild(settingLayer_, 5);
@@ -420,6 +422,11 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
+	cocos2d::log("update per frame");
+	if (Client::getInstance()->Receive())
+	{
+		globalPromptDisplay("A teammate joined the battle! You are boosted!");
+	}
 }
 
 void FightScene::buildSettingBtn()
@@ -505,15 +512,7 @@ void FightScene::airDrop(float dt)
 	else if (offset.x < 0 && offset.y < 0)
 		prompt += "southwest.";
 
-	auto label = cocos2d::Label::createWithTTF(prompt, "fonts/IRANYekanBold.ttf", 36);
-	label->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
-	label->setPosition(cocos2d::Vec2(winSize.width / 2, 3 * winSize.height / 4));
-	auto remove = cocos2d::RemoveSelf::create();
-	auto delay = cocos2d::DelayTime::create(1.f);
-	auto fade2 = cocos2d::FadeTo::create(1, 0);
-	label->runAction(cocos2d::Sequence::create(delay, fade2, remove, nullptr));
-	label->setCameraMask(2, true);
-	addChild(label, 3);
+	globalPromptDisplay(prompt);
 }
 
 cocos2d::Vec2 FightScene::getRandomPosition()
@@ -547,4 +546,19 @@ cocos2d::Vec2 FightScene::getRandomPosition()
 	} while (!FightScene::isInBound(position) || (FightScene::ifCollision(position)));
 
 	return position;
+}
+
+void FightScene::globalPromptDisplay(const std::string& prompt)
+{
+	auto winSize = cocos2d::Director::getInstance()->getWinSize();
+
+	auto label = cocos2d::Label::createWithTTF(prompt, "fonts/IRANYekanBold.ttf", 36);
+	label->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
+	label->setPosition(cocos2d::Vec2(winSize.width / 2, 3 * winSize.height / 4));
+	auto remove = cocos2d::RemoveSelf::create();
+	auto delay = cocos2d::DelayTime::create(1.f);
+	auto fade2 = cocos2d::FadeTo::create(1, 0);
+	label->runAction(cocos2d::Sequence::create(delay, fade2, remove, nullptr));
+	label->setCameraMask(2, true);
+	addChild(label, 3);
 }
