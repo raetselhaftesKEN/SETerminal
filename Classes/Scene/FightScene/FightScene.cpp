@@ -119,6 +119,7 @@ void FightScene::setUI()
 	survivorCounter_->setPosition(cocos2d::Point(200, winSize.height));
 	survivorCounter_->setScale(0.3f, 0.3f);
 	addChild(survivorCounter_, 2);
+	
 }
 
 void FightScene::setOperationListener()
@@ -247,14 +248,14 @@ void FightScene::monsterDestroyed()
 
 bool FightScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-	player_->isAttacking = true;
+	player_->setAttackStatus(true);
 	touchHolding_ = true;
 	return true;
 }
 
 bool FightScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-	player_->isAttacking = false;
+	player_->setAttackStatus(false);
 	touchHolding_ = false;
 	return true;
 }
@@ -363,6 +364,10 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		particleSystem->setPosition(bullet->getPosition());
 		///////////////////////////////
 
+
+		cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
+		
+
 		character->receiveDamage(bullet->getBulletAtk());
 		bullet->removeFromParentAndCleanup(true);
 	}
@@ -379,8 +384,8 @@ void FightScene::contactBetweenObstacleAndBullet(Obstacle* obstacle, Bullet* bul
 		particleSystem->setLifeVar(0.05);
 		particleSystem->setScale(0.5f);
 		particleSystem->setSpeed(500);
-		particleSystem->setStartColor(cocos2d::Color4F::RED);
-		particleSystem->setEndColor(cocos2d::Color4F::RED);
+		particleSystem->setStartColor(cocos2d::Color4F::GRAY);
+		particleSystem->setEndColor(cocos2d::Color4F::GRAY);
 		particleSystem->setStartColorVar(cocos2d::Color4F::BLACK);
 		particleSystem->setEndColorVar(cocos2d::Color4F::BLACK);
 		this->addChild(particleSystem, 10);

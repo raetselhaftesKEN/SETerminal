@@ -54,6 +54,7 @@ public:
 	@杨孟臻
 	*/
 	void Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
+	void UnAttack();
 
 	int getCurrentMagazine();
 	/*
@@ -123,6 +124,8 @@ protected:
 	float ShootingSpeed = 10;//每秒能够attack的次数
 
 	bool CanShoot = true;
+
+	bool ShootingWithAmmo = false;
 
 	float MaxRecoil = 250;
 

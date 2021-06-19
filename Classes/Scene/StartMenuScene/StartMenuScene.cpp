@@ -83,6 +83,8 @@ bool StartMenuScene::init()
 	initExitButton();
 	loadingFightScene();
 
+	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(true);
+
 	return true;
 }
 
@@ -90,6 +92,7 @@ void StartMenuScene::startCallback(cocos2d::Ref* pSender)
 {
 	//Client::getInstance()->initialization();
 	//Client::getInstance()->SendAndRecv(std::string("test"));
+	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(false);
 	goToFightScene();
 }
 

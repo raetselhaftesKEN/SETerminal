@@ -136,7 +136,7 @@ void WeaponUI::update(float dt)
 	}
 	if (damageReact_->getOpacity() > 0)
 	{
-		int tempOpacity = (int)((float)(damageReact_->getOpacity()) - (float)510 / 60);
+		int tempOpacity = (int)((float)(damageReact_->getOpacity()) - (float)510 / 30);
 		damageReact_->setOpacity(tempOpacity <= 0 ? 0 : tempOpacity);
 	}
 }

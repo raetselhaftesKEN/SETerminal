@@ -92,6 +92,8 @@ public:
 */
 	virtual void attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
 
+	void setAttackStatus(bool status);
+
 	void getAimPointInstance();
 	void removeAimPoint(Weapon* weapon);
 

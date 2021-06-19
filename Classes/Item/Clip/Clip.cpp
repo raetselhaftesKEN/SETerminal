@@ -6,7 +6,7 @@
 #include "Character/Player.h"
 #include "Scene/FightScene/FightScene.h"
 
-Clip* Clip::create(bulletType_ typeTag)
+Clip* Clip::create(bulletType_ typeTag, int num)
 {
 	auto clip = new(std::nothrow) Clip();
 	if (clip == nullptr)
@@ -30,7 +30,7 @@ Clip* Clip::create(bulletType_ typeTag)
 		clip->Item::itemInfo_->setTextColor(cocos2d::Color4B(0, 0, 0, 255));
 		clip->Item::itemInfo_->setVisible(false);
 		clip->bindPhysicsBody();
-
+		clip->bulletNum_ = num;
 		return clip;
 	}
 	return nullptr;
