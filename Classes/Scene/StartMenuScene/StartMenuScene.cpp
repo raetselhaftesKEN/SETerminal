@@ -5,6 +5,7 @@
 #include "cocos2d.h"
 #include "StartMenuScene.h"
 #include "Client/Client.h"
+#include "AudioEngine.h"
 
 static void problemLoading(const char* filename)
 {

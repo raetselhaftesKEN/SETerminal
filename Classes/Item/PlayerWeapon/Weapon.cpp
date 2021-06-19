@@ -12,6 +12,8 @@
 using namespace std::string_literals;
 
 bool Weapon::isShootMusicPlaying_ = true;
+bool Weapon::isSuperAccuracy_ = false;
+bool Weapon::isInfiniteBullte_ = false;
 
 int Weapon::getAccuracy()
 {
@@ -284,8 +286,8 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 					if (isShootMusicPlaying_)
 					{
 						shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/impacter.mp3", false, .5f);
-					}					
-				
+					}
+
 					auto bullet = Bullet::create(bulletFilename_);
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());
@@ -299,7 +301,10 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 					Spread.normalize();
 					Spread *= ((float)(rand() % (100 - Accuracy)) - (float)(100 - Accuracy) / 2) / 100.0f;
 					bullet->shoot(dir + Spread, BulletSpeed);//////////////////
-					CurrentMagazine--;
+					if (!isInfiniteBullte_)
+					{
+						CurrentMagazine--;
+					}
 				});
 			auto recover = cocos2d::CallFunc::create([=]()
 				{
@@ -308,8 +313,11 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 			auto delay = cocos2d::DelayTime::create(1 / ShootingSpeed);
 			this->runAction(cocos2d::Sequence::create(shoot, delay, recover, nullptr));
 
-			ReloadAimPoint->RecoilStatus += Recoil;
-			MyAimPoint->RecoilStatus += Recoil;//ºó×øÁ¦µþ¼Ó
+			if (!isSuperAccuracy_)
+			{
+				ReloadAimPoint->RecoilStatus += Recoil;
+				MyAimPoint->RecoilStatus += Recoil;//ºó×øÁ¦µþ¼Ó
+			}
 			if (ReloadAimPoint->RecoilStatus > 250)
 			{
 				ReloadAimPoint->RecoilStatus = 250;
@@ -344,7 +352,7 @@ void Weapon::UnAttack()
 		}
 		ShootingWithAmmo = false;
 	}
-	
+
 }
 
 int Weapon::getCurrentMagazine()

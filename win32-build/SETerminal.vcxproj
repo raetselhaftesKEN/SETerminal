@@ -818,7 +818,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SurvivorCounter.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SETimer.h" />
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\MenuLayer.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\EndLayer\EndLayer.h" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\SettingLayer\SettingLayer.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Armor\Armor.h" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\JsonReader\JsonReader.h" />
@@ -844,7 +846,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SurvivorCounter.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SETimer.cpp" />
-    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\MenuLayer.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\EndLayer\EndLayer.cpp" />
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\SettingLayer\SettingLayer.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Armor\Armor.cpp" />
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\JsonReader\JsonReader.cpp" />
@@ -1040,6 +1044,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3168_1600.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3584_2688.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3584_3808.png" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3584_4208.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3680_2384.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3936_1392.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\4112_2400.png" />
@@ -1052,7 +1057,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\map\topMap.tmx" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\medkit.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\myfirst.tmx" />
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\network.json" />
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\network.txt" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\tmw_desert_spacing.png" />
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\tmw_desert_spacing.tsx" />

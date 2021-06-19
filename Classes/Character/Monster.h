@@ -57,6 +57,7 @@ public:
 
 	void update(float dt);
 
+	static bool isPlayerSuperDamage_;
 
 protected:
 

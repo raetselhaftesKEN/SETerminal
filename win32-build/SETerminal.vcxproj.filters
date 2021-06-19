@@ -61,8 +61,14 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SETimer.cpp">
       <Filter>Source Files\Classes\Component\Functional</Filter>
     </ClCompile>
-    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.cpp">
-      <Filter>Source Files\Classes\Component\SettingLayer</Filter>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\MenuLayer.cpp">
+      <Filter>Source Files\Classes\Component\MenuLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\EndLayer\EndLayer.cpp">
+      <Filter>Source Files\Classes\Component\MenuLayer\EndLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\SettingLayer\SettingLayer.cpp">
+      <Filter>Source Files\Classes\Component\MenuLayer\SettingLayer</Filter>
     </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.cpp">
       <Filter>Source Files\Classes\Client</Filter>
@@ -144,8 +150,14 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\Functional\SETimer.h">
       <Filter>Source Files\Classes\Component\Functional</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\SettingLayer\SettingLayer.h">
-      <Filter>Source Files\Classes\Component\SettingLayer</Filter>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\MenuLayer.h">
+      <Filter>Source Files\Classes\Component\MenuLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\EndLayer\EndLayer.h">
+      <Filter>Source Files\Classes\Component\MenuLayer\EndLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Component\MenuLayer\SettingLayer\SettingLayer.h">
+      <Filter>Source Files\Classes\Component\MenuLayer\SettingLayer</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Client\Client.h">
       <Filter>Source Files\Classes\Client</Filter>
@@ -732,6 +744,9 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3584_3808.png">
       <Filter>Resources\map\map_1\Obstacles</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3584_4208.png">
+      <Filter>Resources\map\map_1\Obstacles</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\map\map_1\Obstacles\3680_2384.png">
       <Filter>Resources\map\map_1\Obstacles</Filter>
     </ClInclude>
@@ -768,7 +783,7 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\myfirst.tmx">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\network.json">
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\network.txt">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep">
@@ -970,8 +985,14 @@
     <Filter Include="Source Files\Classes\Component\HealthBar">
       <UniqueIdentifier>{AB0AE64D-1C33-30C7-99CF-0D59F076137C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Classes\Component\SettingLayer">
-      <UniqueIdentifier>{CE867A95-5346-3A36-A07B-3BA14967AEB8}</UniqueIdentifier>
+    <Filter Include="Source Files\Classes\Component\MenuLayer">
+      <UniqueIdentifier>{B9367CE6-4E2D-3D20-A9E7-2203139A9C47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Component\MenuLayer\EndLayer">
+      <UniqueIdentifier>{7EC6298E-6A48-3C6F-B12F-B31A2E97ECDF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Classes\Component\MenuLayer\SettingLayer">
+      <UniqueIdentifier>{EB7D2FE2-BE1C-3612-B39A-FC0898B4B0F5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Component\WeaponUI">
       <UniqueIdentifier>{D9F80531-0108-3F51-8171-9B71EC3BF30F}</UniqueIdentifier>
