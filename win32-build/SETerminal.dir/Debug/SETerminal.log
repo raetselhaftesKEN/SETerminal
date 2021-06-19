@@ -1,18 +1,8 @@
-﻿  AppDelegate.cpp
-  Character.cpp
-  Monster.cpp
-  Player.cpp
-  SETimer.cpp
-  SurvivorCounter.cpp
-  Clip.cpp
-  Medkit.cpp
-  Obstacle.cpp
+﻿  Client.cpp
   FightScene.cpp
   StartMenuScene.cpp
-D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.cpp(107,47): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Monster.cpp(233,31): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(355,30): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(356,34): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(383,30): warning C4305: “参数”: 从“double”到“float”截断
-D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(384,34): warning C4305: “参数”: 从“double”到“float”截断
+D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(356,30): warning C4305: “参数”: 从“double”到“float”截断
+D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(357,34): warning C4305: “参数”: 从“double”到“float”截断
+D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(384,30): warning C4305: “参数”: 从“double”到“float”截断
+D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\FightScene\FightScene.cpp(385,34): warning C4305: “参数”: 从“double”到“float”截断
   SETerminal.vcxproj -> D:\cocos\FinalProjectGit\SETerminal\win32-build\bin\SETerminal\Debug\SETerminal.exe

@@ -27,7 +27,7 @@ void Client::initialization() {
 
 	//填充服务端信息
 	server_addr.sin_family = AF_INET;
-	server_addr.sin_addr.S_un.S_addr = inet_addr("192.168.43.69");
+	server_addr.sin_addr.S_un.S_addr = inet_addr("172.20.10.3");
 	server_addr.sin_port = htons(1234);
 	//创建套接字
 	s_server = socket(AF_INET, SOCK_STREAM, 0);
@@ -40,7 +40,7 @@ void Client::initialization() {
 	}
 }
 
-void Client::SendAndRecv(const std::string& msg)
+void Client::Send(const char* msg)
 {
 	//发送,接收数据
 
@@ -48,7 +48,7 @@ void Client::SendAndRecv(const std::string& msg)
 	//cin >> send_buf;
 	send_buf[0] = 'h';
 	send_buf[1] = '\0';
-	send_len = send(s_server, msg.c_str(), 100, 0);
+	send_len = send(s_server, msg, 100, 0);
 	if (send_len < 0) {
 		cout << "Sending failed!" << endl;
 		//break;
@@ -56,6 +56,23 @@ void Client::SendAndRecv(const std::string& msg)
 
 	
 	return;
+}
+
+bool Client::Receive()
+{
+	recv_len = recv(s_server, recv_buf, 100, 0);
+	if (recv_len < 0)
+	{
+		return false;
+	}
+	else
+	{
+		if (strcmp(recv_buf, "aPlayerJoined") == 0)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void Client::closeNet()

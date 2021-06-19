@@ -55,6 +55,9 @@ public:
 	void generateMonster(float dt);
 
 
+	void globalPromptDisplay(const std::string&);
+
+
 	cocos2d::Vector<Obstacle*> getObstacles();
 
 

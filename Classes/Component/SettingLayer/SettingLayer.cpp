@@ -86,6 +86,7 @@ bool SettingLayer::init()
 
 bool SettingLayer::open()
 {
+	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(true);
 	//为了在Monster类内使用外部的东西，使用以下几句
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
 	auto contenteSize = runningScene->getContentSize();
@@ -152,6 +153,7 @@ bool SettingLayer::open()
 
 bool SettingLayer::close()
 {
+	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(false);
 	pauseBoardImg_->setPosition(10000, 10000);
 	pauseBoardImg_->setCameraMask(2, true);
 	isOpen = false;

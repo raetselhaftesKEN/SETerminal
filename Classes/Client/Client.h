@@ -26,13 +26,10 @@ private:
 
 public:
 	void initialization();
-	void SendAndRecv(const std::string&);
+	void Send(const char*);
 	void closeNet();
-
-	static Client* getInstance()
-	{
-		return client_;
-	}
+	bool Receive();
+	static Client* getInstance(){ return client_;}
 };
 
 
