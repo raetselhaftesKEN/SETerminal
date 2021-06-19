@@ -5,7 +5,7 @@
 #ifndef __CONST_H__
 #define __CONST_H__
 #include <vector>
-//using namespace std::string;
+using namespace std::string_literals;
 
 //masks
 #define MONSTER_CONTACT_MASK 0x03					//0100

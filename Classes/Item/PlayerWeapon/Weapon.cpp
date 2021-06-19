@@ -9,7 +9,9 @@
 #include "../Bullet/Bullet.h"
 #include "Const/Const.h"
 #include <string>
-//using namespace std::string_literals;
+using namespace std::string_literals;
+
+bool Weapon::isShootMusicPlaying_ = true;
 
 int Weapon::getAccuracy()
 {
@@ -274,10 +276,16 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 	{
 		if (CurrentMagazine > 0)
 		{
+			ShootingWithAmmo = true;
 			CanShoot = false;
 			auto shoot = cocos2d::CallFunc::create([=]()
 				{
-					shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/impacter.mp3", false, .5f);
+
+					if (isShootMusicPlaying_)
+					{
+						shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/impacter.mp3", false, .5f);
+					}					
+				
 					auto bullet = Bullet::create(bulletFilename_);
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());
@@ -313,6 +321,8 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 		}
 		else
 		{
+
+			ShootingWithAmmo = false;
 			CanShoot = false;
 			MyAimPoint->setVisible(false);
 			ReloadAimPoint->setVisible(true);
@@ -322,6 +332,19 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 		}
 	}
 
+}
+
+void Weapon::UnAttack()
+{
+	if (ShootingWithAmmo)
+	{
+		if (isShootMusicPlaying_)
+		{
+			shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/bulletshells01.mp3", false, 3.f);
+		}
+		ShootingWithAmmo = false;
+	}
+	
 }
 
 int Weapon::getCurrentMagazine()
@@ -336,6 +359,12 @@ void Weapon::PlayerReload(std::vector<int>& BulletStock)
 		MyAimPoint->setVisible(false);
 		ReloadAimPoint->setVisible(true);
 		ActiveAimPoint = ReloadAimPoint;
+
+		if (isShootMusicPlaying_)
+		{
+			shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/reload.mp3", false, 5.f);
+		}
+
 		Reload(BulletStock);
 	}
 }
@@ -471,4 +500,9 @@ PlayerAimPoint* Weapon::getReloadAimPoint()
 void Weapon::setReloadAimPoint(PlayerAimPoint* aimPoint)
 {
 	ReloadAimPoint = aimPoint;
+}
+
+bool& Weapon::getShootMusicStatus()
+{
+	return isShootMusicPlaying_;
 }

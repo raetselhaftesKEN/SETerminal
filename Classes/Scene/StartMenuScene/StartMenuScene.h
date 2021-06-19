@@ -28,11 +28,15 @@ public:
 
 	void initExitButton();
 
+	void loadingFightScene();
+
 protected:
 
 	cocos2d::Menu* startButton_;
 
 	cocos2d::Menu* exitButton_;
+
+	FightScene* fightScene_;
 
 };
 

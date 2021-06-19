@@ -46,7 +46,7 @@ public:
 	virtual void updateFacingStatus();
 	virtual void updateWalkingStatus();
 
-	
+
 
 	void dodge();
 	void DodgeAnimeStart();
@@ -92,6 +92,8 @@ public:
 */
 	virtual void attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
 
+	void setAttackStatus(bool status);
+
 	void getAimPointInstance();
 	void removeAimPoint(Weapon* weapon);
 
@@ -107,13 +109,13 @@ protected:
 
 	//ÒÆ¶¯
 	enum Key { W, A, S, D };
-	bool keyPressed_[4]{};	
+	bool keyPressed_[4]{};
 	float speedBoostFactor_ = 1;
 	bool allowMove_ = true;
 
 	//ÉÁ±ÜÊý¾Ý
 	bool canDodge_ = true;
-	float dodgeRate_ = 100.0f;												
+	float dodgeRate_ = 100.0f;
 	float dodgeSpeedBoost_ = 3.0f;
 	float dodgeTime_ = 0.1f;
 

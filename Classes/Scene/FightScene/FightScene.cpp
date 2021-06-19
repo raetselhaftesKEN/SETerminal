@@ -8,8 +8,13 @@
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
 #include "Item/Clip/Clip.h"
+#include "Scene/StartMenuScene/StartMenuScene.h"
 
 using namespace cocos2d;
+
+class StartMenuScene;
+class SettingLayer;
+class Client;
 
 static void problemLoading(const char* filename)
 {
@@ -114,6 +119,7 @@ void FightScene::setUI()
 	survivorCounter_->setPosition(cocos2d::Point(200, winSize.height));
 	survivorCounter_->setScale(0.3f, 0.3f);
 	addChild(survivorCounter_, 2);
+	
 }
 
 void FightScene::setOperationListener()
@@ -242,14 +248,14 @@ void FightScene::monsterDestroyed()
 
 bool FightScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-	player_->isAttacking = true;
+	player_->setAttackStatus(true);
 	touchHolding_ = true;
 	return true;
 }
 
 bool FightScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-	player_->isAttacking = false;
+	player_->setAttackStatus(false);
 	touchHolding_ = false;
 	return true;
 }
@@ -358,6 +364,10 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		particleSystem->setPosition(bullet->getPosition());
 		///////////////////////////////
 
+
+		cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
+		
+
 		character->receiveDamage(bullet->getBulletAtk());
 		bullet->removeFromParentAndCleanup(true);
 	}
@@ -417,7 +427,7 @@ void FightScene::buildSettingBtn()
 	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
 	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
 
-	auto closeButton = cocos2d::ui::Button::create("close.png", "close_pressed.png");
+	auto closeButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 
 	if (btnSetting == nullptr || settingImg == nullptr || closeButton == nullptr)
 	{
@@ -450,8 +460,13 @@ void FightScene::buildSettingBtn()
 		closeButton->setPosition(cocos2d::Vec2(runningSceneSize.width - closeButtonSize.width / 2, runningSceneSize.height - closeButtonSize.height / 2));
 		closeButton->addClickEventListener([&](Ref*) {
 			cocos2d::log("Close Button Pressed!");
-			//cocos2d::Director::getInstance()->end();
-			//cocos2d::Director::getInstance()->replaceScene(startMenu_);
+			auto startMenuScene = StartMenuScene::create();
+			startMenuScene->retain();
+			//¹Ø±ÕÒôÀÖ
+			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
+			settingLayer_->isBackgroundMusicPlaying_ = false;
+			removeFromParent();
+			cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
 			}
 		);
 
