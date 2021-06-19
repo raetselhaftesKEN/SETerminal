@@ -27,7 +27,7 @@ void Client::initialization() {
 
 	//填充服务端信息
 	server_addr.sin_family = AF_INET;
-	server_addr.sin_addr.S_un.S_addr = inet_addr("172.20.10.3");
+	server_addr.sin_addr.S_un.S_addr = inet_addr("192.168.43.5");
 	server_addr.sin_port = htons(1234);
 	//创建套接字
 	s_server = socket(AF_INET, SOCK_STREAM, 0);

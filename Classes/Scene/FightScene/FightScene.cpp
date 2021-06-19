@@ -467,6 +467,7 @@ void FightScene::buildSettingBtn()
 		closeButton->setPosition(cocos2d::Vec2(runningSceneSize.width - closeButtonSize.width / 2, runningSceneSize.height - closeButtonSize.height / 2));
 		closeButton->addClickEventListener([&](Ref*) {
 			cocos2d::log("Close Button Pressed!");
+			Client::getInstance()->Send("Quit");
 			auto startMenuScene = StartMenuScene::create();
 			startMenuScene->retain();
 			//πÿ±’“Ù¿÷
