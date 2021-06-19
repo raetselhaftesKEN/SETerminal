@@ -28,7 +28,7 @@ public:
 	void initialization();
 	void Send(const char*);
 	void closeNet();
-	bool Receive();
+	const char* Receive();
 	static Client* getInstance(){ return client_;}
 };
 

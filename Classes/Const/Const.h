@@ -61,6 +61,12 @@ using namespace std::string_literals;
 #define GATE_POSITION_XMAX 1568
 #define GATE_POSITION_YMIN 3840
 
+//network
+#define PLAYER_JOIN 1
+#define PLAYER_QUIT 2
+#define PLAYER_JOIN_COMMAND "A player joined"
+#define PLAYER_QUIT_COMMAND "A player quitted"
+
 enum bulletType_ { type556, type762, type9mm };
 const std::vector<std::string> bulletName{ "Bullet-556", "Bullet-762", "Bullet-9mm" };
 

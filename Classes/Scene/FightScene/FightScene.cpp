@@ -423,10 +423,19 @@ void FightScene::updateDropNode(float dt)
 void FightScene::update(float dt)
 {
 	cocos2d::log("update per frame");
-	if (Client::getInstance()->Receive())
+	char* command = nullptr;
+	strcpy(command, Client::getInstance()->Receive());
+	if (strcmp(command, PLAYER_JOIN_COMMAND) == 0)
 	{
 		globalPromptDisplay("A teammate joined the battle! You are boosted!");
+		globalBuffLayer_++;
 	}
+	else if (strcmp(command, PLAYER_QUIT_COMMAND) == 0)
+	{
+		globalPromptDisplay("A teammate has left.");
+		globalBuffLayer_--;
+	}
+	
 }
 
 void FightScene::buildSettingBtn()
@@ -562,4 +571,14 @@ void FightScene::globalPromptDisplay(const std::string& prompt)
 	label->runAction(cocos2d::Sequence::create(delay, fade2, remove, nullptr));
 	label->setCameraMask(2, true);
 	addChild(label, 3);
+}
+
+int FightScene::getBuffLayer()
+{
+	return globalBuffLayer_;
+}
+
+void FightScene::setBuffLayer(int buffLayer)
+{
+	globalBuffLayer_ = buffLayer;
 }

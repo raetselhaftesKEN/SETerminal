@@ -60,18 +60,19 @@ void Client::Send(const char* msg)
 	return;
 }
 
-bool Client::Receive()
+const char* Client::Receive()
 {
 	recv_len = recv(s_server, recv_buf, 100, 0);
 	if (recv_len < 0)
 	{
-		return false;
+		return 0;
 	}
 	else
 	{
 		recv_len = -2;
-		return true;
+		return recv_buf;
 	}
+	return nullptr;
 }
 
 void Client::closeNet()

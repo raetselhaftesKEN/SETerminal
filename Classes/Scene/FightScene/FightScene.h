@@ -93,6 +93,9 @@ public:
 
 	static cocos2d::Vec2 getRandomPosition();
 
+	int getBuffLayer();
+	void setBuffLayer(int);
+
 protected:
 
 	cocos2d::TMXTiledMap* tileMap1_;
@@ -123,6 +126,8 @@ protected:
 	int SpawnedMonster = 0;
 	int MaxMonsterInScene = 3;
 	int MonsterInScene = 0;
+
+	int globalBuffLayer_ = 1;
 };
 
 #endif // !__FIGHT_SCENE_H__
