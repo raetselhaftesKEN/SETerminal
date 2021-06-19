@@ -264,6 +264,12 @@ void FightScene::monsterDestroyed()
 			//¹Ø±ÕÒôÀÖ
 			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
 			settingLayer_->isBackgroundMusicPlaying_ = false;
+			Weapon::getShootMusicStatus() = false;
+			FightScene::getShootMusicStatus() = false;
+			Weapon::isSuperAccuracy_ = false;
+			Weapon::isInfiniteBullte_ = false;
+			Monster::isPlayerSuperDamage_ = false;
+
 			removeFromParent();
 			cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
 			}
@@ -412,6 +418,12 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 				//¹Ø±ÕÒôÀÖ
 				cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
 				settingLayer_->isBackgroundMusicPlaying_ = false;
+				Weapon::getShootMusicStatus() = false;
+				FightScene::getShootMusicStatus() = false;
+				Weapon::isSuperAccuracy_ = false;
+				Weapon::isInfiniteBullte_ = false;
+				Monster::isPlayerSuperDamage_ = false;
+
 				removeFromParent();
 				cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
 				}
@@ -533,9 +545,15 @@ void FightScene::buildSettingBtn()
 			Client::getInstance()->Send("Quit");
 			auto startMenuScene = StartMenuScene::create();
 			startMenuScene->retain();
-			//¹Ø±ÕÒôÀÖ
+			//»Ö¸´ÉèÖÃµÄ°´Å¥
 			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
 			settingLayer_->isBackgroundMusicPlaying_ = false;
+			Weapon::getShootMusicStatus() = false;
+			FightScene::getShootMusicStatus() = false;
+			Weapon::isSuperAccuracy_ = false;
+			Weapon::isInfiniteBullte_ = false;
+			Monster::isPlayerSuperDamage_ = false;
+
 			removeFromParent();
 			cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
 			}
