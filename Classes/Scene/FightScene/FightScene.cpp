@@ -422,18 +422,22 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
-	cocos2d::log("update per frame");
-	char* command = nullptr;
-	strcpy(command, Client::getInstance()->Receive());
+	//cocos2d::log("update per frame");
+	char command[128];
+	if (Client::getInstance()->Receive())
+	{
+		strcpy(command, Client::getInstance()->getReceiveBuffer());
+	}
+
 	if (strcmp(command, PLAYER_JOIN_COMMAND) == 0)
 	{
-		globalPromptDisplay("A teammate joined the battle! You are boosted!");
-		globalBuffLayer_++;
+		globalPromptDisplay("A teammate joined the battle! You are boosted!", 2);
+		this->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::airDrop), 0.f);
+
 	}
 	else if (strcmp(command, PLAYER_QUIT_COMMAND) == 0)
 	{
-		globalPromptDisplay("A teammate has left.");
-		globalBuffLayer_--;
+		globalPromptDisplay("A teammate has left. Please be careful.", 2);
 	}
 	
 }
@@ -558,13 +562,22 @@ cocos2d::Vec2 FightScene::getRandomPosition()
 	return position;
 }
 
-void FightScene::globalPromptDisplay(const std::string& prompt)
+void FightScene::globalPromptDisplay(const std::string& prompt, int type)
 {
 	auto winSize = cocos2d::Director::getInstance()->getWinSize();
+	cocos2d::Vec2 position = cocos2d::Vec2::ZERO;
+	if (type == 1)
+	{
+		position.x = winSize.width / 2, position.y = 3 * winSize.height / 4;
+	}
+	else if (type == 2)
+	{
+		position.x = winSize.width / 2, position.y = 7 * winSize.height / 8;
+	}
 
 	auto label = cocos2d::Label::createWithTTF(prompt, "fonts/IRANYekanBold.ttf", 36);
 	label->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
-	label->setPosition(cocos2d::Vec2(winSize.width / 2, 3 * winSize.height / 4));
+	label->setPosition(position);
 	auto remove = cocos2d::RemoveSelf::create();
 	auto delay = cocos2d::DelayTime::create(1.f);
 	auto fade2 = cocos2d::FadeTo::create(1, 0);
@@ -573,12 +586,3 @@ void FightScene::globalPromptDisplay(const std::string& prompt)
 	addChild(label, 3);
 }
 
-int FightScene::getBuffLayer()
-{
-	return globalBuffLayer_;
-}
-
-void FightScene::setBuffLayer(int buffLayer)
-{
-	globalBuffLayer_ = buffLayer;
-}

@@ -105,12 +105,9 @@ void StartMenuScene::goToFightScene()
 {
 	Client::getInstance()->initialization();
 	Client::getInstance()->Send("Join");
-	std::string buffLayer(Client::getInstance()->Receive());
-	
-	fightScene_->setBuffLayer(stoi(buffLayer));
+
 	fightScene_->settingLayer_->backgroundMusicID_ = cocos2d::AudioEngine::play2d("audio/bgm_1low.mp3", true, .5);
 
-	cocos2d::log(buffLayer.c_str());
 	cocos2d::Director::getInstance()->replaceScene(fightScene_->createScene());
 }
 

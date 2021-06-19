@@ -143,6 +143,7 @@ protected:
 	cocos2d::Vec2 weaponPosRight = cocos2d::Vec2(10, 0);
 	cocos2d::Vec2 weaponPosFront = cocos2d::Vec2(0, -10);
 
+	
 };
 
 #endif // !__PLAYER_H__

@@ -55,7 +55,7 @@ public:
 	void generateMonster(float dt);
 
 
-	void globalPromptDisplay(const std::string&);
+	void globalPromptDisplay(const std::string&, int type = 1);
 
 
 	cocos2d::Vector<Obstacle*> getObstacles();
@@ -93,8 +93,6 @@ public:
 
 	static cocos2d::Vec2 getRandomPosition();
 
-	int getBuffLayer();
-	void setBuffLayer(int);
 
 protected:
 
@@ -127,7 +125,6 @@ protected:
 	int MaxMonsterInScene = 3;
 	int MonsterInScene = 0;
 
-	int globalBuffLayer_ = 1;
 };
 
 #endif // !__FIGHT_SCENE_H__
