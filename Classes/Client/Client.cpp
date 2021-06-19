@@ -38,6 +38,8 @@ void Client::initialization() {
 	else {
 		//cout << "服务器连接成功！" << endl;
 	}
+	unsigned long int u1 = 1;
+	ioctlsocket(s_server, FIONBIO, (unsigned long*)&u1);
 }
 
 void Client::Send(const char* msg)
@@ -67,12 +69,9 @@ bool Client::Receive()
 	}
 	else
 	{
-		if (strcmp(recv_buf, "aPlayerJoined") == 0)
-		{
-			return true;
-		}
+		recv_len = -2;
+		return true;
 	}
-	return false;
 }
 
 void Client::closeNet()

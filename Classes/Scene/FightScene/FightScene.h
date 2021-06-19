@@ -79,7 +79,7 @@ public:
 	void setDropNode(cocos2d::Node* node);
 	void updateDropNode(float dt);
 
-	void update(float dt) override;
+	void update(float) override;
 
 	void monsterDestroyed();
 

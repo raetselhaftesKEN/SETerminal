@@ -166,6 +166,7 @@ bool FightScene::init()
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::airDrop), 60.f);
+	this->scheduleUpdate();
 
 	settingLayer_ = SettingLayer::create();
 	this->addChild(settingLayer_, 5);
@@ -421,6 +422,7 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
+	cocos2d::log("update per frame");
 	if (Client::getInstance()->Receive())
 	{
 		globalPromptDisplay("A teammate joined the battle! You are boosted!");
