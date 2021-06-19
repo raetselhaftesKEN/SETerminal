@@ -110,13 +110,18 @@ void StartMenuScene::loadingFightScene()
 	fightScene_ = FightScene::create(_tileMap1, _tileMap2, _tileMap3, Obstacle::createObsSet(1), 1);
 	fightScene_->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
 	fightScene_->retain();
-
+	//初始时候加载音乐
+	AudioEngine::preload("audio/bgm_1low.mp3");
 }
 
 void StartMenuScene::goToFightScene()
 {
+	client_ = new Client();
+	client_->initialization();
+	client_->SendAndRecv();
+	client_->closeNet();
 	//这个时候再加载音乐
-	AudioEngine::preload("audio/bgm_1low.mp3");
+	//AudioEngine::preload("audio/bgm_1low.mp3");
 	fightScene_->settingLayer_->backgroundMusicID_ = cocos2d::AudioEngine::play2d("audio/bgm_1low.mp3", true, .5);
 	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, fightScene_->createScene()));
 
