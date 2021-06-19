@@ -9,12 +9,15 @@
 #include "Character/Monster.h"
 #include "Item/Clip/Clip.h"
 #include "Scene/StartMenuScene/StartMenuScene.h"
+//#include "Client/Client.h"
 
 using namespace cocos2d;
 
 class StartMenuScene;
 class SettingLayer;
 class Client;
+
+bool FightScene::isShootMusicPlaying_ = true;
 
 static void problemLoading(const char* filename)
 {
@@ -181,7 +184,9 @@ bool FightScene::init()
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::airDrop), 60.f);
 
 	settingLayer_ = SettingLayer::create();
+	endLayer_ = EndLayer::create();
 	this->addChild(settingLayer_, 5);
+	this->addChild(endLayer_, 6);
 	buildSettingBtn();
 
 	return true;
@@ -257,6 +262,27 @@ void FightScene::monsterDestroyed()
 	else
 	{
 		//最后一个怪被消灭，显示结算界面
+		//最后一个怪被消灭，显示结算界面
+		endLayer_->setPosition(0, 0);
+		endLayer_->open();
+		auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
+		//auto closeButtonSize = changeSceneButton->getContentSize();
+		auto runningSceneSize = this->getContentSize();
+		changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 150));
+		this->addChild(changeSceneButton, 20);
+		changeSceneButton->addClickEventListener([&](Ref*) {
+			cocos2d::log("Close Button Pressed!");
+//			Client::getInstance()->Send("Quit");
+			auto startMenuScene = StartMenuScene::create();
+			startMenuScene->retain();
+			//关闭音乐
+			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
+			settingLayer_->isBackgroundMusicPlaying_ = false;
+			removeFromParent();
+			cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
+		}
+		);
+		changeSceneButton->setCameraMask(2, true);
 	}
 }
 
@@ -417,8 +443,36 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		///////////////////////////////
 
 
-		cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
+		if (isShootMusicPlaying_)
+		{
+			cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
+		}
 		
+		if (!player_->isAlive())
+		{
+			//player死亡
+			endLayer_->setPosition(0, 0);
+			endLayer_->open();
+			auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
+			//auto closeButtonSize = changeSceneButton->getContentSize();
+			auto runningSceneSize = this->getContentSize();
+			changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 150));
+			this->addChild(changeSceneButton, 20);
+			changeSceneButton->addClickEventListener([=](Ref*) {
+				cocos2d::log("Close Button Pressed!");
+//				Client::getInstance()->Send("Quit");
+				auto startMenuScene = StartMenuScene::create();
+				startMenuScene->retain();
+				//关闭音乐
+				cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
+				settingLayer_->isBackgroundMusicPlaying_ = false;
+				removeFromParent();
+				cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
+			}
+			);
+			changeSceneButton->setCameraMask(2, true);
+
+		}
 
 		character->receiveDamage(bullet->getBulletAtk());
 		bullet->removeFromParentAndCleanup(true);
@@ -476,12 +530,12 @@ void FightScene::update(float dt)
 
 void FightScene::buildSettingBtn()
 {
-	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
-	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
+	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default2.png", "Setting/btn_default2.png");
+//	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
 
 	auto closeButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 
-	if (btnSetting == nullptr || settingImg == nullptr || closeButton == nullptr)
+	if (btnSetting == nullptr || closeButton == nullptr)
 	{
 		problemLoading("Button picture");
 	}
@@ -490,9 +544,9 @@ void FightScene::buildSettingBtn()
 		btnSetting->setScale9Enabled(true);
 		// 设置素材内容部分贴图大小
 		//btnSetting->setCapInsets(Rect(12, 12, 30, 18));
-		btnSetting->setContentSize(cocos2d::Size(100, 80));
+//		btnSetting->setContentSize(cocos2d::Size(100, 80));
 		btnSetting->setPosition(cocos2d::Vec2(60, 40));
-		settingImg->setPosition(cocos2d::Vec2(60, 40));
+//		settingImg->setPosition(cocos2d::Vec2(60, 40));
 		btnSetting->addClickEventListener([&](Ref*) {
 			cocos2d::log("Setting Pressed!");
 			if (!settingLayer_->isOpen)
@@ -525,12 +579,12 @@ void FightScene::buildSettingBtn()
 
 		//设置始终在镜头左下角
 		btnSetting->setCameraMask(2, true);
-		settingImg->setCameraMask(2, true);
+//		settingImg->setCameraMask(2, true);
 		closeButton->setCameraMask(2, true);
 	}
 
 	this->addChild(btnSetting, 3);
-	this->addChild(settingImg, 4);
+//	this->addChild(settingImg, 4);
 	this->addChild(closeButton, 3);
 }
 
@@ -599,4 +653,9 @@ cocos2d::Vec2 FightScene::getRandomPosition()
 	} while (!FightScene::isInBound(position) || (FightScene::ifCollision(position)));
 
 	return position;
+}
+
+bool& FightScene::getShootMusicStatus()
+{
+	return isShootMusicPlaying_;
 }

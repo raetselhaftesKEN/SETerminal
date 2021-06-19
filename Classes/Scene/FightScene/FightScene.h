@@ -14,9 +14,12 @@
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Component/Functional/SurvivorCounter.h"
 #include "Component/Functional/SETimer.h"
-#include "Component/SettingLayer/SettingLayer.h"
+#include "Component/MenuLayer/SettingLayer/SettingLayer.h"
+#include "Component/MenuLayer/EndLayer/EndLayer.h"
 
 using namespace cocos2d;
+
+class SettingLayer;
 
 class FightScene : public cocos2d::Scene
 {
@@ -87,10 +90,13 @@ public:
 	void buildSettingBtn();
 
 	SettingLayer* settingLayer_;
+	EndLayer* endLayer_;
 
 	void airDrop(float dt);
 
 	static cocos2d::Vec2 getRandomPosition();
+
+	static bool& getShootMusicStatus();
 
 	int ScreenWidth = 2340;
 	int ScreenHeight = 1080;
@@ -130,6 +136,8 @@ protected:
 	int MonsterInScene = 0;
 
 	int TouchCount = 0;
+
+	static bool isShootMusicPlaying_;
 };
 
 #endif // !__FIGHT_SCENE_H__

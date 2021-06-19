@@ -77,8 +77,10 @@ list(APPEND GAME_SOURCE
      Classes/Item/Armor/Armor.cpp
      Classes/Component/Functional/SurvivorCounter.cpp
      Classes/Component/Functional/SETimer.cpp
-     Classes/Component/SettingLayer/SettingLayer.cpp
+     Classes/Component/MenuLayer/SettingLayer/SettingLayer.cpp
      Classes/Client/Client.cpp
+     Classes/Component/MenuLayer/EndLayer/EndLayer.cpp
+     Classes/Component/MenuLayer/MenuLayer.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -103,8 +105,10 @@ list(APPEND GAME_HEADER
      Classes/Item/Armor/Armor.h
      Classes/Component/Functional/SurvivorCounter.h
      Classes/Component/Functional/SETimer.h
-     Classes/Component/SettingLayer/SettingLayer.h
+     Classes/Component/MenuLayer/SettingLayer/SettingLayer.h
      Classes/Client/Client.h
+     Classes/Component/MenuLayer/EndLayer/EndLayer.h
+     Classes/Component/MenuLayer/MenuLayer.h
      )
 
 if(ANDROID)

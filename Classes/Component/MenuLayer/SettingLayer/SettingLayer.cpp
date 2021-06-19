@@ -36,12 +36,6 @@ static void problemLoading(const char* filename)
 	printf("Error while loading: %s\n", filename);
 }
 
-//void SettingLayer::initMusic()
-//{
-//	backgroundMusicID_ = cocos2d::AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
-//	isBackgroundMusicPlaying_ = true;
-//}
-
 
 bool SettingLayer::init()
 {
@@ -86,6 +80,7 @@ bool SettingLayer::init()
 
 bool SettingLayer::open()
 {
+	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(true);
 	//为了在Monster类内使用外部的东西，使用以下几句
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
 	auto contenteSize = runningScene->getContentSize();
@@ -119,15 +114,17 @@ bool SettingLayer::open()
 		}
 	});
 
-	shortMusicButton_->addClickEventListener([&](Ref*) {
-		if (Weapon::getShootMusicStatus())
+	shortMusicButton_->addClickEventListener([=](Ref*) {
+		if (Weapon::getShootMusicStatus()||FightScene::getShootMusicStatus())
 		{
 
 			Weapon::getShootMusicStatus() = false;
+			FightScene::getShootMusicStatus() = false;
 		}
 		else
 		{
 			Weapon::getShootMusicStatus() = true;
+			FightScene::getShootMusicStatus() = true;
 		}
 	});
 
@@ -143,7 +140,36 @@ bool SettingLayer::open()
 	});
 
 	superAccuracyButton_->addClickEventListener([=](Ref*) {
-		
+		if (Weapon::isSuperAccuracy_)
+		{
+			Weapon::isSuperAccuracy_ = false;
+		}
+		else
+		{
+			Weapon::isSuperAccuracy_ = true;
+		}
+	});
+
+	superBulletButton_->addClickEventListener([=](Ref*) {
+		if (Weapon::isInfiniteBullet_)
+		{
+			Weapon::isInfiniteBullet_ = false;
+		}
+		else
+		{
+			Weapon::isInfiniteBullet_ = true;
+		}
+	});
+
+	superDamageButton_->addClickEventListener([=](Ref*) {
+		if (Monster::isPlayerSuperDamage_)
+		{
+			Monster::isPlayerSuperDamage_ = false;
+		}
+		else
+		{
+			Monster::isPlayerSuperDamage_ = true;
+		}
 	});
 
 	isOpen = true;
@@ -152,26 +178,27 @@ bool SettingLayer::open()
 
 bool SettingLayer::close()
 {
+	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(false);
 	pauseBoardImg_->setPosition(10000, 10000);
 	pauseBoardImg_->setCameraMask(2, true);
 	isOpen = false;
 	return true;
 }
 
-cocos2d::ui::Button* SettingLayer::settingSmallButton(float deviationX, float deviationY, std::string spriteName, std::string texts)
-{
-	cocos2d::ui::Button* smallButton = new  cocos2d::ui::Button;
-	smallButton = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
-	auto Image = cocos2d::Sprite::create(spriteName);
-	smallButton->setPosition(cocos2d::Vec2(STANDARD_LEFT + deviationX, BOARD_IMAGE_HEIGHT - deviationY));
-	Image->setPosition(cocos2d::Vec2(70, 40));
-	smallButton->setScale9Enabled(true);
-	smallButton->setContentSize(cocos2d::Size(140, 80));
-	pauseBoardImg_->addChild(smallButton, 3);
-	smallButton->addChild(Image, 2);
-	auto label = cocos2d::Label::createWithTTF(texts, "fonts/Marker Felt.ttf", 30);
-	label->setPosition(cocos2d::Vec2(55, -40));
-	smallButton->addChild(label, 2);
-
-	return smallButton;
-}
+//cocos2d::ui::Button* SettingLayer::settingSmallButton(float deviationX, float deviationY, std::string spriteName, std::string texts)
+//{
+//	cocos2d::ui::Button* smallButton = new  cocos2d::ui::Button;
+//	smallButton = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
+//	auto Image = cocos2d::Sprite::create(spriteName);
+//	smallButton->setPosition(cocos2d::Vec2(STANDARD_LEFT + deviationX, BOARD_IMAGE_HEIGHT - deviationY));
+//	Image->setPosition(cocos2d::Vec2(55, 50));
+//	smallButton->setScale9Enabled(true);
+//	smallButton->setContentSize(cocos2d::Size(110, 100));
+//	pauseBoardImg_->addChild(smallButton, 3);
+//	smallButton->addChild(Image, 2);
+//	auto label = cocos2d::Label::createWithTTF(texts, "fonts/Marker Felt.ttf", 30);
+//	label->setPosition(cocos2d::Vec2(55, -40));
+//	smallButton->addChild(label, 2);
+//
+//	return smallButton;
+//}

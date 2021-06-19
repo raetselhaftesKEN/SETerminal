@@ -4,7 +4,7 @@
 
 #include "cocos2d.h"
 #include "StartMenuScene.h"
-#include "Client/Client.h"
+//#include "Client/Client.h"
 
 static void problemLoading(const char* filename)
 {
@@ -103,8 +103,8 @@ void StartMenuScene::exitCallback(cocos2d::Ref* pSender)
 
 void StartMenuScene::goToFightScene()
 {
-	//AudioEngine::preload("audio/bgm_1low.mp3");
-	fightScene_->settingLayer_->backgroundMusicID_ = cocos2d::AudioEngine::play2d("audio/bgm_1low.mp3", true, .5);
+	//AudioEngine::preload("Audio/bgm_1Low.mp3");
+	fightScene_->settingLayer_->backgroundMusicID_ = cocos2d::AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
 	cocos2d::Director::getInstance()->replaceScene(fightScene_->createScene());
 }
 
@@ -123,5 +123,5 @@ void StartMenuScene::loadingFightScene()
 	fightScene_->bindPlayer(Player::create("MIKU/idle_down/idle_down1.png"));
 	fightScene_->retain();
 	//≥ı º ±∫Úº”‘ÿ“Ù¿÷
-	AudioEngine::preload("audio/bgm_1low.mp3");
+	AudioEngine::preload("Audio/bgm_1Low.mp3");
 }
