@@ -83,6 +83,8 @@ public:
 
 	float shieldProtectionRate_;
 
+	bool receiveDamageMessage = false;
+
 protected:
 
 	friend class HealthBar;
@@ -93,7 +95,7 @@ protected:
 
     bool isAlive_ = true;
 	
-    float moveSpeed_;
+    float moveSpeed_ = 100;
 
 	//角色朝向的点的坐标
 	cocos2d::Vec2 facingPoint_;

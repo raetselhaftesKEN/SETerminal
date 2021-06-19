@@ -77,7 +77,7 @@ list(APPEND GAME_SOURCE
      Classes/Component/Functional/SurvivorCounter.cpp
      Classes/Component/Functional/SETimer.cpp
      Classes/Component/SettingLayer/SettingLayer.cpp
-     Classes/NetWork/Client.cpp
+     Classes/Client/Client.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -102,7 +102,7 @@ list(APPEND GAME_HEADER
      Classes/Component/Functional/SurvivorCounter.h
      Classes/Component/Functional/SETimer.h
      Classes/Component/SettingLayer/SettingLayer.h
-     Classes/NetWork/Client.h
+     Classes/Client/Client.h
      )
 
 if(ANDROID)

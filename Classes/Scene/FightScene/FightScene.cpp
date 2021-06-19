@@ -8,8 +8,13 @@
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Character/Monster.h"
 #include "Item/Clip/Clip.h"
+#include "Scene/StartMenuScene/StartMenuScene.h"
 
 using namespace cocos2d;
+
+class StartMenuScene;
+class SettingLayer;
+class Client;
 
 static void problemLoading(const char* filename)
 {
@@ -114,6 +119,7 @@ void FightScene::setUI()
 	survivorCounter_->setPosition(cocos2d::Point(200, winSize.height));
 	survivorCounter_->setScale(0.3f, 0.3f);
 	addChild(survivorCounter_, 2);
+	
 }
 
 void FightScene::setOperationListener()
@@ -158,6 +164,7 @@ bool FightScene::init()
 	this->setPhysicsListener();
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);
+	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::airDrop), 60.f);
 
 	settingLayer_ = SettingLayer::create();
 	this->addChild(settingLayer_, 5);
@@ -193,7 +200,7 @@ bool FightScene::ifCollision(cocos2d::Vec2 pos)
 
 void FightScene::generateMonster(float dt)
 {
-	if (SpawnedMonster < MonsterToSpawn && player_->isAlive())
+	if (SpawnedMonster < MonsterToSpawn && player_->isAlive() && MonsterInScene < MaxMonsterInScene)
 	{
 		int monsterType = rand() % 3;
 		Monster* monster = nullptr;
@@ -221,6 +228,7 @@ void FightScene::generateMonster(float dt)
 			addChild(monster, 1);
 			monster->move();
 			SpawnedMonster++;
+			MonsterInScene++;
 		}
 	}
 }
@@ -230,6 +238,7 @@ void FightScene::monsterDestroyed()
 	if (RemainingSurvivor > 1)
 	{
 		RemainingSurvivor--;
+		MonsterInScene--;
 	}
 	else
 	{
@@ -239,14 +248,14 @@ void FightScene::monsterDestroyed()
 
 bool FightScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-	player_->isAttacking = true;
+	player_->setAttackStatus(true);
 	touchHolding_ = true;
 	return true;
 }
 
 bool FightScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-	player_->isAttacking = false;
+	player_->setAttackStatus(false);
 	touchHolding_ = false;
 	return true;
 }
@@ -355,6 +364,10 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		particleSystem->setPosition(bullet->getPosition());
 		///////////////////////////////
 
+
+		cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
+		
+
 		character->receiveDamage(bullet->getBulletAtk());
 		bullet->removeFromParentAndCleanup(true);
 	}
@@ -371,8 +384,8 @@ void FightScene::contactBetweenObstacleAndBullet(Obstacle* obstacle, Bullet* bul
 		particleSystem->setLifeVar(0.05);
 		particleSystem->setScale(0.5f);
 		particleSystem->setSpeed(500);
-		particleSystem->setStartColor(cocos2d::Color4F::RED);
-		particleSystem->setEndColor(cocos2d::Color4F::RED);
+		particleSystem->setStartColor(cocos2d::Color4F::GRAY);
+		particleSystem->setEndColor(cocos2d::Color4F::GRAY);
 		particleSystem->setStartColorVar(cocos2d::Color4F::BLACK);
 		particleSystem->setEndColorVar(cocos2d::Color4F::BLACK);
 		this->addChild(particleSystem, 10);
@@ -414,7 +427,7 @@ void FightScene::buildSettingBtn()
 	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
 	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
 
-	auto closeButton = cocos2d::ui::Button::create("close.png", "close_pressed.png");
+	auto closeButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 
 	if (btnSetting == nullptr || settingImg == nullptr || closeButton == nullptr)
 	{
@@ -446,7 +459,7 @@ void FightScene::buildSettingBtn()
 		auto runningSceneSize = this->getContentSize();
 		closeButton->setPosition(cocos2d::Vec2(runningSceneSize.width - closeButtonSize.width / 2, runningSceneSize.height - closeButtonSize.height / 2));
 		closeButton->addClickEventListener([&](Ref*) {
-			cocos2d::log("Close Button Pressed!");			
+			cocos2d::log("Close Button Pressed!");
 			auto startMenuScene = StartMenuScene::create();
 			startMenuScene->retain();
 			//¹Ø±ÕÒôÀÖ
@@ -469,21 +482,38 @@ void FightScene::buildSettingBtn()
 	this->addChild(closeButton, 3);
 }
 
-void FightScene::airDrop()
+void FightScene::airDrop(float dt)
 {
-	if (player_->isAlive() && SpawnedMonster != MonsterToSpawn)
-	{
-		auto dropPos = FightScene::getRandomPosition();
-		int drop = rand() % 4;
-		auto playerPos = player_->getPosition();
-		auto node = Weapon::create(static_cast<weaponType_>(rand() % 6));
+	auto pos = FightScene::getRandomPosition();
+	auto winSize = cocos2d::Director::getInstance()->getVisibleSize();
+	auto node = Weapon::create(static_cast<weaponType_>(rand() % 6));
+	node->setPosition(cocos2d::Vec2(pos.x, pos.y + winSize.height));
+	node->runAction(cocos2d::MoveTo::create(3.f, pos));
+	node->retain();
 
-		node->retain();
-		node->setPosition(playerPos);
-		setDropNode(dynamic_cast<Node*>(node));
-		this->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
-		setDropNode(nullptr);
-	}
+	addChild(node, 1);
+
+	auto playerPos = player_->getPosition();
+	auto offset = pos - playerPos;
+	std::string prompt = "Air drop comes in your ";
+	if (offset.x > 0 && offset.y > 0)
+		prompt += "northeast.";
+	else if (offset.x > 0 && offset.y < 0)
+		prompt += "southeast.";
+	else if (offset.x < 0 && offset.y > 0)
+		prompt += "northwest.";
+	else if (offset.x < 0 && offset.y < 0)
+		prompt += "southwest.";
+
+	auto label = cocos2d::Label::createWithTTF(prompt, "fonts/IRANYekanBold.ttf", 36);
+	label->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
+	label->setPosition(cocos2d::Vec2(winSize.width / 2, 3 * winSize.height / 4));
+	auto remove = cocos2d::RemoveSelf::create();
+	auto delay = cocos2d::DelayTime::create(1.f);
+	auto fade2 = cocos2d::FadeTo::create(1, 0);
+	label->runAction(cocos2d::Sequence::create(delay, fade2, remove, nullptr));
+	label->setCameraMask(2, true);
+	addChild(label, 3);
 }
 
 cocos2d::Vec2 FightScene::getRandomPosition()

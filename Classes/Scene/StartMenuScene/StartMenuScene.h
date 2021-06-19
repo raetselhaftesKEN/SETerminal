@@ -7,9 +7,6 @@
 
 #include "cocos2d.h"
 #include "Scene/FightScene/FightScene.h"
-#include "NetWork/Client.h"
-
-class FightScene;
 
 class StartMenuScene : public cocos2d::Scene
 {
@@ -40,8 +37,6 @@ protected:
 	cocos2d::Menu* exitButton_;
 
 	FightScene* fightScene_;
-
-	Client* client_;
 
 };
 

@@ -15,12 +15,8 @@
 #include "Component/Functional/SurvivorCounter.h"
 #include "Component/Functional/SETimer.h"
 #include "Component/SettingLayer/SettingLayer.h"
-#include "Scene/StartMenuScene/StartMenuScene.h"
 
 using namespace cocos2d;
-
-class StartMenuScene;
-class SettingLayer;
 
 class FightScene : public cocos2d::Scene
 {
@@ -90,7 +86,7 @@ public:
 
 	SettingLayer* settingLayer_;
 
-	void airDrop();
+	void airDrop(float dt);
 
 	static cocos2d::Vec2 getRandomPosition();
 
@@ -122,6 +118,8 @@ protected:
 
 	int MonsterToSpawn = 20;
 	int SpawnedMonster = 0;
+	int MaxMonsterInScene = 3;
+	int MonsterInScene = 0;
 };
 
 #endif // !__FIGHT_SCENE_H__

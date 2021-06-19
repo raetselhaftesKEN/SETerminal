@@ -54,6 +54,7 @@ public:
 	@杨孟臻
 	*/
 	void Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir);
+	void UnAttack();
 
 	int getCurrentMagazine();
 	/*
@@ -88,6 +89,8 @@ public:
 	PlayerAimPoint* getReloadAimPoint();
 	void setReloadAimPoint(PlayerAimPoint*);
 
+	static bool& getShootMusicStatus();
+
 	std::string weaponFilename_;
 
 	std::string bulletFilename_;	//武器所使用的子弹
@@ -102,11 +105,11 @@ public:
 
 	float BulletSpeed = 2000;
 
-	int shootMusicID_;
-
-	static bool isShootMusicPlaying_;
+	static bool isSettingSuperAccuracy;
 
 protected:
+
+	static bool isShootMusicPlaying_;
 
 	int Accuracy = 95;//1-Accuracy是扩散角度
 
@@ -122,6 +125,8 @@ protected:
 
 	bool CanShoot = true;
 
+	bool ShootingWithAmmo = false;
+
 	float MaxRecoil = 250;
 
 	int CurrentMagazine = 30;
@@ -129,7 +134,7 @@ protected:
 	PlayerAimPoint* MyAimPoint;
 	PlayerAimPoint* ReloadAimPoint;
 
-	
+	int shootMusicID_;
 
 };
 

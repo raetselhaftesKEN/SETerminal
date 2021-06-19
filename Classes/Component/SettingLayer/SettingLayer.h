@@ -6,9 +6,9 @@
 #include "AudioEngine.h"
 #include "Character/Player.h"
 #include "Const/Const.h"
-#include "Scene/StartMenuScene/StartMenuScene.h"
 
-class StartMenuScene;
+
+
 
 class SettingLayer : public cocos2d::Layer 
 {
@@ -30,8 +30,11 @@ public:
 	int backgroundMusicID_;
 	bool isBackgroundMusicPlaying_ = true;
 
+
 protected:
-		
+	
+	float tempRecoverl_;
+
 	cocos2d::ui::Scale9Sprite* pauseBoardImg_;
 	
 	cocos2d::ui::Button* closeButton_;

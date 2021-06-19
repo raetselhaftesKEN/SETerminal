@@ -13,7 +13,7 @@ class Clip : public Item
 {
 public:
 
-	static Clip* create(bulletType_ type);
+	static Clip* create(bulletType_ type, int num = 30);
 
 
 	virtual void interact();

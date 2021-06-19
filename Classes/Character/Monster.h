@@ -34,6 +34,7 @@ public:
 */
 	void Monster::move();
 
+	void shoot();
 
 	virtual void die();
 
@@ -59,11 +60,13 @@ public:
 
 protected:
 
-	float MoveTime;
-
-	int Health;
-
 	int ShootFreq;
+
+	enemyType_ typeOfThisMonster;
+
+	bool autoShoot = false;
+
+	float shootGap = 2.f;
 
 };
 

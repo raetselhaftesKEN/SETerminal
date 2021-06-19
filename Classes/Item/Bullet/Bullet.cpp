@@ -24,6 +24,7 @@ Bullet* Bullet::create(const std::string& filename)
         bullet->bindPhysicsBody();
         //使用tag标记我方子弹
         bullet->setTag(PLAYER_BULLET_TAG);
+        bullet->setScale(1.5f, 1.5f);
 
         return bullet;
     }
