@@ -7,8 +7,10 @@
 #include "Character/Player.h"
 #include "Const/Const.h"
 #include "../MenuLayer.h"
+#include "Character/Monster.h"
+#include "Scene/FightScene/FightScene.h"
 
-
+class FightScene;
 
 class SettingLayer : public MenuLayer
 {
@@ -21,7 +23,7 @@ public:
 
 	bool open();
 
-	//bool close();
+	bool close();
 
 	//cocos2d::ui::Button* settingSmallButton(float deviationX, float deviationY, std::string spriteText, std::string texts);
 
@@ -36,7 +38,7 @@ protected:
 
 	//cocos2d::ui::Scale9Sprite* pauseBoardImg_;
 	
-	//cocos2d::ui::Button* closeButton_;
+	cocos2d::ui::Button* closeButton_;
 	cocos2d::ui::Button* musicButton_;
 	cocos2d::Label* musicLabel_;
 	cocos2d::ui::Button* shortMusicButton_;

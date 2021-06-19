@@ -62,11 +62,11 @@ bool EndLayer::init()
 		this->addChild(pauseBoardImg_, 0);
 	}
 
-	//设置关闭按钮
-	closeButton_ = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
-	auto closeButtonSize = closeButton_->getContentSize();
-	closeButton_->setPosition(cocos2d::Vec2((BOARD_IMAGE_WIDTH - closeButtonSize.width / 2), (BOARD_IMAGE_HEIGHT - closeButtonSize.height / 2)));
-	pauseBoardImg_->addChild(closeButton_);
+	////设置关闭按钮
+	//closeButton_ = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
+	//auto closeButtonSize = closeButton_->getContentSize();
+	//closeButton_->setPosition(cocos2d::Vec2((BOARD_IMAGE_WIDTH - closeButtonSize.width / 2), (BOARD_IMAGE_HEIGHT - closeButtonSize.height / 2)));
+	//pauseBoardImg_->addChild(closeButton_);
 
 	/*musicButton_ = settingSmallButton(5, 100, "Setting/Music.png", "Music");
 	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "Shoot Music");
@@ -97,9 +97,9 @@ bool EndLayer::open()
 	pauseBoardImg_->setPosition(contenteSize.width / 2, contenteSize.height / 2);
 	pauseBoardImg_->setCameraMask(2, true);
 
-	closeButton_->addClickEventListener([=](Ref*) {
+	/*closeButton_->addClickEventListener([=](Ref*) {
 		this->close();
-	});
+	});*/
 
 	/*musicButton_->addClickEventListener([&](Ref*) {
 		if (!isBackgroundMusicPlaying_)

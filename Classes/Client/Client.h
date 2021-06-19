@@ -29,7 +29,8 @@ public:
 	void Send(const char*);
 	void closeNet();
 	bool Receive();
-	static Client* getInstance(){ return client_;}
+	static Client* getInstance() { return client_; }
+	const char* getReceiveBuffer() { return recv_buf; }
 };
 
 

@@ -8,6 +8,8 @@
 #include "Item/Clip/Clip.h"
 #include "Scene/FightScene/FightScene.h"
 
+bool Monster::isPlayerSuperDamage_ = false;
+
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
@@ -17,6 +19,11 @@ static void problemLoading(const char* filename)
 void Monster::receiveDamage(int damage)
 {
 	int realDamage = static_cast<int>(damage * (1 - shield_));
+	//玩家打开一击必杀模式
+	if (isPlayerSuperDamage_)
+	{
+		realDamage = 999;
+	}
 	if (realDamage >= health_)
 	{
 

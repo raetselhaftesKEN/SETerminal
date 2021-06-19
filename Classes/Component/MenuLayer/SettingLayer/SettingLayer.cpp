@@ -36,12 +36,6 @@ static void problemLoading(const char* filename)
 	printf("Error while loading: %s\n", filename);
 }
 
-//void SettingLayer::initMusic()
-//{
-//	backgroundMusicID_ = cocos2d::AudioEngine::play2d("Audio/bgm_1Low.mp3", true, .5);
-//	isBackgroundMusicPlaying_ = true;
-//}
-
 
 bool SettingLayer::init()
 {
@@ -78,8 +72,8 @@ bool SettingLayer::init()
 	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "Shoot Music");
 	superBodyButton_ = settingSmallButton(405, 100, "Setting/Music.png", "Super body");
 	superAccuracyButton_ = settingSmallButton(5, 350, "Setting/Music.png", "Accuracy");
-	superBulletButton_ = settingSmallButton(205, 350, "Setting/Music.png", "Bullet");
-	superDamageButton_ = settingSmallButton(405, 350, "Setting/Music.png", "Damage");
+	superBulletButton_ = settingSmallButton(205, 350, "Setting/Music.png", "Infinite Bullet");
+	superDamageButton_ = settingSmallButton(405, 350, "Setting/Music.png", "Super Damage");
 
 	return true;
 }
@@ -120,15 +114,17 @@ bool SettingLayer::open()
 		}
 	});
 
-	shortMusicButton_->addClickEventListener([&](Ref*) {
-		if (Weapon::getShootMusicStatus())
+	shortMusicButton_->addClickEventListener([=](Ref*) {
+		if (Weapon::getShootMusicStatus()||FightScene::getShootMusicStatus())
 		{
 
 			Weapon::getShootMusicStatus() = false;
+			FightScene::getShootMusicStatus() = false;
 		}
 		else
 		{
 			Weapon::getShootMusicStatus() = true;
+			FightScene::getShootMusicStatus() = true;
 		}
 	});
 
@@ -144,21 +140,50 @@ bool SettingLayer::open()
 	});
 
 	superAccuracyButton_->addClickEventListener([=](Ref*) {
-		
+		if (Weapon::isSuperAccuracy_)
+		{
+			Weapon::isSuperAccuracy_ = false;
+		}
+		else
+		{
+			Weapon::isSuperAccuracy_ = true;
+		}
+	});
+
+	superBulletButton_->addClickEventListener([=](Ref*) {
+		if (Weapon::isInfiniteBullte_)
+		{
+			Weapon::isInfiniteBullte_ = false;
+		}
+		else
+		{
+			Weapon::isInfiniteBullte_ = true;
+		}
+	});
+
+	superDamageButton_->addClickEventListener([=](Ref*) {
+		if (Monster::isPlayerSuperDamage_)
+		{
+			Monster::isPlayerSuperDamage_ = false;
+		}
+		else
+		{
+			Monster::isPlayerSuperDamage_ = true;
+		}
 	});
 
 	isOpen = true;
 	return true;
 }
 
-//bool SettingLayer::close()
-//{
-//	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(false);
-//	pauseBoardImg_->setPosition(10000, 10000);
-//	pauseBoardImg_->setCameraMask(2, true);
-//	isOpen = false;
-//	return true;
-//}
+bool SettingLayer::close()
+{
+	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(false);
+	pauseBoardImg_->setPosition(10000, 10000);
+	pauseBoardImg_->setCameraMask(2, true);
+	isOpen = false;
+	return true;
+}
 
 //cocos2d::ui::Button* SettingLayer::settingSmallButton(float deviationX, float deviationY, std::string spriteName, std::string texts)
 //{

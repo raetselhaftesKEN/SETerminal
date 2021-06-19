@@ -97,9 +97,9 @@ bool MenuLayer::open()
 	pauseBoardImg_->setPosition(contenteSize.width / 2, contenteSize.height / 2);
 	pauseBoardImg_->setCameraMask(2, true);
 
-	closeButton_->addClickEventListener([=](Ref*) {
+	/*closeButton_->addClickEventListener([=](Ref*) {
 		this->close();
-	});
+	});*/
 
 	/*musicButton_->addClickEventListener([&](Ref*) {
 		if (!isBackgroundMusicPlaying_)
@@ -145,14 +145,14 @@ bool MenuLayer::open()
 	return true;
 }
 
-bool MenuLayer::close()
-{
-	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(false);
-	pauseBoardImg_->setPosition(10000, 10000);
-	pauseBoardImg_->setCameraMask(2, true);
-	isOpen = false;
-	return true;
-}
+//bool MenuLayer::close()
+//{
+//	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(false);
+//	pauseBoardImg_->setPosition(10000, 10000);
+//	pauseBoardImg_->setCameraMask(2, true);
+//	isOpen = false;
+//	return true;
+//}
 
 cocos2d::ui::Button* MenuLayer::settingSmallButton(float deviationX, float deviationY, std::string spriteName, std::string texts)
 {

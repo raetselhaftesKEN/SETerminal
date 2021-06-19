@@ -17,7 +17,7 @@ public:
 
 	virtual bool open();
 
-	bool close();
+	//bool close();
 
 	cocos2d::ui::Button* settingSmallButton(float deviationX, float deviationY, std::string spriteText, std::string texts);
 
@@ -29,7 +29,7 @@ protected:
 
 	cocos2d::ui::Scale9Sprite* pauseBoardImg_;
 	
-	cocos2d::ui::Button* closeButton_;
+	//cocos2d::ui::Button* closeButton_;
 	
 };
 

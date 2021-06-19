@@ -103,10 +103,11 @@ void StartMenuScene::exitCallback(cocos2d::Ref* pSender)
 
 void StartMenuScene::goToFightScene()
 {
-	Client::getInstance()->initialization();
-	Client::getInstance()->Send("Join");
-	//AudioEngine::preload("audio/bgm_1low.mp3");
+	//Client::getInstance()->initialization();
+	//Client::getInstance()->Send("Join");
+
 	fightScene_->settingLayer_->backgroundMusicID_ = cocos2d::AudioEngine::play2d("audio/bgm_1low.mp3", true, .5);
+
 	cocos2d::Director::getInstance()->replaceScene(fightScene_->createScene());
 }
 
