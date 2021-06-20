@@ -123,7 +123,17 @@ void FightScene::setUI()
 	survivorCounter_->setPosition(cocos2d::Point(200, winSize.height));
 	survivorCounter_->setScale(0.3f, 0.3f);
 	addChild(survivorCounter_, 2);
-	
+
+	ToxicFog = cocos2d::Sprite::create("ToxicFog.png");
+	ToxicFog->setPosition(2048, 960 - 1000);
+	addChild(ToxicFog, 1);
+
+	ToxicFogWarn = cocos2d::Label::createWithTTF("Return To Safe Zone!", "fonts/IRANYekanBold.ttf", 60);
+	ToxicFogWarn->setColor(cocos2d::Color3B::RED);
+	ToxicFogWarn->setCameraMask(2);
+	ToxicFogWarn->setPosition(winSize.width / 2, winSize.height / 4);
+	ToxicFogWarn->setVisible(false);
+	addChild(ToxicFogWarn, 2);
 }
 
 void FightScene::setOperationListener()
@@ -164,7 +174,7 @@ bool FightScene::init()
 	this->addChild(tileMap1_, 0);
 	this->addChild(tileMap2_, 0);
 	this->addChild(tileMap3_, 0);
-	this ->setObstacle();
+	this->setObstacle();
 	this->setPhysicsListener();
 
 	this->schedule(CC_SCHEDULE_SELECTOR(FightScene::generateMonster), 1.5);
@@ -176,6 +186,18 @@ bool FightScene::init()
 	buildSettingBtn();
 	endLayer_ = EndLayer::create();
 	this->addChild(endLayer_, 6);
+	auto AK = Weapon::create(weaponType_::AK47);
+	AK->setPosition(cocos2d::Vec2(1848, 1000));
+	auto FAL = Weapon::create(weaponType_::FAL);
+	FAL->setPosition(cocos2d::Vec2(1948, 1000));
+	auto AKM = Weapon::create(weaponType_::AKM);
+	AKM->setPosition(cocos2d::Vec2(2148, 1000));
+	auto MP5 = Weapon::create(weaponType_::MP5);
+	MP5->setPosition(cocos2d::Vec2(2248, 1000));
+	addChild(AK, 1);
+	addChild(FAL, 1);
+	addChild(AKM, 1);
+	addChild(MP5, 1);
 
 	return true;
 }
@@ -505,13 +527,71 @@ void FightScene::update(float dt)
 	{
 		globalPromptDisplay("A teammate has left. Please be careful.", 2);
 	}
-	
+
+	if (ToxicFog->getPosition().y < ToxicFogMax)
+	{
+		ToxicFog->setPosition(ToxicFog->getPosition().x, ToxicFog->getPosition().y + ToxicFogMarch);
+	}
+
+	if (player_->getPosition().y < ToxicFog->getPosition().y)
+	{
+		ToxicFogWarn->setVisible(true);
+		if (ToxicFogCanDamage)
+		{
+			ToxicFogCanDamage = false;
+			auto damage = cocos2d::CallFunc::create([=]()
+				{
+					player_->receiveDamage(ToxicFogDamage);
+					if (!player_->isAlive())
+					{
+						//player死亡
+						endLayer_->setPosition(0, 0);
+						endLayer_->open(dynamic_cast<SurvivorCounter*>(this->getChildByTag(SUVR_CNT_TAG))->getSurvivorNumber() + 1);
+						auto changeSceneButton = cocos2d::ui::Button::create("Setting/menu.png", "Setting/menu_pressed.png");
+						//auto closeButtonSize = changeSceneButton->getContentSize();
+						auto runningSceneSize = this->getContentSize();
+						changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 300));
+						this->addChild(changeSceneButton, 20);
+						changeSceneButton->addClickEventListener([&](Ref*) {
+							cocos2d::log("Close Button Pressed!");
+							Client::getInstance()->Send("Quit");
+							auto startMenuScene = StartMenuScene::create();
+							startMenuScene->retain();
+							//关闭音乐
+							cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
+							settingLayer_->isBackgroundMusicPlaying_ = false;
+							Weapon::getShootMusicStatus() = true;
+							FightScene::getShootMusicStatus() = true;
+							Weapon::isSuperAccuracy_ = false;
+							Weapon::isInfiniteBullte_ = false;
+							Monster::isPlayerSuperDamage_ = false;
+
+							removeFromParent();
+							cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
+							}
+						);
+						changeSceneButton->setCameraMask(2, true);
+
+					}
+				});
+			auto recover = cocos2d::CallFunc::create([=]()
+				{
+					ToxicFogCanDamage = true;
+				});
+			auto delay = cocos2d::DelayTime::create(ToxicFogInterval);
+			this->runAction(cocos2d::Sequence::create(damage, delay, recover, nullptr));
+		}
+	}
+	else
+	{
+		ToxicFogWarn->setVisible(false);
+	}
 }
 
 void FightScene::buildSettingBtn()
 {
 	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default2.png", "Setting/btn_default2.png");
-//	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
+	//	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
 
 	auto closeButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 
@@ -521,11 +601,11 @@ void FightScene::buildSettingBtn()
 	}
 	else
 	{
-//		btnSetting->setScale9Enabled(true);
-		// 设置素材内容部分贴图大小
-//		btnSetting->setContentSize(cocos2d::Size(100, 80));
+		//		btnSetting->setScale9Enabled(true);
+				// 设置素材内容部分贴图大小
+		//		btnSetting->setContentSize(cocos2d::Size(100, 80));
 		btnSetting->setPosition(cocos2d::Vec2(60, 40));
-//		settingImg->setPosition(cocos2d::Vec2(60, 40));
+		//		settingImg->setPosition(cocos2d::Vec2(60, 40));
 		btnSetting->addClickEventListener([&](Ref*) {
 			cocos2d::log("Setting Pressed!");
 			if (!settingLayer_->isOpen)
@@ -565,12 +645,12 @@ void FightScene::buildSettingBtn()
 
 		//设置始终在镜头左下角
 		btnSetting->setCameraMask(2, true);
-//		settingImg->setCameraMask(2, true);
+		//		settingImg->setCameraMask(2, true);
 		closeButton->setCameraMask(2, true);
 	}
 
 	this->addChild(btnSetting, 3);
-//	this->addChild(settingImg, 4);
+	//	this->addChild(settingImg, 4);
 	this->addChild(closeButton, 3);
 }
 
@@ -624,11 +704,13 @@ cocos2d::Vec2 FightScene::getRandomPosition()
 	auto rangeY = maxY - minY;
 	auto rangeX = maxX - minX;
 
+	int i = 0;		//如果找不到合理的位置 用于直接退出
 	do
 	{
+		i++;
 		position.y = (rand() % static_cast<int>(rangeY)) + minY;
 		position.x = (rand() % static_cast<int>(rangeX)) + minX;
-	} while (!FightScene::isInBound(position) || (FightScene::ifCollision(position)));
+	} while ((!FightScene::isInBound(position) || (FightScene::ifCollision(position)) && i <= 10));
 
 	return position;
 }

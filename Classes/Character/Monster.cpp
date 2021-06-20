@@ -339,8 +339,22 @@ Monster* Monster::create(enemyType_ type)
 
 	if (monster && monster->sprite_)
 	{
-		auto monsterPosition = FightScene::getRandomPosition();
-
+		cocos2d::Vec2 monsterPosition = FightScene::getRandomPosition();
+		auto runningScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+		Player* playerNode = nullptr;
+		if (runningScene != nullptr)
+		{
+			playerNode = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
+		}
+		if (playerNode != nullptr)
+		{
+			int i = 0;
+			do
+			{
+				i++;
+				monsterPosition = FightScene::getRandomPosition();
+			} while (monsterPosition.y < playerNode->getPosition().y && i <= 10);
+		}
 		switch (type)
 		{
 			case enemyType_::Default_Shoot:

@@ -53,7 +53,7 @@ public:
 
 
 	virtual bool init() override;
-	
+
 
 	void generateMonster(float dt);
 
@@ -133,6 +133,17 @@ protected:
 	int MonsterInScene = 0;
 
 	static bool isShootMusicPlaying_;
+
+	cocos2d::Sprite* ToxicFog;
+	cocos2d::Label* ToxicFogWarn;
+
+	float ToxicFogMarch = 0.7f;
+	float ToxicFogMax = 2400;
+
+	int ToxicFogDamage = 10;
+	float ToxicFogInterval = 3;
+
+	bool ToxicFogCanDamage = true;
 
 };
 
