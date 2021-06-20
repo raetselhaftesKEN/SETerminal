@@ -48,7 +48,7 @@ bool SettingLayer::init()
 
 	// ÉèÖÃ±³¾°¿ò
 	pauseBoardImg_ = cocos2d::ui::Scale9Sprite::create("Setting/pause_board.png");
-	pauseBoardImg_->setOpacity(96);
+//	pauseBoardImg_->setOpacity(96);
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	if (pauseBoardImg_ == nullptr)
 	{
@@ -70,12 +70,12 @@ bool SettingLayer::init()
 	closeButton_->setPosition(cocos2d::Vec2((BOARD_IMAGE_WIDTH - closeButtonSize.width / 2), (BOARD_IMAGE_HEIGHT - closeButtonSize.height / 2)));
 	pauseBoardImg_->addChild(closeButton_);
 
-	musicButton_ = settingSmallButton(5, 100, "Setting/Music.png", "Music");
-	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "Shoot Music");
-	superBodyButton_ = settingSmallButton(405, 100, "Setting/Music.png", "Super body");
-	superAccuracyButton_ = settingSmallButton(5, 350, "Setting/Music.png", "Accuracy");
-	superBulletButton_ = settingSmallButton(205, 350, "Setting/Music.png", "Infinite Bullet");
-	superDamageButton_ = settingSmallButton(405, 350, "Setting/Music.png", "Super Damage");
+	musicButton_ = settingSmallButton(5, 100, "Setting/music.png", "Music");
+	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "Sound Effect");
+	superBodyButton_ = settingSmallButton(405, 100, "Setting/superBody.png", "Super Armor");
+	superAccuracyButton_ = settingSmallButton(5, 350, "Setting/superAccuracy.png", "Super Accuracy");
+	superBulletButton_ = settingSmallButton(205, 350, "Setting/infiniteAmmo.png", "Infinite Ammo");
+	superDamageButton_ = settingSmallButton(405, 350, "Setting/superDamage.png", "Super Damage");
 
 	return true;
 }

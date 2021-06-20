@@ -1,7 +1,7 @@
 #include "Client.h"
 #include <fstream>
 #include <Windows.h>
-#include <utility>
+
 using namespace std;
 
 Client* Client::client_ = new Client();
@@ -31,7 +31,7 @@ void Client::initialization() {
 
 	//填充服务端信息
 	char buffer[256];
-	ifstream ifs("D:\\cocos\\FinalProjectGit\\SETerminal\\Resources\\network.txt");
+	ifstream ifs("network.txt");
 
 	ifs.getline(buffer, 256, ' ');
 	

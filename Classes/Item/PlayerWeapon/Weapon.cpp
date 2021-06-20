@@ -151,7 +151,7 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->bulletFilename_ = "Bullet/Bullet1.png";
 				weapon->aimPointFilename_ = "AimPoint/AimPoint1.png";
 				weapon->TypeOfBullet = bulletType_::type762;
-				weapon->BulletSpeed = 2000;
+				weapon->BulletSpeed = 1600;
 				weapon->ShootingSpeed = 10;
 				weapon->BulletDamage = 12;
 				weapon->Accuracy = 95;
@@ -159,14 +159,14 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->RecoilRecover = 60;
 				weapon->MagazineSize = 30;
 				weapon->ReloadTime = 2.f;
-				weapon->soundFilename_ = "Audio/impacter.mp3";
+				weapon->soundFilename_ = "Audio/Kick GunAction 1.mp3";
 				weapon->Reset();
 				break;
 			case weaponType_::AKM:
 				weapon->bulletFilename_ = "Bullet/Bullet4.png";
 				weapon->aimPointFilename_ = "AimPoint/AimPoint1.png";
 				weapon->TypeOfBullet = bulletType_::type762;
-				weapon->BulletSpeed = 1800;
+				weapon->BulletSpeed = 1500;
 				weapon->ShootingSpeed = 8;
 				weapon->BulletDamage = 15;
 				weapon->Accuracy = 92;
@@ -174,29 +174,29 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->RecoilRecover = 50;
 				weapon->MagazineSize = 35;
 				weapon->ReloadTime = 2.f;
-				weapon->soundFilename_ = "Audio/impacter.mp3";
+				weapon->soundFilename_ = "Audio/big one.mp3";
 				weapon->Reset();
 				break;
 			case weaponType_::FAL:
 				weapon->bulletFilename_ = "Bullet/Bullet3.png";
 				weapon->aimPointFilename_ = "AimPoint/AimPoint3.png";
 				weapon->TypeOfBullet = bulletType_::type556;
-				weapon->BulletSpeed = 3000;
+				weapon->BulletSpeed = 1800;
 				weapon->ShootingSpeed = 2;
-				weapon->BulletDamage = 20;
+				weapon->BulletDamage = 40;
 				weapon->Accuracy = 98;
 				weapon->Recoil = 30;
 				weapon->RecoilRecover = 60;
 				weapon->MagazineSize = 20;
 				weapon->ReloadTime = 3.f;
-				weapon->soundFilename_ = "Audio/impacter.mp3";
+				weapon->soundFilename_ = "Audio/drum gun.mp3";
 				weapon->Reset();
 				break;
 			case weaponType_::M4:
 				weapon->bulletFilename_ = "Bullet/Bullet2.png";
 				weapon->aimPointFilename_ = "AimPoint/AimPoint1.png";
 				weapon->TypeOfBullet = bulletType_::type556;
-				weapon->BulletSpeed = 2000;
+				weapon->BulletSpeed = 1500;
 				weapon->ShootingSpeed = 15;
 				weapon->BulletDamage = 10;
 				weapon->Accuracy = 97;
@@ -211,7 +211,7 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->bulletFilename_ = "Bullet/Bullet5.png";
 				weapon->aimPointFilename_ = "AimPoint/AimPoint2.png";
 				weapon->TypeOfBullet = bulletType_::type9mm;
-				weapon->BulletSpeed = 1200;
+				weapon->BulletSpeed = 1000;
 				weapon->ShootingSpeed = 15;
 				weapon->BulletDamage = 8;
 				weapon->Accuracy = 90;
@@ -219,22 +219,22 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->RecoilRecover = 100;
 				weapon->MagazineSize = 45;
 				weapon->ReloadTime = 2.5f;
-				weapon->soundFilename_ = "Audio/impacter.mp3";
+				weapon->soundFilename_ = "Audio/snare gun.mp3";
 				weapon->Reset();
 				break;
 			case weaponType_::SVD:
 				weapon->bulletFilename_ = "Bullet/Bullet4.png";
 				weapon->aimPointFilename_ = "AimPoint/AimPoint3.png";
 				weapon->TypeOfBullet = bulletType_::type9mm;
-				weapon->BulletSpeed = 5000;
+				weapon->BulletSpeed = 1800;
 				weapon->ShootingSpeed = 1;
-				weapon->BulletDamage = 40;
+				weapon->BulletDamage = 80;
 				weapon->Accuracy = 99;
 				weapon->Recoil = 60;
 				weapon->RecoilRecover = 60;
 				weapon->MagazineSize = 5;
 				weapon->ReloadTime = 2.f;
-				weapon->soundFilename_ = "Audio/impacter.mp3";
+				weapon->soundFilename_ = "Audio/reverb gun.mp3";
 				weapon->Reset();
 				break;
 			default:

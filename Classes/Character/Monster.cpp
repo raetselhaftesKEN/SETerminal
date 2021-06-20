@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Item/Medkit/Medkit.h"
 #include "Item/Clip/Clip.h"
+#include "Item/Armor/Armor.h"
 #include "Scene/FightScene/FightScene.h"
 
 bool Monster::isPlayerSuperDamage_ = false;
@@ -220,7 +221,7 @@ void Monster::die()
 			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
 		}
 	}
-	else if (dropItem == 8 || dropItem == 7)
+	else if (dropItem == 8)
 	{
 		auto ClipNode = dynamic_cast<cocos2d::Node*>(Clip::create(static_cast<bulletType_>(rand() % 3), rand() % 30 + 30));
 		ClipNode->setPosition(getPosition());
@@ -228,6 +229,17 @@ void Monster::die()
 		if (scene && ClipNode)
 		{
 			scene->setDropNode(ClipNode);
+			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
+		}
+	}
+	else if (dropItem == 7)
+	{
+		auto armorNode = dynamic_cast<cocos2d::Node*>(Armor::create(rand() % 30 + 20));
+		armorNode->setPosition(getPosition());
+
+		if (scene && armorNode)
+		{
+			scene->setDropNode(armorNode);
 			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
 		}
 	}

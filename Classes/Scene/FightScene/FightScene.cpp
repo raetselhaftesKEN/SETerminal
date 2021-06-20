@@ -255,7 +255,7 @@ void FightScene::monsterDestroyed()
 		auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 		//auto closeButtonSize = changeSceneButton->getContentSize();
 		auto runningSceneSize = this->getContentSize();
-		changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 150));
+		changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 300));
 		this->addChild(changeSceneButton, 20);
 		changeSceneButton->addClickEventListener([&](Ref*) {
 			cocos2d::log("Close Button Pressed!");
@@ -265,8 +265,8 @@ void FightScene::monsterDestroyed()
 			//关闭音乐
 			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
 			settingLayer_->isBackgroundMusicPlaying_ = false;
-			Weapon::getShootMusicStatus() = false;
-			FightScene::getShootMusicStatus() = false;
+			Weapon::getShootMusicStatus() = true;
+			FightScene::getShootMusicStatus() = true;
 			Weapon::isSuperAccuracy_ = false;
 			Weapon::isInfiniteBullte_ = false;
 			Monster::isPlayerSuperDamage_ = false;
@@ -408,7 +408,7 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 			auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 			//auto closeButtonSize = changeSceneButton->getContentSize();
 			auto runningSceneSize = this->getContentSize();
-			changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 150));
+			changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 300));
 			this->addChild(changeSceneButton, 20);
 			changeSceneButton->addClickEventListener([&](Ref*) {
 				cocos2d::log("Close Button Pressed!");
@@ -418,8 +418,8 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 				//关闭音乐
 				cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
 				settingLayer_->isBackgroundMusicPlaying_ = false;
-				Weapon::getShootMusicStatus() = false;
-				FightScene::getShootMusicStatus() = false;
+				Weapon::getShootMusicStatus() = true;
+				FightScene::getShootMusicStatus() = true;
 				Weapon::isSuperAccuracy_ = false;
 				Weapon::isInfiniteBullte_ = false;
 				Monster::isPlayerSuperDamage_ = false;
@@ -431,9 +431,10 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 			changeSceneButton->setCameraMask(2, true);
 
 		}
-
-		cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
-		
+		if (isShootMusicPlaying_)
+		{
+			cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
+		}
 
 		character->receiveDamage(bullet->getBulletAtk());
 		bullet->removeFromParentAndCleanup(true);
@@ -509,22 +510,22 @@ void FightScene::update(float dt)
 
 void FightScene::buildSettingBtn()
 {
-	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
-	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
+	auto btnSetting = cocos2d::ui::Button::create("Setting/btn_default2.png", "Setting/btn_default2.png");
+//	auto settingImg = cocos2d::Sprite::create("Setting/settings.png");
 
 	auto closeButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 
-	if (btnSetting == nullptr || settingImg == nullptr || closeButton == nullptr)
+	if (btnSetting == nullptr || closeButton == nullptr)
 	{
 		problemLoading("Button picture");
 	}
 	else
 	{
-		btnSetting->setScale9Enabled(true);
+//		btnSetting->setScale9Enabled(true);
 		// 设置素材内容部分贴图大小
-		btnSetting->setContentSize(cocos2d::Size(100, 80));
+//		btnSetting->setContentSize(cocos2d::Size(100, 80));
 		btnSetting->setPosition(cocos2d::Vec2(60, 40));
-		settingImg->setPosition(cocos2d::Vec2(60, 40));
+//		settingImg->setPosition(cocos2d::Vec2(60, 40));
 		btnSetting->addClickEventListener([&](Ref*) {
 			cocos2d::log("Setting Pressed!");
 			if (!settingLayer_->isOpen)
@@ -550,8 +551,8 @@ void FightScene::buildSettingBtn()
 			//关闭音乐
 			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
 			settingLayer_->isBackgroundMusicPlaying_ = false;
-			Weapon::getShootMusicStatus() = false;
-			FightScene::getShootMusicStatus() = false;
+			Weapon::getShootMusicStatus() = true;
+			FightScene::getShootMusicStatus() = true;
 			Weapon::isSuperAccuracy_ = false;
 			Weapon::isInfiniteBullte_ = false;
 			Monster::isPlayerSuperDamage_ = false;
@@ -564,12 +565,12 @@ void FightScene::buildSettingBtn()
 
 		//设置始终在镜头左下角
 		btnSetting->setCameraMask(2, true);
-		settingImg->setCameraMask(2, true);
+//		settingImg->setCameraMask(2, true);
 		closeButton->setCameraMask(2, true);
 	}
 
 	this->addChild(btnSetting, 3);
-	this->addChild(settingImg, 4);
+//	this->addChild(settingImg, 4);
 	this->addChild(closeButton, 3);
 }
 
@@ -661,3 +662,7 @@ bool& FightScene::getShootMusicStatus()
 	return isShootMusicPlaying_;
 }
 
+int FightScene::monsterToSpawn()
+{
+	return MonsterToSpawn;
+}

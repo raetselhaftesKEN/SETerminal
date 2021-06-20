@@ -99,6 +99,7 @@ public:
 
 	static bool& getShootMusicStatus();
 
+	int monsterToSpawn();
 
 protected:
 

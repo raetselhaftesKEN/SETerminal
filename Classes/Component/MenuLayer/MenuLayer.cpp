@@ -159,6 +159,7 @@ cocos2d::ui::Button* MenuLayer::settingSmallButton(float deviationX, float devia
 	cocos2d::ui::Button* smallButton = new  cocos2d::ui::Button;
 	smallButton = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
 	auto Image = cocos2d::Sprite::create(spriteName);
+	Image->setScale(0.5f);
 	smallButton->setPosition(cocos2d::Vec2(STANDARD_LEFT + deviationX, BOARD_IMAGE_HEIGHT - deviationY));
 	Image->setPosition(cocos2d::Vec2(55, 50));
 	smallButton->setScale9Enabled(true);

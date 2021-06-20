@@ -30,7 +30,7 @@ Player* Player::create(const std::string& filename)
 		//初始化角色武器和弹药
 		player->primaryWeapon_ = Weapon::create(weaponType_::M4);
 		player->primaryWeapon_->Item::pickUp();
-		player->secondaryWeapon_ = Weapon::create(weaponType_::FAL);
+		player->secondaryWeapon_ = Weapon::create(weaponType_::SVD);
 		player->secondaryWeapon_->Item::pickUp();
 
 		player->addChild(player->primaryWeapon_);
