@@ -214,7 +214,7 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->BulletSpeed = 1000;
 				weapon->ShootingSpeed = 15;
 				weapon->BulletDamage = 8;
-				weapon->Accuracy = 90;
+				weapon->Accuracy = 90; 
 				weapon->Recoil = 5;
 				weapon->RecoilRecover = 100;
 				weapon->MagazineSize = 45;

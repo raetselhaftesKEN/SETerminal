@@ -89,7 +89,7 @@ bool EndLayer::open(int finalRank)
 		pauseBoardImg_->setTexture("Setting/EndMenuLose.png");
 	}
 	endPrompt1_->setString(std::to_string(finalRank) + "/");
-	endPrompt2_->setString(std::to_string(dynamic_cast<FightScene*>(runningScene)->monsterToSpawn()));
+	endPrompt2_->setString(std::to_string(dynamic_cast<FightScene*>(runningScene)->monsterToSpawn() + 1));
 	
 	pauseBoardImg_->setPosition(contenteSize.width / 2, contenteSize.height / 2);
 	pauseBoardImg_->setCameraMask(2, true);
