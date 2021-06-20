@@ -19,6 +19,9 @@ public:
 	void update(float dt);
 
 
+	int getSurvivorNumber();
+
+
 protected:
 
 	int RemainingSurvivorCount = 0;

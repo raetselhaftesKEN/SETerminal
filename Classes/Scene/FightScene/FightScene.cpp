@@ -10,6 +10,7 @@
 #include "Item/Clip/Clip.h"
 #include "Scene/StartMenuScene/StartMenuScene.h"
 #include "Client/Client.h"
+#include "Component/Functional/SurvivorCounter.h"
 
 using namespace cocos2d;
 
@@ -250,7 +251,7 @@ void FightScene::monsterDestroyed()
 	{
 		//最后一个怪被消灭，显示结算界面
 		endLayer_->setPosition(0, 0);
-		endLayer_->open();
+		endLayer_->open(1);
 		auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 		//auto closeButtonSize = changeSceneButton->getContentSize();
 		auto runningSceneSize = this->getContentSize();
@@ -403,7 +404,7 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		{
 			//player死亡
 			endLayer_->setPosition(0, 0);
-			endLayer_->open();
+			endLayer_->open(dynamic_cast<SurvivorCounter*>(this->getChildByTag(SUVR_CNT_TAG))->getSurvivorNumber() + 1);
 			auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 			//auto closeButtonSize = changeSceneButton->getContentSize();
 			auto runningSceneSize = this->getContentSize();
@@ -521,7 +522,6 @@ void FightScene::buildSettingBtn()
 	{
 		btnSetting->setScale9Enabled(true);
 		// 设置素材内容部分贴图大小
-		//btnSetting->setCapInsets(Rect(12, 12, 30, 18));
 		btnSetting->setContentSize(cocos2d::Size(100, 80));
 		btnSetting->setPosition(cocos2d::Vec2(60, 40));
 		settingImg->setPosition(cocos2d::Vec2(60, 40));
@@ -660,3 +660,4 @@ bool& FightScene::getShootMusicStatus()
 {
 	return isShootMusicPlaying_;
 }
+

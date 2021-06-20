@@ -34,6 +34,7 @@ using namespace std::string_literals;
 #define ITEM_TAG 50
 #define OBSTACLE_TAG 60
 #define FIGHT_SCENE_TAG 70
+#define SUVR_CNT_TAG 80
 
 //default values
 #define PLAYER_MAX_HEALTH 100

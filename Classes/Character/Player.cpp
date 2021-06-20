@@ -301,7 +301,7 @@ void Player::die()
 {
 	isAlive_ = false;
 	health_ = 0;
-
+	
 }
 
 void Player::attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)

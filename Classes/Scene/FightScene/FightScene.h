@@ -99,6 +99,7 @@ public:
 
 	static bool& getShootMusicStatus();
 
+
 protected:
 
 	cocos2d::TMXTiledMap* tileMap1_;
@@ -131,6 +132,7 @@ protected:
 	int MonsterInScene = 0;
 
 	static bool isShootMusicPlaying_;
+
 };
 
 #endif // !__FIGHT_SCENE_H__
