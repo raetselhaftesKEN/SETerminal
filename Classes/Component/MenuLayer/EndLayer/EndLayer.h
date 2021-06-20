@@ -19,7 +19,7 @@ public:
 
 	virtual bool init();
 
-	virtual bool open();
+	virtual bool open(bool win = true);
 
 
 

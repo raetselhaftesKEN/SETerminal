@@ -46,7 +46,7 @@ bool SettingLayer::init()
 
 	// ÉèÖÃ±³¾°¿ò
 	pauseBoardImg_ = cocos2d::ui::Scale9Sprite::create("Setting/pause_board.png");
-	pauseBoardImg_->setOpacity(96);
+//	pauseBoardImg_->setOpacity(96);
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	if (pauseBoardImg_ == nullptr)
 	{
@@ -55,7 +55,7 @@ bool SettingLayer::init()
 	}
 	else
 	{
-		pauseBoardImg_->setCapInsets(cocos2d::Rect(6, 6, 79, 61));
+		pauseBoardImg_->setCapInsets(cocos2d::Rect(20, 20, 160, 142));
 		pauseBoardImg_->setContentSize(cocos2d::Size(BOARD_IMAGE_WIDTH, BOARD_IMAGE_HEIGHT));
 		//pauseBoardImg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
 		pauseBoardImg_->setPosition(cocos2d::Vec2(CLOSE_X,CLOSE_Y));
@@ -69,11 +69,11 @@ bool SettingLayer::init()
 	pauseBoardImg_->addChild(closeButton_);
 
 	musicButton_ = settingSmallButton(5, 100, "Setting/music.png", "Music");
-	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "Shoot Music");
-	superBodyButton_ = settingSmallButton(405, 100, "Setting/music.png", "Super body");
-	superAccuracyButton_ = settingSmallButton(5, 350, "Setting/music.png", "Accuracy");
-	superBulletButton_ = settingSmallButton(205, 350, "Setting/music.png", "Bullet");
-	superDamageButton_ = settingSmallButton(405, 350, "Setting/music.png", "Damage");
+	shortMusicButton_ = settingSmallButton(205, 100, "Setting/short_music.png", "SoundEffect");
+	superBodyButton_ = settingSmallButton(405, 100, "Setting/superBody.png", "SuperBody");
+	superAccuracyButton_ = settingSmallButton(5, 350, "Setting/superAccuracy.png", "SuperAccuracy");
+	superBulletButton_ = settingSmallButton(205, 350, "Setting/infiniteAmmo.png", "InfiniteAmmo");
+	superDamageButton_ = settingSmallButton(405, 350, "Setting/superDamage.png", "SuperDamage");
 
 	return true;
 }
@@ -184,21 +184,3 @@ bool SettingLayer::close()
 	isOpen = false;
 	return true;
 }
-
-//cocos2d::ui::Button* SettingLayer::settingSmallButton(float deviationX, float deviationY, std::string spriteName, std::string texts)
-//{
-//	cocos2d::ui::Button* smallButton = new  cocos2d::ui::Button;
-//	smallButton = cocos2d::ui::Button::create("Setting/btn_default.png", "Setting/btn_default_pressed.png");
-//	auto Image = cocos2d::Sprite::create(spriteName);
-//	smallButton->setPosition(cocos2d::Vec2(STANDARD_LEFT + deviationX, BOARD_IMAGE_HEIGHT - deviationY));
-//	Image->setPosition(cocos2d::Vec2(55, 50));
-//	smallButton->setScale9Enabled(true);
-//	smallButton->setContentSize(cocos2d::Size(110, 100));
-//	pauseBoardImg_->addChild(smallButton, 3);
-//	smallButton->addChild(Image, 2);
-//	auto label = cocos2d::Label::createWithTTF(texts, "fonts/Marker Felt.ttf", 30);
-//	label->setPosition(cocos2d::Vec2(55, -40));
-//	smallButton->addChild(label, 2);
-//
-//	return smallButton;
-//}

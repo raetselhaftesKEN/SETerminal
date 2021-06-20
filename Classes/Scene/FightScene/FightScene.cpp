@@ -264,11 +264,11 @@ void FightScene::monsterDestroyed()
 		//最后一个怪被消灭，显示结算界面
 		//最后一个怪被消灭，显示结算界面
 		endLayer_->setPosition(0, 0);
-		endLayer_->open();
-		auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
+		endLayer_->open(true);
+		auto changeSceneButton = cocos2d::ui::Button::create("Setting/menu.png", "Setting/menu_pressed.png");
 		//auto closeButtonSize = changeSceneButton->getContentSize();
 		auto runningSceneSize = this->getContentSize();
-		changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 150));
+		changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, 100));
 		this->addChild(changeSceneButton, 20);
 		changeSceneButton->addClickEventListener([&](Ref*) {
 			cocos2d::log("Close Button Pressed!");
@@ -452,11 +452,11 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		{
 			//player死亡
 			endLayer_->setPosition(0, 0);
-			endLayer_->open();
-			auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
+			endLayer_->open(false);
+			auto changeSceneButton = cocos2d::ui::Button::create("Setting/menu.png", "Setting/menu_pressed.png");
 			//auto closeButtonSize = changeSceneButton->getContentSize();
 			auto runningSceneSize = this->getContentSize();
-			changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 150));
+			changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, 100));
 			this->addChild(changeSceneButton, 20);
 			changeSceneButton->addClickEventListener([=](Ref*) {
 				cocos2d::log("Close Button Pressed!");

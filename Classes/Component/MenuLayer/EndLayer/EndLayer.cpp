@@ -41,32 +41,36 @@ bool EndLayer::init()
 {
 	this->setPosition(cocos2d::Vec2(CLOSE_X, CLOSE_Y));
 
-	// 设置背景框
-	pauseBoardImg_ = cocos2d::ui::Scale9Sprite::create("Setting/close.png");
-	pauseBoardImg_->setOpacity(96);
+	pauseBoardImg_ = cocos2d::ui::Scale9Sprite::create("Setting/EndMenuWin.png");
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	if (pauseBoardImg_ == nullptr)
 	{
-		problemLoading("'pause_board.png'");
+		problemLoading("'EndMenuWin.png'");
 		return false;
 	}
 	else
 	{
-		pauseBoardImg_->setCapInsets(cocos2d::Rect(6, 6, 79, 61));
-		pauseBoardImg_->setContentSize(cocos2d::Size(BOARD_IMAGE_WIDTH, BOARD_IMAGE_HEIGHT));
-		pauseBoardImg_->setPosition(cocos2d::Vec2(CLOSE_X,CLOSE_Y));
+//		pauseBoardImg_->setCapInsets(cocos2d::Rect(20, 20, 160, 142));
+//		pauseBoardImg_->setContentSize(cocos2d::Size(BOARD_IMAGE_WIDTH, BOARD_IMAGE_HEIGHT));
+		//pauseBoardImg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+		pauseBoardImg_->setPosition(cocos2d::Vec2(CLOSE_X, CLOSE_Y));
 		this->addChild(pauseBoardImg_, 0);
 	}
 
 	return true;
 }
 
-bool EndLayer::open()
+bool EndLayer::open(bool win)
 {
 	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(true);
 	//为了在Monster类内使用外部的东西，使用以下几句
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
 	auto contenteSize = runningScene->getContentSize();
+
+	if (!win)
+	{
+		pauseBoardImg_->setTexture("Setting/EndMenuLose.png");
+	}
 
 	pauseBoardImg_->setPosition(contenteSize.width / 2, contenteSize.height / 2);
 	pauseBoardImg_->setCameraMask(2, true);
