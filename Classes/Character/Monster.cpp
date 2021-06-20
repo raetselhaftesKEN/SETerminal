@@ -194,7 +194,7 @@ void Monster::shoot()
 
 				float starSpeed = 1200;
 
-				enemyBullet->shoot(shootPos , starSpeed);
+				enemyBullet->shoot(shootPos, starSpeed);
 			}
 		}
 		});

@@ -10,6 +10,8 @@
 #define CLOSE_X 10000
 #define CLOSE_Y 10000
 
+class FightScene;
+
 SettingLayer* SettingLayer::create()
 {
 	auto settingLayer = new(std::nothrow) SettingLayer();

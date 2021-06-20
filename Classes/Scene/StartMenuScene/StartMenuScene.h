@@ -19,10 +19,12 @@ public:
 	virtual bool init() override;
 
 	void startCallback(cocos2d::Ref* pSender);
-
+	void startOnlineCallback(cocos2d::Ref* pSender);
 	void exitCallback(cocos2d::Ref* pSender);
 
 	void goToFightScene();
+
+	void initOnlineButton();
 
 	void initStartButton();
 
@@ -33,6 +35,8 @@ public:
 protected:
 
 	cocos2d::Menu* startButton_;
+
+	cocos2d::Menu* onlineButton_;
 
 	cocos2d::Menu* exitButton_;
 

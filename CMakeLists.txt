@@ -76,10 +76,12 @@ list(APPEND GAME_SOURCE
      Classes/Item/Clip/Clip.cpp
      Classes/Component/Functional/SurvivorCounter.cpp
      Classes/Component/Functional/SETimer.cpp
+     Classes/Component/MenuLayer/MenuLayer.cpp
+     Classes/Component/MenuLayer/EndLayer/EndLayer.cpp
      Classes/Component/MenuLayer/SettingLayer/SettingLayer.cpp
      Classes/Client/Client.cpp
-     Classes/Component/MenuLayer/EndLayer/EndLayer.cpp
-     Classes/Component/MenuLayer/MenuLayer.cpp
+     Classes/Item/Armor/Armor.cpp
+     Classes/JsonReader/JsonReader.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -103,10 +105,12 @@ list(APPEND GAME_HEADER
      Classes/Item/Clip/Clip.h
      Classes/Component/Functional/SurvivorCounter.h
      Classes/Component/Functional/SETimer.h
+     Classes/Component/MenuLayer/MenuLayer.h
+     Classes/Component/MenuLayer/EndLayer/EndLayer.h
      Classes/Component/MenuLayer/SettingLayer/SettingLayer.h
      Classes/Client/Client.h
-     Classes/Component/MenuLayer/EndLayer/EndLayer.h
-     Classes/Component/MenuLayer/MenuLayer.h
+     Classes/Item/Armor/Armor.h
+     Classes/JsonReader/JsonReader.h
      )
 
 if(ANDROID)

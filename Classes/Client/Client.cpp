@@ -1,4 +1,7 @@
 #include "Client.h"
+#include <fstream>
+#include <Windows.h>
+#include <utility>
 using namespace std;
 
 Client* Client::client_ = new Client();
@@ -25,14 +28,20 @@ void Client::initialization() {
 	}
 	//填充服务端地址信息
 
+
 	//填充服务端信息
+	char buffer[256];
+	ifstream ifs("D:\\cocos\\FinalProjectGit\\SETerminal\\Resources\\network.txt");
+
+	ifs.getline(buffer, 256, ' ');
+	
 	server_addr.sin_family = AF_INET;
-	server_addr.sin_addr.S_un.S_addr = inet_addr("192.168.43.5");
+	server_addr.sin_addr.S_un.S_addr = inet_addr(buffer);
 	server_addr.sin_port = htons(1234);
 	//创建套接字
 	s_server = socket(AF_INET, SOCK_STREAM, 0);
 	if (connect(s_server, (SOCKADDR*)&server_addr, sizeof(SOCKADDR)) == SOCKET_ERROR) {
-		//cout << "服务器连接失败！" << endl;
+		connectSuccess = false;
 		WSACleanup();
 	}
 	else {
@@ -40,6 +49,7 @@ void Client::initialization() {
 	}
 	unsigned long int u1 = 1;
 	ioctlsocket(s_server, FIONBIO, (unsigned long*)&u1);
+	connectSuccess = true;
 }
 
 void Client::Send(const char* msg)
@@ -56,7 +66,7 @@ void Client::Send(const char* msg)
 		//break;
 	}
 
-
+	
 	return;
 }
 
@@ -82,4 +92,18 @@ void Client::closeNet()
 	//释放DLL资源
 	WSACleanup();
 	return;
+}
+
+bool Client::isConnectionSuccessful()
+{
+	return connectSuccess;
+}
+
+void Client::clientRelease()
+{
+	if (client_ != nullptr)
+	{
+		delete client_;
+		client_ = nullptr;
+	}
 }

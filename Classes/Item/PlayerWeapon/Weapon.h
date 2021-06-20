@@ -135,6 +135,8 @@ protected:
 	PlayerAimPoint* MyAimPoint;
 	PlayerAimPoint* ReloadAimPoint;
 
+	std::string soundFilename_;
+
 	int shootMusicID_;
 
 };

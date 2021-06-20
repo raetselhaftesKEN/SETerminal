@@ -159,6 +159,7 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->RecoilRecover = 60;
 				weapon->MagazineSize = 30;
 				weapon->ReloadTime = 2.f;
+				weapon->soundFilename_ = "Audio/impacter.mp3";
 				weapon->Reset();
 				break;
 			case weaponType_::AKM:
@@ -173,6 +174,7 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->RecoilRecover = 50;
 				weapon->MagazineSize = 35;
 				weapon->ReloadTime = 2.f;
+				weapon->soundFilename_ = "Audio/impacter.mp3";
 				weapon->Reset();
 				break;
 			case weaponType_::FAL:
@@ -187,6 +189,7 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->RecoilRecover = 60;
 				weapon->MagazineSize = 20;
 				weapon->ReloadTime = 3.f;
+				weapon->soundFilename_ = "Audio/impacter.mp3";
 				weapon->Reset();
 				break;
 			case weaponType_::M4:
@@ -201,6 +204,7 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->RecoilRecover = 80;
 				weapon->MagazineSize = 40;
 				weapon->ReloadTime = 3.f;
+				weapon->soundFilename_ = "Audio/impacter.mp3";
 				weapon->Reset();
 				break;
 			case weaponType_::MP5:
@@ -215,6 +219,7 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->RecoilRecover = 100;
 				weapon->MagazineSize = 45;
 				weapon->ReloadTime = 2.5f;
+				weapon->soundFilename_ = "Audio/impacter.mp3";
 				weapon->Reset();
 				break;
 			case weaponType_::SVD:
@@ -229,6 +234,7 @@ Weapon* Weapon::create(weaponType_ type)
 				weapon->RecoilRecover = 60;
 				weapon->MagazineSize = 5;
 				weapon->ReloadTime = 2.f;
+				weapon->soundFilename_ = "Audio/impacter.mp3";
 				weapon->Reset();
 				break;
 			default:
@@ -285,9 +291,9 @@ void Weapon::Attack(cocos2d::Vec2 pos, cocos2d::Vec2 dir)//ÔÝÊ±ÏÈÍ¨¹ýÕâ¸ö·½Ê½À´É
 
 					if (isShootMusicPlaying_)
 					{
-						shootMusicID_ = cocos2d::AudioEngine::play2d("Audio/impacter.mp3", false, .5f);
-					}					
-				
+						shootMusicID_ = cocos2d::AudioEngine::play2d(soundFilename_, false, .5f);
+					}
+
 					auto bullet = Bullet::create(bulletFilename_);
 					//				bullet->setScale(0.3f, 0.3f);
 					bullet->setRotation(getRotation());
@@ -352,7 +358,7 @@ void Weapon::UnAttack()
 		}
 		ShootingWithAmmo = false;
 	}
-	
+
 }
 
 int Weapon::getCurrentMagazine()

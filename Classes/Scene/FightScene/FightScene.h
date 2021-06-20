@@ -17,9 +17,9 @@
 #include "Component/MenuLayer/SettingLayer/SettingLayer.h"
 #include "Component/MenuLayer/EndLayer/EndLayer.h"
 
-using namespace cocos2d;
-
 class SettingLayer;
+
+using namespace cocos2d;
 
 class FightScene : public cocos2d::Scene
 {
@@ -58,7 +58,7 @@ public:
 	void generateMonster(float dt);
 
 
-	void globalPromptDisplay(const std::string&);
+	void globalPromptDisplay(const std::string&, int type = 1);
 
 
 	cocos2d::Vector<Obstacle*> getObstacles();
@@ -97,9 +97,8 @@ public:
 
 	static cocos2d::Vec2 getRandomPosition();
 
-	int getBuffLayer();
-	void setBuffLayer(int);
 	static bool& getShootMusicStatus();
+
 
 protected:
 
@@ -132,9 +131,8 @@ protected:
 	int MaxMonsterInScene = 3;
 	int MonsterInScene = 0;
 
-	int globalBuffLayer_ = 1;
-
 	static bool isShootMusicPlaying_;
+
 };
 
 #endif // !__FIGHT_SCENE_H__

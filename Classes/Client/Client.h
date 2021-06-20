@@ -23,14 +23,17 @@ private:
 	//服务端地址客户端地址
 	SOCKADDR_IN server_addr;
 	static Client* client_;
+	bool connectSuccess = false;
 
 public:
 	void initialization();
 	void Send(const char*);
 	void closeNet();
 	bool Receive();
-	static Client* getInstance() { return client_; }
+	static Client* getInstance(){ return client_;}
 	const char* getReceiveBuffer() { return recv_buf; }
+	bool isConnectionSuccessful();
+	static void clientRelease();
 };
 
 

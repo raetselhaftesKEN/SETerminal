@@ -173,6 +173,10 @@ cocos2d::Vector<Obstacle*> Obstacle::createObsSet(const int& serial)
 	obs17->setPosition(4272, 2400);
 	obs17->setVisible(false);
 
+	auto obs18 = Obstacle::create("map/map_1/Obstacles/3584_4208.png");
+	obs18->setPosition(3584, 4208);
+	obs18->setVisible(false);
+
 	obs.pushBack(obs1);
 	obs.pushBack(obs2);
 	obs.pushBack(obs3);
@@ -190,6 +194,7 @@ cocos2d::Vector<Obstacle*> Obstacle::createObsSet(const int& serial)
 	obs.pushBack(obs15);
 	obs.pushBack(obs16);
 	obs.pushBack(obs17);
+	obs.pushBack(obs18);
 
 	return obs;
 }

@@ -10,6 +10,7 @@
 #include "Item/Clip/Clip.h"
 #include "Scene/StartMenuScene/StartMenuScene.h"
 #include "Client/Client.h"
+#include "Component/Functional/SurvivorCounter.h"
 
 using namespace cocos2d;
 
@@ -17,8 +18,8 @@ class StartMenuScene;
 class SettingLayer;
 class Client;
 
-
 bool FightScene::isShootMusicPlaying_ = true;
+
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
@@ -250,12 +251,17 @@ void FightScene::monsterDestroyed()
 	{
 		//最后一个怪被消灭，显示结算界面
 		endLayer_->setPosition(0, 0);
-		endLayer_->open();
+		endLayer_->open(1);
 		auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 		//auto closeButtonSize = changeSceneButton->getContentSize();
 		auto runningSceneSize = this->getContentSize();
 		changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 150));
 		this->addChild(changeSceneButton, 20);
+		std::string text = "You are the winner!";
+		auto winText = cocos2d::Label::createWithTTF(text, "fonts/Marker Felt.ttf", 30);
+		winText->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 50));
+		this->addChild(winText, 20);
+
 		changeSceneButton->addClickEventListener([&](Ref*) {
 			cocos2d::log("Close Button Pressed!");
 			Client::getInstance()->Send("Quit");
@@ -264,17 +270,17 @@ void FightScene::monsterDestroyed()
 			//关闭音乐
 			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
 			settingLayer_->isBackgroundMusicPlaying_ = false;
-			Weapon::getShootMusicStatus() = false;
-			FightScene::getShootMusicStatus() = false;
+			Weapon::getShootMusicStatus() = true;
+			FightScene::getShootMusicStatus() = true;
 			Weapon::isSuperAccuracy_ = false;
 			Weapon::isInfiniteBullte_ = false;
 			Monster::isPlayerSuperDamage_ = false;
-
 			removeFromParent();
 			cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
 			}
-		);	
+		);
 		changeSceneButton->setCameraMask(2, true);
+		winText->setCameraMask(2, true);
 	}
 }
 
@@ -404,7 +410,7 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		{
 			//player死亡
 			endLayer_->setPosition(0, 0);
-			endLayer_->open();
+			endLayer_->open(dynamic_cast<SurvivorCounter*>(this->getChildByTag(SUVR_CNT_TAG))->getSurvivorNumber() + 1);
 			auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
 			//auto closeButtonSize = changeSceneButton->getContentSize();
 			auto runningSceneSize = this->getContentSize();
@@ -418,8 +424,8 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 				//关闭音乐
 				cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
 				settingLayer_->isBackgroundMusicPlaying_ = false;
-				Weapon::getShootMusicStatus() = false;
-				FightScene::getShootMusicStatus() = false;
+				Weapon::getShootMusicStatus() = true;
+				FightScene::getShootMusicStatus() = true;
 				Weapon::isSuperAccuracy_ = false;
 				Weapon::isInfiniteBullte_ = false;
 				Monster::isPlayerSuperDamage_ = false;
@@ -430,6 +436,10 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 			);
 			changeSceneButton->setCameraMask(2, true);
 
+		}
+		if (isShootMusicPlaying_)
+		{
+			cocos2d::AudioEngine::play2d("Audio/hit2.mp3", false, 1.5f);
 		}
 
 		character->receiveDamage(bullet->getBulletAtk());
@@ -484,6 +494,7 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
+	//cocos2d::log("update per frame");
 	char command[128];
 	if (Client::getInstance()->Receive())
 	{
@@ -492,15 +503,14 @@ void FightScene::update(float dt)
 
 	if (strcmp(command, PLAYER_JOIN_COMMAND) == 0)
 	{
-		globalPromptDisplay("A teammate joined the battle! You are boosted!");
-		globalBuffLayer_++;
+		globalPromptDisplay("A teammate joined the battle! You are boosted!", 2);
+		this->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::airDrop), 0.f);
+
 	}
 	else if (strcmp(command, PLAYER_QUIT_COMMAND) == 0)
 	{
-		globalPromptDisplay("A teammate has left.");
-		globalBuffLayer_--;
+		globalPromptDisplay("A teammate has left. Please be careful.", 2);
 	}
-
 	
 }
 
@@ -519,7 +529,6 @@ void FightScene::buildSettingBtn()
 	{
 		btnSetting->setScale9Enabled(true);
 		// 设置素材内容部分贴图大小
-		//btnSetting->setCapInsets(Rect(12, 12, 30, 18));
 		btnSetting->setContentSize(cocos2d::Size(100, 80));
 		btnSetting->setPosition(cocos2d::Vec2(60, 40));
 		settingImg->setPosition(cocos2d::Vec2(60, 40));
@@ -545,11 +554,11 @@ void FightScene::buildSettingBtn()
 			Client::getInstance()->Send("Quit");
 			auto startMenuScene = StartMenuScene::create();
 			startMenuScene->retain();
-			//恢复设置的按钮
+			//关闭音乐
 			cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
 			settingLayer_->isBackgroundMusicPlaying_ = false;
-			Weapon::getShootMusicStatus() = false;
-			FightScene::getShootMusicStatus() = false;
+			Weapon::getShootMusicStatus() = true;
+			FightScene::getShootMusicStatus() = true;
 			Weapon::isSuperAccuracy_ = false;
 			Weapon::isInfiniteBullte_ = false;
 			Monster::isPlayerSuperDamage_ = false;
@@ -630,13 +639,22 @@ cocos2d::Vec2 FightScene::getRandomPosition()
 	return position;
 }
 
-void FightScene::globalPromptDisplay(const std::string& prompt)
+void FightScene::globalPromptDisplay(const std::string& prompt, int type)
 {
 	auto winSize = cocos2d::Director::getInstance()->getWinSize();
+	cocos2d::Vec2 position = cocos2d::Vec2::ZERO;
+	if (type == 1)
+	{
+		position.x = winSize.width / 2, position.y = 3 * winSize.height / 4;
+	}
+	else if (type == 2)
+	{
+		position.x = winSize.width / 2, position.y = 7 * winSize.height / 8;
+	}
 
 	auto label = cocos2d::Label::createWithTTF(prompt, "fonts/IRANYekanBold.ttf", 36);
 	label->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
-	label->setPosition(cocos2d::Vec2(winSize.width / 2, 3 * winSize.height / 4));
+	label->setPosition(position);
 	auto remove = cocos2d::RemoveSelf::create();
 	auto delay = cocos2d::DelayTime::create(1.f);
 	auto fade2 = cocos2d::FadeTo::create(1, 0);
@@ -645,17 +663,8 @@ void FightScene::globalPromptDisplay(const std::string& prompt)
 	addChild(label, 3);
 }
 
-int FightScene::getBuffLayer()
-{
-	return globalBuffLayer_;
-}
-
-void FightScene::setBuffLayer(int buffLayer)
-{
-	globalBuffLayer_ = buffLayer;
-}
-
 bool& FightScene::getShootMusicStatus()
 {
 	return isShootMusicPlaying_;
 }
+
