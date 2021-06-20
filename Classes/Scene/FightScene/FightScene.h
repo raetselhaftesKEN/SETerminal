@@ -14,7 +14,10 @@
 #include "Component/WeaponUI/WeaponUI.h"
 #include "Component/Functional/SurvivorCounter.h"
 #include "Component/Functional/SETimer.h"
-#include "Component/SettingLayer/SettingLayer.h"
+#include "Component/MenuLayer/SettingLayer/SettingLayer.h"
+#include "Component/MenuLayer/EndLayer/EndLayer.h"
+
+class SettingLayer;
 
 using namespace cocos2d;
 
@@ -55,6 +58,9 @@ public:
 	void generateMonster(float dt);
 
 
+	void globalPromptDisplay(const std::string&, int type = 1);
+
+
 	cocos2d::Vector<Obstacle*> getObstacles();
 
 
@@ -62,8 +68,6 @@ public:
 	static bool ifCollision(cocos2d::Vec2);
 
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
-	bool onTouchMoved(const std::vector<cocos2d::Touch*> touch, cocos2d::Event* unusedEvent);
-//	bool onTouchesEnded(const std::vector<cocos2d::Touch*> touch, cocos2d::Event* unusedEvent);
 	bool onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent);
 	void onMouseMove(cocos2d::EventMouse* mouse);
 	bool onContactBegan(cocos2d::PhysicsContact& physicsContact);
@@ -78,7 +82,7 @@ public:
 	void setDropNode(cocos2d::Node* node);
 	void updateDropNode(float dt);
 
-	void update(float dt) override;
+	void update(float) override;
 
 	void monsterDestroyed();
 
@@ -87,13 +91,15 @@ public:
 	void buildSettingBtn();
 
 	SettingLayer* settingLayer_;
+	EndLayer* endLayer_;
 
 	void airDrop(float dt);
 
 	static cocos2d::Vec2 getRandomPosition();
 
-	int ScreenWidth = 2340;
-	int ScreenHeight = 1080;
+	static bool& getShootMusicStatus();
+
+	int monsterToSpawn();
 
 protected:
 
@@ -104,9 +110,6 @@ protected:
 	cocos2d::Vector<Obstacle*> obstacle_;
 
 	Player* player_;
-
-	Sprite* joyStickLeft_ = nullptr;
-	Sprite* joyStickRight_ = nullptr;
 
 	cocos2d::Node* dropNode_ = nullptr;
 
@@ -130,7 +133,7 @@ protected:
 	int MonsterInScene = 0;
 
 	static bool isShootMusicPlaying_;
-
+	
 	cocos2d::Sprite* ToxicFog;
 	cocos2d::Label* ToxicFogWarn;
 
