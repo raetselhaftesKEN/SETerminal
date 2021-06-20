@@ -3,6 +3,7 @@
 */
 #include "EndLayer.h"
 #include "ui/UIButton.h"
+#include "Scene/FightScene/FightScene.h"
 
 #define BOARD_IMAGE_WIDTH 700
 #define BOARD_IMAGE_HEIGHT 500
@@ -41,18 +42,29 @@ bool EndLayer::init()
 {
 	this->setPosition(cocos2d::Vec2(CLOSE_X, CLOSE_Y));
 
+	finalRank_ = 20;
 	pauseBoardImg_ = cocos2d::ui::Scale9Sprite::create("Setting/EndMenuWin.png");
+
+	auto winSize = cocos2d::Director::getInstance()->getWinSize();
+	endPrompt1_ = cocos2d::Label::createWithTTF(std::string(""), "fonts/IRANYekanBold.ttf", 100);
+	endPrompt2_ = cocos2d::Label::createWithTTF(std::string(""), "fonts/IRANYekanBold.ttf", 72);
+	endPrompt1_->setColor(cocos2d::Color3B::YELLOW);
+	endPrompt1_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_RIGHT);
+	endPrompt2_->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE_LEFT);
+	endPrompt1_->setPosition(cocos2d::Vec2(winSize.width / 2, 5 * winSize.height / 6));
+	endPrompt2_->setPosition(cocos2d::Vec2(winSize.width / 2, 5 * winSize.height / 6));
+	pauseBoardImg_->addChild(endPrompt1_, 3);
+	pauseBoardImg_->addChild(endPrompt2_, 3);
+
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	if (pauseBoardImg_ == nullptr)
 	{
-		problemLoading("'EndMenuWin.png'");
+		problemLoading("'pause_board.png'");
 		return false;
 	}
 	else
 	{
-//		pauseBoardImg_->setCapInsets(cocos2d::Rect(20, 20, 160, 142));
-//		pauseBoardImg_->setContentSize(cocos2d::Size(BOARD_IMAGE_WIDTH, BOARD_IMAGE_HEIGHT));
-		//pauseBoardImg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+
 		pauseBoardImg_->setPosition(cocos2d::Vec2(CLOSE_X, CLOSE_Y));
 		this->addChild(pauseBoardImg_, 0);
 	}
@@ -60,17 +72,20 @@ bool EndLayer::init()
 	return true;
 }
 
-bool EndLayer::open(bool win)
+bool EndLayer::open(int finalRank)
 {
+	finalRank_ = finalRank;
 	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(true);
 	//为了在Monster类内使用外部的东西，使用以下几句
 	auto runningScene = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG);
 	auto contenteSize = runningScene->getContentSize();
 
-	if (!win)
+	if (finalRank != 1)
 	{
 		pauseBoardImg_->setTexture("Setting/EndMenuLose.png");
 	}
+	endPrompt1_->setString(std::to_string(finalRank) + "/");
+	endPrompt2_->setString(std::to_string(dynamic_cast<FightScene*>(runningScene)->MonsterToSpawn));
 
 	pauseBoardImg_->setPosition(contenteSize.width / 2, contenteSize.height / 2);
 	pauseBoardImg_->setCameraMask(2, true);

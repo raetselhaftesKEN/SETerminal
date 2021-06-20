@@ -264,7 +264,7 @@ void FightScene::monsterDestroyed()
 		//最后一个怪被消灭，显示结算界面
 		//最后一个怪被消灭，显示结算界面
 		endLayer_->setPosition(0, 0);
-		endLayer_->open(true);
+		endLayer_->open(1);
 		auto changeSceneButton = cocos2d::ui::Button::create("Setting/menu.png", "Setting/menu_pressed.png");
 		//auto closeButtonSize = changeSceneButton->getContentSize();
 		auto runningSceneSize = this->getContentSize();
@@ -452,7 +452,7 @@ void FightScene::contactBetweenCharacterAndBullet(Character* character, Bullet* 
 		{
 			//player死亡
 			endLayer_->setPosition(0, 0);
-			endLayer_->open(false);
+			endLayer_->open(survivorCounter_->RemainingSurvivorCount + 1);
 			auto changeSceneButton = cocos2d::ui::Button::create("Setting/menu.png", "Setting/menu_pressed.png");
 			//auto closeButtonSize = changeSceneButton->getContentSize();
 			auto runningSceneSize = this->getContentSize();

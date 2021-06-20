@@ -32,7 +32,7 @@ void StartMenuScene::initStartButton()
 	else
 	{
 		float x = origin.x + winSize.width / 16 - startBtnPic->getContentSize().width / 16;
-		float y = origin.y + winSize.height / 2 - startBtnPic->getContentSize().height / 2;
+		float y = origin.y + 3 * winSize.height / 8 - startBtnPic->getContentSize().height / 2;
 		startBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
 		startBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}

@@ -19,9 +19,11 @@ public:
 	void update(float dt);
 
 
+	int RemainingSurvivorCount = 0;
+
 protected:
 
-	int RemainingSurvivorCount = 0;
+	
 
 	cocos2d::Sprite* surviverInfoBG_;
 	cocos2d::Label* surviverInfo_;

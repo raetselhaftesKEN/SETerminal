@@ -19,12 +19,15 @@ public:
 
 	virtual bool init();
 
-	virtual bool open(bool win = true);
+	virtual bool open(int finalRank);
 
 
 
 protected:
-	
+	int finalRank_ = 20;
+
+	cocos2d::Label* endPrompt1_ = nullptr;
+	cocos2d::Label* endPrompt2_ = nullptr;
 
 };
 

@@ -101,6 +101,7 @@ public:
 	int ScreenWidth = 2340;
 	int ScreenHeight = 1080;
 
+	int MonsterToSpawn = 20;
 protected:
 
 	cocos2d::TMXTiledMap* tileMap1_;
@@ -130,7 +131,7 @@ protected:
 
 	int sceneSerial_ = 1;
 
-	int MonsterToSpawn = 20;
+	
 	int SpawnedMonster = 0;
 	int MaxMonsterInScene = 3;
 	int MonsterInScene = 0;
