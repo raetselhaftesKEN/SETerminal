@@ -120,18 +120,6 @@ void FightScene::setUI()
 	survivorCounter_->setScale(0.3f, 0.3f);
 	addChild(survivorCounter_, 2);
 	
-<<<<<<< Updated upstream
-	joyStickLeft_ = cocos2d::Sprite::create("JoyStick.png");
-	joyStickRight_ = cocos2d::Sprite::create("JoyStick.png");
-	joyStickLeft_->setScale(0.5f, 0.5f);
-	joyStickRight_->setScale(0.5f, 0.5f);
-	addChild(joyStickLeft_, 3);
-	addChild(joyStickRight_, 3);
-	joyStickLeft_->setPosition(cocos2d::Vec2(joyStickLeft_->getContentSize().width / 2, joyStickLeft_->getContentSize().height / 2));
-	joyStickRight_->setPosition(cocos2d::Vec2(winSize.width - joyStickRight_->getContentSize().width / 2, joyStickRight_->getContentSize().height / 2));
-	joyStickLeft_->setCameraMask(2);
-	joyStickRight_->setCameraMask(2);
-=======
 	ToxicFog = cocos2d::Sprite::create("ToxicFog.png");
 	ToxicFog->setPosition(2048, 960 - 600);
 	addChild(ToxicFog, 1);
@@ -142,7 +130,6 @@ void FightScene::setUI()
 	ToxicFogWarn->setPosition(winSize.width / 2, winSize.height / 2);
 	ToxicFogWarn->setVisible(false);
 	addChild(ToxicFogWarn, 2);
->>>>>>> Stashed changes
 }
 
 void FightScene::setOperationListener()
@@ -485,8 +472,6 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
-<<<<<<< Updated upstream
-=======
 	//cocos2d::log("update per frame");
 	char command[128];
 	if (Client::getInstance()->Receive())
@@ -563,7 +548,6 @@ void FightScene::update(float dt)
 	{
 		ToxicFogWarn->setVisible(false);
 	}
->>>>>>> Stashed changes
 }
 
 void FightScene::buildSettingBtn()

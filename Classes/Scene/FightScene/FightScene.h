@@ -129,9 +129,6 @@ protected:
 	int MaxMonsterInScene = 3;
 	int MonsterInScene = 0;
 
-<<<<<<< Updated upstream
-	int TouchCount = 0;
-=======
 	static bool isShootMusicPlaying_;
 
 	cocos2d::Sprite* ToxicFog;
@@ -145,7 +142,6 @@ protected:
 
 	bool ToxicFogCanDamage = true;
 
->>>>>>> Stashed changes
 };
 
 #endif // !__FIGHT_SCENE_H__
