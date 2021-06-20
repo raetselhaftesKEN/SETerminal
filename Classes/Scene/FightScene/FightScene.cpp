@@ -120,6 +120,7 @@ void FightScene::setUI()
 	survivorCounter_->setScale(0.3f, 0.3f);
 	addChild(survivorCounter_, 2);
 	
+<<<<<<< Updated upstream
 	joyStickLeft_ = cocos2d::Sprite::create("JoyStick.png");
 	joyStickRight_ = cocos2d::Sprite::create("JoyStick.png");
 	joyStickLeft_->setScale(0.5f, 0.5f);
@@ -130,6 +131,18 @@ void FightScene::setUI()
 	joyStickRight_->setPosition(cocos2d::Vec2(winSize.width - joyStickRight_->getContentSize().width / 2, joyStickRight_->getContentSize().height / 2));
 	joyStickLeft_->setCameraMask(2);
 	joyStickRight_->setCameraMask(2);
+=======
+	ToxicFog = cocos2d::Sprite::create("ToxicFog.png");
+	ToxicFog->setPosition(2048, 960 - 600);
+	addChild(ToxicFog, 1);
+
+	ToxicFogWarn = cocos2d::Label::createWithTTF("Return To Safe Zone!", "fonts/IRANYekanBold.ttf", 60);
+	ToxicFogWarn->setColor(cocos2d::Color3B::RED);
+	ToxicFogWarn->setCameraMask(2);
+	ToxicFogWarn->setPosition(winSize.width / 2, winSize.height / 2);
+	ToxicFogWarn->setVisible(false);
+	addChild(ToxicFogWarn, 2);
+>>>>>>> Stashed changes
 }
 
 void FightScene::setOperationListener()
@@ -472,6 +485,85 @@ void FightScene::updateDropNode(float dt)
 
 void FightScene::update(float dt)
 {
+<<<<<<< Updated upstream
+=======
+	//cocos2d::log("update per frame");
+	char command[128];
+	if (Client::getInstance()->Receive())
+	{
+		strcpy(command, Client::getInstance()->getReceiveBuffer());
+	}
+
+	if (strcmp(command, PLAYER_JOIN_COMMAND) == 0)
+	{
+		globalPromptDisplay("A teammate joined the battle! You are boosted!", 2);
+		this->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::airDrop), 0.f);
+
+	}
+	else if (strcmp(command, PLAYER_QUIT_COMMAND) == 0)
+	{
+		globalPromptDisplay("A teammate has left. Please be careful.", 2);
+	}
+	
+	if (ToxicFog->getPosition().y<ToxicFogMax)
+	{
+		ToxicFog->setPosition(ToxicFog->getPosition().x, ToxicFog->getPosition().y + ToxicFogMarch);
+	}
+
+	if (player_->getPosition().y < ToxicFog->getPosition().y)
+	{
+		ToxicFogWarn->setVisible(true);
+		if (ToxicFogCanDamage)
+		{
+			ToxicFogCanDamage = false;
+			auto damage = cocos2d::CallFunc::create([=]()
+			{
+				player_->receiveDamage(ToxicFogDamage);
+				if (!player_->isAlive())
+				{
+					//playerËÀÍö
+					endLayer_->setPosition(0, 0);
+					endLayer_->open(dynamic_cast<SurvivorCounter*>(this->getChildByTag(SUVR_CNT_TAG))->getSurvivorNumber() + 1);
+					auto changeSceneButton = cocos2d::ui::Button::create("Setting/close.png", "Setting/close_pressed.png");
+					//auto closeButtonSize = changeSceneButton->getContentSize();
+					auto runningSceneSize = this->getContentSize();
+					changeSceneButton->setPosition(cocos2d::Vec2(runningSceneSize.width / 2, runningSceneSize.height / 2 - 300));
+					this->addChild(changeSceneButton, 20);
+					changeSceneButton->addClickEventListener([&](Ref*) {
+						cocos2d::log("Close Button Pressed!");
+						Client::getInstance()->Send("Quit");
+						auto startMenuScene = StartMenuScene::create();
+						startMenuScene->retain();
+						//¹Ø±ÕÒôÀÖ
+						cocos2d::AudioEngine::stop(settingLayer_->backgroundMusicID_);
+						settingLayer_->isBackgroundMusicPlaying_ = false;
+						Weapon::getShootMusicStatus() = true;
+						FightScene::getShootMusicStatus() = true;
+						Weapon::isSuperAccuracy_ = false;
+						Weapon::isInfiniteBullte_ = false;
+						Monster::isPlayerSuperDamage_ = false;
+
+						removeFromParent();
+						cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionSlideInT::create(.2f, startMenuScene->createScene()));
+					}
+					);
+					changeSceneButton->setCameraMask(2, true);
+
+				}
+			});
+			auto recover = cocos2d::CallFunc::create([=]()
+			{
+				ToxicFogCanDamage = true;
+			});
+			auto delay = cocos2d::DelayTime::create(ToxicFogInterval);
+			this->runAction(cocos2d::Sequence::create(damage, delay, recover, nullptr));
+		}
+	}
+	else
+	{
+		ToxicFogWarn->setVisible(false);
+	}
+>>>>>>> Stashed changes
 }
 
 void FightScene::buildSettingBtn()

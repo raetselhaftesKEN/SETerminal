@@ -129,7 +129,23 @@ protected:
 	int MaxMonsterInScene = 3;
 	int MonsterInScene = 0;
 
+<<<<<<< Updated upstream
 	int TouchCount = 0;
+=======
+	static bool isShootMusicPlaying_;
+
+	cocos2d::Sprite* ToxicFog;
+	cocos2d::Label* ToxicFogWarn;
+
+	float ToxicFogMarch = 1;
+	float ToxicFogMax = 2400;
+
+	int ToxicFogDamage = 10;
+	float ToxicFogInterval = 3;
+
+	bool ToxicFogCanDamage = true;
+
+>>>>>>> Stashed changes
 };
 
 #endif // !__FIGHT_SCENE_H__
