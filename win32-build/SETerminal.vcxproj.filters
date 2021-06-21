@@ -7,9 +7,6 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.cpp">
       <Filter>Source Files\Classes\Item\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\GameOverScene.cpp">
-      <Filter>Source Files\Classes\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Player.cpp">
       <Filter>Source Files\Classes\Character</Filter>
     </ClCompile>
@@ -49,9 +46,6 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.cpp">
       <Filter>Source Files\Classes\Scene\StartMenuScene</Filter>
     </ClCompile>
-    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.cpp">
-      <Filter>Source Files\Classes\Scene\EndMenuScene</Filter>
-    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.cpp">
       <Filter>Source Files\Classes\Item\Clip</Filter>
     </ClCompile>
@@ -76,9 +70,6 @@
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Armor\Armor.cpp">
       <Filter>Source Files\Classes\Item\Armor</Filter>
     </ClCompile>
-    <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\Classes\JsonReader\JsonReader.cpp">
-      <Filter>Source Files\Classes\JsonReader</Filter>
-    </ClCompile>
     <ClCompile Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.cpp">
       <Filter>Source Files\proj.win32</Filter>
     </ClCompile>
@@ -92,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Bullet\Bullet.h">
       <Filter>Source Files\Classes\Item\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\GameOverScene.h">
-      <Filter>Source Files\Classes\Scene</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Character\Player.h">
       <Filter>Source Files\Classes\Character</Filter>
@@ -138,9 +126,6 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\StartMenuScene\StartMenuScene.h">
       <Filter>Source Files\Classes\Scene\StartMenuScene</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Scene\EndMenuScene\EndMenuScene.h">
-      <Filter>Source Files\Classes\Scene\EndMenuScene</Filter>
-    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Clip\Clip.h">
       <Filter>Source Files\Classes\Item\Clip</Filter>
     </ClInclude>
@@ -165,9 +150,6 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\Item\Armor\Armor.h">
       <Filter>Source Files\Classes\Item\Armor</Filter>
     </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Classes\JsonReader\JsonReader.h">
-      <Filter>Source Files\Classes\JsonReader</Filter>
-    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\proj.win32\main.h">
       <Filter>Source Files\proj.win32</Filter>
     </ClInclude>
@@ -186,13 +168,25 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Armor.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\Kick GunAction 1.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bgm_1Low.mp3">
       <Filter>Resources\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bgm_room.mp3">
       <Filter>Resources\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\big one.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\bulletshells01.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\cannon1.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\drum gun.mp3">
       <Filter>Resources\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\fx_btn1.mp3">
@@ -255,10 +249,16 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\reload.mp3">
       <Filter>Resources\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\reverb gun.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\shoot em up.mp3">
       <Filter>Resources\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\shoot.mp3">
+      <Filter>Resources\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Audio\snare gun.mp3">
       <Filter>Resources\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Bullet-556.png">
@@ -573,7 +573,16 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Reloading.png">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\EndMenuLose.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\EndMenuWin.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\btn_default.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\btn_default2.png">
       <Filter>Resources\Setting</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\btn_default_pressed.png">
@@ -588,6 +597,15 @@
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\garnish.png">
       <Filter>Resources\Setting</Filter>
     </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\infiniteAmmo.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\menu.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\menu_pressed.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\music.png">
       <Filter>Resources\Setting</Filter>
     </ClInclude>
@@ -599,6 +617,18 @@
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\short_music.png">
       <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\superAccuracy.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\superBody.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\Setting\superDamage.png">
+      <Filter>Resources\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\ToxicFog.png">
+      <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\UI\Bullet556.png">
       <Filter>Resources\UI</Filter>
@@ -781,9 +811,6 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\myfirst.tmx">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\network.txt">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="D:\cocos\FinalProjectGit\SETerminal\Resources\res\.gitkeep">
@@ -1018,17 +1045,11 @@
     <Filter Include="Source Files\Classes\Item\PlayerWeapon">
       <UniqueIdentifier>{DDFAE087-D3A5-3F7A-922C-0B950936474B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Classes\JsonReader">
-      <UniqueIdentifier>{13363078-45BC-3492-9175-E774751BA604}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Classes\Obstacle">
       <UniqueIdentifier>{D9911D92-3627-3691-8C3D-515D9ED49301}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Scene">
       <UniqueIdentifier>{6D16BEF7-7EA4-3B86-8388-C3879B1B06DE}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Classes\Scene\EndMenuScene">
-      <UniqueIdentifier>{5CD2ACB2-AB2D-3F42-94AA-3F1D1E76880E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Classes\Scene\FightScene">
       <UniqueIdentifier>{1C194A18-8C02-3381-95CC-FDAC73E3B29E}</UniqueIdentifier>

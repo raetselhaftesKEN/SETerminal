@@ -1,5 +1,4 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
-//#include "pch.h"
 #include<iostream>
 #include<cstring>
 #include<winsock.h>
@@ -66,7 +65,8 @@ int main() {
 	cout << "服务端正在监听连接，请稍候...." << endl;
 
 	//接收数据
-	while (1) {
+	while (1) 
+	{
 		isNewMessageReceived = false;
 		//接受连接请求
 		length = sizeof(SOCKADDR);
@@ -94,9 +94,12 @@ int main() {
 				iter->second = string(receiveBuffer);
 				if (iter->second == "Join")
 				{
+					strcpy(sendBuffer, "A player joined");
+					//告知除刚加入的客户端外的所有客户端有新客户加入
 					for (map<SOCKET, string>::iterator iter2 = clientMsg.begin(); iter2 != clientMsg.end(); iter2++)
 					{
-						strcpy(sendBuffer, "A player joined");
+						if (iter2 == iter)
+							continue;
 						cout << "Send Message to all Clients:" << sendBuffer << endl;
 						send(iter2->first, sendBuffer, 128, 0);
 					}
@@ -104,8 +107,15 @@ int main() {
 				}
 				else if (iter->second == "Quit")
 				{
+					//清除离开的客户端，通知所有其他客户端有人离开
 					cout << "player quit" << endl;
 					clientMsg.erase(iter++);
+					for (map<SOCKET, string>::iterator iter2 = clientMsg.begin(); iter2 != clientMsg.end(); iter2++)
+					{
+						strcpy(sendBuffer, "A player quitted");
+						cout << "Send Message to all Clients:" << sendBuffer << endl;
+						send(iter2->first, sendBuffer, 128, 0);
+					}
 				}
 			}
 		}

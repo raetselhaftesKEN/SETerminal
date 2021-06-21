@@ -58,7 +58,6 @@ endif()
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/Item/Bullet/Bullet.cpp
-     Classes/Scene/GameOverScene.cpp
      Classes/Character/Player.cpp
      Classes/Character/Character.cpp
      Classes/Character/Monster.cpp
@@ -72,7 +71,6 @@ list(APPEND GAME_SOURCE
      Classes/Component/CameraEffect/CameraEffect.cpp
      Classes/Component/WeaponUI/WeaponUI.cpp
      Classes/Scene/StartMenuScene/StartMenuScene.cpp
-     Classes/Scene/EndMenuScene/EndMenuScene.cpp
      Classes/Item/Clip/Clip.cpp
      Classes/Component/Functional/SurvivorCounter.cpp
      Classes/Component/Functional/SETimer.cpp
@@ -81,12 +79,10 @@ list(APPEND GAME_SOURCE
      Classes/Component/MenuLayer/SettingLayer/SettingLayer.cpp
      Classes/Client/Client.cpp
      Classes/Item/Armor/Armor.cpp
-     Classes/JsonReader/JsonReader.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/Item/Bullet/Bullet.h
-     Classes/Scene/GameOverScene.h
      Classes/Character/Player.h
      Classes/Character/Character.h
      Classes/Character/Monster.h
@@ -101,7 +97,6 @@ list(APPEND GAME_HEADER
      Classes/Component/CameraEffect/CameraEffect.h
      Classes/Component/WeaponUI/WeaponUI.h
      Classes/Scene/StartMenuScene/StartMenuScene.h
-     Classes/Scene/EndMenuScene/EndMenuScene.h
      Classes/Item/Clip/Clip.h
      Classes/Component/Functional/SurvivorCounter.h
      Classes/Component/Functional/SETimer.h
@@ -110,7 +105,6 @@ list(APPEND GAME_HEADER
      Classes/Component/MenuLayer/SettingLayer/SettingLayer.h
      Classes/Client/Client.h
      Classes/Item/Armor/Armor.h
-     Classes/JsonReader/JsonReader.h
      )
 
 if(ANDROID)
