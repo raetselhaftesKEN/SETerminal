@@ -5,7 +5,6 @@
 #include "Player.h"
 #include "Item/Medkit/Medkit.h"
 #include "./Item/PlayerWeapon/Weapon.h"
-#include "Scene/GameOverScene.h"
 #include "Scene/FightScene/FightScene.h"
 #include "Const/Const.h"
 
