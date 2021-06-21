@@ -157,7 +157,7 @@
 | A键        |               左移|
 | S键        |               下移|
 | D键        |               右移|
-| F键             |                  交互物品|
+| F键             |                  拾取物品和枪支（靠近道具时使用）|
 | R键                |              换弹|
 | Q键                |              切换武器|
 | E键                |              使用医疗包|
@@ -169,14 +169,14 @@
 联机的客户端需要连接在同一局域网下，其中一台需要编译运行server.cpp作为服务器，每个参与游戏的客户端需要在游戏目录文件夹的network.txt中（如果没有，则创建一个）输入服务器的iPv4地址（在服务器端ipconfig获得），之后进入游戏时，选择start online即可。有玩家进入和退出游戏时，server程序会收到和发出相应的消息。
 
 ## 武器种类与属性
-| 武器名 |    弹药类型     |    射速    |  单发伤害   |    换弹时间/s    |   弹夹容量   |  后坐力/后坐力回复    |
+| 武器名 |    弹药     |    射速    |  伤害   |    换弹时间/s    |   弹夹容量   |  后坐力/后坐力回复    |
 | :----: | :-----------: | :----------: | :---------: | :--------: | :----------: |:----------: |
-|  AK47  | 762子弹 |10| 12 | 2 | 30  |  15/60  |
-|  AKM  | 762子弹  | 8| 15 | 2 | 35 |   18/50  |
-|  FAL  | 556子弹 | 2  | 40 | 3 | 20  | 30/60  |
-|  M4  | 556子弹 | 15  | 10 | 3 | 40  | 8/80   |
-|  MP5  | 9mm子弹 | 15  | 8 | 2.5 | 45| 5/100  |
-|  SVD  | 9mm子弹 | 1  | 80 | 2 | 5  |  60/60  |
+|  AK47<br>![AK47](Agenda/Weapon/AK47.png)  | 762子弹<br><img src="Agenda/Bullet/Bullet-762.png" width="30%" ></img> |10| 12 | 2 | 30  |  15/60  |
+|  AKM<br>![AKM](Agenda/Weapon/AKM.png)  | 762子弹<br><img src="Agenda/Bullet/Bullet-762.png" width="30%" ></img>  | 8| 15 | 2 | 35 |   18/50  |
+|  FAL<br>![FAL](Agenda/Weapon/FAL.png)  | 556子弹<br><img src="Agenda/Bullet/Bullet-556.png" width="30%" ></img> | 2  | 40 | 3 | 20  | 30/60  |
+|  M4<br>![M4](Agenda/Weapon/M4.png)  |  556子弹<br><img src="Agenda/Bullet/Bullet-556.png" width="30%" ></img> | 15  | 10 | 3 | 40  | 8/80   |
+|  MP5<br>![MP5](Agenda/Weapon/MP5.png)  |  9mm子弹<br><img src="Agenda/Bullet/Bullet-9mm.png" width="30%" ></img> | 15  | 8 | 2.5 | 45| 5/100  |
+|  SVD<br>![SVD](Agenda/Weapon/SVD.png)  | 9mm子弹<br><img src="Agenda/Bullet/Bullet-9mm.png" width="30%" ></img> | 1  | 80 | 2 | 5  |  60/60  |
 
 ## 画面概览
 
