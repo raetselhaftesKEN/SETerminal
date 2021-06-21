@@ -1,4 +1,5 @@
 #include "cocos2d.h"
+#include "Const/Const.h"
 #include "SurvivorCounter.h"
 #include "Scene/FightScene/FightScene.h"
 
@@ -30,6 +31,7 @@ SurvivorCounter* SurvivorCounter::create()
 		survivorCounter->setCameraMask(2, true);
 
 		survivorCounter->schedule(CC_SCHEDULE_SELECTOR(SurvivorCounter::update), 0.1f);
+		survivorCounter->setTag(SUVR_CNT_TAG);
 		return survivorCounter;
 	}
 
@@ -44,4 +46,9 @@ void SurvivorCounter::update(float dt)
 		RemainingSurvivorCount = CurScene->RemainingSurvivor;
 		surviverInfo_->setString(std::to_string(RemainingSurvivorCount));
 	}
+}
+
+int SurvivorCounter::getSurvivorNumber()
+{
+	return RemainingSurvivorCount;
 }

@@ -37,8 +37,6 @@ public:
 	//接收鼠标事件
 	void listenToMouseEvent(cocos2d::Vec2, bool isPressed);
 
-	void listenToTouchEventLeft(cocos2d::Vec2 touchPoint);
-	void listenToTouchEventRight(cocos2d::Vec2 facingPoint);
 
 	//受伤
 	virtual void receiveDamage(int damage);
@@ -105,9 +103,6 @@ public:
 
 	bool settingSuperBody_ = false;
 
-	//交互道具
-	Item* interactItem_ = nullptr;
-
 protected:
 
 	std::vector<int> bulletStock_;
@@ -126,7 +121,8 @@ protected:
 
 	bool superBody_ = false;
 
-	
+	//交互道具
+	Item* interactItem_ = nullptr;
 
 	//武器
 	Weapon* primaryWeapon_;											//使用中的武器
@@ -147,6 +143,7 @@ protected:
 	cocos2d::Vec2 weaponPosRight = cocos2d::Vec2(10, 0);
 	cocos2d::Vec2 weaponPosFront = cocos2d::Vec2(0, -10);
 
+	
 };
 
 #endif // !__PLAYER_H__

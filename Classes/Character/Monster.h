@@ -32,7 +32,7 @@ public:
 * @return ÎÞ
 * @author ´÷ÈÊ½Ü
 */
-	void move();
+	void Monster::move();
 
 	void shoot();
 
@@ -57,6 +57,7 @@ public:
 
 	void update(float dt);
 
+	static bool isPlayerSuperDamage_;
 
 protected:
 

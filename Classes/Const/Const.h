@@ -5,7 +5,7 @@
 #ifndef __CONST_H__
 #define __CONST_H__
 #include <vector>
-//using namespace std::string;
+using namespace std::string_literals;
 
 //masks
 #define MONSTER_CONTACT_MASK 0x03					//0100
@@ -34,6 +34,7 @@
 #define ITEM_TAG 50
 #define OBSTACLE_TAG 60
 #define FIGHT_SCENE_TAG 70
+#define SUVR_CNT_TAG 80
 
 //default values
 #define PLAYER_MAX_HEALTH 100
@@ -60,6 +61,12 @@
 #define GATE_POSITION_XMIN 1440
 #define GATE_POSITION_XMAX 1568
 #define GATE_POSITION_YMIN 3840
+
+//network
+#define PLAYER_JOIN 1
+#define PLAYER_QUIT 2
+#define PLAYER_JOIN_COMMAND "A player joined"
+#define PLAYER_QUIT_COMMAND "A player quitted"
 
 enum bulletType_ { type556, type762, type9mm };
 const std::vector<std::string> bulletName{ "Bullet-556", "Bullet-762", "Bullet-9mm" };

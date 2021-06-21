@@ -157,21 +157,25 @@ cocos2d::Vector<Obstacle*> Obstacle::createObsSet(const int& serial)
 	obs13->setPosition(3936, 1392);
 	obs13->setVisible(false);
 
-	auto obs14 = Obstacle::create("map/map_1/Obstacles/1104_2400.png");
-	obs14->setPosition(1104, 2400);
+	auto obs14 = Obstacle::create("map/map_1/Obstacles/944_2400.png");
+	obs14->setPosition(944, 2400);
 	obs14->setVisible(false);
 
-	auto obs15 = Obstacle::create("map/map_1/Obstacles/2608_464.png");
-	obs15->setPosition(2608, 464);
+	auto obs15 = Obstacle::create("map/map_1/Obstacles/2608_304.png");
+	obs15->setPosition(2608, 304);
 	obs15->setVisible(false);
 
-	auto obs16 = Obstacle::create("map/map_1/Obstacles/2608_4336.png");
-	obs16->setPosition(2608, 4336);
+	auto obs16 = Obstacle::create("map/map_1/Obstacles/2608_4496.png");
+	obs16->setPosition(2608, 4496);
 	obs16->setVisible(false);
 
-	auto obs17 = Obstacle::create("map/map_1/Obstacles/4112_2400.png");
-	obs17->setPosition(4112, 2400);
+	auto obs17 = Obstacle::create("map/map_1/Obstacles/4272_2400.png");
+	obs17->setPosition(4272, 2400);
 	obs17->setVisible(false);
+
+	auto obs18 = Obstacle::create("map/map_1/Obstacles/3584_4208.png");
+	obs18->setPosition(3584, 4208);
+	obs18->setVisible(false);
 
 	obs.pushBack(obs1);
 	obs.pushBack(obs2);
@@ -190,6 +194,7 @@ cocos2d::Vector<Obstacle*> Obstacle::createObsSet(const int& serial)
 	obs.pushBack(obs15);
 	obs.pushBack(obs16);
 	obs.pushBack(obs17);
+	obs.pushBack(obs18);
 
 	return obs;
 }

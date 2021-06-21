@@ -6,11 +6,13 @@
 #include "AudioEngine.h"
 #include "Character/Player.h"
 #include "Const/Const.h"
+#include "../MenuLayer.h"
+#include "Character/Monster.h"
+#include "Scene/FightScene/FightScene.h"
 
+class FightScene;
 
-
-
-class SettingLayer : public cocos2d::Layer 
+class SettingLayer : public MenuLayer
 {
 public:
 	static SettingLayer* create();
@@ -23,9 +25,9 @@ public:
 
 	bool close();
 
-	cocos2d::ui::Button* settingSmallButton(float deviationX, float deviationY, std::string spriteText, std::string texts);
+	//cocos2d::ui::Button* settingSmallButton(float deviationX, float deviationY, std::string spriteText, std::string texts);
 
-	bool isOpen = false;
+	//bool isOpen = false;
 
 	int backgroundMusicID_;
 	bool isBackgroundMusicPlaying_ = true;
@@ -34,7 +36,7 @@ public:
 protected:
 	
 
-	cocos2d::ui::Scale9Sprite* pauseBoardImg_;
+	//cocos2d::ui::Scale9Sprite* pauseBoardImg_;
 	
 	cocos2d::ui::Button* closeButton_;
 	cocos2d::ui::Button* musicButton_;

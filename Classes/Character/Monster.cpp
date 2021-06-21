@@ -9,6 +9,8 @@
 #include "Item/Armor/Armor.h"
 #include "Scene/FightScene/FightScene.h"
 
+bool Monster::isPlayerSuperDamage_ = false;
+
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
@@ -18,6 +20,11 @@ static void problemLoading(const char* filename)
 void Monster::receiveDamage(int damage)
 {
 	int realDamage = static_cast<int>(damage * (1 - shield_));
+	//玩家打开一击必杀模式
+	if (isPlayerSuperDamage_)
+	{
+		realDamage = 999;
+	}
 	if (realDamage >= health_)
 	{
 
@@ -188,7 +195,7 @@ void Monster::shoot()
 
 				float starSpeed = 1200;
 
-				enemyBullet->shoot(shootPos , starSpeed);
+				enemyBullet->shoot(shootPos, starSpeed);
 			}
 		}
 		});
@@ -214,7 +221,7 @@ void Monster::die()
 			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
 		}
 	}
-	else if (dropItem == 8 || dropItem == 7)
+	else if (dropItem == 8)
 	{
 		auto ClipNode = dynamic_cast<cocos2d::Node*>(Clip::create(static_cast<bulletType_>(rand() % 3), rand() % 30 + 30));
 		ClipNode->setPosition(getPosition());
@@ -225,14 +232,14 @@ void Monster::die()
 			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
 		}
 	}
-	else if (dropItem == 6)
+	else if (dropItem == 7)
 	{
-		auto ArmorNode = dynamic_cast<cocos2d::Node*>(Armor::create(rand() % 30 + 20));
-		ArmorNode->setPosition(getPosition());
+		auto armorNode = dynamic_cast<cocos2d::Node*>(Armor::create(rand() % 30 + 20));
+		armorNode->setPosition(getPosition());
 
-		if (scene && ArmorNode)
+		if (scene && armorNode)
 		{
-			scene->setDropNode(ArmorNode);
+			scene->setDropNode(armorNode);
 			scene->scheduleOnce(CC_SCHEDULE_SELECTOR(FightScene::updateDropNode), 0.f);
 		}
 	}
@@ -332,8 +339,22 @@ Monster* Monster::create(enemyType_ type)
 
 	if (monster && monster->sprite_)
 	{
-		auto monsterPosition = FightScene::getRandomPosition();
-
+		cocos2d::Vec2 monsterPosition = FightScene::getRandomPosition();
+		auto runningScene = dynamic_cast<FightScene*>(cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(FIGHT_SCENE_TAG));
+		Player* playerNode = nullptr;
+		if (runningScene != nullptr)
+		{
+			playerNode = dynamic_cast<Player*>(runningScene->getChildByTag(PLAYER_TAG));
+		}
+		if (playerNode != nullptr)
+		{
+			int i = 0;
+			do
+			{
+				i++;
+				monsterPosition = FightScene::getRandomPosition();
+			} while (monsterPosition.y < playerNode->getPosition().y && i <= 10);
+		}
 		switch (type)
 		{
 			case enemyType_::Default_Shoot:
